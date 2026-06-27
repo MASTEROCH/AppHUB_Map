@@ -108,7 +108,7 @@ function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
 function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});}
 
-const CLOSE='<button class="pclose" data-close aria-label="Закрыть">✕</button>';
+const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
 function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
   if(EDITABLE&&editMode)renderEdit(id);else renderInfo(id);
   panel.classList.add("open");
@@ -116,7 +116,7 @@ function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id
   try{history.replaceState(null,"","#"+id);}catch(e){location.hash=id;}}
 function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
   Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
-  panel.classList.remove("open");if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
+  panel.classList.remove("open");panel.style.height="";panel.style.transition="";if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
   if(had&&!(EDITABLE&&editMode))focusAll(true);
   try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}
 
@@ -242,6 +242,16 @@ window.addEventListener("keydown",e=>{
   if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
 });
 
+/* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
+let sheetDrag=null;
+panel.addEventListener("pointerdown",e=>{if(!isMob())return;if(!e.target.closest("[data-grab]"))return;
+  sheetDrag={y:e.clientY,h:panel.getBoundingClientRect().height};panel.style.transition="none";e.preventDefault();});
+window.addEventListener("pointermove",e=>{if(!sheetDrag)return;
+  let h=sheetDrag.h+(sheetDrag.y-e.clientY);h=Math.max(90,Math.min(window.innerHeight*0.92,h));panel.style.height=h+"px";});
+window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";
+  const vh=window.innerHeight,h=panel.getBoundingClientRect().height;
+  if(h<vh*0.3)reset();else if(h>vh*0.72)panel.style.height=Math.round(vh*0.9)+"px";else panel.style.height="";});
+
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
@@ -312,7 +322,7 @@ function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
 function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
-  panTo(n.x,n.y,n.t==="hub"?(mob?1.5:1.35):(mob?2:1.75),mob?0.12:0.46,mob?0:204);smoothPulse();}
+  panTo(n.x,n.y,n.t==="hub"?(mob?1.45:1.35):(mob?1.85:1.75),mob?0.24:0.46,mob?0:204);smoothPulse();}
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;

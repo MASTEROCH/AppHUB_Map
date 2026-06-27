@@ -130,6 +130,7 @@ body.edit svg#map{cursor:default}
 .panel::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 30%);pointer-events:none;z-index:0}
 .panel .pclose{position:absolute;top:14px;right:14px;left:auto;z-index:10;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid var(--hair);color:var(--ink);font-size:15px;cursor:pointer;box-shadow:var(--spec);transition:.2s;animation:none}
 .panel .pclose:hover{background:rgba(255,255,255,.16);transform:rotate(90deg)}
+.panel .grab{display:none}
 .panel>*{position:relative;z-index:1;animation:slideIn .4s both cubic-bezier(.2,.9,.3,1)}
 @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;padding:6px 12px;border-radius:9px;margin-bottom:14px;backdrop-filter:blur(8px)}
@@ -240,8 +241,11 @@ body.edit svg#map{cursor:default}
   .stat{padding:6px 12px}.stat b{font-size:16px}
   .stage{padding:0 8px;margin-top:8px}
   .diagram{border-radius:18px}
-  .panel{top:auto;left:0;right:0;bottom:0;width:auto;max-width:none;max-height:78vh;border-radius:24px 24px 0 0;transform:translateY(100%)}
+  .panel{top:auto;left:0;right:0;bottom:0;width:auto;max-width:none;height:54vh;max-height:92vh;border-radius:22px 22px 0 0;padding:26px 18px 18px;transform:translateY(100%);transition:transform .46s cubic-bezier(.2,.95,.3,1),height .32s cubic-bezier(.2,.9,.3,1)}
   .panel.open{transform:none}
+  .panel .grab{display:block;position:absolute;top:9px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);cursor:grab;z-index:11;touch-action:none;animation:none}
+  .panel .grab::after{content:"";position:absolute;inset:-13px -44px}
+  .panel .pclose{top:13px}
   .tour{bottom:12px;width:calc(100vw - 20px);padding:18px}
   .zoom{left:10px;bottom:10px}
   .zoom button{width:38px;height:38px}

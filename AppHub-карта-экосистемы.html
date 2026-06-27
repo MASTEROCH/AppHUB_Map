@@ -142,6 +142,7 @@ body.edit svg#map{cursor:default}
 .panel::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 30%);pointer-events:none;z-index:0}
 .panel .pclose{position:absolute;top:14px;right:14px;left:auto;z-index:10;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border:1px solid var(--hair);color:var(--ink);font-size:15px;cursor:pointer;box-shadow:var(--spec);transition:.2s;animation:none}
 .panel .pclose:hover{background:rgba(255,255,255,.16);transform:rotate(90deg)}
+.panel .grab{display:none}
 .panel>*{position:relative;z-index:1;animation:slideIn .4s both cubic-bezier(.2,.9,.3,1)}
 @keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;padding:6px 12px;border-radius:9px;margin-bottom:14px;backdrop-filter:blur(8px)}
@@ -252,8 +253,11 @@ body.edit svg#map{cursor:default}
   .stat{padding:6px 12px}.stat b{font-size:16px}
   .stage{padding:0 8px;margin-top:8px}
   .diagram{border-radius:18px}
-  .panel{top:auto;left:0;right:0;bottom:0;width:auto;max-width:none;max-height:78vh;border-radius:24px 24px 0 0;transform:translateY(100%)}
+  .panel{top:auto;left:0;right:0;bottom:0;width:auto;max-width:none;height:54vh;max-height:92vh;border-radius:22px 22px 0 0;padding:26px 18px 18px;transform:translateY(100%);transition:transform .46s cubic-bezier(.2,.95,.3,1),height .32s cubic-bezier(.2,.9,.3,1)}
   .panel.open{transform:none}
+  .panel .grab{display:block;position:absolute;top:9px;left:50%;transform:translateX(-50%);width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);cursor:grab;z-index:11;touch-action:none;animation:none}
+  .panel .grab::after{content:"";position:absolute;inset:-13px -44px}
+  .panel .pclose{top:13px}
   .tour{bottom:12px;width:calc(100vw - 20px);padding:18px}
   .zoom{left:10px;bottom:10px}
   .zoom button{width:38px;height:38px}
@@ -522,7 +526,7 @@ function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
 function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});}
 
-const CLOSE='<button class="pclose" data-close aria-label="Закрыть">✕</button>';
+const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
 function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
   if(EDITABLE&&editMode)renderEdit(id);else renderInfo(id);
   panel.classList.add("open");
@@ -530,7 +534,7 @@ function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id
   try{history.replaceState(null,"","#"+id);}catch(e){location.hash=id;}}
 function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
   Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
-  panel.classList.remove("open");if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
+  panel.classList.remove("open");panel.style.height="";panel.style.transition="";if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
   if(had&&!(EDITABLE&&editMode))focusAll(true);
   try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}
 
@@ -656,6 +660,16 @@ window.addEventListener("keydown",e=>{
   if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
 });
 
+/* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
+let sheetDrag=null;
+panel.addEventListener("pointerdown",e=>{if(!isMob())return;if(!e.target.closest("[data-grab]"))return;
+  sheetDrag={y:e.clientY,h:panel.getBoundingClientRect().height};panel.style.transition="none";e.preventDefault();});
+window.addEventListener("pointermove",e=>{if(!sheetDrag)return;
+  let h=sheetDrag.h+(sheetDrag.y-e.clientY);h=Math.max(90,Math.min(window.innerHeight*0.92,h));panel.style.height=h+"px";});
+window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";
+  const vh=window.innerHeight,h=panel.getBoundingClientRect().height;
+  if(h<vh*0.3)reset();else if(h>vh*0.72)panel.style.height=Math.round(vh*0.9)+"px";else panel.style.height="";});
+
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
@@ -726,7 +740,7 @@ function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
 function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
-  panTo(n.x,n.y,n.t==="hub"?(mob?1.5:1.35):(mob?2:1.75),mob?0.12:0.46,mob?0:204);smoothPulse();}
+  panTo(n.x,n.y,n.t==="hub"?(mob?1.45:1.35):(mob?1.85:1.75),mob?0.24:0.46,mob?0:204);smoothPulse();}
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
