@@ -428,10 +428,12 @@ function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"no
 function render(){
   gLoop.innerHTML="";gZ.innerHTML="";gL.innerHTML="";gN.innerHTML="";linkEls=[];nodeEls={};cometN=0;clearSubs();
   if(N.l1&&N.l3){
-    const d=`M${N.l3.x},${N.l3.y+62} C${N.l3.x+40},760 ${N.l1.x-40},760 ${N.l1.x},${N.l1.y+62}`;
-    gLoop.appendChild(ex("path",{d,fill:"none",stroke:"url(#loop)","stroke-width":11,opacity:.12}));
-    gLoop.appendChild(ex("path",{class:"flowline",d,fill:"none",stroke:"url(#loop)","stroke-width":2.4,opacity:.6,"stroke-linecap":"round"}));
-    comet(d,"#C5FF5F",4.5,0,4.5);comet(d,"#C5FF5F",4.5,2.2,4.5);
+    const arc=(d,delays)=>{gLoop.appendChild(ex("path",{d,fill:"none",stroke:"url(#loop)","stroke-width":11,opacity:.12}));
+      gLoop.appendChild(ex("path",{class:"flowline",d,fill:"none",stroke:"url(#loop)","stroke-width":2.4,opacity:.6,"stroke-linecap":"round"}));
+      delays.forEach(dl=>comet(d,"#C5FF5F",4.5,dl,4.5));};
+    const dBot=`M${N.l3.x},${N.l3.y+62} C${N.l3.x+40},760 ${N.l1.x-40},760 ${N.l1.x},${N.l1.y+62}`;
+    const dTop=`M${N.l3.x},${N.l3.y-62} C${N.l3.x+40},40 ${N.l1.x-40},40 ${N.l1.x},${N.l1.y-62}`;
+    arc(dBot,[0,2.2]);arc(dTop,[1.1,3.3]);
     const t=ex("text",{class:"loopBadge",x:(N.l1.x+N.l3.x)/2,y:752});t.textContent="↺ ПЕТЛЯ · ВОЗВРАТ В L1";gLoop.appendChild(t);
   }
   ZONES.forEach(z=>{gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:16,fill:z.c,"fill-opacity":.05,stroke:z.c,"stroke-opacity":.22,"stroke-width":1}));
