@@ -325,6 +325,12 @@ body.edit svg#map{cursor:default}
 .fmrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 6px currentColor}
 @media(max-width:760px){.fmenu{position:fixed;top:auto;right:8px;left:auto;min-width:220px}}
 
+/* ——— тег темы (домен) в карточке ——— */
+.tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+.tagrow .statusLine{margin-top:0}
+.domtag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.04em;padding:5px 11px;border-radius:9px;border:1px solid;cursor:pointer;font-weight:500;backdrop-filter:blur(8px);transition:.16s}
+.domtag:hover{filter:brightness(1.25);transform:translateY(-1px)}
+
 </style>
 </head>
 <body data-mode="internal">
@@ -382,31 +388,31 @@ window.APPHUB_DATA = {
     l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их AI-агенты",cat:"L1 · точка входа",desc:"Личные AI-ассистенты пользователя — автоматизируют его задачи (заказ услуг, продуктов и т.д.).",inter:"Со стороны пользователя: ассистент находит предложения у L2-агрегаторов и L3-бизнесов, всё готовит — пользователю остаётся подтвердить действие, затем оплату. Коммуницируют с L2 и L3.",link:null},
     l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу; возможны white-label-версии каждого сервиса.",inter:"Со стороны агрегатора: принимают запрос ассистента L1, подбирают подходящие L3-бизнесы и собирают предложение под нишу; раздают трафик в L3.",link:null},
     l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — бронь, заказ, оплата. Создаются через конструктор (Creator) или как кастомные приложения.",inter:"Со стороны бизнеса: принимают готовый заказ из петли и от утилит, затем возвращают пользователя в L1. Бизнесы L3 взаимодействуют напрямую между собой через ботов; L2-агрегатор связывает сразу несколько L3-бизнесов.",link:null},
-    wwc:{t:"mini",layer:"L2",s:"dev",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов.",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine.",link:null},
-    korobka:{t:"mini",layer:"L2",s:"live",x:470,y:518,label:"Korobka",cat:"L2 · утилита",desc:"Korob-ka — строительный калькулятор; подбор поставщиков стройматериалов.",inter:"Магнит-утилита; ведёт в Shops; и в крипто-обменник — за снятием наличных на стройматериалы.",link:"https://korob-ka.vercel.app"},
-    cityhub:{t:"mini",layer:"L2",s:"dev",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Умный городской консьерж: AI-рекомендации мест (куда пойти, что делать), лояльность баллами, квесты, стрики и соревнования с друзьями. Каталог сервисов города.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops; интегрируется с заведениями.",link:null},
-    neon:{t:"mini",layer:"L2",s:"live",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки.",inter:"Ведёт в Events, Tours, CarRent, Dine.",link:"https://batumi-neon-tma.vercel.app"},
-    batumito:{t:"mini",layer:"L2",s:"dev",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь и вечеринки, дорогие машины, приватные пати. Из той же серии, что Neon.",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events.",link:null},
-    realestate:{t:"mini",layer:"L2",s:"dev",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости (real estate).",inter:"Замыкается на Korobka; ведёт в Tours, Events, Стройку; крупные расчёты — через крипто-обменник.",link:null},
-    crypto:{t:"mini",layer:"L3",s:"live",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой и Realty.",link:"https://alltrust-me.vercel.app"},
-    events:{t:"mini",layer:"L3",s:"live",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали.",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],link:"https://expobatumi-tma.vercel.app"},
-    stage:{t:"mini",layer:"L3",s:"concept",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events.",link:null},
-    carrent:{t:"mini",layer:"L3",s:"live",x:1030,y:400,label:"CarRent",cat:"L3 · автопрокат",desc:"Аренда авто. Подача к отелю, бронь.",inter:"Для туризма — Neon, Batumito, Tours, CityHub.",link:"https://literent-tma.vercel.app"},
-    tours:{t:"mini",layer:"L3",s:"dev",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],link:null},
-    dine:{t:"mini",layer:"L3",s:"live",x:1190,y:542,label:"Dine",cat:"L3 · конструктор бизнес-апп",desc:"Универсальный конструктор приложений для HoReCa, доставки и услуг — под управлением ИИ.",inter:"Трафик из WWC, CityHub, Batumito, Neon; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],links:[{label:"Клиент",url:"https://t.me/AppHub_Studio_Bot/dine"},{label:"Админка",url:"https://t.me/AppHub_Studio_Bot/Dine_admin"}]},
-    shops:{t:"mini",layer:"L3",s:"dev",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл.",inter:"Заказы из WWC, CityHub, Batumito, Korobka.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],link:null},
-    construction:{t:"mini",layer:"L3",s:"concept",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Строительные компании и услуги: застройщики, бригады, прорабы.",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
+    wwc:{t:"mini",layer:"L2",s:"dev",dom:"Еда",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов.",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine.",link:null},
+    korobka:{t:"mini",layer:"L2",s:"live",dom:"Стройка",x:470,y:518,label:"Korobka",cat:"L2 · утилита",desc:"Korob-ka — строительный калькулятор; подбор поставщиков стройматериалов.",inter:"Магнит-утилита; ведёт в Shops; и в крипто-обменник — за снятием наличных на стройматериалы.",link:"https://korob-ka.vercel.app"},
+    cityhub:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Умный городской консьерж: AI-рекомендации мест (куда пойти, что делать), лояльность баллами, квесты, стрики и соревнования с друзьями. Каталог сервисов города.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops; интегрируется с заведениями.",link:null},
+    neon:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки.",inter:"Ведёт в Events, Tours, CarRent, Dine.",link:"https://batumi-neon-tma.vercel.app"},
+    batumito:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь и вечеринки, дорогие машины, приватные пати. Из той же серии, что Neon.",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events.",link:null},
+    realestate:{t:"mini",layer:"L2",s:"dev",dom:"Стройка",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости (real estate).",inter:"Замыкается на Korobka; ведёт в Tours, Events, Стройку; крупные расчёты — через крипто-обменник.",link:null},
+    crypto:{t:"mini",layer:"L3",s:"live",dom:"Стройка",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой и Realty.",link:"https://alltrust-me.vercel.app"},
+    events:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали.",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],link:"https://expobatumi-tma.vercel.app"},
+    stage:{t:"mini",layer:"L3",s:"concept",dom:"Туризм",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events.",link:null},
+    carrent:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1030,y:400,label:"CarRent",cat:"L3 · автопрокат",desc:"Аренда авто. Подача к отелю, бронь.",inter:"Для туризма — Neon, Batumito, Tours, CityHub.",link:"https://literent-tma.vercel.app"},
+    tours:{t:"mini",layer:"L3",s:"dev",dom:"Туризм",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],link:null},
+    dine:{t:"mini",layer:"L3",s:"live",dom:"Еда",x:1190,y:542,label:"Dine",cat:"L3 · конструктор бизнес-апп",desc:"Универсальный конструктор приложений для HoReCa, доставки и услуг — под управлением ИИ.",inter:"Трафик из WWC, CityHub, Batumito, Neon; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],links:[{label:"Клиент",url:"https://t.me/AppHub_Studio_Bot/dine"},{label:"Админка",url:"https://t.me/AppHub_Studio_Bot/Dine_admin"}]},
+    shops:{t:"mini",layer:"L3",s:"dev",dom:"Ритейл",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл.",inter:"Заказы из WWC, CityHub, Batumito, Korobka.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],link:null},
+    construction:{t:"mini",layer:"L3",s:"concept",dom:"Стройка",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Строительные компании и услуги: застройщики, бригады, прорабы.",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
     editcmd:{t:"mini",layer:"UT",s:"concept",x:1058,y:100,label:"Edit Cmd",cat:"Утилита · вне петли",desc:"Edit Commander — бесплатный пакетный редактор (PDF, HTML). Вводный продукт с нашей рекламой.",inter:"Реклама приводит трафик в петлю; уникализирует апки. Связан с L3 и Dine.",link:null},
     leados:{t:"mini",layer:"UT",s:"concept",x:1206,y:100,label:"LeadOS",cat:"Утилита · вне петли",desc:"Генерация контента для соцсетей: посты в Telegram, карусели в Instagram; скоро Threads, Facebook.",inter:"Подключается к L3, CityHub, Dine — автопостинг и контент.",link:null},
     news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения бизнесов, взаимодействует с L1-ассистентами; авто-публикация контента в каналы и соцсети; рекламирует другие проекты (игры и т.д.).",link:null},
     musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
     arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:840,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры (напр. DinaCook). Удержание и вовлечение.",inter:"Подключены к общей системе лояльности — играешь и зарабатываешь баллы. Связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
     boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null},
-    bazapp:{t:"mini",layer:"L2",s:"dev",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
-    anzh:{t:"mini",layer:"L3",s:"live",x:1455,y:520,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): AI-маскот, диагностика кожи, запись на процедуры, программа лояльности.",inter:"Бизнес HoReCa/бьюти; трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS.",link:"https://anzh.store"},
-    kingfit:{t:"mini",layer:"L3",s:"dev",x:1455,y:640,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
-    dropper:{t:"mini",layer:"L3",s:"dev",x:1455,y:760,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
-    crookedcook:{t:"mini",layer:"GAMES",s:"live",x:1058,y:772,label:"CrookedCook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь скидку.",inter:"Удержание и вовлечение в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/CrookedCookBot"},
+    bazapp:{t:"mini",layer:"L2",s:"dev",dom:"Ритейл",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
+    anzh:{t:"mini",layer:"L3",s:"live",dom:"Услуги",x:1455,y:520,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): AI-маскот, диагностика кожи, запись на процедуры, программа лояльности.",inter:"Бизнес HoReCa/бьюти; трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS.",link:"https://anzh.store"},
+    kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Услуги",x:1455,y:640,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
+    dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1455,y:760,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
+    crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"CrookedCook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь скидку.",inter:"Удержание и вовлечение в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/CrookedCookBot"},
     selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"}
   },
   links: [
@@ -453,6 +459,8 @@ const EDITABLE=MODE==="internal";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
+const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Стройка","#f59e0b"],["Ритейл","#a78bfa"],["Услуги","#f472b6"]];
+const DOMC=Object.fromEntries(DOMS);
 const DEF=window.APPHUB_DATA;
 
 /* ——— state ——— */
@@ -474,6 +482,7 @@ const cx=id=>N[id].x,cy=id=>N[id].y;
 const stOf=n=>STATUS[n.s]||STATUS.concept;
 const svg=$("#map"),vp=$("#viewport");
 const gLoop=$("#loopg"),gZ=$("#zones"),gL=$("#links"),gN=$("#nodes");
+const gPod=ex("g",{id:"podg"});vp.insertBefore(gPod,vp.firstChild);
 const panel=$("#panel"),diagram=$(".diagram");
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
 const feeder=(a,b)=>["UT","MM","GAMES","ROOT"].includes(N[a].layer)||["UT","MM","GAMES","ROOT"].includes(N[b].layer);
@@ -481,7 +490,7 @@ const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().j
 const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
 const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)},mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
 const STATUS_KEYS=["live","dev","concept"];
-const matchFilter=n=>{if(filter==="all")return true;if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
+const matchFilter=n=>{if(filter==="all")return true;if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
 function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"none"});const id="cm"+(cometN++);mp.id=id;gLoop.appendChild(mp);
   const g=ex("g",{}),rr=r||4;
@@ -562,7 +571,14 @@ function applyHighlight(id){const conn=new Set([id]);
   Object.entries(nodeEls).forEach(([nid,g])=>{g.style.opacity=conn.has(nid)?1:.26;g.classList.toggle("sel",nid===id);});}
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
-function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});}
+function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});drawDomainPod();}
+function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
+function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
+  const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=n.label.length>7?112:96;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
+  a-=28;c+=28;b-=44;d+=28;const col=DOMC[dom]||"#C5FF5F";
+  gPod.appendChild(ex("rect",{x:a,y:b,width:c-a,height:d-b,rx:22,fill:col,"fill-opacity":.07,stroke:col,"stroke-opacity":.55,"stroke-width":1.6,"stroke-dasharray":"8 6"}));
+  const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
 
 const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
 function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
@@ -596,7 +612,7 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>
-  ${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}
+  <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
   ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
@@ -651,14 +667,13 @@ function buildChrome(){
   const LS={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
   const ldefsShort=LAYERS.map(([k])=>[k,LS[k],C[k]]),ldefsFull=LAYERS.map(([k])=>[k,LL[k],C[k]]);
-  function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
   const chipsEl=$("#chips");
   if(chipsEl){const chip=([k,t,c])=>`<button class="chip${k===filter?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
     chipsEl.innerHTML=sdefs.map(chip).join("")+'<span class="chsep"></span>'+ldefsShort.map(chip).join("");
     chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)setFilter(b.dataset.f);});}
   const fm=$("#filterMenu"),fb=$("#filterBtn");
   if(fm){const row=([k,t,c])=>`<button class="fmrow${k===filter?" active":""}" data-f="${k}"><span class="rdot" style="background:${c||"transparent"};color:${c||"transparent"};${c?"":"box-shadow:none"}"></span>${t}</button>`;
-    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("");
+    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("")+`<div class="fmcap">Темы</div>`+DOMS.map(([d,c])=>row(["dom:"+d,d,c])).join("");
     fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);fm.classList.remove("open");}});
     fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
     document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
@@ -718,6 +733,7 @@ window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;pan
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
+  const dm=e.target.closest("[data-dom]");if(dm){reset();setFilter("dom:"+dm.dataset.dom);toast("Тема · "+dm.dataset.dom);return;}
   const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;

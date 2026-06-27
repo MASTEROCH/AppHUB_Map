@@ -7,6 +7,8 @@ const EDITABLE=MODE==="internal";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
+const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Стройка","#f59e0b"],["Ритейл","#a78bfa"],["Услуги","#f472b6"]];
+const DOMC=Object.fromEntries(DOMS);
 const DEF=window.APPHUB_DATA;
 
 /* ——— state ——— */
@@ -28,6 +30,7 @@ const cx=id=>N[id].x,cy=id=>N[id].y;
 const stOf=n=>STATUS[n.s]||STATUS.concept;
 const svg=$("#map"),vp=$("#viewport");
 const gLoop=$("#loopg"),gZ=$("#zones"),gL=$("#links"),gN=$("#nodes");
+const gPod=ex("g",{id:"podg"});vp.insertBefore(gPod,vp.firstChild);
 const panel=$("#panel"),diagram=$(".diagram");
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
 const feeder=(a,b)=>["UT","MM","GAMES","ROOT"].includes(N[a].layer)||["UT","MM","GAMES","ROOT"].includes(N[b].layer);
@@ -35,7 +38,7 @@ const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().j
 const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
 const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)},mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
 const STATUS_KEYS=["live","dev","concept"];
-const matchFilter=n=>{if(filter==="all")return true;if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
+const matchFilter=n=>{if(filter==="all")return true;if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
 function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"none"});const id="cm"+(cometN++);mp.id=id;gLoop.appendChild(mp);
   const g=ex("g",{}),rr=r||4;
@@ -116,7 +119,14 @@ function applyHighlight(id){const conn=new Set([id]);
   Object.entries(nodeEls).forEach(([nid,g])=>{g.style.opacity=conn.has(nid)?1:.26;g.classList.toggle("sel",nid===id);});}
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
-function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});}
+function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});drawDomainPod();}
+function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
+function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
+  const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=n.label.length>7?112:96;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
+  a-=28;c+=28;b-=44;d+=28;const col=DOMC[dom]||"#C5FF5F";
+  gPod.appendChild(ex("rect",{x:a,y:b,width:c-a,height:d-b,rx:22,fill:col,"fill-opacity":.07,stroke:col,"stroke-opacity":.55,"stroke-width":1.6,"stroke-dasharray":"8 6"}));
+  const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
 
 const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
 function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
@@ -150,7 +160,7 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>
-  ${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}
+  <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
   ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
@@ -205,14 +215,13 @@ function buildChrome(){
   const LS={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
   const ldefsShort=LAYERS.map(([k])=>[k,LS[k],C[k]]),ldefsFull=LAYERS.map(([k])=>[k,LL[k],C[k]]);
-  function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
   const chipsEl=$("#chips");
   if(chipsEl){const chip=([k,t,c])=>`<button class="chip${k===filter?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
     chipsEl.innerHTML=sdefs.map(chip).join("")+'<span class="chsep"></span>'+ldefsShort.map(chip).join("");
     chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)setFilter(b.dataset.f);});}
   const fm=$("#filterMenu"),fb=$("#filterBtn");
   if(fm){const row=([k,t,c])=>`<button class="fmrow${k===filter?" active":""}" data-f="${k}"><span class="rdot" style="background:${c||"transparent"};color:${c||"transparent"};${c?"":"box-shadow:none"}"></span>${t}</button>`;
-    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("");
+    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("")+`<div class="fmcap">Темы</div>`+DOMS.map(([d,c])=>row(["dom:"+d,d,c])).join("");
     fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);fm.classList.remove("open");}});
     fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
     document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
@@ -272,6 +281,7 @@ window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;pan
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
+  const dm=e.target.closest("[data-dom]");if(dm){reset();setFilter("dom:"+dm.dataset.dom);toast("Тема · "+dm.dataset.dom);return;}
   const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;
