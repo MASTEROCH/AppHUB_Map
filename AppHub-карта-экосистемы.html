@@ -40,7 +40,8 @@ body::before{content:"";position:fixed;inset:0;background:
 .brand{font-family:'Manrope';font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime);animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.5;transform:scale(.8)}}
-.brand .logo{width:25px;height:25px;display:block;flex:0 0 auto;fill:var(--lime);filter:drop-shadow(0 0 7px rgba(197,255,95,.45));animation:logoPulse 3.4s ease-in-out infinite}
+.brand{gap:11px}
+.brand .logo{width:50px;height:50px;margin:-8px 0;display:block;flex:0 0 auto;fill:var(--lime);filter:drop-shadow(0 0 9px rgba(197,255,95,.5));animation:logoPulse 3.4s ease-in-out infinite}
 .brand .logo path{fill:var(--lime)}
 @keyframes logoPulse{50%{filter:drop-shadow(0 0 13px rgba(197,255,95,.75))}}
 .brand small{color:var(--muted);font-weight:500;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em}
@@ -85,6 +86,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 /* ——— stage ——— */
 .stage{display:flex;flex:1 1 auto;min-height:0;gap:16px;margin:10px 0 0;width:100%;padding:0 14px;align-items:stretch}
 .diagram{flex:1 1 100%;min-width:0;position:relative;border-radius:26px;border:1px solid var(--hair);background:rgba(255,255,255,.018);overflow:hidden;box-shadow:var(--spec),0 30px 70px -28px rgba(0,0,0,.7);user-select:none;-webkit-user-select:none}
+.diagram::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;background:radial-gradient(130% 100% at 50% 44%,transparent 62%,rgba(4,5,8,.32) 100%)}
 svg#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 svg#map text{user-select:none;-webkit-user-select:none}
 svg#map:active{cursor:grabbing}
@@ -419,10 +421,12 @@ const STATUS_KEYS=["live","dev","concept"];
 const matchFilter=n=>{if(filter==="all")return true;if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
 function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"none"});const id="cm"+(cometN++);mp.id=id;gLoop.appendChild(mp);
-  const c=ex("circle",{r:r||4,fill:color,opacity:.95});
+  const g=ex("g",{}),rr=r||4;
+  g.appendChild(ex("circle",{r:rr*2.8,fill:color,opacity:.16}));
+  g.appendChild(ex("circle",{r:rr,fill:color,opacity:.95}));
   const am=ex("animateMotion",{dur:dur+"s",repeatCount:"indefinite",begin:(delay||0)+"s"});
   const mpath=ex("mpath",{});mpath.setAttribute("href","#"+id);mpath.setAttributeNS("http://www.w3.org/1999/xlink","href","#"+id);
-  am.appendChild(mpath);c.appendChild(am);gLoop.appendChild(c);}
+  am.appendChild(mpath);g.appendChild(am);gLoop.appendChild(g);}
 
 /* ——— render ——— */
 function render(){
@@ -573,7 +577,7 @@ function buildChrome(){
     const ldefs=LAYERS.map(([k])=>[k,LL[k],C[k]]);
     const chip=([k,t,c],on)=>`<button class="chip${on?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
     chipsEl.innerHTML=sdefs.map(d=>chip(d,d[0]==="all")).join("")+'<span class="chsep"></span>'+ldefs.map(d=>chip(d,false)).join("");
-    chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x===b));applyFilter();});}
+    chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x===b));applyFilter();focusFilter();});}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
 }
 
@@ -665,14 +669,25 @@ const TOUR=[
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
 function smooth(on){vp.classList.toggle("smooth",on);}
-function focusNode(id,scale){const v=svg.viewBox.baseVal,n=N[id];if(!n)return;const tx=v.x+v.width/2,ty=v.y+v.height*0.34;zk=scale||1.6;ztx=tx-zk*n.x;zty=ty-zk*n.y;applyZ();}
-function focusAll(sm){if(sm){vp.classList.add("smooth");setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},740);}
-  if(window.innerWidth<=760){const v=svg.viewBox.baseVal,cx=v.x+v.width/2,cy=v.y+v.height/2;zk=1.85;ztx=cx*(1-zk);zty=cy*(1-zk);}else{zk=1;ztx=0;zty=0;}applyZ();}
-function focusSelected(id){const n=N[id];if(!n)return;const rect=svg.getBoundingClientRect();
-  const wide=window.innerWidth>760,drawerW=wide?408:0;
-  const pt=svgPt({clientX:rect.left+(rect.width-drawerW)/2,clientY:rect.top+rect.height*(wide?0.46:0.12)});
-  zk=n.t==="hub"?1.35:1.75;ztx=pt.x-zk*n.x;zty=pt.y-zk*n.y;
-  vp.classList.add("smooth");applyZ();setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},740);}
+function smoothPulse(){vp.classList.add("smooth");setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},780);}
+const isMob=()=>window.innerWidth<=760;
+/* центрировать viewBox-точку (cx,cy) в точке экрана (доля высоты yf, сдвиг влево xoff) при масштабе scale */
+function panTo(cx,cy,scale,yf,xoff){const rect=svg.getBoundingClientRect();
+  const pt=svgPt({clientX:rect.left+rect.width/2-(xoff||0),clientY:rect.top+rect.height*(yf==null?0.5:yf)});
+  zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();}
+function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
+function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
+function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
+function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
+  panTo(n.x,n.y,n.t==="hub"?(mob?1.5:1.35):(mob?2:1.75),mob?0.12:0.46,mob?0:204);smoothPulse();}
+function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
+  if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
+  let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
+  ids.forEach(id=>{const n=N[id],w=(n.t==="hub"?n.w:110),h=(n.t==="hub"?n.h:46);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
+  const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
+  const pad=70,bw=(mxx-mnx)+pad*2,bh=(mxy-mny)+pad*2;
+  const fit=Math.min(rect.width/(m*bw),(rect.height*(isMob()?0.7:0.92))/(m*bh));
+  smoothPulse();panTo((mnx+mxx)/2,(mny+mxy)/2,Math.min(fit,3.2),isMob()?0.42:0.5);}
 function spotlight(ids){const set=new Set(ids||[]);Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("spot",set.has(id));g.style.opacity=(!ids||!ids.length||set.has(id))?1:.1;});}
 function buildTour(){
   tourBg=document.createElement("div");tourBg.id="tourbg";tourBg.className="hidden";document.body.appendChild(tourBg);
@@ -688,7 +703,7 @@ function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;
   tourCard.querySelector(".tdots").innerHTML=TOUR.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("");
   tourCard.querySelector('[data-t="prev"]').style.visibility=i===0?"hidden":"visible";
   tourCard.querySelector('[data-t="next"]').textContent=i===TOUR.length-1?"Готово ✓":"Далее →";
-  if(s.focus==="all")focusAll();else if(s.focus)focusNode(s.focus,s.scale);
+  if(s.focus==="all")focusCenter(isMob()?1.05:1,isMob()?0.4:0.5);else if(s.focus)focusNode(s.focus,s.scale);
   spotlight(s.spot||null);
   if(s.select&&N[s.select]){clearSubs();renderInfo(s.select);panel.classList.add("open");}else panel.classList.remove("open");
 }
