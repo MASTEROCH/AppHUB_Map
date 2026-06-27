@@ -57,22 +57,31 @@ function render(){
     arc(dBot,[0,2.2]);arc(dTop,[1.1,3.3]);
     const t=ex("text",{class:"loopBadge",x:(N.l1.x+N.l3.x)/2,y:752});t.textContent="↺ ПЕТЛЯ · ВОЗВРАТ В L1";gLoop.appendChild(t);
   }
-  ZONES.forEach(z=>{gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:16,fill:z.c,"fill-opacity":.05,stroke:z.c,"stroke-opacity":.22,"stroke-width":1}));
+  ZONES.forEach(z=>{
+    gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:18,fill:"#0d0f17","fill-opacity":.66}));
+    gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:18,fill:z.c,"fill-opacity":.07,stroke:z.c,"stroke-opacity":.42,"stroke-width":1.4}));
     const l=ex("text",{class:"zlabel",x:z.x,y:z.y,fill:z.c});l.textContent=z.label;gZ.appendChild(l);
     const s=ex("text",{class:"zsub",x:z.x,y:z.y+16});s.textContent=z.sub;gZ.appendChild(s);});
+  const isHub=k=>["l1","l2","l3"].includes(k);
   L.forEach(([a,b])=>{if(!N[a]||!N[b])return;const d=path(a,b),f=feeder(a,b),mn=isMain(a,b),col=fcol(a,b);
-    const glow=ex("path",{d,fill:"none",stroke:col,"stroke-width":f?4:6,opacity:f?.08:.11});
-    const core=ex("path",{d,fill:"none",stroke:col,"stroke-width":f?1.3:(mn?2.4:1.5),opacity:f?.3:(mn?.8:.32),"stroke-linecap":"round","stroke-dasharray":f?"6 7":(mn?"9 13":"none")});
+    const hubEnd=isHub(a)||isHub(b);
+    // структурные связи (петля/фидеры/к хабам) — чёткие; продукт↔продукт — еле заметные
+    const baseCore=mn?.85:(f?.26:(hubEnd?.34:.09));
+    const baseGlow=mn?.13:(f?.06:(hubEnd?.08:.025));
+    const baseW=mn?2.6:(f?1.3:(hubEnd?1.6:1.3));
+    const glow=ex("path",{d,fill:"none",stroke:col,"stroke-width":f?4:6,opacity:baseGlow});
+    const core=ex("path",{d,fill:"none",stroke:col,"stroke-width":baseW,opacity:baseCore,"stroke-linecap":"round","stroke-dasharray":f?"6 7":(mn?"9 13":"none")});
     if(mn)core.classList.add("flowline");
-    gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn});
+    gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,baseCore,baseGlow,baseW});
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
   Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=n.t==="hub"?n.w:(n.label.length>7?112:96),h=n.t==="hub"?n.h:46;
     const g=ex("g",{class:"node","data-id":id});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
-    g.appendChild(ex("rect",{x:n.x-w/2-3,y:n.y-h/2-3,width:w+6,height:h+6,rx:n.t==="hub"?21:16,fill:c,opacity:.18}));
-    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:"#0c0e16"}));
-    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:c,"fill-opacity":.13,stroke:c,"stroke-width":1.6}));
+    const hub=n.t==="hub",hp=hub?7:3;
+    g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:hub?24:16,fill:c,opacity:hub?.26:.18}));
+    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:"#0c0e16"}));
+    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:c,"fill-opacity":hub?.2:.13,stroke:c,"stroke-width":hub?2.2:1.6}));
     g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:"url(#sheen)","pointer-events":"none"}));
     if(n.t==="hub"){const t1=ex("text",{class:"clabel",x:n.x,y:n.y-9,"font-size":15});t1.textContent=n.label;g.appendChild(t1);
       const t2=ex("text",{class:"csub",x:n.x,y:n.y+13,"font-size":12});t2.textContent=n.sub||"";g.appendChild(t2);}
@@ -98,10 +107,10 @@ function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n
     gN.appendChild(g);subEls.push(g);});}
 
 /* ——— highlight / filter ——— */
-function baseLinks(){linkEls.forEach(le=>{le.core.setAttribute("opacity",le.f?.3:(le.mn?.8:.32));le.core.setAttribute("stroke-width",le.f?1.3:(le.mn?2.4:1.5));le.glow.setAttribute("opacity",le.f?.07:.09);});}
+function baseLinks(){linkEls.forEach(le=>{le.core.setAttribute("opacity",le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",le.baseGlow);});}
 function applyHighlight(id){const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;
-    le.core.setAttribute("opacity",on?1:.04);le.core.setAttribute("stroke-width",on?(le.f?2.2:2.8):(le.f?1.3:(le.mn?2.4:1.5)));le.glow.setAttribute("opacity",on?.32:.02);
+    le.core.setAttribute("opacity",on?1:.035);le.core.setAttribute("stroke-width",on?(le.f?2.2:2.9):le.baseW);le.glow.setAttribute("opacity",on?.34:.018);
     if(on){conn.add(le.a);conn.add(le.b);}});
   Object.entries(nodeEls).forEach(([nid,g])=>{g.style.opacity=conn.has(nid)?1:.26;g.classList.toggle("sel",nid===id);});}
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
