@@ -111,12 +111,12 @@ function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.to
 const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
 function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
   if(EDITABLE&&editMode)renderEdit(id);else renderInfo(id);
-  panel.classList.add("open");
+  panel.classList.add("open");document.body.classList.add("sel-open");
   if(!(EDITABLE&&editMode))focusSelected(id);
   try{history.replaceState(null,"","#"+id);}catch(e){location.hash=id;}}
 function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
   Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
-  panel.classList.remove("open");panel.style.height="";panel.style.transition="";if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
+  panel.classList.remove("open");document.body.classList.remove("sel-open");panel.style.height="";panel.style.transition="";if(EDITABLE&&editMode)panel.innerHTML=defaultPanel();
   if(had&&!(EDITABLE&&editMode))focusAll(true);
   try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}
 
