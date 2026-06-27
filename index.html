@@ -280,13 +280,44 @@ body.edit svg#map{cursor:default}
   h1{margin-top:2px}
 }
 
+/* ——— связанные продукты в карточке (навигация по графу) ——— */
+.rels{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.rel{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid var(--hair);color:#dfe1e6;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;font-family:'Inter';cursor:pointer;transition:.16s cubic-bezier(.2,.9,.3,1)}
+.rel:hover{background:rgba(255,255,255,.12);transform:translateY(-1px);border-color:var(--hair-2)}
+.rel .rdot{width:7px;height:7px;border-radius:50%;flex:0 0 7px;box-shadow:0 0 6px currentColor}
+
+/* ——— поиск: выпадающие результаты ——— */
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:50;display:none;flex-direction:column;gap:2px;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(340px,60vh);overflow-y:auto}
+.results.show{display:flex}
+.rrow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);text-align:left;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';transition:.12s;width:100%}
+.rrow:hover{background:rgba(255,255,255,.09)}
+.rrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 7px currentColor}
+.rrow b{font-family:'Manrope';font-weight:700;font-size:14px}
+.rrow i{font-style:normal;color:var(--muted);font-size:11.5px;font-family:'JetBrains Mono'}
+.rrow .rst{width:8px;height:8px;border-radius:50%;margin-left:auto;flex:0 0 8px}
+.rnone{padding:12px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ——— приветственный онбординг ——— */
+.welcome{position:fixed;inset:0;z-index:130;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(4,5,8,.6);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);animation:fade .3s}
+.welcome.hidden{display:none}
+.wcard{position:relative;width:min(440px,94vw);text-align:center;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:28px;padding:34px 30px;box-shadow:var(--spec),0 40px 100px -20px rgba(0,0,0,.8);animation:tourIn .5s cubic-bezier(.2,.9,.3,1)}
+.wcard::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 35%);pointer-events:none}
+.wlogo{display:flex;justify-content:center;margin-bottom:14px;position:relative}
+.wlogo .logo{width:72px;height:72px;animation:none;fill:var(--lime);filter:drop-shadow(0 0 13px rgba(197,255,95,.55))}
+.wlogo .logo path{fill:var(--lime)}
+.weyebrow{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.28em;color:var(--muted);position:relative}
+.wcard h2{font-family:'Manrope';font-weight:800;font-size:26px;letter-spacing:-.02em;margin:8px 0 10px;position:relative}
+.wcard p{font-size:14.5px;line-height:1.6;color:#c4c8d0;margin-bottom:22px;position:relative}
+.wrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.wrow .btn{padding:12px 18px;font-size:14px}
+
 </style>
 </head>
 <body data-mode="public">
   <div class="bar">
     <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M651.594 390.536C653.686 390.656 654.73 390.962 655.932 392.748C656.311 401.079 623.196 473.867 616.99 487.884L584.053 563.22L561.012 616.273C556.562 626.643 552.495 637.476 547.311 647.495C546.256 649.533 544.014 653.92 541.625 654.384C534.732 655.725 492.508 623.235 484.134 617.15C473.862 623.118 464.13 631.869 454.25 638.466C448.669 642.193 433.113 655.722 427.449 655.091C424.477 652.691 415.754 610.786 413.946 603.614C411.222 590.344 406.701 572.202 403.169 559.138C386.134 549.197 369.254 538.991 352.535 528.525C346.209 524.587 325.128 511.449 320.718 506.434C320.564 503.079 331.286 499.528 334.177 498.561C357.739 490.675 381.378 482.98 404.862 474.862L546.025 425.664L615.258 402.524C623.911 399.623 643.662 392.306 651.594 390.536ZM454.085 584.714C465.668 593.408 478.199 600.923 489.234 609.204C505.807 620.232 521.99 631.78 538.504 642.773C548.951 617.593 643.175 408.818 642.61 406.497L555.1 489.039C522.25 519.665 485.445 553.019 454.085 584.714ZM339.171 508.497C347.672 514.281 358.382 519.396 366.269 524.863C380.208 533.072 393.674 541.587 407.785 549.546C426.485 536.999 446.548 524.765 465.531 512.513L569.623 445.179L609.821 419.471C612.34 417.857 624.631 410.18 626.098 408.677L625.349 408.548C608.099 413.687 588.704 420.897 571.486 426.691C530.681 440.306 490.011 454.324 449.483 468.745L380.204 493.346C367.855 497.743 350.947 503.305 339.171 508.497Z"/><path d="M644.022 460.751C646.418 463.353 652.378 474.765 654.476 478.608L678.351 523.074L703.786 569.832C714.594 589.654 724.738 605.33 725.586 628.975C726.556 651.509 718.325 673.47 702.784 689.816C689.892 703.467 666.868 714.9 648.071 715.555C636.118 716.7 624.068 714.866 612.997 710.217C591.887 701.205 584.663 685.393 576.173 665.748C572.643 657.69 569.219 649.585 565.901 641.437L619.743 517.284C627.229 500.038 635.801 477.098 644.022 460.751Z"/><path d="M503.303 308.696C515.976 307.515 531.265 309.605 543.199 313.83C568.905 322.93 578.209 341.156 590.228 363.738C594.962 372.631 600.545 381.824 604.8 391.022L453.113 443.49C427.592 452.783 401.829 461.399 375.851 469.329L422.764 383.927L436.708 358.404C441.414 349.749 444.479 343.116 450.669 335.287C464.253 318.106 482.218 311.245 503.303 308.696Z"/><path d="M339.061 535.728C345.543 537.191 384.692 561.877 391.952 566.539C397.144 585.438 400.72 604.812 405.481 623.983C408.726 637.052 411.014 661.34 425.535 666.467C433.001 669.103 443.277 662.51 449.891 658.91C441.195 681.625 433.855 698.736 411.122 709.986C389.712 719.648 364.312 717.039 343.782 706.393C323.614 696.126 308.483 678.105 301.861 656.465C291.401 622.485 303.738 598.78 319.839 570.41C326.377 558.923 332.785 547.361 339.061 535.728Z"/></svg>AppHub<small>STUDIO · ЭКОСИСТЕМА</small></div>
     <div class="grow"></div>
-    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off"></div>
+    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off"><div class="results" id="results"></div></div>
     <button class="btn demo" id="tourBtn">▶ Демо-тур</button>
     <a class="btn prim" href="https://apphub.studio" target="_blank" rel="noopener">Связаться</a>
   </div>
@@ -512,6 +543,10 @@ function shots(n){const arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)return"";
 function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
   if(arr.length)return arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
   return`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;}
+function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
+  if(!ks.length)return"";
+  ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
+  return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
@@ -519,7 +554,7 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   ${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>`;}
+  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -613,11 +648,15 @@ function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();le
 
 /* ——— click ——— */
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
-window.addEventListener("keydown",e=>{if(e.key==="Escape"){lb.style.display="none";reset();}});
+window.addEventListener("keydown",e=>{
+  if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
+  if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
+});
 
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
+  const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;
   if(act==="addlink"){commitForm();(N[id].links=N[id].links||[]).push({label:"",url:""});renderEdit(id);}
@@ -646,11 +685,19 @@ if(EDITABLE){
   $("#resetBtn")?.addEventListener("click",()=>{if(confirm("Сбросить карту к исходному (data.js)? Правки в браузере удалятся.")){localStorage.removeItem(KEY);initState();firstRender=true;render();reset();toast("↺ Сброшено к исходному");}});
 }
 
-/* ——— search ——— */
-$("#q")?.addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();
-  if(!q){if(selectedId)applyHighlight(selectedId);else{baseLinks();applyFilter();}return;}
-  let hit=null;Object.entries(nodeEls).forEach(([id,g])=>{const m=N[id].label.toLowerCase().includes(q)||(N[id].cat||"").toLowerCase().includes(q);g.style.opacity=m?1:.12;g.classList.toggle("sel",m&&!hit);if(m&&!hit)hit=id;});
-  linkEls.forEach(le=>{le.core.setAttribute("opacity",.04);le.glow.setAttribute("opacity",.02);});});
+/* ——— search с выпадающими результатами ——— */
+const qEl=$("#q"),resEl=$("#results");
+function hideResults(){if(resEl){resEl.innerHTML="";resEl.classList.remove("show");}}
+function pickResult(id){if(qEl)qEl.value="";hideResults();select(id);}
+qEl?.addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();
+  if(!q){hideResults();if(selectedId)applyHighlight(selectedId);else{baseLinks();applyFilter();}return;}
+  const hits=Object.keys(N).filter(id=>N[id].label.toLowerCase().includes(q)||(N[id].cat||"").toLowerCase().includes(q));
+  const set=new Set(hits);Object.entries(nodeEls).forEach(([id,g])=>{g.style.opacity=set.has(id)?1:.12;});
+  linkEls.forEach(le=>{le.core.setAttribute("opacity",.04);le.glow.setAttribute("opacity",.02);});
+  if(resEl){resEl.innerHTML=hits.length?hits.slice(0,8).map(id=>{const st=stOf(N[id]);return`<button class="rrow" data-go="${id}"><span class="rdot" style="background:${C[N[id].layer]||C.L2}"></span><b>${esc(N[id].label)}</b><i>${esc(N[id].cat||"")}</i>${N[id].s&&N[id].s!=="core"?`<span class="rst" style="background:${st.c}"></span>`:""}</button>`;}).join(""):'<div class="rnone">ничего не найдено</div>';resEl.classList.add("show");}});
+qEl?.addEventListener("keydown",e=>{if(e.key==="Enter"){const f=resEl?.querySelector("[data-go]");if(f)pickResult(f.dataset.go);}else if(e.key==="Escape"){qEl.value="";hideResults();reset();qEl.blur();}});
+resEl?.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)pickResult(b.dataset.go);});
+document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResults();});
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
@@ -704,13 +751,25 @@ function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;
   spotlight(s.spot||null);
   if(s.select&&N[s.select]){clearSubs();renderInfo(s.select);panel.classList.add("open");}else panel.classList.remove("open");
 }
-$("#tourBtn")?.addEventListener("click",startTour);
+$("#tourBtn")?.addEventListener("click",()=>{closeWelcome();startTour();});
+
+/* ——— приветственный онбординг (первый визит) ——— */
+let welcomeEl;
+function buildWelcome(){
+  welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
+  const logo=document.querySelector(".brand .logo")?.outerHTML||"";
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА</div><h2>Карта продуктов AppHub</h2><p>Десятки приложений, замкнутых в одну петлю трафика: пользователи → агрегаторы → бизнесы → снова пользователи. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  document.body.appendChild(welcomeEl);
+  welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
+}
+function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
+function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured","1");}catch(e){}}
 
 /* ——— go ——— */
 render();buildChrome();
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
-if(MODE==="public"&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(startTour,950);}
+if(MODE==="public"&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 })();
 
 </script>

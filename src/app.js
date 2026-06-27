@@ -132,6 +132,10 @@ function shots(n){const arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)return"";
 function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
   if(arr.length)return arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
   return`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;}
+function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
+  if(!ks.length)return"";
+  ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
+  return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
@@ -139,7 +143,7 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   ${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>`;}
+  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -233,11 +237,15 @@ function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();le
 
 /* ——— click ——— */
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
-window.addEventListener("keydown",e=>{if(e.key==="Escape"){lb.style.display="none";reset();}});
+window.addEventListener("keydown",e=>{
+  if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
+  if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
+});
 
 /* ——— panel actions (editor) ——— */
 panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
+  const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;
   if(act==="addlink"){commitForm();(N[id].links=N[id].links||[]).push({label:"",url:""});renderEdit(id);}
@@ -266,11 +274,19 @@ if(EDITABLE){
   $("#resetBtn")?.addEventListener("click",()=>{if(confirm("Сбросить карту к исходному (data.js)? Правки в браузере удалятся.")){localStorage.removeItem(KEY);initState();firstRender=true;render();reset();toast("↺ Сброшено к исходному");}});
 }
 
-/* ——— search ——— */
-$("#q")?.addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();
-  if(!q){if(selectedId)applyHighlight(selectedId);else{baseLinks();applyFilter();}return;}
-  let hit=null;Object.entries(nodeEls).forEach(([id,g])=>{const m=N[id].label.toLowerCase().includes(q)||(N[id].cat||"").toLowerCase().includes(q);g.style.opacity=m?1:.12;g.classList.toggle("sel",m&&!hit);if(m&&!hit)hit=id;});
-  linkEls.forEach(le=>{le.core.setAttribute("opacity",.04);le.glow.setAttribute("opacity",.02);});});
+/* ——— search с выпадающими результатами ——— */
+const qEl=$("#q"),resEl=$("#results");
+function hideResults(){if(resEl){resEl.innerHTML="";resEl.classList.remove("show");}}
+function pickResult(id){if(qEl)qEl.value="";hideResults();select(id);}
+qEl?.addEventListener("input",e=>{const q=e.target.value.trim().toLowerCase();
+  if(!q){hideResults();if(selectedId)applyHighlight(selectedId);else{baseLinks();applyFilter();}return;}
+  const hits=Object.keys(N).filter(id=>N[id].label.toLowerCase().includes(q)||(N[id].cat||"").toLowerCase().includes(q));
+  const set=new Set(hits);Object.entries(nodeEls).forEach(([id,g])=>{g.style.opacity=set.has(id)?1:.12;});
+  linkEls.forEach(le=>{le.core.setAttribute("opacity",.04);le.glow.setAttribute("opacity",.02);});
+  if(resEl){resEl.innerHTML=hits.length?hits.slice(0,8).map(id=>{const st=stOf(N[id]);return`<button class="rrow" data-go="${id}"><span class="rdot" style="background:${C[N[id].layer]||C.L2}"></span><b>${esc(N[id].label)}</b><i>${esc(N[id].cat||"")}</i>${N[id].s&&N[id].s!=="core"?`<span class="rst" style="background:${st.c}"></span>`:""}</button>`;}).join(""):'<div class="rnone">ничего не найдено</div>';resEl.classList.add("show");}});
+qEl?.addEventListener("keydown",e=>{if(e.key==="Enter"){const f=resEl?.querySelector("[data-go]");if(f)pickResult(f.dataset.go);}else if(e.key==="Escape"){qEl.value="";hideResults();reset();qEl.blur();}});
+resEl?.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)pickResult(b.dataset.go);});
+document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResults();});
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
@@ -324,11 +340,23 @@ function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;
   spotlight(s.spot||null);
   if(s.select&&N[s.select]){clearSubs();renderInfo(s.select);panel.classList.add("open");}else panel.classList.remove("open");
 }
-$("#tourBtn")?.addEventListener("click",startTour);
+$("#tourBtn")?.addEventListener("click",()=>{closeWelcome();startTour();});
+
+/* ——— приветственный онбординг (первый визит) ——— */
+let welcomeEl;
+function buildWelcome(){
+  welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
+  const logo=document.querySelector(".brand .logo")?.outerHTML||"";
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА</div><h2>Карта продуктов AppHub</h2><p>Десятки приложений, замкнутых в одну петлю трафика: пользователи → агрегаторы → бизнесы → снова пользователи. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  document.body.appendChild(welcomeEl);
+  welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
+}
+function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
+function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured","1");}catch(e){}}
 
 /* ——— go ——— */
 render();buildChrome();
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
-if(MODE==="public"&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(startTour,950);}
+if(MODE==="public"&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 })();

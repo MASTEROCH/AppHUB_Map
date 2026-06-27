@@ -263,3 +263,34 @@ body.edit svg#map{cursor:default}
   .stats{display:none}
   h1{margin-top:2px}
 }
+
+/* ——— связанные продукты в карточке (навигация по графу) ——— */
+.rels{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.rel{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.05);border:1px solid var(--hair);color:#dfe1e6;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;font-family:'Inter';cursor:pointer;transition:.16s cubic-bezier(.2,.9,.3,1)}
+.rel:hover{background:rgba(255,255,255,.12);transform:translateY(-1px);border-color:var(--hair-2)}
+.rel .rdot{width:7px;height:7px;border-radius:50%;flex:0 0 7px;box-shadow:0 0 6px currentColor}
+
+/* ——— поиск: выпадающие результаты ——— */
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:50;display:none;flex-direction:column;gap:2px;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(340px,60vh);overflow-y:auto}
+.results.show{display:flex}
+.rrow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);text-align:left;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';transition:.12s;width:100%}
+.rrow:hover{background:rgba(255,255,255,.09)}
+.rrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 7px currentColor}
+.rrow b{font-family:'Manrope';font-weight:700;font-size:14px}
+.rrow i{font-style:normal;color:var(--muted);font-size:11.5px;font-family:'JetBrains Mono'}
+.rrow .rst{width:8px;height:8px;border-radius:50%;margin-left:auto;flex:0 0 8px}
+.rnone{padding:12px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ——— приветственный онбординг ——— */
+.welcome{position:fixed;inset:0;z-index:130;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(4,5,8,.6);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);animation:fade .3s}
+.welcome.hidden{display:none}
+.wcard{position:relative;width:min(440px,94vw);text-align:center;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:28px;padding:34px 30px;box-shadow:var(--spec),0 40px 100px -20px rgba(0,0,0,.8);animation:tourIn .5s cubic-bezier(.2,.9,.3,1)}
+.wcard::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 35%);pointer-events:none}
+.wlogo{display:flex;justify-content:center;margin-bottom:14px;position:relative}
+.wlogo .logo{width:72px;height:72px;animation:none;fill:var(--lime);filter:drop-shadow(0 0 13px rgba(197,255,95,.55))}
+.wlogo .logo path{fill:var(--lime)}
+.weyebrow{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.28em;color:var(--muted);position:relative}
+.wcard h2{font-family:'Manrope';font-weight:800;font-size:26px;letter-spacing:-.02em;margin:8px 0 10px;position:relative}
+.wcard p{font-size:14.5px;line-height:1.6;color:#c4c8d0;margin-bottom:22px;position:relative}
+.wrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.wrow .btn{padding:12px 18px;font-size:14px}
