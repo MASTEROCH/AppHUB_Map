@@ -10,7 +10,7 @@ const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",
 const DEF=window.APPHUB_DATA;
 
 /* ——— state ——— */
-let N,L,ZONES,editMode=false,selectedId=null,firstRender=true,filter="all",pendImgFor=null;
+let N,L,ZONES,editMode=false,selectedId=null,firstRender=true,filter="all",pendImgFor=null,showAllLinks=false;
 function loadState(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.nodes&&s.links)return s;}catch(e){}return null;}
 function initState(){
   ZONES=DEF.zones;
@@ -65,6 +65,7 @@ function render(){
   const isHub=k=>["l1","l2","l3"].includes(k);
   L.forEach(([a,b])=>{if(!N[a]||!N[b])return;const d=path(a,b),f=feeder(a,b),mn=isMain(a,b),col=fcol(a,b);
     const hubEnd=isHub(a)||isHub(b);
+    const prod=!mn&&!f&&!hubEnd;
     // структурные связи (петля/фидеры/к хабам) — чёткие; продукт↔продукт — еле заметные
     const baseCore=mn?.85:(f?.26:(hubEnd?.34:.09));
     const baseGlow=mn?.13:(f?.06:(hubEnd?.08:.025));
@@ -72,7 +73,7 @@ function render(){
     const glow=ex("path",{d,fill:"none",stroke:col,"stroke-width":f?4:6,opacity:baseGlow});
     const core=ex("path",{d,fill:"none",stroke:col,"stroke-width":baseW,opacity:baseCore,"stroke-linecap":"round","stroke-dasharray":f?"6 7":(mn?"9 13":"none")});
     if(mn)core.classList.add("flowline");
-    gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,baseCore,baseGlow,baseW});
+    gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,prod,baseCore,baseGlow,baseW});
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
   Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=n.t==="hub"?n.w:(n.label.length>7?112:96),h=n.t==="hub"?n.h:46;
@@ -107,7 +108,7 @@ function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n
     gN.appendChild(g);subEls.push(g);});}
 
 /* ——— highlight / filter ——— */
-function baseLinks(){linkEls.forEach(le=>{le.core.setAttribute("opacity",le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",le.baseGlow);});}
+function baseLinks(){linkEls.forEach(le=>{const rv=le.prod&&showAllLinks;le.core.setAttribute("opacity",rv?.34:le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",rv?.06:le.baseGlow);});}
 function applyHighlight(id){const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;
     le.core.setAttribute("opacity",on?1:.035);le.core.setAttribute("stroke-width",on?(le.f?2.2:2.9):le.baseW);le.glow.setAttribute("opacity",on?.34:.018);
@@ -367,6 +368,7 @@ function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;
   if(s.select&&N[s.select]){clearSubs();renderInfo(s.select);panel.classList.add("open");}else panel.classList.remove("open");
 }
 $("#tourBtn")?.addEventListener("click",()=>{closeWelcome();startTour();});
+$("#linksBtn")?.addEventListener("click",()=>{showAllLinks=!showAllLinks;$("#linksBtn").classList.toggle("on",showAllLinks);if(!selectedId)baseLinks();toast(showAllLinks?"Показаны все связи":"Связи — по выбору");});
 
 /* ——— приветственный онбординг (первый визит) ——— */
 let welcomeEl;

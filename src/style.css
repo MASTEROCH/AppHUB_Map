@@ -78,6 +78,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 svg#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 svg#map text{user-select:none;-webkit-user-select:none}
 svg#map:active{cursor:grabbing}
+#links path{transition:opacity .28s ease}
 
 .node{cursor:pointer;transform-box:fill-box;transform-origin:center;transition:transform .28s cubic-bezier(.34,1.56,.64,1),opacity .3s}
 .node .card{transition:filter .25s,stroke-width .25s}
