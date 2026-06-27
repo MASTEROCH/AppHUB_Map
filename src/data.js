@@ -12,7 +12,7 @@ window.APPHUB_DATA = {
     l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — бронь, заказ, оплата. Создаются через конструктор (Creator) или как кастомные приложения.",inter:"Со стороны бизнеса: принимают готовый заказ из петли и от утилит, затем возвращают пользователя в L1. Бизнесы L3 взаимодействуют напрямую между собой через ботов; L2-агрегатор связывает сразу несколько L3-бизнесов.",link:null},
     wwc:{t:"mini",layer:"L2",s:"dev",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов.",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine.",link:null},
     korobka:{t:"mini",layer:"L2",s:"live",x:470,y:518,label:"Korobka",cat:"L2 · утилита",desc:"Korob-ka — строительный калькулятор; подбор поставщиков стройматериалов.",inter:"Магнит-утилита; ведёт в Shops; и в крипто-обменник — за снятием наличных на стройматериалы.",link:"https://korob-ka.vercel.app"},
-    cityhub:{t:"mini",layer:"L2",s:"dev",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Городской хаб: каталог сервисов города. (в разработке)",inter:"Распределяет в Dine, Events, Tours, CarRent, Shops.",link:null},
+    cityhub:{t:"mini",layer:"L2",s:"dev",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Умный городской консьерж: AI-рекомендации мест (куда пойти, что делать), лояльность баллами, квесты, стрики и соревнования с друзьями. Каталог сервисов города.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops; интегрируется с заведениями.",link:null},
     neon:{t:"mini",layer:"L2",s:"live",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки.",inter:"Ведёт в Events, Tours, CarRent, Dine.",link:"https://batumi-neon-tma.vercel.app"},
     batumito:{t:"mini",layer:"L2",s:"dev",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь и вечеринки, дорогие машины, приватные пати. Из той же серии, что Neon. (в разработке)",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events.",link:null},
     realestate:{t:"mini",layer:"L2",s:"dev",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости (real estate). (в разработке)",inter:"Замыкается на Korobka; ведёт в Tours, Events, Стройку; крупные расчёты — через крипто-обменник.",link:null},
@@ -29,7 +29,17 @@ window.APPHUB_DATA = {
     news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения бизнесов, взаимодействует с L1-ассистентами; авто-публикация контента в каналы и соцсети; рекламирует другие проекты (игры и т.д.).",link:null},
     musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
     arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:810,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры (напр. DinaCook). Удержание и вовлечение.",inter:"Подключены к общей системе лояльности — играешь и зарабатываешь баллы. Связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
-    boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:810,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null}
+    boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:810,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null},
+    bazapp:{t:"mini",layer:"L2",s:"dev",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
+    anzh:{t:"mini",layer:"L3",s:"live",x:1455,y:560,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): AI-маскот, диагностика кожи, запись на процедуры, программа лояльности.",inter:"Бизнес HoReCa/бьюти; трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS.",link:"https://anzh.store"},
+    kingfit:{t:"mini",layer:"L3",s:"dev",x:1455,y:660,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
+    dropper:{t:"mini",layer:"L3",s:"dev",x:1455,y:760,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
+    crookedcook:{t:"mini",layer:"GAMES",s:"live",x:1010,y:742,label:"CrookedCook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь скидку.",inter:"Удержание и вовлечение в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/CrookedCookBot"},
+    selfix:{t:"mini",layer:"GAMES",s:"live",x:1140,y:742,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"},
+    mozgovzryv:{t:"mini",layer:"GAMES",s:"dev",x:1270,y:742,label:"Мозговзрыв",cat:"Игры · викторина",desc:"Геймифицированная викторина (trivia): XP, маскот, анимации, результаты и шеринг.",inter:"Вовлекает пользователей L1; связана с Аркадами; продвигается через News.",link:null},
+    rochlink:{t:"mini",layer:"UT",s:"live",x:1354,y:100,label:"ROCH Link",cat:"Утилита · линк-в-био",desc:"Виртуальная визитка / линк-в-био: профиль на 6 языках, агрегатор контактов и ссылок (Supabase, Stripe).",inter:"Магнит-утилита: гонит трафик в L1 и L3; связан с LeadOS для контента.",link:"https://rochlink.vercel.app"},
+    figmagod:{t:"mini",layer:"UT",s:"concept",x:1130,y:178,label:"Figma GodMode",cat:"Утилита · дизайн",desc:"Figma-плагин: генерирует дизайн-систему из исходного кода (React/CSS/токены) с опциональной AI-генерацией экранов и компонентов.",inter:"Ускоряет создание интерфейсов: питает Creator и конструктор Dine.",link:null},
+    rochart:{t:"mini",layer:"MM",s:"concept",x:190,y:742,label:"ROCH Art",cat:"Мультимедиа · арт",desc:"Каталог цифровых портретов и арт-проектов (PORTALS Vol. I); вёрстка под печать и Saatchi Art с AI-генерацией.",inter:"Приводит аудиторию извне в экосистему — к L1 и L2.",link:null}
   },
   links: [
     ["menu","creator"],["menu","l1"],["menu","l2"],["menu","l3"],["creator","l1"],["creator","l2"],["creator","l3"],
@@ -48,7 +58,17 @@ window.APPHUB_DATA = {
     ["editcmd","l3"],["editcmd","dine"],["leados","l3"],["leados","cityhub"],["leados","dine"],
     ["musichaed","l1"],["musichaed","l2"],["musichaed","stage"],["musichaed","events"],["news","l1"],["news","l2"],["news","l3"],["news","leados"],["news","arcades"],["news","boardgames"],
     ["arcades","l1"],["arcades","dine"],["arcades","batumito"],["arcades","tours"],["arcades","shops"],
-    ["boardgames","l1"],["boardgames","l2"],["arcades","boardgames"]
+    ["boardgames","l1"],["boardgames","l2"],["arcades","boardgames"],
+    ["l1","bazapp"],["l2","bazapp"],["bazapp","shops"],["bazapp","crypto"],["bazapp","dine"],
+    ["l3","anzh"],["anzh","dine"],["anzh","cityhub"],["anzh","crypto"],["anzh","neon"],
+    ["l3","kingfit"],["kingfit","l1"],["kingfit","cityhub"],["kingfit","tours"],
+    ["l3","dropper"],["dropper","dine"],["dropper","shops"],["dropper","cityhub"],["dropper","neon"],["dropper","batumito"],
+    ["crookedcook","dine"],["crookedcook","arcades"],["crookedcook","l1"],["crookedcook","neon"],
+    ["selfix","l1"],["selfix","boardgames"],["selfix","news"],
+    ["mozgovzryv","l1"],["mozgovzryv","arcades"],["mozgovzryv","news"],
+    ["rochlink","l3"],["rochlink","leados"],["rochlink","l1"],["rochlink","news"],
+    ["figmagod","creator"],["figmagod","dine"],["figmagod","editcmd"],
+    ["rochart","l1"],["rochart","l2"],["rochart","news"],["rochart","musichaed"]
   ],
   zones: [
     {label:"APPHUB STUDIO BOT",sub:"корень · Menu + Creator",x:190,y:40,bx:40,by:18,bw:300,bh:116,c:"#C5FF5F"},

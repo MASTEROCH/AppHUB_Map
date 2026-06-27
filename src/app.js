@@ -191,14 +191,21 @@ function buildChrome(){
   const products=Object.values(N).filter(n=>n.s!=="core");
   const live=products.filter(n=>n.s==="live").length,dev=products.filter(n=>n.s==="dev").length;
   const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>продуктов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b>3</b><span>слоя петли</span></div><div class="stat"><b>4</b><span>источника трафика</span></div>`;
+  const LL={ROOT:"Корень",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const LS={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
+  const ldefsShort=LAYERS.map(([k])=>[k,LS[k],C[k]]),ldefsFull=LAYERS.map(([k])=>[k,LL[k],C[k]]);
+  function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
   const chipsEl=$("#chips");
-  if(chipsEl){
-    const LL={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
-    const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
-    const ldefs=LAYERS.map(([k])=>[k,LL[k],C[k]]);
-    const chip=([k,t,c],on)=>`<button class="chip${on?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
-    chipsEl.innerHTML=sdefs.map(d=>chip(d,d[0]==="all")).join("")+'<span class="chsep"></span>'+ldefs.map(d=>chip(d,false)).join("");
-    chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;filter=b.dataset.f;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x===b));applyFilter();focusFilter();});}
+  if(chipsEl){const chip=([k,t,c])=>`<button class="chip${k===filter?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
+    chipsEl.innerHTML=sdefs.map(chip).join("")+'<span class="chsep"></span>'+ldefsShort.map(chip).join("");
+    chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)setFilter(b.dataset.f);});}
+  const fm=$("#filterMenu"),fb=$("#filterBtn");
+  if(fm){const row=([k,t,c])=>`<button class="fmrow${k===filter?" active":""}" data-f="${k}"><span class="rdot" style="background:${c||"transparent"};color:${c||"transparent"};${c?"":"box-shadow:none"}"></span>${t}</button>`;
+    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("");
+    fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);fm.classList.remove("open");}});
+    fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
+    document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
 }
 

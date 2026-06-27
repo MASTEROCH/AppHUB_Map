@@ -300,3 +300,14 @@ body.edit svg#map{cursor:default}
 .wcard p{font-size:14.5px;line-height:1.6;color:#c4c8d0;margin-bottom:22px;position:relative}
 .wrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
 .wrow .btn{padding:12px 18px;font-size:14px}
+
+/* ——— фильтр-меню (иконка настроек) ——— */
+.fwrap{position:relative}
+.fmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:55;display:none;flex-direction:column;gap:2px;min-width:200px;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(72vh,440px);overflow-y:auto}
+.fmenu.open{display:flex}
+.fmcap{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;padding:8px 10px 4px}
+.fmrow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);text-align:left;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';font-size:13.5px;font-weight:600;transition:.12s;width:100%}
+.fmrow:hover{background:rgba(255,255,255,.09)}
+.fmrow.active{background:rgba(197,255,95,.15);color:#eaffc4}
+.fmrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 6px currentColor}
+@media(max-width:760px){.fmenu{position:fixed;top:auto;right:8px;left:auto;min-width:220px}}
