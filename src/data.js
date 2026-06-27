@@ -1,0 +1,59 @@
+/* AppHub.Studio — единый источник правды для карты экосистемы.
+   Меняй данные здесь, затем: python3 src/build.py
+   status (s): "live" — в проде | "dev" — в разработке | "concept" — концепт | "core" — слой/ядро
+   Контент обогащён из совместной версии с партнёром (2026-06-27). viewBox: -80 0 1640 870. */
+window.APPHUB_DATA = {
+  viewBox: "-80 0 1640 870",
+  nodes: {
+    menu:{t:"mini",layer:"ROOT",s:"live",x:120,y:100,label:"Menu",cat:"Корень · лендинг",desc:"Наш лендинг — вход в экосистему.",inter:"Соединён с Creator; ведёт в L1, L2, L3.",link:"https://apphub.studio"},
+    creator:{t:"mini",layer:"ROOT",s:"concept",x:262,y:100,label:"Creator",cat:"Корень · конструктор",desc:"Конструктор приложений: white-label версии агрегаторов (L2) и приложения бизнесов (L3) по шаблонам. L1-ассистентов не создаёт.",inter:"Соединён с Menu; питает петлю L1, L2, L3 (создаёт продукты L2 и L3 по шаблонам).",link:null},
+    l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их AI-агенты",cat:"L1 · точка входа",desc:"Личные AI-ассистенты пользователя — автоматизируют его задачи (заказ услуг, продуктов и т.д.).",inter:"Со стороны пользователя: ассистент находит предложения у L2-агрегаторов и L3-бизнесов, всё готовит — пользователю остаётся подтвердить действие, затем оплату. Коммуницируют с L2 и L3.",link:null},
+    l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу; возможны white-label-версии каждого сервиса.",inter:"Со стороны агрегатора: принимают запрос ассистента L1, подбирают подходящие L3-бизнесы и собирают предложение под нишу; раздают трафик в L3.",link:null},
+    l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — бронь, заказ, оплата. Создаются через конструктор (Creator) или как кастомные приложения.",inter:"Со стороны бизнеса: принимают готовый заказ из петли и от утилит, затем возвращают пользователя в L1. Бизнесы L3 взаимодействуют напрямую между собой через ботов; L2-агрегатор связывает сразу несколько L3-бизнесов.",link:null},
+    wwc:{t:"mini",layer:"L2",s:"dev",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов.",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine.",link:null},
+    korobka:{t:"mini",layer:"L2",s:"live",x:470,y:518,label:"Korobka",cat:"L2 · утилита",desc:"Korob-ka — строительный калькулятор; подбор поставщиков стройматериалов.",inter:"Магнит-утилита; ведёт в Shops; и в крипто-обменник — за снятием наличных на стройматериалы.",link:"https://korob-ka.vercel.app"},
+    cityhub:{t:"mini",layer:"L2",s:"dev",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Городской хаб: каталог сервисов города. (в разработке)",inter:"Распределяет в Dine, Events, Tours, CarRent, Shops.",link:null},
+    neon:{t:"mini",layer:"L2",s:"live",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки.",inter:"Ведёт в Events, Tours, CarRent, Dine.",link:"https://batumi-neon-tma.vercel.app"},
+    batumito:{t:"mini",layer:"L2",s:"dev",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь и вечеринки, дорогие машины, приватные пати. Из той же серии, что Neon. (в разработке)",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events.",link:null},
+    realestate:{t:"mini",layer:"L2",s:"dev",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости (real estate). (в разработке)",inter:"Замыкается на Korobka; ведёт в Tours, Events, Стройку; крупные расчёты — через крипто-обменник.",link:null},
+    crypto:{t:"mini",layer:"L3",s:"live",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой и Realty.",link:"https://alltrust-me.vercel.app"},
+    events:{t:"mini",layer:"L3",s:"live",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали.",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],link:"https://expobatumi-tma.vercel.app"},
+    stage:{t:"mini",layer:"L3",s:"concept",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events.",link:null},
+    carrent:{t:"mini",layer:"L3",s:"live",x:1030,y:400,label:"CarRent",cat:"L3 · автопрокат",desc:"Аренда авто. Подача к отелю, бронь.",inter:"Для туризма — Neon, Batumito, Tours, CityHub.",link:"https://literent-tma.vercel.app"},
+    tours:{t:"mini",layer:"L3",s:"dev",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии. (в разработке)",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],link:null},
+    dine:{t:"mini",layer:"L3",s:"live",x:1190,y:542,label:"Dine",cat:"L3 · конструктор бизнес-апп",desc:"Универсальный конструктор приложений для HoReCa, доставки и услуг — под управлением ИИ.",inter:"Трафик из WWC, CityHub, Batumito, Neon; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],links:[{label:"Клиент",url:"https://t.me/AppHub_Studio_Bot/dine"},{label:"Админка",url:"https://t.me/AppHub_Studio_Bot/Dine_admin"}]},
+    shops:{t:"mini",layer:"L3",s:"dev",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл. (в разработке)",inter:"Заказы из WWC, CityHub, Batumito, Korobka.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],link:null},
+    construction:{t:"mini",layer:"L3",s:"concept",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Строительные компании и услуги: застройщики, бригады, прорабы.",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
+    editcmd:{t:"mini",layer:"UT",s:"concept",x:1058,y:100,label:"Edit Cmd",cat:"Утилита · вне петли",desc:"Edit Commander — бесплатный пакетный редактор (PDF, HTML). Вводный продукт с нашей рекламой.",inter:"Реклама приводит трафик в петлю; уникализирует апки. Связан с L3 и Dine.",link:null},
+    leados:{t:"mini",layer:"UT",s:"concept",x:1206,y:100,label:"LeadOS",cat:"Утилита · вне петли",desc:"Генерация контента для соцсетей: посты в Telegram, карусели в Instagram; скоро Threads, Facebook.",inter:"Подключается к L3, CityHub, Dine — автопостинг и контент.",link:null},
+    news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения бизнесов, взаимодействует с L1-ассистентами; авто-публикация контента в каналы и соцсети; рекламирует другие проекты (игры и т.д.).",link:null},
+    musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
+    arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:810,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры (напр. DinaCook). Удержание и вовлечение.",inter:"Подключены к общей системе лояльности — играешь и зарабатываешь баллы. Связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
+    boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:810,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null}
+  },
+  links: [
+    ["menu","creator"],["menu","l1"],["menu","l2"],["menu","l3"],["creator","l1"],["creator","l2"],["creator","l3"],
+    ["l1","l2"],["l2","l3"],["l3","l1"],
+    ["l1","wwc"],["l1","korobka"],["l1","cityhub"],["l1","neon"],["l1","batumito"],
+    ["l2","wwc"],["l2","korobka"],["l2","cityhub"],["l2","neon"],["l2","batumito"],
+    ["l3","crypto"],["l3","events"],["l3","stage"],["l3","carrent"],["l3","tours"],["l3","dine"],["l3","shops"],
+    ["wwc","dine"],["wwc","shops"],
+    ["cityhub","dine"],["cityhub","events"],["cityhub","tours"],["cityhub","carrent"],["cityhub","shops"],
+    ["neon","events"],["neon","tours"],["neon","carrent"],["neon","dine"],
+    ["batumito","tours"],["batumito","carrent"],["batumito","dine"],["batumito","shops"],["batumito","events"],
+    ["korobka","shops"],["korobka","crypto"],
+    ["l1","realestate"],["l2","realestate"],["realestate","korobka"],["realestate","tours"],["realestate","events"],["realestate","crypto"],["realestate","construction"],["realestate","dine"],
+    ["l3","construction"],["construction","korobka"],["construction","crypto"],["construction","shops"],
+    ["events","stage"],["events","tours"],["dine","events"],["dine","tours"],["carrent","tours"],
+    ["editcmd","l3"],["editcmd","dine"],["leados","l3"],["leados","cityhub"],["leados","dine"],
+    ["musichaed","l1"],["musichaed","l2"],["musichaed","stage"],["musichaed","events"],["news","l1"],["news","l2"],["news","l3"],["news","leados"],["news","arcades"],["news","boardgames"],
+    ["arcades","l1"],["arcades","dine"],["arcades","batumito"],["arcades","tours"],["arcades","shops"],
+    ["boardgames","l1"],["boardgames","l2"],["arcades","boardgames"]
+  ],
+  zones: [
+    {label:"APPHUB STUDIO BOT",sub:"корень · Menu + Creator",x:190,y:40,bx:40,by:18,bw:300,bh:116,c:"#C5FF5F"},
+    {label:"UTILITIES",sub:"вне петли · бесплатно → трафик",x:1130,y:40,bx:980,by:18,bw:300,bh:116,c:"#38bdf8"},
+    {label:"MULTIMEDIA",sub:"вне петли · трафик к пользователям",x:190,y:752,bx:40,by:730,bw:300,bh:116,c:"#a78bfa"},
+    {label:"ИГРЫ",sub:"аркады и настолки · вовлечение",x:1130,y:752,bx:980,by:730,bw:300,bh:116,c:"#fbbf24"}
+  ]
+};
