@@ -123,6 +123,9 @@ body.edit .editHint{display:flex}
 .editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
 .editHint .ehbtn{padding:8px 12px;font-size:12px}
 .editHint .ehbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+.syncBanner{position:absolute;left:50%;top:62px;transform:translateX(-50%) translateY(-8px);z-index:7;display:none;align-items:center;gap:10px;background:rgba(13,15,23,.96);border:1px solid rgba(56,189,248,.4);padding:8px 10px 8px 14px;border-radius:14px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);font-family:'Inter';font-size:13px;font-weight:600;color:#bfe9ff;opacity:0;transition:.25s cubic-bezier(.2,.9,.3,1)}
+.syncBanner.show{display:flex;opacity:1;transform:translateX(-50%) translateY(0)}
+.syncBanner .ehbtn{padding:7px 12px;font-size:12px}
 body.edit svg#map{cursor:default}
 
 /* ——— легенда-строка под картой (не перекрывает доску) ——— */

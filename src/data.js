@@ -69,3 +69,16 @@ window.APPHUB_DATA = {
     {label:"ИГРЫ",sub:"аркады и настолки · вовлечение",x:1130,y:716,bx:974,by:700,bw:312,bh:168,c:"#fbbf24"}
   ]
 };
+
+/* ——— Совместная правка через общую базу (Supabase) ———
+   Пока null → карта работает локально (правки в localStorage браузера).
+   Чтобы Roch и Дима правили ОДНУ общую карту — заполни url и anon-ключ (publishable, НЕ service_role!):
+   window.APPHUB_SYNC = {
+     url:      "https://ТВОЙ-ПРОЕКТ.supabase.co",
+     key:      "anon-public-ключ",
+     table:    "apphub_map",
+     row:      "main",
+     writeKey: "секрет"   // кто правит базу — открывают ссылку с ?key=секрет (без него правки только локальные)
+   };
+*/
+window.APPHUB_SYNC = null;

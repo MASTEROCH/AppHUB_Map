@@ -9,6 +9,10 @@ const Q=(()=>{try{return new URLSearchParams(location.search);}catch(e){return n
 const VIEW_FLAG=Q.has("client")||Q.has("clean")||Q.has("view");
 const EDITABLE=MODE==="internal"||!VIEW_FLAG;
 const GATED=EDITABLE&&MODE!=="internal";
+// общая база (Supabase) для совместной правки; CAN_WRITE — кто реально пишет в базу (по ?key)
+const SYNC=(window.APPHUB_SYNC&&window.APPHUB_SYNC.url)?window.APPHUB_SYNC:null;
+const CAN_WRITE=!!(SYNC&&EDITABLE&&(!SYNC.writeKey||Q.get("key")===SYNC.writeKey));
+const WHO=((Q.get("who")||"").trim())||"—";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
@@ -24,8 +28,28 @@ function initState(){
   if(EDITABLE){const s=loadState();if(s){N=s.nodes;L=s.links;ZONES=s.zones||DEF.zones;return;}}
   N=structuredClone(DEF.nodes);L=structuredClone(DEF.links);ZONES=structuredClone(DEF.zones);
 }
-function save(){if(!EDITABLE)return;try{localStorage.setItem(KEY,JSON.stringify({nodes:N,links:L,zones:ZONES}));}catch(e){toast("⚠ Не удалось сохранить (лимит)");}}
+function save(){if(!EDITABLE)return;try{localStorage.setItem(KEY,JSON.stringify({nodes:N,links:L,zones:ZONES}));}catch(e){toast("⚠ Не удалось сохранить (лимит)");}queuePush();}
 initState();
+
+/* ——— синхронизация с общей базой (Supabase REST) ——— */
+let remoteStamp=null,pushT=0,applyingRemote=false,pendingRec=null;
+function sbH(){return {apikey:SYNC.key,Authorization:"Bearer "+SYNC.key};}
+async function sbPull(){if(!SYNC)return null;try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}?id=eq.${encodeURIComponent(SYNC.row)}&select=data,updated_at,updated_by`,{headers:sbH(),cache:"no-store"});if(!r.ok)return null;const a=await r.json();return(a&&a[0])||null;}catch(e){return null;}}
+async function sbPush(){if(!CAN_WRITE)return;const stamp=new Date().toISOString();const body=[{id:SYNC.row,data:{nodes:N,links:L,zones:ZONES},updated_at:stamp,updated_by:WHO}];
+  try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}`,{method:"POST",headers:{...sbH(),"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(body)});
+    if(r.ok)remoteStamp=stamp;else toast("⚠ Облако: "+r.status);}catch(e){toast("⚠ Нет связи с базой");}}
+function queuePush(){if(!CAN_WRITE)return;clearTimeout(pushT);pushT=setTimeout(sbPush,900);}
+function applyRemote(rec){if(!rec||!rec.data||!rec.data.nodes)return;applyingRemote=true;N=rec.data.nodes;L=rec.data.links||[];ZONES=rec.data.zones||DEF.zones;remoteStamp=rec.updated_at;firstRender=true;render();buildChrome();if(selectedId&&N[selectedId])select(selectedId);else reset();applyingRemote=false;}
+function showSyncBanner(rec){pendingRec=rec;let b=$("#syncBanner");if(!b){b=document.createElement("div");b.id="syncBanner";b.className="syncBanner";b.innerHTML=`<span></span><button class="btn prim ehbtn">Обновить</button>`;diagram.appendChild(b);b.querySelector("button").addEventListener("click",()=>{if(pendingRec)applyRemote(pendingRec);b.classList.remove("show");});}
+  b.querySelector("span").textContent="🔄 "+(rec.updated_by&&rec.updated_by!=="—"?rec.updated_by:"Партнёр")+" обновил карту";b.classList.add("show");}
+function startSync(){if(!SYNC)return;
+  sbPull().then(rec=>{if(rec&&rec.data&&rec.data.nodes){applyRemote(rec);toast("☁ Карта загружена из общей базы");}
+    else if(CAN_WRITE){sbPush();toast("☁ Общая база создана из текущей карты");}});
+  if(EDITABLE)setInterval(async()=>{if(document.hidden||applyingRemote||nodeDrag||dragging)return;const rec=await sbPull();
+    if(rec&&rec.updated_at&&rec.updated_at!==remoteStamp){
+      if(editMode&&panel.dataset.editing)showSyncBanner(rec);
+      else{applyRemote(rec);toast("🔄 Обновлено партнёром"+(rec.updated_by&&rec.updated_by!=="—"?(" · "+rec.updated_by):""));}}
+  },10000);}
 
 /* ——— helpers ——— */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -463,4 +487,5 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{render();
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
 if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
+startSync();
 })();
