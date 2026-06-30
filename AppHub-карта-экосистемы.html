@@ -498,6 +498,13 @@ const svg=$("#map"),vp=$("#viewport");
 const gLoop=$("#loopg"),gZ=$("#zones"),gL=$("#links"),gN=$("#nodes");
 const gPod=ex("g",{id:"podg"});vp.insertBefore(gPod,vp.firstChild);
 const panel=$("#panel"),diagram=$(".diagram");
+/* ——— адаптивная ширина карточек по реальной ширине текста ——— */
+const measEl=ex("text",{class:"clabel",x:-9999,y:-9999});measEl.style.visibility="hidden";measEl.setAttribute("pointer-events","none");svg.appendChild(measEl);
+function measureText(str,fs,weight){measEl.setAttribute("font-size",fs);measEl.setAttribute("font-weight",weight||700);measEl.textContent=str||"";return measEl.getComputedTextLength()||(String(str||"").length*fs*0.58);}
+const miniFs=n=>{const L=(n.label||"").length;return L>16?13:(L>11?14:(L>6?15:16.5));};
+const miniW=n=>Math.max(96,Math.round(measureText(n.label,miniFs(n))+40));  // текст + поля по 20px
+const nodeW=n=>n.t==="hub"?n.w:miniW(n);
+const subW=s=>Math.max(86,Math.round(measureText(s.label,12)+30));
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
 /* ——— инъекция админ-панели на публичной странице (только при ?edit) ——— */
 if(GATED){
@@ -559,7 +566,7 @@ function render(){
     gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,prod,baseCore,baseGlow,baseW});
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
-  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=n.t==="hub"?n.w:(n.label.length>7?112:96),h=n.t==="hub"?n.h:46;
+  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=n.t==="hub"?n.h:46;
     const g=ex("g",{class:"node","data-id":id});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
     const hub=n.t==="hub",hp=hub?7:3;
@@ -569,7 +576,7 @@ function render(){
     g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:"url(#sheen)","pointer-events":"none"}));
     if(n.t==="hub"){const t1=ex("text",{class:"clabel",x:n.x,y:n.y-9,"font-size":15});t1.textContent=n.label;g.appendChild(t1);
       const t2=ex("text",{class:"csub",x:n.x,y:n.y+13,"font-size":12});t2.textContent=n.sub||"";g.appendChild(t2);}
-    else{const t=ex("text",{class:"clabel",x:n.x,y:n.y,"font-size":n.label.length>7?14:(n.label.length>6?15:17)});t.textContent=n.label;g.appendChild(t);
+    else{const t=ex("text",{class:"clabel",x:n.x,y:n.y,"font-size":miniFs(n)});t.textContent=n.label;g.appendChild(t);
       if(n.s&&n.s!=="core"){const st=stOf(n);g.appendChild(ex("circle",{cx:n.x+w/2-9,cy:n.y-h/2+9,r:5,fill:st.c,stroke:"#0c0e16","stroke-width":1.5}));}}
     gN.appendChild(g);nodeEls[id]=g;idx++;});
   firstRender=false;applyFilter();
@@ -583,7 +590,7 @@ function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n
   n.subs.forEach((s0,i)=>{let s={...s0};if(s.x==null||s.y==null){const span=Math.min(n.subs.length-1,5),ang=(-0.6+1.2*(span?i/span:.5)),r=130;s.x=px+Math.sin(ang)*r;s.y=py+90+Math.cos(ang)*22;}
     const d=`M${px},${py} C${(px+s.x)/2},${py} ${(px+s.x)/2},${s.y} ${s.x},${s.y}`;
     const ln=ex("path",{d,fill:"none",stroke:"#2dd4bf","stroke-width":1.4,opacity:.55,"stroke-dasharray":"4 5"});gL.appendChild(ln);subEls.push(ln);
-    const w=s.label.length>10?150:(s.label.length>7?122:96),h=34,g=ex("g",{class:"subnode nodeIn"});
+    const w=subW(s),h=34,g=ex("g",{class:"subnode nodeIn"});
     g.appendChild(ex("rect",{x:s.x-w/2-3,y:s.y-h/2-3,width:w+6,height:h+6,rx:13,fill:"#2dd4bf",opacity:.18}));
     g.appendChild(ex("rect",{x:s.x-w/2,y:s.y-h/2,width:w,height:h,rx:10,fill:"#0c0e16"}));
     g.appendChild(ex("rect",{x:s.x-w/2,y:s.y-h/2,width:w,height:h,rx:10,fill:"#2dd4bf","fill-opacity":.13,stroke:"#2dd4bf","stroke-width":1.3}));
@@ -603,7 +610,7 @@ function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.to
 function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
 function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
   const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
-  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=n.label.length>7?112:96;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
   a-=28;c+=28;b-=44;d+=28;const col=DOMC[dom]||"#C5FF5F";
   gPod.appendChild(ex("rect",{x:a,y:b,width:c-a,height:d-b,rx:22,fill:col,"fill-opacity":.07,stroke:col,"stroke-opacity":.55,"stroke-width":1.6,"stroke-dasharray":"8 6"}));
   const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
@@ -728,7 +735,7 @@ window.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;ptrs.
   if(dragging){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;const m=svg.getScreenCTM();ztx=stx+dx/m.a;zty=sty+dy/m.d;applyZ();}});
 const upP=e=>{if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=0;if(nodeDrag){if(moved)save();nodeDrag=null;}if(ptrs.size===0)dragging=false;};
 window.addEventListener("pointerup",upP);window.addEventListener("pointercancel",upP);
-function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=n.t==="hub"?n.w:(n.label.length>7?112:96),h=n.t==="hub"?n.h:46;
+function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=n.t==="hub"?n.h:46;
   g.querySelectorAll("rect").forEach(r=>{r.setAttribute("x",n.x-w/2);r.setAttribute("y",n.y-h/2);});
   const cir=g.querySelector("circle");if(cir){cir.setAttribute("cx",n.x+w/2-9);cir.setAttribute("cy",n.y-h/2+9);}
   const tx=g.querySelectorAll("text");if(n.t==="hub"){if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y-9);}if(tx[1]){tx[1].setAttribute("x",n.x);tx[1].setAttribute("y",n.y+13);}}else if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y);}
@@ -849,7 +856,7 @@ function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
-  ids.forEach(id=>{const n=N[id],w=(n.t==="hub"?n.w:110),h=(n.t==="hub"?n.h:46);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
+  ids.forEach(id=>{const n=N[id],w=nodeW(n),h=(n.t==="hub"?n.h:46);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
   const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
   const pad=70,bw=(mxx-mnx)+pad*2,bh=(mxy-mny)+pad*2;
   const fit=Math.min(rect.width/(m*bw),(rect.height*(isMob()?0.7:0.92))/(m*bh));
@@ -890,6 +897,8 @@ function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{local
 
 /* ——— go ——— */
 render();buildChrome();
+// шрифты грузятся асинхронно — после готовности перерисовываем, чтобы ширина карточек измерилась точно
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{render();if(selectedId&&N[selectedId])applyHighlight(selectedId);});
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
 if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
