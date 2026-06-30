@@ -6,11 +6,12 @@ const MODE=document.body.dataset.mode||"public";
 // Сейчас (фаза разработки) редактор виден ПО УМОЛЧАНИЮ — кнопка «Редактор» в шапке.
 // Чтобы дать клиенту чистую витрину без редактора — добавь к URL флаг ?client (или ?clean / ?view).
 const Q=(()=>{try{return new URLSearchParams(location.search);}catch(e){return new URLSearchParams();}})();
-const VIEW_FLAG=Q.has("client")||Q.has("clean")||Q.has("view");
-const EDITABLE=MODE==="internal"||!VIEW_FLAG;
-const GATED=EDITABLE&&MODE!=="internal";
-// общая база (Supabase) для совместной правки; CAN_WRITE — кто реально пишет в базу (по ?key)
+// общая база (Supabase) для совместной правки
 const SYNC=(window.APPHUB_SYNC&&window.APPHUB_SYNC.url)?window.APPHUB_SYNC:null;
+// Редактор открывается ТОЛЬКО по секретной ссылке (?key=СЕКРЕТ). Без ключа — чистая витрина для клиентов.
+const EDIT_UNLOCK=(SYNC&&SYNC.writeKey)?(Q.get("key")===SYNC.writeKey):(Q.has("edit")||Q.has("admin")||Q.has("key"));
+const EDITABLE=MODE==="internal"||EDIT_UNLOCK;
+const GATED=EDITABLE&&MODE!=="internal";
 const CAN_WRITE=!!(SYNC&&EDITABLE&&(!SYNC.writeKey||Q.get("key")===SYNC.writeKey));
 const WHO=((Q.get("who")||"").trim())||"—";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
