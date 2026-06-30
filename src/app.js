@@ -3,7 +3,11 @@
 (function(){
 const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v2";
 const MODE=document.body.dataset.mode||"public";
-const EDITABLE=MODE==="internal";
+// Редактор включается во внутренней версии ИЛИ по флагу ?edit / ?admin в URL —
+// так одну и ту же публичную ссылку можно дать клиенту (чисто) или открыть с правами админа.
+const EDIT_FLAG=(()=>{try{const q=new URLSearchParams(location.search);return q.has("edit")||q.has("admin");}catch(e){return false;}})();
+const EDITABLE=MODE==="internal"||EDIT_FLAG;
+const GATED=EDITABLE&&MODE!=="internal";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
@@ -33,6 +37,21 @@ const gLoop=$("#loopg"),gZ=$("#zones"),gL=$("#links"),gN=$("#nodes");
 const gPod=ex("g",{id:"podg"});vp.insertBefore(gPod,vp.firstChild);
 const panel=$("#panel"),diagram=$(".diagram");
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
+/* ——— инъекция админ-панели на публичной странице (только при ?edit) ——— */
+if(GATED){
+  const bar=$(".bar"),anchor=bar&&bar.querySelector("a.prim");
+  if(bar){const tools=document.createElement("span");tools.className="editTools";tools.style.cssText="display:flex;gap:8px;align-items:center";
+    tools.innerHTML=`<span class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07);margin:0 2px"><i style="background:var(--lime)"></i>АДМИН</span>`+
+      `<button class="btn" id="addBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button>`+
+      `<button class="btn" id="editBtn"><svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4z"/><path d="M14 6l4 4"/></svg>Редактор</button>`+
+      `<button class="btn icon" id="expBtn" title="Экспорт JSON"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`+
+      `<button class="btn icon" id="impBtn" title="Импорт JSON"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 14l5-5 5 5M5 3h14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`+
+      `<button class="btn icon danger" id="resetBtn" title="Сбросить к исходному"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 4v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+    if(anchor)bar.insertBefore(tools,anchor);else bar.appendChild(tools);}
+  if(diagram&&!diagram.querySelector(".editHint")){const h=document.createElement("div");h.className="editHint";h.textContent="✏️ Режим редактора · тащи узлы · клик — правка";diagram.appendChild(h);}
+  if(!$("#fileImg")){const fi=document.createElement("input");fi.type="file";fi.id="fileImg";fi.accept="image/*";fi.multiple=true;fi.className="hidden";document.body.appendChild(fi);}
+  if(!$("#fileJson")){const fj=document.createElement("input");fj.type="file";fj.id="fileJson";fj.accept="application/json,.json";fj.className="hidden";document.body.appendChild(fj);}
+}
 const feeder=(a,b)=>["UT","MM","GAMES","ROOT"].includes(N[a].layer)||["UT","MM","GAMES","ROOT"].includes(N[b].layer);
 const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().join()||k===["l2","l3"].sort().join()||k===["l3","l1"].sort().join();};
 const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
@@ -396,5 +415,5 @@ function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{local
 render();buildChrome();
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
-if(MODE==="public"&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
+if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 })();
