@@ -128,8 +128,11 @@ svg#map:active{cursor:grabbing}
 .zoom button{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .zoom button:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .zoom button:active{transform:scale(.92)}
-.editHint{position:absolute;right:14px;top:14px;z-index:5;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);background:rgba(197,255,95,.1);border:1px solid rgba(197,255,95,.3);padding:7px 12px;border-radius:11px;display:none;backdrop-filter:blur(10px)}
-body.edit .editHint{display:block}
+.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:15px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
+body.edit .editHint{display:flex}
+.editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
+.editHint .ehbtn{padding:8px 12px;font-size:12px}
+.editHint .ehbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
 body.edit svg#map{cursor:default}
 
 /* ——— легенда-строка под картой (не перекрывает доску) ——— */
@@ -407,8 +410,8 @@ window.APPHUB_DATA = {
     boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null},
     bazapp:{t:"mini",layer:"L2",s:"dev",dom:"Ритейл",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
     anzh:{t:"mini",layer:"L3",s:"live",dom:"Услуги",x:1455,y:512,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): AI-маскот, диагностика кожи, запись на процедуры, программа лояльности.",inter:"Бизнес HoReCa/бьюти; трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS.",link:"https://anzh.store"},
-    kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Услуги",x:1455,y:612,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
-    dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1455,y:712,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
+    kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Услуги",x:1465,y:300,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
+    dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1490,y:440,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
     crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"CrookedCook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь скидку.",inter:"Удержание и вовлечение в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/CrookedCookBot"},
     selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"}
   },
@@ -452,10 +455,11 @@ window.APPHUB_DATA = {
 (function(){
 const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v2";
 const MODE=document.body.dataset.mode||"public";
-// Редактор включается во внутренней версии ИЛИ по флагу ?edit / ?admin в URL —
-// так одну и ту же публичную ссылку можно дать клиенту (чисто) или открыть с правами админа.
-const EDIT_FLAG=(()=>{try{const q=new URLSearchParams(location.search);return q.has("edit")||q.has("admin");}catch(e){return false;}})();
-const EDITABLE=MODE==="internal"||EDIT_FLAG;
+// Сейчас (фаза разработки) редактор виден ПО УМОЛЧАНИЮ — кнопка «Редактор» в шапке.
+// Чтобы дать клиенту чистую витрину без редактора — добавь к URL флаг ?client (или ?clean / ?view).
+const Q=(()=>{try{return new URLSearchParams(location.search);}catch(e){return new URLSearchParams();}})();
+const VIEW_FLAG=Q.has("client")||Q.has("clean")||Q.has("view");
+const EDITABLE=MODE==="internal"||!VIEW_FLAG;
 const GATED=EDITABLE&&MODE!=="internal";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
@@ -497,7 +501,6 @@ if(GATED){
       `<button class="btn icon" id="impBtn" title="Импорт JSON"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 14l5-5 5 5M5 3h14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`+
       `<button class="btn icon danger" id="resetBtn" title="Сбросить к исходному"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 4v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
     if(anchor)bar.insertBefore(tools,anchor);else bar.appendChild(tools);}
-  if(diagram&&!diagram.querySelector(".editHint")){const h=document.createElement("div");h.className="editHint";h.textContent="✏️ Режим редактора · тащи узлы · клик — правка";diagram.appendChild(h);}
   if(!$("#fileImg")){const fi=document.createElement("input");fi.type="file";fi.id="fileImg";fi.accept="image/*";fi.multiple=true;fi.className="hidden";document.body.appendChild(fi);}
   if(!$("#fileJson")){const fj=document.createElement("input");fj.type="file";fj.id="fileJson";fj.accept="application/json,.json";fj.className="hidden";document.body.appendChild(fj);}
 }
@@ -771,9 +774,20 @@ if(EDITABLE){
   $("#fileImg").addEventListener("change",async e=>{const id=pendImgFor;const files=[...e.target.files];e.target.value="";if(!id||!N[id]||!files.length)return;const arr=N[id].imgs||(N[id].img?[N[id].img]:[]);delete N[id].img;for(const f of files){try{arr.push(await fileToDataURL(f));}catch(_){}}N[id].imgs=arr;save();renderEdit(id);toast("✓ Скриншот добавлен");});
 
   const editBtn=$("#editBtn");
-  editBtn?.addEventListener("click",()=>{editMode=!editMode;document.body.classList.toggle("edit",editMode);editBtn.classList.toggle("on",editMode);if(selectedId)select(selectedId);else reset();toast(editMode?"✏️ Редактор включён":"👁 Просмотр");});
-  $("#addBtn")?.addEventListener("click",()=>{if(!editMode){editMode=true;document.body.classList.add("edit");editBtn.classList.add("on");}const id="p"+Date.now().toString(36);const X=(660-ztx)/zk,Y=(435-zty)/zk;N[id]={t:"mini",layer:"L2",s:"concept",x:Math.round(X),y:Math.round(Y),label:"Новый проект",cat:"",desc:"",inter:"",links:[],imgs:[]};save();render();select(id);toast("➕ Проект создан — заполни и свяжи");});
-  $("#expBtn")?.addEventListener("click",()=>{const blob=new Blob([JSON.stringify({nodes:N,links:L,zones:ZONES},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apphub-map.json";a.click();URL.revokeObjectURL(a.href);toast("⬇ Экспортировано — вшей в data.js");});
+  function enterEdit(){editMode=true;document.body.classList.add("edit");editBtn?.classList.add("on");}
+  function exitEdit(){editMode=false;document.body.classList.remove("edit");editBtn?.classList.remove("on");}
+  function enterEditMode(){enterEdit();if(selectedId)select(selectedId);else reset();toast("✏️ Режим редактирования — двигай узлы, кликни для правки");}
+  function saveAndExit(){if(panel.dataset.editing&&N[panel.dataset.editing])commitForm();save();render();exitEdit();reset();focusAll(true);toast("✓ Сохранено · режим редактирования закрыт");}
+  function addProject(){if(!editMode)enterEdit();const id="p"+Date.now().toString(36);const X=(660-ztx)/zk,Y=(435-zty)/zk;N[id]={t:"mini",layer:"L2",s:"concept",x:Math.round(X),y:Math.round(Y),label:"Новый проект",cat:"",desc:"",inter:"",links:[],imgs:[]};save();render();select(id);toast("➕ Проект создан — заполни и свяжи");}
+  function exportJSON(){const blob=new Blob([JSON.stringify({nodes:N,links:L,zones:ZONES},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apphub-map.json";a.click();URL.revokeObjectURL(a.href);toast("⬇ Экспортировано — пришли файл, вошью в data.js");}
+  // плавающая панель режима редактирования (общая для internal и ?edit) — с кнопкой «Сохранить и выйти»
+  let editHint=diagram?.querySelector(".editHint");
+  if(diagram&&!editHint){editHint=document.createElement("div");editHint.className="editHint";diagram.appendChild(editHint);}
+  if(editHint){editHint.innerHTML=`<span class="ehlabel">✏️ Режим редактирования</span><button class="btn ehbtn" data-eh="add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button><button class="btn ehbtn" data-eh="json"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>JSON</button><button class="btn prim ehbtn" data-eh="save">✓ Сохранить и выйти</button>`;
+    editHint.addEventListener("click",e=>{const a=e.target.closest("[data-eh]")?.dataset.eh;if(a==="add")addProject();else if(a==="json")exportJSON();else if(a==="save")saveAndExit();});}
+  editBtn?.addEventListener("click",()=>{if(editMode)saveAndExit();else enterEditMode();});
+  $("#addBtn")?.addEventListener("click",addProject);
+  $("#expBtn")?.addEventListener("click",exportJSON);
   $("#impBtn")?.addEventListener("click",()=>$("#fileJson").click());
   $("#fileJson")?.addEventListener("change",e=>{const f=e.target.files[0];e.target.value="";if(!f)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(!s.nodes||!s.links)throw 0;N=s.nodes;L=s.links;ZONES=s.zones||ZONES;save();firstRender=true;render();buildChrome();reset();toast("⬆ Импортировано");}catch(_){toast("⚠ Неверный файл");}};r.readAsText(f);});
   $("#resetBtn")?.addEventListener("click",()=>{if(confirm("Сбросить карту к исходному (data.js)? Правки в браузере удалятся.")){localStorage.removeItem(KEY);initState();firstRender=true;render();reset();toast("↺ Сброшено к исходному");}});

@@ -112,8 +112,11 @@ svg#map:active{cursor:grabbing}
 .zoom button{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .zoom button:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .zoom button:active{transform:scale(.92)}
-.editHint{position:absolute;right:14px;top:14px;z-index:5;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);background:rgba(197,255,95,.1);border:1px solid rgba(197,255,95,.3);padding:7px 12px;border-radius:11px;display:none;backdrop-filter:blur(10px)}
-body.edit .editHint{display:block}
+.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:15px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
+body.edit .editHint{display:flex}
+.editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
+.editHint .ehbtn{padding:8px 12px;font-size:12px}
+.editHint .ehbtn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
 body.edit svg#map{cursor:default}
 
 /* ——— легенда-строка под картой (не перекрывает доску) ——— */

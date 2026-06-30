@@ -3,10 +3,11 @@
 (function(){
 const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v2";
 const MODE=document.body.dataset.mode||"public";
-// Редактор включается во внутренней версии ИЛИ по флагу ?edit / ?admin в URL —
-// так одну и ту же публичную ссылку можно дать клиенту (чисто) или открыть с правами админа.
-const EDIT_FLAG=(()=>{try{const q=new URLSearchParams(location.search);return q.has("edit")||q.has("admin");}catch(e){return false;}})();
-const EDITABLE=MODE==="internal"||EDIT_FLAG;
+// Сейчас (фаза разработки) редактор виден ПО УМОЛЧАНИЮ — кнопка «Редактор» в шапке.
+// Чтобы дать клиенту чистую витрину без редактора — добавь к URL флаг ?client (или ?clean / ?view).
+const Q=(()=>{try{return new URLSearchParams(location.search);}catch(e){return new URLSearchParams();}})();
+const VIEW_FLAG=Q.has("client")||Q.has("clean")||Q.has("view");
+const EDITABLE=MODE==="internal"||!VIEW_FLAG;
 const GATED=EDITABLE&&MODE!=="internal";
 const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
 const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
@@ -48,7 +49,6 @@ if(GATED){
       `<button class="btn icon" id="impBtn" title="Импорт JSON"><svg viewBox="0 0 24 24"><path d="M12 21V9M7 14l5-5 5 5M5 3h14" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`+
       `<button class="btn icon danger" id="resetBtn" title="Сбросить к исходному"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-7 3.3M3 4v4h4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
     if(anchor)bar.insertBefore(tools,anchor);else bar.appendChild(tools);}
-  if(diagram&&!diagram.querySelector(".editHint")){const h=document.createElement("div");h.className="editHint";h.textContent="✏️ Режим редактора · тащи узлы · клик — правка";diagram.appendChild(h);}
   if(!$("#fileImg")){const fi=document.createElement("input");fi.type="file";fi.id="fileImg";fi.accept="image/*";fi.multiple=true;fi.className="hidden";document.body.appendChild(fi);}
   if(!$("#fileJson")){const fj=document.createElement("input");fj.type="file";fj.id="fileJson";fj.accept="application/json,.json";fj.className="hidden";document.body.appendChild(fj);}
 }
@@ -322,9 +322,20 @@ if(EDITABLE){
   $("#fileImg").addEventListener("change",async e=>{const id=pendImgFor;const files=[...e.target.files];e.target.value="";if(!id||!N[id]||!files.length)return;const arr=N[id].imgs||(N[id].img?[N[id].img]:[]);delete N[id].img;for(const f of files){try{arr.push(await fileToDataURL(f));}catch(_){}}N[id].imgs=arr;save();renderEdit(id);toast("✓ Скриншот добавлен");});
 
   const editBtn=$("#editBtn");
-  editBtn?.addEventListener("click",()=>{editMode=!editMode;document.body.classList.toggle("edit",editMode);editBtn.classList.toggle("on",editMode);if(selectedId)select(selectedId);else reset();toast(editMode?"✏️ Редактор включён":"👁 Просмотр");});
-  $("#addBtn")?.addEventListener("click",()=>{if(!editMode){editMode=true;document.body.classList.add("edit");editBtn.classList.add("on");}const id="p"+Date.now().toString(36);const X=(660-ztx)/zk,Y=(435-zty)/zk;N[id]={t:"mini",layer:"L2",s:"concept",x:Math.round(X),y:Math.round(Y),label:"Новый проект",cat:"",desc:"",inter:"",links:[],imgs:[]};save();render();select(id);toast("➕ Проект создан — заполни и свяжи");});
-  $("#expBtn")?.addEventListener("click",()=>{const blob=new Blob([JSON.stringify({nodes:N,links:L,zones:ZONES},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apphub-map.json";a.click();URL.revokeObjectURL(a.href);toast("⬇ Экспортировано — вшей в data.js");});
+  function enterEdit(){editMode=true;document.body.classList.add("edit");editBtn?.classList.add("on");}
+  function exitEdit(){editMode=false;document.body.classList.remove("edit");editBtn?.classList.remove("on");}
+  function enterEditMode(){enterEdit();if(selectedId)select(selectedId);else reset();toast("✏️ Режим редактирования — двигай узлы, кликни для правки");}
+  function saveAndExit(){if(panel.dataset.editing&&N[panel.dataset.editing])commitForm();save();render();exitEdit();reset();focusAll(true);toast("✓ Сохранено · режим редактирования закрыт");}
+  function addProject(){if(!editMode)enterEdit();const id="p"+Date.now().toString(36);const X=(660-ztx)/zk,Y=(435-zty)/zk;N[id]={t:"mini",layer:"L2",s:"concept",x:Math.round(X),y:Math.round(Y),label:"Новый проект",cat:"",desc:"",inter:"",links:[],imgs:[]};save();render();select(id);toast("➕ Проект создан — заполни и свяжи");}
+  function exportJSON(){const blob=new Blob([JSON.stringify({nodes:N,links:L,zones:ZONES},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="apphub-map.json";a.click();URL.revokeObjectURL(a.href);toast("⬇ Экспортировано — пришли файл, вошью в data.js");}
+  // плавающая панель режима редактирования (общая для internal и ?edit) — с кнопкой «Сохранить и выйти»
+  let editHint=diagram?.querySelector(".editHint");
+  if(diagram&&!editHint){editHint=document.createElement("div");editHint.className="editHint";diagram.appendChild(editHint);}
+  if(editHint){editHint.innerHTML=`<span class="ehlabel">✏️ Режим редактирования</span><button class="btn ehbtn" data-eh="add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button><button class="btn ehbtn" data-eh="json"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>JSON</button><button class="btn prim ehbtn" data-eh="save">✓ Сохранить и выйти</button>`;
+    editHint.addEventListener("click",e=>{const a=e.target.closest("[data-eh]")?.dataset.eh;if(a==="add")addProject();else if(a==="json")exportJSON();else if(a==="save")saveAndExit();});}
+  editBtn?.addEventListener("click",()=>{if(editMode)saveAndExit();else enterEditMode();});
+  $("#addBtn")?.addEventListener("click",addProject);
+  $("#expBtn")?.addEventListener("click",exportJSON);
   $("#impBtn")?.addEventListener("click",()=>$("#fileJson").click());
   $("#fileJson")?.addEventListener("change",e=>{const f=e.target.files[0];e.target.value="";if(!f)return;const r=new FileReader();r.onload=()=>{try{const s=JSON.parse(r.result);if(!s.nodes||!s.links)throw 0;N=s.nodes;L=s.links;ZONES=s.zones||ZONES;save();firstRender=true;render();buildChrome();reset();toast("⬆ Импортировано");}catch(_){toast("⚠ Неверный файл");}};r.readAsText(f);});
   $("#resetBtn")?.addEventListener("click",()=>{if(confirm("Сбросить карту к исходному (data.js)? Правки в браузере удалятся.")){localStorage.removeItem(KEY);initState();firstRender=true;render();reset();toast("↺ Сброшено к исходному");}});
