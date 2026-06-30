@@ -255,15 +255,37 @@ function buildChrome(){
 }
 
 /* ——— zoom / pan / pinch / node-drag ——— */
-let zk=1,ztx=0,zty=0;
+let zk=1,ztx=0,zty=0;          // отрисованный трансформ
+let tk=1,ttx=0,tty=0,zRAF=0;   // целевой трансформ + id rAF-анимации
 const applyZ=()=>vp.setAttribute("transform",`translate(${ztx} ${zty}) scale(${zk})`);
 const svgPt=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());};
-function zoomAt(px,py,f){const nk=Math.min(4,Math.max(.4,zk*f)),k=nk/zk;ztx=px-(px-ztx)*k;zty=py-(py-zty)*k;zk=nk;applyZ();}
-svg.addEventListener("wheel",e=>{e.preventDefault();const p=svgPt(e);zoomAt(p.x,p.y,e.deltaY<0?1.12:1/1.12);},{passive:false});
-$(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;vp.classList.add("smooth");const c=vbCenter();if(z==="reset"){zk=1;ztx=0;zty=0;applyZ();}else zoomAt(c[0],c[1],z==="in"?1.3:1/1.3);setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},360);});
+const clampK=k=>Math.min(4,Math.max(.4,k));
+function syncTarget(){tk=zk;ttx=ztx;tty=zty;}
+function cancelZAnim(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}syncTarget();}
+// мгновенный зум к точке (для пинча/жестов прямого управления)
+function zoomAt(px,py,f){const nk=clampK(zk*f),k=nk/zk;ztx=px-(px-ztx)*k;zty=py-(py-zty)*k;zk=nk;applyZ();}
+// плавный инерционный зум к точке (px,py — в координатах svg)
+function zoomTo(px,py,nk){if(!zRAF)syncTarget();nk=clampK(nk);const k=nk/tk;ttx=px-(px-ttx)*k;tty=py-(py-tty)*k;tk=nk;runZAnim();}
+function runZAnim(){if(zRAF)return;vp.classList.remove("smooth");
+  const step=()=>{const e=.2;zk+=(tk-zk)*e;ztx+=(ttx-ztx)*e;zty+=(tty-zty)*e;
+    if(Math.abs(tk-zk)<3e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
+    applyZ();zRAF=requestAnimationFrame(step);};
+  zRAF=requestAnimationFrame(step);}
+// колесо мыши / тачпад → непрерывный плавный зум к курсору (нормализуем разные deltaMode и «тяжёлые» мыши)
+svg.addEventListener("wheel",e=>{e.preventDefault();
+  let dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=window.innerHeight||800;
+  dy=Math.max(-50,Math.min(50,dy));
+  const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));
+},{passive:false});
+$(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
+  if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}
+  const r=svg.getBoundingClientRect(),mid=svgPt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});
+  zoomTo(mid.x,mid.y,tk*(z==="in"?1.5:1/1.5));});
+// двойной клик по пустому холсту — плавный зум к точке (как в картах)
+svg.addEventListener("dblclick",e=>{if(e.target.closest(".node")||e.target.closest(".subnode"))return;e.preventDefault();const p=svgPt(e);zoomTo(p.x,p.y,(zRAF?tk:zk)*1.7);});
 
 const ptrs=new Map();let dragging=false,moved=false,sx,sy,stx,sty,pinchD=0,nodeDrag=null;
-svg.addEventListener("pointerdown",e=>{e.preventDefault();ptrs.set(e.pointerId,e);
+svg.addEventListener("pointerdown",e=>{e.preventDefault();ptrs.set(e.pointerId,e);cancelZAnim();
   if(ptrs.size===2){dragging=false;nodeDrag=null;const[a,b]=[...ptrs.values()];pinchD=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);return;}
   const ng=e.target.closest(".node");
   if(EDITABLE&&editMode&&ng){const id=ng.dataset.id;const p=svgPt(e);nodeDrag={id,ox:N[id].x,oy:N[id].y,px:p.x,py:p.y};moved=false;}
@@ -384,9 +406,9 @@ function smooth(on){vp.classList.toggle("smooth",on);}
 function smoothPulse(){vp.classList.add("smooth");setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},780);}
 const isMob=()=>window.innerWidth<=760;
 /* центрировать viewBox-точку (cx,cy) в точке экрана (доля высоты yf, сдвиг влево xoff) при масштабе scale */
-function panTo(cx,cy,scale,yf,xoff){const rect=svg.getBoundingClientRect();
+function panTo(cx,cy,scale,yf,xoff){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}const rect=svg.getBoundingClientRect();
   const pt=svgPt({clientX:rect.left+rect.width/2-(xoff||0),clientY:rect.top+rect.height*(yf==null?0.5:yf)});
-  zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();}
+  zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();syncTarget();}
 function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
 function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
