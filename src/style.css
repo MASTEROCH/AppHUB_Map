@@ -112,6 +112,12 @@ svg#map:active{cursor:grabbing}
 .zoom button{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .zoom button:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .zoom button:active{transform:scale(.92)}
+.hudedit{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth);margin-bottom:4px}
+.hudedit svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hudedit:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
+.hudedit:active{transform:scale(.92)}
+.hudedit.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -6px rgba(197,255,95,.5)}
+.zoom .hudedit::after{content:"";position:absolute;left:8px;right:8px;bottom:-4px;height:1px;background:var(--hair)}
 .editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:15px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
 body.edit .editHint{display:flex}
 .editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
@@ -281,7 +287,7 @@ body.edit svg#map{cursor:default}
 .rel .rdot{width:7px;height:7px;border-radius:50%;flex:0 0 7px;box-shadow:0 0 6px currentColor}
 
 /* ——— поиск: выпадающие результаты ——— */
-.results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:50;display:none;flex-direction:column;gap:2px;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(340px,60vh);overflow-y:auto}
+.results{position:absolute;top:calc(100% + 8px);left:0;right:0;z-index:50;display:none;flex-direction:column;gap:2px;background:rgba(13,15,23,.97);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(340px,60vh);overflow-y:auto}
 .results.show{display:flex}
 .rrow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);text-align:left;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';transition:.12s;width:100%}
 .rrow:hover{background:rgba(255,255,255,.09)}
@@ -307,7 +313,7 @@ body.edit svg#map{cursor:default}
 
 /* ——— фильтр-меню (иконка настроек) ——— */
 .fwrap{position:relative}
-.fmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:55;display:none;flex-direction:column;gap:2px;min-width:200px;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(72vh,440px);overflow-y:auto}
+.fmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:55;display:none;flex-direction:column;gap:2px;min-width:200px;background:rgba(13,15,23,.97);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(72vh,440px);overflow-y:auto}
 .fmenu.open{display:flex}
 .fmcap{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;padding:8px 10px 4px}
 .fmrow{display:flex;align-items:center;gap:9px;background:none;border:0;color:var(--ink);text-align:left;padding:9px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';font-size:13.5px;font-weight:600;transition:.12s;width:100%}

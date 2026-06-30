@@ -322,8 +322,9 @@ if(EDITABLE){
   $("#fileImg").addEventListener("change",async e=>{const id=pendImgFor;const files=[...e.target.files];e.target.value="";if(!id||!N[id]||!files.length)return;const arr=N[id].imgs||(N[id].img?[N[id].img]:[]);delete N[id].img;for(const f of files){try{arr.push(await fileToDataURL(f));}catch(_){}}N[id].imgs=arr;save();renderEdit(id);toast("✓ Скриншот добавлен");});
 
   const editBtn=$("#editBtn");
-  function enterEdit(){editMode=true;document.body.classList.add("edit");editBtn?.classList.add("on");}
-  function exitEdit(){editMode=false;document.body.classList.remove("edit");editBtn?.classList.remove("on");}
+  function syncEditBtns(){const on=editMode;editBtn?.classList.toggle("on",on);$("#hudEditBtn")?.classList.toggle("on",on);}
+  function enterEdit(){editMode=true;document.body.classList.add("edit");syncEditBtns();}
+  function exitEdit(){editMode=false;document.body.classList.remove("edit");syncEditBtns();}
   function enterEditMode(){enterEdit();if(selectedId)select(selectedId);else reset();toast("✏️ Режим редактирования — двигай узлы, кликни для правки");}
   function saveAndExit(){if(panel.dataset.editing&&N[panel.dataset.editing])commitForm();save();render();exitEdit();reset();focusAll(true);toast("✓ Сохранено · режим редактирования закрыт");}
   function addProject(){if(!editMode)enterEdit();const id="p"+Date.now().toString(36);const X=(660-ztx)/zk,Y=(435-zty)/zk;N[id]={t:"mini",layer:"L2",s:"concept",x:Math.round(X),y:Math.round(Y),label:"Новый проект",cat:"",desc:"",inter:"",links:[],imgs:[]};save();render();select(id);toast("➕ Проект создан — заполни и свяжи");}
@@ -333,6 +334,10 @@ if(EDITABLE){
   if(diagram&&!editHint){editHint=document.createElement("div");editHint.className="editHint";diagram.appendChild(editHint);}
   if(editHint){editHint.innerHTML=`<span class="ehlabel">✏️ Режим редактирования</span><button class="btn ehbtn" data-eh="add"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button><button class="btn ehbtn" data-eh="json"><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>JSON</button><button class="btn prim ehbtn" data-eh="save">✓ Сохранить и выйти</button>`;
     editHint.addEventListener("click",e=>{const a=e.target.closest("[data-eh]")?.dataset.eh;if(a==="add")addProject();else if(a==="json")exportJSON();else if(a==="save")saveAndExit();});}
+  // кнопка редактирования холста прямо в HUD (над зумом, на канвасе)
+  const zoomEl=$(".zoom");
+  if(zoomEl&&!$("#hudEditBtn")){const hb=document.createElement("button");hb.id="hudEditBtn";hb.className="hudedit";hb.title="Редактировать холст";hb.setAttribute("aria-label","Редактировать холст");hb.innerHTML=`<svg viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4z"/><path d="M14 6l4 4"/></svg>`;zoomEl.insertBefore(hb,zoomEl.firstChild);
+    hb.addEventListener("click",()=>{if(editMode)saveAndExit();else enterEditMode();});}
   editBtn?.addEventListener("click",()=>{if(editMode)saveAndExit();else enterEditMode();});
   $("#addBtn")?.addEventListener("click",addProject);
   $("#expBtn")?.addEventListener("click",exportJSON);
