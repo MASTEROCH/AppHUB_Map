@@ -41,8 +41,8 @@ body::before{content:"";position:fixed;inset:0;background:
 .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime);animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.5;transform:scale(.8)}}
 .brand{gap:11px}
-.brand .logo{width:50px;height:50px;margin:-8px 0;display:block;flex:0 0 auto;fill:var(--lime);filter:drop-shadow(0 0 9px rgba(197,255,95,.5));animation:logoPulse 3.4s ease-in-out infinite}
-.brand .logo path{fill:var(--lime)}
+.brand .logo{width:50px;height:50px;margin:-8px 0;display:block;flex:0 0 auto;fill:#fff;filter:drop-shadow(0 0 8px rgba(255,255,255,.32));animation:logoPulse 3.4s ease-in-out infinite}
+.brand .logo path{fill:#fff}
 @keyframes logoPulse{50%{filter:drop-shadow(0 0 13px rgba(197,255,95,.75))}}
 .brand small{color:var(--muted);font-weight:500;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em}
 .grow{flex:1}
@@ -318,8 +318,8 @@ body.edit svg#map{cursor:default}
 .wcard{position:relative;width:min(440px,94vw);text-align:center;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:28px;padding:34px 30px;box-shadow:var(--spec),0 40px 100px -20px rgba(0,0,0,.8);animation:tourIn .5s cubic-bezier(.2,.9,.3,1)}
 .wcard::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 35%);pointer-events:none}
 .wlogo{display:flex;justify-content:center;margin-bottom:14px;position:relative}
-.wlogo .logo{width:72px;height:72px;animation:none;fill:var(--lime);filter:drop-shadow(0 0 13px rgba(197,255,95,.55))}
-.wlogo .logo path{fill:var(--lime)}
+.wlogo .logo{width:72px;height:72px;animation:none;fill:#fff;filter:drop-shadow(0 0 12px rgba(255,255,255,.4))}
+.wlogo .logo path{fill:#fff}
 .weyebrow{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.28em;color:var(--muted);position:relative}
 .wcard h2{font-family:'Manrope';font-weight:800;font-size:26px;letter-spacing:-.02em;margin:8px 0 10px;position:relative}
 .wcard p{font-size:14.5px;line-height:1.6;color:#c4c8d0;margin-bottom:22px;position:relative}
@@ -772,11 +772,17 @@ function runZAnim(){if(zRAF)return;vp.classList.remove("smooth");
     if(Math.abs(tk-zk)<3e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
     applyZ();zRAF=requestAnimationFrame(step);};
   zRAF=requestAnimationFrame(step);}
-// колесо мыши / тачпад → непрерывный плавный зум к курсору (нормализуем разные deltaMode и «тяжёлые» мыши)
+// тачпад Mac: пинч (ctrlKey) или Cmd/Ctrl+колесо → зум к курсору; два пальца (обычный скролл) → панорама холста
 svg.addEventListener("wheel",e=>{e.preventDefault();
-  let dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=window.innerHeight||800;
-  dy=Math.max(-50,Math.min(50,dy));
-  const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));
+  if(e.ctrlKey||e.metaKey){
+    let dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=window.innerHeight||800;
+    dy=Math.max(-50,Math.min(50,dy));
+    const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));return;
+  }
+  // панорама двумя пальцами / колесом
+  if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}
+  const m=svg.getScreenCTM();let dx=e.deltaX,dy=e.deltaY;if(e.deltaMode===1){dx*=16;dy*=16;}else if(e.deltaMode===2){dx*=window.innerWidth||1200;dy*=window.innerHeight||800;}
+  ztx-=dx/m.a;zty-=dy/m.d;applyZ();syncTarget();
 },{passive:false});
 $(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
   if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}

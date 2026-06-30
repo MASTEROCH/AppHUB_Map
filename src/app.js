@@ -295,11 +295,17 @@ function runZAnim(){if(zRAF)return;vp.classList.remove("smooth");
     if(Math.abs(tk-zk)<3e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
     applyZ();zRAF=requestAnimationFrame(step);};
   zRAF=requestAnimationFrame(step);}
-// колесо мыши / тачпад → непрерывный плавный зум к курсору (нормализуем разные deltaMode и «тяжёлые» мыши)
+// тачпад Mac: пинч (ctrlKey) или Cmd/Ctrl+колесо → зум к курсору; два пальца (обычный скролл) → панорама холста
 svg.addEventListener("wheel",e=>{e.preventDefault();
-  let dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=window.innerHeight||800;
-  dy=Math.max(-50,Math.min(50,dy));
-  const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));
+  if(e.ctrlKey||e.metaKey){
+    let dy=e.deltaY;if(e.deltaMode===1)dy*=16;else if(e.deltaMode===2)dy*=window.innerHeight||800;
+    dy=Math.max(-50,Math.min(50,dy));
+    const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));return;
+  }
+  // панорама двумя пальцами / колесом
+  if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}
+  const m=svg.getScreenCTM();let dx=e.deltaX,dy=e.deltaY;if(e.deltaMode===1){dx*=16;dy*=16;}else if(e.deltaMode===2){dx*=window.innerWidth||1200;dy*=window.innerHeight||800;}
+  ztx-=dx/m.a;zty-=dy/m.d;applyZ();syncTarget();
 },{passive:false});
 $(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
   if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}
