@@ -1,7 +1,7 @@
 /* AppHub.Studio — карта экосистемы. Общая логика для публичной и внутренней версий.
    Режим берётся из <body data-mode="public|internal">. Редактор работает только в internal. */
 (function(){
-const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v2";
+const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v3";
 const MODE=document.body.dataset.mode||"public";
 // Сейчас (фаза разработки) редактор виден ПО УМОЛЧАНИЮ — кнопка «Редактор» в шапке.
 // Чтобы дать клиенту чистую витрину без редактора — добавь к URL флаг ?client (или ?clean / ?view).
@@ -14,11 +14,14 @@ const EDITABLE=MODE==="internal"||EDIT_UNLOCK;
 const GATED=EDITABLE&&MODE!=="internal";
 const CAN_WRITE=!!(SYNC&&EDITABLE&&(!SYNC.writeKey||Q.get("key")===SYNC.writeKey));
 const WHO=((Q.get("who")||"").trim())||"—";
-const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
-const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
+const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",NET:"#C5FF5F",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
+const LAYERS=[["ROOT","Студия"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["NET","Loop · сеть"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
-const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Стройка","#f59e0b"],["Ритейл","#a78bfa"],["Услуги","#f472b6"]];
+const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Недвижимость","#f59e0b"],["Ритейл","#a78bfa"],["Здоровье","#f472b6"],["Город и дом","#818cf8"]];
+const META=(window.APPHUB_DATA&&window.APPHUB_DATA.meta)||{};
+const PF_URL=META.portfolioUrl||"https://t.me/Portfolio_AppHub_Bot",PF_GAL=META.galleryBase||"https://apphub-portfolio-livid.vercel.app/gallery/";
 const DOMC=Object.fromEntries(DOMS);
+const LBADGE={ROOT:"СТУДИЯ",NET:"LOOP · СЕТЬ",UT:"УТИЛИТА",MM:"МЕДИА",GAMES:"ИГРЫ"};
 const DEF=window.APPHUB_DATA;
 
 /* ——— state ——— */
@@ -35,18 +38,22 @@ initState();
 /* ——— синхронизация с общей базой (Supabase REST) ——— */
 let remoteStamp=null,pushT=0,applyingRemote=false,pendingRec=null;
 function sbH(){return {apikey:SYNC.key,Authorization:"Bearer "+SYNC.key};}
-async function sbPull(){if(!SYNC)return null;try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}?id=eq.${encodeURIComponent(SYNC.row)}&select=data,updated_at,updated_by`,{headers:sbH(),cache:"no-store"});if(!r.ok)return null;const a=await r.json();return(a&&a[0])||null;}catch(e){return null;}}
-async function sbPush(){if(!CAN_WRITE)return;const stamp=new Date().toISOString();const body=[{id:SYNC.row,data:{nodes:N,links:L,zones:ZONES},updated_at:stamp,updated_by:WHO}];
+let syncDown=false,syncTick=0;
+async function sbPull(){if(!SYNC)return null;try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}?id=eq.${encodeURIComponent(SYNC.row)}&select=data,updated_at,updated_by`,{headers:sbH(),cache:"no-store"});if(!r.ok)return{err:r.status};const a=await r.json();syncDown=false;return(a&&a[0])||null;}catch(e){return{err:"net"};}}
+async function sbPush(){if(!CAN_WRITE||syncDown)return;const stamp=new Date().toISOString();const body=[{id:SYNC.row,data:{nodes:N,links:L,zones:ZONES},updated_at:stamp,updated_by:WHO}];
   try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}`,{method:"POST",headers:{...sbH(),"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(body)});
-    if(r.ok)remoteStamp=stamp;else toast("⚠ Облако: "+r.status);}catch(e){toast("⚠ Нет связи с базой");}}
+    if(r.ok)remoteStamp=stamp;else toast("⚠ Облако: "+r.status+" — правки только в этом браузере");}catch(e){syncDown=true;toast("⚠ Нет связи с базой — правки только в этом браузере");}}
 function queuePush(){if(!CAN_WRITE)return;clearTimeout(pushT);pushT=setTimeout(sbPush,900);}
 function applyRemote(rec){if(!rec||!rec.data||!rec.data.nodes)return;applyingRemote=true;N=rec.data.nodes;L=rec.data.links||[];ZONES=rec.data.zones||DEF.zones;remoteStamp=rec.updated_at;firstRender=true;render();buildChrome();if(selectedId&&N[selectedId])select(selectedId);else reset();applyingRemote=false;}
 function showSyncBanner(rec){pendingRec=rec;let b=$("#syncBanner");if(!b){b=document.createElement("div");b.id="syncBanner";b.className="syncBanner";b.innerHTML=`<span></span><button class="btn prim ehbtn">Обновить</button>`;diagram.appendChild(b);b.querySelector("button").addEventListener("click",()=>{if(pendingRec)applyRemote(pendingRec);b.classList.remove("show");});}
   b.querySelector("span").textContent="🔄 "+(rec.updated_by&&rec.updated_by!=="—"?rec.updated_by:"Партнёр")+" обновил карту";b.classList.add("show");}
 function startSync(){if(!SYNC)return;
-  sbPull().then(rec=>{if(rec&&rec.data&&rec.data.nodes){applyRemote(rec);toast("☁ Карта загружена из общей базы");}
+  sbPull().then(rec=>{if(rec&&rec.err){syncDown=true;if(EDITABLE)toast("☁ Общая база недоступна — правки сохраняются в этом браузере");return;}
+    if(rec&&rec.data&&rec.data.nodes){applyRemote(rec);toast("☁ Карта загружена из общей базы");}
     else if(CAN_WRITE){sbPush();toast("☁ Общая база создана из текущей карты");}});
-  if(EDITABLE)setInterval(async()=>{if(document.hidden||applyingRemote||nodeDrag||dragging)return;const rec=await sbPull();
+  if(EDITABLE)setInterval(async()=>{if(document.hidden||applyingRemote||nodeDrag||dragging)return;
+    if(syncDown&&(++syncTick%6))return;   // база лежит — пробуем раз в минуту, не спамим
+    const rec=await sbPull();if(rec&&rec.err){syncDown=true;return;}
     if(rec&&rec.updated_at&&rec.updated_at!==remoteStamp){
       if(editMode&&panel.dataset.editing)showSyncBanner(rec);
       else{applyRemote(rec);toast("🔄 Обновлено партнёром"+(rec.updated_by&&rec.updated_by!=="—"?(" · "+rec.updated_by):""));}}
@@ -65,9 +72,10 @@ const panel=$("#panel"),diagram=$(".diagram");
 /* ——— адаптивная ширина карточек по реальной ширине текста ——— */
 const measEl=ex("text",{class:"clabel",x:-9999,y:-9999});measEl.style.visibility="hidden";measEl.setAttribute("pointer-events","none");svg.appendChild(measEl);
 function measureText(str,fs,weight){measEl.setAttribute("font-size",fs);measEl.setAttribute("font-weight",weight||700);measEl.textContent=str||"";return measEl.getComputedTextLength()||(String(str||"").length*fs*0.58);}
-const miniFs=n=>{const L=(n.label||"").length;return L>16?13:(L>11?14:(L>6?15:16.5));};
-const miniW=n=>Math.max(96,Math.round(measureText(n.label,miniFs(n))+40));  // текст + поля по 20px
+const miniFs=n=>{if(n.t==="case")return 12;const L=(n.label||"").length;return L>16?13:(L>11?14:(L>6?15:16.5));};
+const miniW=n=>n.t==="case"?Math.max(84,Math.round(measureText(n.label,12)+28)):Math.max(96,Math.round(measureText(n.label,miniFs(n))+40));  // текст + поля
 const nodeW=n=>n.t==="hub"?n.w:miniW(n);
+const nodeH=n=>n.t==="hub"?n.h:(n.t==="case"?36:46);
 const subW=s=>Math.max(86,Math.round(measureText(s.label,12)+30));
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
 /* ——— инъекция админ-панели на публичной странице (только при ?edit) ——— */
@@ -84,12 +92,14 @@ if(GATED){
   if(!$("#fileImg")){const fi=document.createElement("input");fi.type="file";fi.id="fileImg";fi.accept="image/*";fi.multiple=true;fi.className="hidden";document.body.appendChild(fi);}
   if(!$("#fileJson")){const fj=document.createElement("input");fj.type="file";fj.id="fileJson";fj.accept="application/json,.json";fj.className="hidden";document.body.appendChild(fj);}
 }
-const feeder=(a,b)=>["UT","MM","GAMES","ROOT"].includes(N[a].layer)||["UT","MM","GAMES","ROOT"].includes(N[b].layer);
+const FEED=["UT","MM","GAMES","ROOT","NET"];
+const feeder=(a,b)=>FEED.includes(N[a].layer)||FEED.includes(N[b].layer);
+const caseEnd=(a,b)=>N[a].t==="case"||N[b].t==="case";
 const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().join()||k===["l2","l3"].sort().join()||k===["l3","l1"].sort().join();};
-const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
+const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("NET"))return C.NET;if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
 const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)},mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
 const STATUS_KEYS=["live","dev","concept"];
-const matchFilter=n=>{if(filter==="all")return true;if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
+const matchFilter=n=>{if(filter==="all")return true;if(filter==="case")return n.t==="case";if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
 function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"none"});const id="cm"+(cometN++);mp.id=id;gLoop.appendChild(mp);
   const g=ex("g",{}),rr=r||4;
@@ -118,7 +128,7 @@ function render(){
     const s=ex("text",{class:"zsub",x:z.x,y:z.y+16});s.textContent=z.sub;gZ.appendChild(s);});
   const isHub=k=>["l1","l2","l3"].includes(k);
   L.forEach(([a,b])=>{if(!N[a]||!N[b])return;const d=path(a,b),f=feeder(a,b),mn=isMain(a,b),col=fcol(a,b);
-    const hubEnd=isHub(a)||isHub(b);
+    const hubEnd=isHub(a)||isHub(b)||caseEnd(a,b);
     const prod=!mn&&!f&&!hubEnd;
     // структурные связи (петля/фидеры/к хабам) — чёткие; продукт↔продукт — еле заметные
     const baseCore=mn?.85:(f?.26:(hubEnd?.34:.09));
@@ -130,18 +140,18 @@ function render(){
     gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,prod,baseCore,baseGlow,baseW});
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
-  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=n.t==="hub"?n.h:46;
-    const g=ex("g",{class:"node","data-id":id});
+  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=nodeH(n),cs=n.t==="case";
+    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
-    const hub=n.t==="hub",hp=hub?7:3;
-    g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:hub?24:16,fill:c,opacity:hub?.26:.18}));
-    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:"#0c0e16"}));
-    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:c,"fill-opacity":hub?.2:.13,stroke:c,"stroke-width":hub?2.2:1.6}));
-    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:"url(#sheen)","pointer-events":"none"}));
+    const hub=n.t==="hub",hp=hub?7:(cs?2:3),rx=hub?18:(cs?11:13);
+    g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:rx+3,fill:c,opacity:hub?.26:(cs?.12:.18)}));
+    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:"#0c0e16"}));
+    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:c,"fill-opacity":hub?.2:(cs?.09:.13),stroke:c,"stroke-width":hub?2.2:(cs?1.2:1.6),"stroke-opacity":cs?.75:1}));
+    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:"url(#sheen)","pointer-events":"none"}));
     if(n.t==="hub"){const t1=ex("text",{class:"clabel",x:n.x,y:n.y-9,"font-size":15});t1.textContent=n.label;g.appendChild(t1);
       const t2=ex("text",{class:"csub",x:n.x,y:n.y+13,"font-size":12});t2.textContent=n.sub||"";g.appendChild(t2);}
     else{const t=ex("text",{class:"clabel",x:n.x,y:n.y,"font-size":miniFs(n)});t.textContent=n.label;g.appendChild(t);
-      if(n.s&&n.s!=="core"){const st=stOf(n);g.appendChild(ex("circle",{cx:n.x+w/2-9,cy:n.y-h/2+9,r:5,fill:st.c,stroke:"#0c0e16","stroke-width":1.5}));}}
+      if(n.s&&n.s!=="core"){const st=stOf(n);g.appendChild(ex("circle",{cx:n.x+w/2-(cs?7:9),cy:n.y-h/2+(cs?7:9),r:cs?4:5,fill:st.c,stroke:"#0c0e16","stroke-width":1.5}));}}
     gN.appendChild(g);nodeEls[id]=g;idx++;});
   firstRender=false;applyFilter();
   if(selectedId&&N[selectedId])applyHighlight(selectedId);
@@ -174,7 +184,7 @@ function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.to
 function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
 function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
   const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
-  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);const hh=nodeH(n)/2;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-hh);d=Math.max(d,n.y+hh);});
   a-=28;c+=28;b-=44;d+=28;const col=DOMC[dom]||"#C5FF5F";
   gPod.appendChild(ex("rect",{x:a,y:b,width:c-a,height:d-b,rx:22,fill:col,"fill-opacity":.07,stroke:col,"stroke-opacity":.55,"stroke-width":1.6,"stroke-dasharray":"8 6"}));
   const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
@@ -194,23 +204,28 @@ function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
 /* ——— panels ——— */
 function defaultPanel(){
   if(EDITABLE&&editMode)return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>РЕДАКТОР</div><div class="pTitle">Режим редактирования</div><p class="hint">Тащи узлы мышью. Клик по узлу — правка описания, скриншотов, ссылок, статуса и связей. Кнопка «Проект» — создать новый и связать в цепочку.</p>`;
-  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА</div><div class="pTitle">Одна петля — десятки продуктов</div><p class="hint">Это не отдельные приложения, а связанная экосистема: пользователи, агрегаторы и бизнесы замыкаются в цикл, усиливая друг друга. Кликни любой узел — описание, статус и живая ссылка.</p><div class="cta"><h4>Хотите свой продукт в этой петле?</h4><p>Мы собираем приложения под управлением ИИ и встраиваем их в общий поток трафика.</p><a class="pLink" href="https://apphub.studio" target="_blank" rel="noopener">Связаться с AppHub →</a></div>`;
+  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Слева — вход в студию, справа — живые кейсы из портфолио. Кликни любой узел: описание, статус, экраны и рабочая ссылка.</p><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
-function shots(n){const arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)return"";
+function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
+function shots(n){let arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)arr=pfImgs(n);if(!arr.length)return"";
   if(arr.length===1)return`<div class="shot" data-img="${esc(arr[0])}"><img src="${esc(arr[0])}" alt="${esc(n.label)}" loading="lazy"></div>`;
   return`<div class="shots">${arr.map(s=>`<img src="${esc(s)}" data-img="${esc(s)}" alt="${esc(n.label)}" loading="lazy">`).join("")}</div>`;}
 function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
-  if(arr.length)return arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
-  return`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;}
+  let out=arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
+  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;
+  if(n.admin&&n.admin.url)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
+  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Все экраны в портфолио →</a>`;
+  return out;}
+function pfLine(n){if(!n.pf&&!n.admin)return"";const a=[];if(n.screens)a.push(`${n.screens} экранов в портфолио`);if(n.admin&&n.admin.screens)a.push(`админка · ${n.admin.screens} экранов`);return a.length?`<div class="pfline">▣ ${a.join(" · ")}</div>`:"";}
 function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
   if(!ks.length)return"";
   ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
   return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
-  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
-  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
-  <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>
+  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img&&!n.pf;
+  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
+  <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
@@ -223,6 +238,7 @@ function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
   const linked=new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]));
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>ПРАВКА</div>
   <div class="fld"><label>Название</label><input id="f-label" value="${esc(n.label)}"></div>
+  ${n.t!=="hub"?`<div class="fld"><label>Тип</label><select id="f-type"><option value="mini"${n.t!=="case"?" selected":""}>Продукт / направление</option><option value="case"${n.t==="case"?" selected":""}>Кейс (клиентское приложение)</option></select></div>`:""}
   <div class="fld"><label>Слой</label><select id="f-layer">${LAYERS.map(([k,t])=>`<option value="${k}"${k===n.layer?" selected":""}>${t}</option>`).join("")}</select></div>
   <div class="fld"><label>Статус</label><select id="f-status">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}"${k===(n.s||"concept")?" selected":""}>${v.t}</option>`).join("")}</select></div>
   <div class="fld"><label>Категория (подпись)</label><input id="f-cat" value="${esc(n.cat||"")}"></div>
@@ -240,6 +256,7 @@ function subRow(s,i){return`<div class="srow" data-i="${i}" data-x="${s.x!=null?
 function commitForm(){const id=panel.dataset.editing;if(!id||!N[id])return;const n=N[id];const g=s=>panel.querySelector(s);
   if(g("#f-label"))n.label=g("#f-label").value.trim()||n.label;
   if(g("#f-layer"))n.layer=g("#f-layer").value;
+  if(g("#f-type")&&n.t!=="hub")n.t=g("#f-type").value;
   if(g("#f-status"))n.s=g("#f-status").value;
   if(g("#f-cat"))n.cat=g("#f-cat").value;
   if(g("#f-desc"))n.desc=g("#f-desc").value;
@@ -261,10 +278,11 @@ let toastT;function toast(msg){const t=$("#toast");t.textContent=msg;t.classList
 function buildChrome(){
   const products=Object.values(N).filter(n=>n.s!=="core");
   const live=products.filter(n=>n.s==="live").length,dev=products.filter(n=>n.s==="dev").length;
-  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>продуктов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b>3</b><span>слоя петли</span></div><div class="stat"><b>4</b><span>источника трафика</span></div>`;
-  const LL={ROOT:"Корень",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
-  const LS={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
-  const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
+  const cases=products.filter(n=>n.t==="case").length;
+  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>узлов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
+  const LL={ROOT:"Студия",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",NET:"Loop · сеть",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const LS={ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c],["case","Кейсы","#2dd4bf"]];
   const ldefsShort=LAYERS.map(([k])=>[k,LS[k],C[k]]),ldefsFull=LAYERS.map(([k])=>[k,LL[k],C[k]]);
   const chipsEl=$("#chips");
   if(chipsEl){const chip=([k,t,c])=>`<button class="chip${k===filter?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
@@ -327,9 +345,9 @@ window.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;ptrs.
   if(dragging){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;const m=svg.getScreenCTM();ztx=stx+dx/m.a;zty=sty+dy/m.d;applyZ();}});
 const upP=e=>{if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=0;if(nodeDrag){if(moved)save();nodeDrag=null;}if(ptrs.size===0)dragging=false;};
 window.addEventListener("pointerup",upP);window.addEventListener("pointercancel",upP);
-function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=n.t==="hub"?n.h:46;
+function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=nodeH(n);
   g.querySelectorAll("rect").forEach(r=>{r.setAttribute("x",n.x-w/2);r.setAttribute("y",n.y-h/2);});
-  const cir=g.querySelector("circle");if(cir){cir.setAttribute("cx",n.x+w/2-9);cir.setAttribute("cy",n.y-h/2+9);}
+  const cir=g.querySelector("circle");if(cir){const o=n.t==="case"?7:9;cir.setAttribute("cx",n.x+w/2-o);cir.setAttribute("cy",n.y-h/2+o);}
   const tx=g.querySelectorAll("text");if(n.t==="hub"){if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y-9);}if(tx[1]){tx[1].setAttribute("x",n.x);tx[1].setAttribute("y",n.y+13);}}else if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y);}
   linkEls.forEach(le=>{if(le.a===id||le.b===id){const d=path(le.a,le.b);le.core.setAttribute("d",d);le.glow.setAttribute("d",d);}});}
 
@@ -422,14 +440,16 @@ document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResult
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
-  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub — 22 продукта, связанных в одну петлю трафика. За минуту покажу, как она устроена. Можно пропустить в любой момент.",focus:"all"},
-  {t:"L1 · Пользователь и AI-агент",x:"Всё начинается здесь. У каждого пользователя — личный AI-ассистент: сам находит предложения, всё готовит, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
-  {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам. Они подбирают подходящие бизнесы под нишу и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2"]},
-  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: бронь, заказ, оплата. Это рестораны, туры, аренда, события и десятки других.",focus:"l3",scale:1.5,spot:["l3"]},
-  {t:"↺ Петля замыкается",x:"Бизнес возвращает пользователя обратно в L1 — и цикл повторяется. Каждый продукт усиливает поток трафика для остальных. В этом сила экосистемы.",focus:"all",spot:["l1","l2","l3"]},
-  {t:"4 источника трафика",x:"По углам — бот, утилиты, мультимедиа и игры. Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["menu","creator","editcmd","leados","news","musichaed","arcades","boardgames"]},
-  {t:"Статусы продуктов",x:"Зелёная точка — продукт уже в проде. Жёлтая — в разработке. Вот, например, Neon — живой агрегатор Батуми. Кликни узел — увидишь описание и рабочую ссылку.",focus:"neon",scale:1.9,spot:["neon"],select:"neon"},
-  {t:"Твоя очередь 🚀",x:"Готово! Кликай любой узел, фильтруй по статусу сверху, ищи продукты. Поехали.",focus:"all"}
+  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 17 живых клиентских приложений. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
+  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), OS Builder (приложение из 20 шаблонов) и портфолио на 34 продукта.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
+  {t:"L1 · Пользователь и ИИ-агент",x:"Всё начинается здесь. Человек уже залогинен в мессенджере — ноль установок и паролей. Рядом его ИИ-агент: сам находит предложения, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
+  {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам — CityHub, Neon, BazApp, Korob·ka. Они подбирают бизнесы под нишу или город и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2","cityhub","neon","bazapp","korobka"]},
+  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. Каждый проект — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","cityhome"]},
+  {t:"Живые кейсы",x:"Справа — 17 реальных клиентских приложений из портфолио: рестораны, клиники, застройщики, форумы, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","anzhskin","paratravel","tds","vodokanal","almare"]},
+  {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
+  {t:"Источники трафика",x:"По углам — утилиты и биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
+  {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
+  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. Поехали.",focus:"all"}
 ];
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
@@ -448,7 +468,7 @@ function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
-  ids.forEach(id=>{const n=N[id],w=nodeW(n),h=(n.t==="hub"?n.h:46);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
+  ids.forEach(id=>{const n=N[id],w=nodeW(n),h=nodeH(n);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
   const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
   const pad=70,bw=(mxx-mnx)+pad*2,bh=(mxy-mny)+pad*2;
   const fit=Math.min(rect.width/(m*bw),(rect.height*(isMob()?0.7:0.92))/(m*bh));
@@ -461,7 +481,7 @@ function buildTour(){
   document.body.appendChild(tourCard);
   tourCard.addEventListener("click",e=>{const t=e.target.closest("[data-t]")?.dataset.t;if(!t)return;if(t==="skip")endTour();else if(t==="prev")tourGo(tourIdx-1);else tourGo(tourIdx+1);});
 }
-function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured","1");}catch(e){}}
+function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 function endTour(){tourIdx=-1;document.body.classList.remove("touring");spotlight(null);smooth(true);focusAll();setTimeout(()=>smooth(false),720);tourBg&&tourBg.classList.add("hidden");tourCard&&tourCard.classList.add("hidden");reset();}
 function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;const s=TOUR[i];
   tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=s.x;
@@ -480,12 +500,12 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА</div><h2>Карта продуктов AppHub</h2><p>Десятки приложений, замкнутых в одну петлю трафика: пользователи → агрегаторы → бизнесы → снова пользователи. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><p>Студия, петля трафика, сеть Loop и ${META.portfolio||34} продукта в портфолио — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
 function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
-function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured","1");}catch(e){}}
+function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 
 /* ——— go ——— */
 render();buildChrome();
@@ -493,6 +513,6 @@ render();buildChrome();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{render();if(selectedId&&N[selectedId])applyHighlight(selectedId);});
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
-if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
+if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured-v2");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 startSync();
 })();

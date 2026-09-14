@@ -336,12 +336,22 @@ body.edit svg#map{cursor:default}
 .fmrow.active{background:rgba(197,255,95,.15);color:#eaffc4}
 .fmrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 6px currentColor}
 @media(max-width:760px){.fmenu{position:fixed;top:auto;right:8px;left:auto;min-width:220px}}
+@media(max-width:760px){#pfBtn{display:none}}   /* портфолио на мобиле — из карточки, шапка и так в три ряда */
 
 /* ——— тег темы (домен) в карточке ——— */
 .tagrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
 .tagrow .statusLine{margin-top:0}
 .domtag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.04em;padding:5px 11px;border-radius:9px;border:1px solid;cursor:pointer;font-weight:500;backdrop-filter:blur(8px);transition:.16s}
 .domtag:hover{filter:brightness(1.25);transform:translateY(-1px)}
+
+/* ——— кейсы (клиентские приложения из портфолио): компактные пилюли ——— */
+.node.case .clabel{font-weight:600;letter-spacing:-.005em}
+.node.case:hover{transform:scale(1.09)}
+.node.case.sel{transform:scale(1.09)}
+.pfline{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.03em;color:#2dd4bf}
+.pLink.alt{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--hair-2);box-shadow:var(--spec)}
+.pLink.alt:hover{background:rgba(255,255,255,.14);box-shadow:var(--spec),0 10px 24px -10px rgba(0,0,0,.6)}
+.cta .pLink.alt{margin-left:0}
 
 </style>
 </head>
@@ -361,8 +371,8 @@ body.edit svg#map{cursor:default}
   </div>
   <div class="head">
     <div class="eyebrow">КАРТА ЭКОСИСТЕМЫ · ВНУТРЕННЯЯ</div>
-    <h1>Три слоя — и петля трафика</h1>
-    <p class="lede">В центре — <b>петля</b> L1 → L2 → L3 → L1. По четырём углам — AppHub Bot, Утилиты, Мультимедиа и Игры, которые питают её.</p>
+    <h1>Три слоя, сеть Loop и живые кейсы</h1>
+    <p class="lede">В центре — <b>петля</b> L1 → L2 → L3 → L1, снизу её замыкает Loop. Слева — студия (сайт, LinkOS, OS Builder), по углам — утилиты, медиа, игры, справа — кейсы из портфолио.</p>
     <div class="stats" id="stats"></div>
   </div>
   <div class="chips" id="chips"></div>
@@ -382,100 +392,159 @@ body.edit svg#map{cursor:default}
     </div>
     <aside class="panel" id="panel"></aside>
   </div>
-  <div class="foot">внутренняя версия · данные в браузере · экспортируй JSON и вшей в data.js, чтобы стало каноном</div>
+  <div class="foot">внутренняя версия v2 · данные в браузере (общая база недоступна) · экспортируй JSON и вшей в src/data.js, чтобы стало каноном</div>
   <div id="lightbox"><img alt=""></div>
   <div id="toast"></div>
   <input type="file" id="fileImg" accept="image/*" multiple class="hidden">
   <input type="file" id="fileJson" accept="application/json,.json" class="hidden">
   <script>
-/* AppHub.Studio — единый источник правды для карты экосистемы.
-   Меняй данные здесь, затем: python3 src/build.py
-   status (s): "live" — в проде | "dev" — в разработке | "concept" — концепт | "core" — слой/ядро
-   Контент обогащён из совместной версии с партнёром (2026-06-27). viewBox: -80 0 1640 870. */
+/* AppHub.Studio — единый источник правды для карты экосистемы · v2 (актуализация 2026-09-14).
+   Меняй данные здесь, затем: python3 src/build.py  →  v2/index.html + AppHub-карта-экосистемы.html
+   status (s): "live" — в проде | "dev" — в разработке / прототип / демо | "concept" — концепт | "core" — слой/ядро
+   type (t):   "hub" — слой петли | "mini" — продукт/направление | "case" — живой кейс из портфолио (клиентское приложение)
+   pf: slug в портфолио-боте (t.me/Portfolio_AppHub_Bot) — по нему подтягиваются экраны из галереи; screens — сколько экранов там лежит.
+   Источники: _DISTRIBUTION_KIT/05_Portfolio/PORTFOLIO.md (34 продукта · 205 экранов · 16 ниш), LINKS.md, NOTEBOOK_Презентация/*.md */
 window.APPHUB_DATA = {
-  viewBox: "-80 0 1640 870",
+  viewBox: "-80 -50 2020 950",
+  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/" },
   nodes: {
-    menu:{t:"mini",layer:"ROOT",s:"live",x:120,y:100,label:"Menu",cat:"Корень · лендинг",desc:"Наш лендинг — вход в экосистему.",inter:"Соединён с Creator; ведёт в L1, L2, L3.",link:"https://apphub.studio"},
-    creator:{t:"mini",layer:"ROOT",s:"concept",x:262,y:100,label:"Creator",cat:"Корень · конструктор",desc:"Конструктор приложений: white-label версии агрегаторов (L2) и приложения бизнесов (L3) по шаблонам. L1-ассистентов не создаёт.",inter:"Соединён с Menu; питает петлю L1, L2, L3 (создаёт продукты L2 и L3 по шаблонам).",link:null},
-    l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их AI-агенты",cat:"L1 · точка входа",desc:"Личные AI-ассистенты пользователя — автоматизируют его задачи (заказ услуг, продуктов и т.д.).",inter:"Со стороны пользователя: ассистент находит предложения у L2-агрегаторов и L3-бизнесов, всё готовит — пользователю остаётся подтвердить действие, затем оплату. Коммуницируют с L2 и L3.",link:null},
-    l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу; возможны white-label-версии каждого сервиса.",inter:"Со стороны агрегатора: принимают запрос ассистента L1, подбирают подходящие L3-бизнесы и собирают предложение под нишу; раздают трафик в L3.",link:null},
-    l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — бронь, заказ, оплата. Создаются через конструктор (Creator) или как кастомные приложения.",inter:"Со стороны бизнеса: принимают готовый заказ из петли и от утилит, затем возвращают пользователя в L1. Бизнесы L3 взаимодействуют напрямую между собой через ботов; L2-агрегатор связывает сразу несколько L3-бизнесов.",link:null},
-    wwc:{t:"mini",layer:"L2",s:"dev",dom:"Еда",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов.",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine.",link:null},
-    korobka:{t:"mini",layer:"L2",s:"live",dom:"Стройка",x:470,y:518,label:"Korobka",cat:"L2 · утилита",desc:"Korob-ka — строительный калькулятор; подбор поставщиков стройматериалов.",inter:"Магнит-утилита; ведёт в Shops; и в крипто-обменник — за снятием наличных на стройматериалы.",link:"https://korob-ka.vercel.app"},
-    cityhub:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:270,label:"CityHub",cat:"L2 · городской хаб",desc:"Умный городской консьерж: AI-рекомендации мест (куда пойти, что делать), лояльность баллами, квесты, стрики и соревнования с друзьями. Каталог сервисов города.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops; интегрируется с заведениями.",link:null},
-    neon:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки.",inter:"Ведёт в Events, Tours, CarRent, Dine.",link:"https://batumi-neon-tma.vercel.app"},
-    batumito:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь и вечеринки, дорогие машины, приватные пати. Из той же серии, что Neon.",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events.",link:null},
-    realestate:{t:"mini",layer:"L2",s:"dev",dom:"Стройка",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости (real estate).",inter:"Замыкается на Korobka; ведёт в Tours, Events, Стройку; крупные расчёты — через крипто-обменник.",link:null},
-    crypto:{t:"mini",layer:"L3",s:"live",dom:"Стройка",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой и Realty.",link:"https://alltrust-me.vercel.app"},
-    events:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали.",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],link:"https://expobatumi-tma.vercel.app"},
-    stage:{t:"mini",layer:"L3",s:"concept",dom:"Туризм",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events.",link:null},
-    carrent:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1030,y:400,label:"CarRent",cat:"L3 · автопрокат",desc:"Аренда авто. Подача к отелю, бронь.",inter:"Для туризма — Neon, Batumito, Tours, CityHub.",link:"https://literent-tma.vercel.app"},
-    tours:{t:"mini",layer:"L3",s:"dev",dom:"Туризм",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],link:null},
-    dine:{t:"mini",layer:"L3",s:"live",dom:"Еда",x:1190,y:542,label:"Dine",cat:"L3 · конструктор бизнес-апп",desc:"Универсальный конструктор приложений для HoReCa, доставки и услуг — под управлением ИИ.",inter:"Трафик из WWC, CityHub, Batumito, Neon; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],links:[{label:"Клиент",url:"https://t.me/AppHub_Studio_Bot/dine"},{label:"Админка",url:"https://t.me/AppHub_Studio_Bot/Dine_admin"}]},
-    shops:{t:"mini",layer:"L3",s:"dev",dom:"Ритейл",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл.",inter:"Заказы из WWC, CityHub, Batumito, Korobka.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],link:null},
-    construction:{t:"mini",layer:"L3",s:"concept",dom:"Стройка",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Строительные компании и услуги: застройщики, бригады, прорабы.",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
-    editcmd:{t:"mini",layer:"UT",s:"concept",x:1058,y:100,label:"Edit Cmd",cat:"Утилита · вне петли",desc:"Edit Commander — бесплатный пакетный редактор (PDF, HTML). Вводный продукт с нашей рекламой.",inter:"Реклама приводит трафик в петлю; уникализирует апки. Связан с L3 и Dine.",link:null},
-    leados:{t:"mini",layer:"UT",s:"concept",x:1206,y:100,label:"LeadOS",cat:"Утилита · вне петли",desc:"Генерация контента для соцсетей: посты в Telegram, карусели в Instagram; скоро Threads, Facebook.",inter:"Подключается к L3, CityHub, Dine — автопостинг и контент.",link:null},
-    news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения бизнесов, взаимодействует с L1-ассистентами; авто-публикация контента в каналы и соцсети; рекламирует другие проекты (игры и т.д.).",link:null},
-    musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
-    arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:840,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры (напр. DinaCook). Удержание и вовлечение.",inter:"Подключены к общей системе лояльности — играешь и зарабатываешь баллы. Связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
-    boardgames:{t:"mini",layer:"GAMES",s:"concept",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: шахматы, нарды и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах. Ведут рекламный трафик на сервисы через L2-агрегатор.",link:null},
+    /* ——— APPHUB STUDIO · вход в экосистему ——— */
+    site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в OS Builder и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
+    studiobot:{t:"mini",layer:"ROOT",s:"live",x:262,y:44,label:"Studio Bot",cat:"Студия · родитель всех ботов",desc:"@AppHub_Studio_Bot — витрина студии в Telegram (Taplink): продукты и кейсы одним касанием, контакты фаундеров, репост страницы, оффер ИИ-маркетолога. Родитель всей семьи ботов: демо Dine, Neko, Batumi живут внутри него.",inter:"Принимает заявки с сайта и конструктора; запускает демо L3-приложений; отсюда рождаются продукт-боты (LinkOS, OS Builder) и юзер-боты клиентов.",pf:"taplink",screens:5,links:[{label:"@AppHub_Studio_Bot",url:"https://t.me/AppHub_Studio_Bot"},{label:"Поддержка",url:"https://t.me/AppHub_Support"}]},
+    portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 34 продукта · 205 экранов",desc:"Портфолио-бот: 34 карточки, 205 реальных экранов, поиск, фильтры по 16 нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
+    linkos:{t:"mini",layer:"ROOT",s:"live",x:190,y:98,label:"LinkOS",cat:"Студия · ступень 1 · визитка",desc:"Конструктор цифровых визиток внутри Telegram: блоки, темы, публикация за Stars, личный кабинет, редактор QR-кода. Первая ступень воронки: free → PRO.",inter:"Вход в экосистему для малого бизнеса. Апселлит OS Builder (ступень 2) и кастом студии (ступень 3). Механика конструктора наследуется в OS Builder один-в-один.",pf:"linkos",screens:13,links:[{label:"@Linkos_AppHub_bot",url:"https://t.me/Linkos_AppHub_bot"}]},
+    osbuilder:{t:"mini",layer:"ROOT",s:"dev",x:335,y:98,label:"OS Builder",cat:"Студия · ступень 2 · конструктор приложений",desc:"AppHUB OS Builder — конструктор Telegram Mini App под нишу: 20 шаблонов (бьюти, кафе, медицина, магазин, фитнес, ивенты, недвижимость, аренда, крипто, город, ЖКХ…), редактор блоков и бренда, умные модули (запись, push, Loop), автозаполнение из Telegram, magic-импорт бренда с сайта или Instagram за 30 секунд. Публикация в бот клиента и оплата — на подключении бэкенда.",inter:"Собирает L3-приложения из ДНК доноров (Dine, CityHub, Zem Doc, AllTrust…) без участия студии — философия 95/5. Каждый собранный бот автоматически встаёт в сеть Loop.",pf:"apphub-os",screens:10,links:[{label:"apphub-os.vercel.app",url:"https://apphub-os.vercel.app"}]},
+
+    /* ——— ПЕТЛЯ · ядро ——— */
+    l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их ИИ-агенты",cat:"L1 · точка входа",desc:"Пользователь уже залогинен в мессенджере: ноль установок, паролей и сторов. Рядом — его ИИ-агент, который сам находит предложения и готовит действие, человеку остаётся подтвердить и оплатить. Заявлено публично: приложения студии взаимодействуют с ИИ-агентами других моделей; машиночитаемый слой — в roadmap.",inter:"Ассистент идёт к L2-агрегаторам и напрямую в L3-бизнесы. Loop-баллы, заработанные в одном приложении, тратит в любом другом — это и возвращает его в петлю.",link:null},
+    l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу или город (CityHub, Neon, BazApp, Korobka). Возможны white-label-версии каждого.",inter:"Принимают запрос ассистента L1, подбирают L3-бизнесы, собирают предложение и раздают трафик вниз по петле.",link:null},
+    l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — меню, бронь, запись, оплата, лояльность. Каждый проект — два приложения: клиентское и админ-панель. Собираются студией за 1–3 дня или через OS Builder. Справа — 17 живых кейсов из портфолио.",inter:"Принимают заказ из петли и от утилит; через Loop возвращают гостя в L1 и передают соседним бизнесам сети. Общаются между собой через ботов.",link:null},
+    loop:{t:"mini",layer:"NET",s:"dev",x:685,y:690,label:"LOOP · сеть лояльности",cat:"Протокол · ступень 3 · то, ради чего всё",desc:"Loop — единая валюта сети: 1–5% от покупки возвращается клиенту Loop-баллами, которые он тратит в любом приложении сети. Партнёры получают cross-traffic и готовую лояльность без рекламных бюджетов. Взнос бизнеса идёт в общий призовой фонд с публичным ежемесячным розыгрышем в Батуми. Механика встроена в часть приложений; единый реестр начислений с выпиской бизнесу — следующий шаг (оценка полгода).",inter:"Замыкает петлю L3 → L1: гость одного бизнеса приносит выручку другому. Граф связей между бизнесами — то, чего нет ни у одного конкурента с «отдельной TMA». Сверху подключаются CityHub, EPOCH, Dine, Car Rent.",links:[{label:"apphub.studio/loop",url:"https://apphub.studio/loop"}]},
+
+    /* ——— L2 · агрегаторы ——— */
+    wwc:{t:"mini",layer:"L2",s:"dev",dom:"Еда",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов. Родственник Dolce Eda (повара, книга рецептов, челленджи).",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine и Dolce Eda.",link:null},
     bazapp:{t:"mini",layer:"L2",s:"dev",dom:"Ритейл",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
-    anzh:{t:"mini",layer:"L3",s:"live",dom:"Услуги",x:1455,y:512,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): AI-маскот, диагностика кожи, запись на процедуры, программа лояльности.",inter:"Бизнес HoReCa/бьюти; трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS.",link:"https://anzh.store"},
-    kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Услуги",x:1465,y:300,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-PWA с платным AI-квизом: анализирует тело и цели, генерирует персональный план трансформации и PDF-результат.",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",link:null},
-    dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1490,y:440,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж/в парк/офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
-    crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"CrookedCook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь скидку.",inter:"Удержание и вовлечение в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/CrookedCookBot"},
-    selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"}
+    korobka:{t:"mini",layer:"L2",s:"dev",dom:"Недвижимость",x:470,y:518,label:"Korob·ka",cat:"L2 · калькуляторы подрядчика",desc:"Калькуляторы подрядчика: кладка и перегородки по RDS 82-202-96, смета материалов с запасом на подрезку, ИИ-прораб, история заказов, голосование за следующий калькулятор. Три языка. В портфолио — прототип.",inter:"Магнит-утилита для стройки: ведёт в Shops (стройматериалы), к Realty и Стройке; крупные расчёты — через Crypto.",pf:"korobka",screens:8,links:[{label:"korob-ka.vercel.app",url:"https://korob-ka.vercel.app"}]},
+    cityhub:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:790,y:270,label:"CityHub",cat:"L2 · городской гид",desc:"«Куда пойти сейчас»: места рядом на карте, события, ниши и категории, профиль с баллами Loop. Умный городской консьерж с ИИ-рекомендациями, квестами и стриками.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops, Дом и ЖКХ; первый носитель Loop в городе.",pf:"cityhub",screens:4,links:[{label:"Открыть CityHUB",url:"https://masteroch.github.io/cityhub/"}]},
+    neon:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки, автопарк. Донор дизайна для Car Rent.",inter:"Ведёт в Events, Tours, CarRent, Dine; ИИ-консьерж NEON AI.",links:[{label:"@BatumiNeonBot",url:"https://t.me/BatumiNeonBot"},{label:"Веб-версия",url:"https://batumi-neon-tma.vercel.app"}]},
+    batumito:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь, дорогие машины, приватные пати. Из той же серии, что Neon.",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events; логистика — Dropper.",link:null},
+    realestate:{t:"mini",layer:"L2",s:"dev",dom:"Недвижимость",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости: подборки объектов и застройщиков. Кейсы уже есть — Realty Preset и Alliance Centropolis продают новостройки прямо в Telegram.",inter:"Замыкается на Korobka и Стройку; ведёт к застройщикам (Realty Preset, Alliance), в Tours и Events (Realty Forum); крупные расчёты — через Crypto.",link:null},
+
+    /* ——— L3 · направления бизнесов ——— */
+    crypto:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: KYC, лояльность, снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы. Антифрод-опыт отсюда переиспользуется в Loop.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой, Realty, BazApp.",links:[{label:"@AllTrustMe_robot",url:"https://t.me/AllTrustMe_robot/app"},{label:"Веб-версия",url:"https://alltrust-me.vercel.app"}]},
+    events:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали. Живые кейсы — EBIT Batumi Expo 2026 (4000+ гостей, ИИ-гид) и Realty Forum 2026 (QR-бейджи, B2B-мэтчинг).",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],links:[{label:"EBIT Expo 2026",url:"https://t.me/expobatumibot/EBIT2026?startapp=home"},{label:"Realty Forum 2026",url:"https://realty-forum-tma.vercel.app"}]},
+    stage:{t:"mini",layer:"L3",s:"concept",dom:"Туризм",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events; контент — MusicHAEd.",link:null},
+    med:{t:"mini",layer:"L3",s:"live",dom:"Здоровье",x:1470,y:210,label:"Клиники",cat:"L3 · медицина",desc:"Медцентры и клиники: запись к врачу с выбором времени, прайс, специалисты, результаты до/после, ИИ-регистратура. Живые кейсы — Земский Доктор (dr.Zem) и AntiAge (344 позиции прайса, кабинет клиники).",inter:"Трафик из CityHub; лояльность через Loop; контент — LeadOS. Соседи — ANZH и фитнес.",link:null},
+    carrent:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1030,y:400,label:"Car Rent",cat:"L3 · автопрокат",desc:"Аренда авто: каталог, бронь с оплатой (Wallet или Stars), клуб со статусами, рефералка, ИИ-консьерж. Живые кейсы — LiteRent и Batumi Neon.",inter:"Для туризма — Neon, Batumito, Tours, CityHub. Loop встроен.",pf:"batumi-neon",screens:7,links:[{label:"LiteRent",url:"https://t.me/LiteRent_robot/app"},{label:"Batumi Neon",url:"https://t.me/BatumiNeonBot"}]},
+    tours:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии. Живой кейс — Paratravel Club: подбор туров за 4 вопроса, консьерж, клуб с кэшбэком, trip-companion и админка с ИИ-сводкой.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],links:[{label:"Paratravel Club",url:"https://paratravel-club.vercel.app"}]},
+    dine:{t:"mini",layer:"L3",s:"live",dom:"Еда",x:1190,y:542,label:"Dine",cat:"L3 · HoReCa · шаблон-донор",desc:"Ресторанное приложение и шаблон для HoReCa: меню с фото, корзина, бронь стола, лиги гостей, бонусы. Плюс админка ресторатора: меню, заказы, брони, аналитика зала. Донор для EPOCH, Neko Sushi, Dolce Eda.",inter:"Трафик из WWC, CityHub, Batumito, Neon; игры для гостей — Crooked Cook; доставка — Dropper; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],pf:"dine",screens:6,admin:{label:"Админка ресторатора",url:"https://t.me/AppHub_Studio_Bot/Dine_admin?startapp=demo",pf:"dine-admin",screens:4},links:[{label:"Демо клиента",url:"https://t.me/AppHub_Studio_Bot/dine?startapp=demo"}]},
+    shops:{t:"mini",layer:"L3",s:"live",dom:"Ритейл",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл: каталог, корзина, оплата, клуб. Живой кейс — ТДС Мебель: кухня по фото комнаты, каталог на 3 201 позицию, цех раскроя в админке.",inter:"Заказы из WWC, CityHub, Batumito, Korobka, BazApp; логистика — Dropper.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],links:[{label:"ТДС Мебель",url:"https://tds-mebel.vercel.app"}]},
+    construction:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Застройщики, бригады, прорабы, дизайнеры. Живые кейсы — Realty Preset (3D-шахматка дома, статусы квартир, ход стройки) и Alliance Centropolis (планировки, инвест-условия).",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
+    anzh:{t:"mini",layer:"L3",s:"live",dom:"Здоровье",x:1455,y:512,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): ИИ-маскот, диагностика кожи, запись на процедуры, программа лояльности. Рядом — ANZH Skin Intelligence (6 тестов → Skin Passport) и прототип приложения бьюти-мастера.",inter:"Трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS; лояльность — Loop.",pf:"beauty-tma",screens:5,links:[{label:"anzh.store",url:"https://anzh.store"},{label:"@ANZH_studio_bot",url:"https://t.me/ANZH_studio_bot"}]},
+    kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Здоровье",x:1465,y:300,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-трекер с ИИ-тренером для залов и персональных тренеров: план дня, тренировки по подходам, питание и рекорды. Демо. Родственник — Mega Gym Batumi (клубная карта с QR, 25 тренеров).",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",pf:"king-fit",screens:7,links:[{label:"king-fit.vercel.app",url:"https://king-fit.vercel.app"}]},
+    dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1490,y:440,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж, в парк или офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
+    cityhome:{t:"mini",layer:"L3",s:"live",dom:"Город и дом",x:1480,y:600,label:"Дом и ЖКХ",cat:"L3 · городские сервисы",desc:"Приложения дома и города: показания счётчиков, платежи и квитанции, заявки с фото и статусом работ, голосования, чат дома, ИИ-консьерж. Живые кейсы — AL MARE Batumi (217 соседей, консьерж «Альма») и Водоканал.",inter:"Трафик из CityHub; сервисы дома → Shops и Стройка; лояльность — Loop.",link:null},
+
+    /* ——— UTILITIES · вне петли · трафик ——— */
+    editcmd:{t:"mini",layer:"UT",s:"concept",x:1058,y:44,label:"Edit Cmd",cat:"Утилита · вне петли",desc:"Edit Commander — бесплатный пакетный редактор (PDF, HTML). Вводный продукт с нашей рекламой.",inter:"Реклама приводит трафик в петлю; уникализирует апки. Связан с L3 и Dine.",link:null},
+    leados:{t:"mini",layer:"UT",s:"concept",x:1206,y:44,label:"LeadOS",cat:"Утилита · вне петли",desc:"Генерация контента для соцсетей: посты в Telegram, карусели в Instagram; скоро Threads, Facebook. Бэкенд работает, раньше были платящие интересанты.",inter:"Подключается к L3, CityHub, Dine, Клиникам — автопостинг и контент.",link:null},
+    promos:{t:"mini",layer:"UT",s:"dev",x:1132,y:98,label:"PromOS",cat:"Утилита · биржа дистрибуции",desc:"Биржа дистрибуции приложений: бизнес или частник скидывается на рекламу проекта от $5, получает личную ссылку и долю с каждого, кто по ней пришёл. Кошелёк создаётся сам, вход через Telegram без пароля. Прототип.",inter:"Приводит внешний трафик в любое приложение сети — L3-кейсы, игры, агрегаторы. Дополняет Loop со стороны привлечения.",pf:"promos",screens:4,links:[{label:"promos-tma.vercel.app",url:"https://promos-tma.vercel.app"}]},
+
+    /* ——— MULTIMEDIA · трафик к пользователям ——— */
+    news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения, рекламирует игры; авто-публикация через LeadOS.",link:null},
+    musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали, Stage), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
+    social:{t:"mini",layer:"MM",s:"live",x:404,y:810,label:"Соцсети",cat:"Мультимедиа · бренд apphubstudio",desc:"Единый хэндл бренда — apphubstudio. Живые: Telegram-канал, Instagram, X, LinkedIn, Product Hunt. Заведены, но пусты: Threads, Facebook. Контент — брендбук v1.0 и дистрибуционный кит.",inter:"Внешний трафик на сайт, в Studio Bot и портфолио; позже — автопостинг через LeadOS.",links:[{label:"Telegram-канал",url:"https://t.me/AppHub_Studio"},{label:"Instagram",url:"https://www.instagram.com/apphubstudio/"},{label:"X",url:"https://x.com/Apphubstudio"},{label:"LinkedIn",url:"https://www.linkedin.com/company/apphubstudio/"},{label:"Product Hunt",url:"https://www.producthunt.com/@apphubstudio"}]},
+
+    /* ——— GAMES · вовлечение ——— */
+    crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"Crooked Cook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь промокод и возвращаешься в заведение.",inter:"Удержание в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/crooked_cook_bot"},
+    selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"},
+    nardum:{t:"mini",layer:"GAMES",s:"live",x:1354,y:772,label:"NARDUM",cat:"Игры · длинные нарды",desc:"Длинные нарды в Telegram: партия против бота с подсказками коуча, школа тактик, вызов друга по ссылке, ранги и зал славы. Игра, где 60% — навык. Открыл в портфолио группу «Игры и развлечения».",inter:"Первая живая настолка сети: мультиплеер между пользователями L1, вызов друга — виральный вход. Кандидат на Loop-баллы за победы.",pf:"nardum",screens:6,links:[{label:"@nardum_game_bot",url:"https://t.me/nardum_game_bot"}]},
+    arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:840,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры для заведений и сети. Удержание и вовлечение: играешь — зарабатываешь Loop-баллы.",inter:"Подключены к Loop; связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
+    boardgames:{t:"mini",layer:"GAMES",s:"live",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: нарды (NARDUM — уже живой), шахматы и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах; ведут рекламный трафик на сервисы через L2.",links:[{label:"NARDUM",url:"https://t.me/nardum_game_bot"}]},
+
+    /* ——— КЕЙСЫ · живые клиентские приложения из портфолио (правая колонка) ——— */
+    ebit:{t:"case",layer:"L3",s:"live",dom:"Туризм",x:1650,y:60,label:"EBIT Expo 2026",cat:"Кейс · выставка · Батуми",desc:"Выставка гостеприимства в Батуми (4000+ гостей): каталог участников с фильтрами, карточки стендов с материалами и прайсом, программа по дням, QR-бейдж со сканером и ИИ-гид EBI по стендам и расписанию. Английский интерфейс.",inter:"Кейс направления Events. Стенды-рестораторы уходят в Dine, гости — в CityHub и Tours.",pf:"ebit",screens:5,links:[{label:"Открыть в Telegram",url:"https://t.me/expobatumibot/EBIT2026?startapp=home"}]},
+    realtyforum:{t:"case",layer:"L3",s:"live",dom:"Недвижимость",x:1650,y:150,label:"Realty Forum",cat:"Кейс · форум · 2026",desc:"Форум недвижимости: QR-бейдж и нетворкинг, B2B-мэтчинг с ИИ, чаты, калькуляторы инвестора, микро-встречи. Админка организатора: KPI дня и ИИ-сводка, лента анонсов, сканирование бейджей, участники по тирам, аналитика.",inter:"Кейс направления Events на стыке с Realty: сводит застройщиков, брокеров и инвесторов.",pf:"realty-forum",screens:8,admin:{label:"Админка организатора",url:"https://realty-forum-admin-v3.vercel.app",pf:"realty-admin",screens:5},links:[{label:"realty-forum-tma.vercel.app",url:"https://realty-forum-tma.vercel.app"}]},
+    bimboo:{t:"case",layer:"L3",s:"dev",dom:"Еда",x:1650,y:240,label:"Bimboo Land",cat:"Кейс · детские праздники",desc:"Детский праздник за три минуты: 24 программы, 70 героев, банкетный стол и смета, которая считается на лету. Демо.",inter:"Кейс на стыке Events и Dine: праздник + банкетный стол; персонажи — из каталога, смета — в один экран.",pf:"bimbooland",screens:7,links:[{label:"bimbooland.vercel.app",url:"https://bimbooland.vercel.app"}]},
+    realtypreset:{t:"case",layer:"L3",s:"live",dom:"Недвижимость",x:1650,y:330,label:"Realty Preset",cat:"Кейс · продажа новостройки",desc:"Продажа новостройки в Telegram (Marea Residence): 3D-шахматка дома, статусы квартир, планировки, цены в USD/GEL, ход стройки, инженерия. Три языка.",inter:"Кейс Стройки/Realty: застройщик продаёт квартиры прямо в мессенджере; крупные расчёты — Crypto.",pf:"realty-preset",screens:5,links:[{label:"Открыть в Telegram",url:"https://t.me/RealtyPreset_AIbot?startapp=ref_mareaunitu502"}]},
+    alliance:{t:"case",layer:"L3",s:"live",dom:"Недвижимость",x:1650,y:420,label:"Alliance",cat:"Кейс · жилой комплекс",desc:"Alliance Centropolis — презентация жилого комплекса: выбор формата квартиры, 3D-планировка и доходность, инфраструктура, ход стройки, инвест-условия, заявка на просмотр.",inter:"Кейс Стройки/Realty: инвест-презентация застройщика для L1-покупателей.",pf:"alliance",screens:6,links:[{label:"Открыть",url:"https://masteroch.github.io/alliance-centropolis/?v=5"}]},
+    dolceeda:{t:"case",layer:"L3",s:"live",dom:"Еда",x:1650,y:510,label:"Dolce Eda",cat:"Кейс · кулинарный сервис",desc:"Кулинарный сервис в Telegram: подбор личного повара за пару вопросов, ИИ-помощник «Ишка», книга рецептов, профиль, уровни, топ поваров и челлендж недели.",inter:"Кейс Dine/WWC: повара — это L3-бизнесы внутри одного приложения; рецепты → продукты в Shops.",pf:"dolce-eda",screens:6,links:[{label:"Открыть в Telegram",url:"https://t.me/DolceEda_aiBot?startapp=8E41ADF7"},{label:"Веб-версия",url:"https://dolce-eda.vercel.app"}]},
+    epoch:{t:"case",layer:"L3",s:"live",dom:"Еда",x:1650,y:600,label:"EPOCH",cat:"Кейс · ресторан · Батуми",desc:"Ресторан в Батуми: меню с фото и корзиной, промокод и чаевые, бронь стола по шагам, бронь события в банкетном зале, бонусные уровни и QR-карта гостя. Три языка. Панель управления: KPI смены в реальном времени, заказы по залу, подтверждение броней, редактор меню на 319 блюд.",inter:"Кейс Dine: собран на шаблоне-доноре; Loop и QR-карта гостя встроены.",pf:"epoch",screens:6,admin:{label:"Панель управления",url:"https://epoch-admin-seven.vercel.app",pf:"epoch-admin",screens:6},links:[{label:"epoch-client-lovat.vercel.app",url:"https://epoch-client-lovat.vercel.app"}]},
+    neko:{t:"case",layer:"L3",s:"live",dom:"Еда",x:1650,y:690,label:"Neko Sushi",cat:"Кейс · суши-бар",desc:"Neko Sushi Bar — меню и бронь для суши-ресторана внутри Studio Bot. Живёт внутри Telegram; вне мессенджера отдаёт пустой экран (ждёт съёмки для портфолио).",inter:"Кейс Dine: первый живой ресторан на шаблоне; демо открывается из Studio Bot.",links:[{label:"Открыть в Telegram",url:"https://t.me/AppHub_Studio_Bot/neko"}]},
+    postnicken:{t:"case",layer:"L3",s:"live",dom:"Туризм",x:1650,y:780,label:"Постникен",cat:"Кейс · усадьба · отель",desc:"Усадьба 1912 года под Калининградом: гостевой дом и А-Фреймы у воды, бани и чаны, номера и цены, визы гостей и история места. Хозяйская панель: заявки на визу, календарь занятости объектов, задачи команды, прайс.",inter:"Кейс Dine («Отели») и Tours: бронь жилья и услуг усадьбы.",pf:"postnicken",screens:7,admin:{label:"Хозяйская панель",url:"https://postnicken-admin.vercel.app",pf:"postnicken-admin",screens:6},links:[{label:"postnicken.vercel.app",url:"https://postnicken.vercel.app"}]},
+    zemdoc:{t:"case",layer:"L3",s:"live",dom:"Здоровье",x:1840,y:60,label:"Земский Доктор",cat:"Кейс · медцентр",desc:"Медцентр: направления, онлайн-запись к врачу, услуги и цены, ИИ-регистратура dr.Zem.",inter:"Кейс направления Клиники: донор шаблона «медицина» для OS Builder.",pf:"zem-doc",screens:4,links:[{label:"Открыть в Telegram",url:"https://t.me/DrZem_AIbot?startapp=ref_213418325"},{label:"Веб-версия",url:"https://masteroch.github.io/zem-doc/"}]},
+    antiage:{t:"case",layer:"L3",s:"live",dom:"Здоровье",x:1840,y:150,label:"AntiAge",cat:"Кейс · клиника антивозрастной медицины",desc:"Клиника антивозрастной медицины: 344 позиции прайса, запись с выбором врача и времени, 11 специалистов, результаты до и после, личный кабинет и документы. Кабинет клиники: выручка и средний чек, лента записей, база пациентов с LTV, автоподтверждение.",inter:"Кейс направления Клиники: спарсен с сайта клиента целиком (Парсер) — 344 позиции прайса без ручного ввода.",pf:"antiage",screens:6,admin:{label:"Кабинет клиники",url:"https://antiage-tma.vercel.app/admin",pf:"antiage-admin",screens:7},links:[{label:"antiage-tma.vercel.app",url:"https://antiage-tma.vercel.app"}]},
+    megagym:{t:"case",layer:"L3",s:"dev",dom:"Здоровье",x:1840,y:240,label:"Mega Gym",cat:"Кейс · тренажёрный зал · Батуми",desc:"Тренажёрный зал в Батуми: клубная карта с QR на входе, 9 тарифов с посчитанной ценой одного дня, 25 тренеров с подбором по цели, расписание, три языка словами самого клуба. Плюс админка смены. Прототип.",inter:"Кейс фитнеса рядом с KING Fit; трафик из CityHub.",pf:"mega-gym",screens:6,link:null},
+    anzhskin:{t:"case",layer:"L3",s:"live",dom:"Здоровье",x:1840,y:330,label:"ANZH Skin",cat:"Кейс · диагностика кожи",desc:"ANZH Skin Intelligence — диагностика кожи от врача-косметолога: 6 тестов и 40+ вопросов собираются в Skin Passport с типом кожи, персональной программой ухода и PDF-отчётом. Шесть языков.",inter:"Кейс ANZH: квиз-движок как вход в бьюти-экосистему; результат ведёт на запись и подбор средств.",pf:"anzh-skin",screens:6,links:[{label:"anzh-quiz.vercel.app",url:"https://anzh-quiz.vercel.app"}]},
+    paratravel:{t:"case",layer:"L3",s:"live",dom:"Туризм",x:1840,y:420,label:"Paratravel",cat:"Кейс · клуб путешествий",desc:"Paratravel Club: главная с бонусным счётом, поиск и горящие туры, персональный подбор за 4 вопроса, клуб с уровнями и кэшбэком, мои поездки и чек-лист. Админка: ИИ-сводка по бизнесу, воронка сделок, задачи, календарь вылетов и оплат.",inter:"Кейс Tours: агентство продаёт туры и держит клуб лояльности в одном приложении.",pf:"paratravel-club",screens:5,admin:{label:"Админка клуба",url:"https://paratravel-admin-demo.vercel.app",pf:"paratravel-admin",screens:4},links:[{label:"paratravel-club.vercel.app",url:"https://paratravel-club.vercel.app"}]},
+    tds:{t:"case",layer:"L3",s:"live",dom:"Ритейл",x:1840,y:510,label:"ТДС Мебель",cat:"Кейс · мебельный центр",desc:"Мебельный центр: соберите кухню и увидьте её в своей комнате по фото, магазин материалов, конструктор кухни, корзина, услуги собственного цеха. Админка: воронка заявок по этапам, очередь цеха раскроя, каталог на 3 201 позицию с выгрузкой с сайта.",inter:"Кейс Shops на стыке со Стройкой: каталог спарсен с сайта клиента целиком.",pf:"tds-mebel",screens:6,admin:{label:"Админка центра",url:"https://tds-mebel-admin.vercel.app",pf:"tds-mebel-admin",screens:6},links:[{label:"tds-mebel.vercel.app",url:"https://tds-mebel.vercel.app"}]},
+    vodokanal:{t:"case",layer:"L3",s:"dev",dom:"Город и дом",x:1840,y:600,label:"Водоканал",cat:"Кейс · ЖКХ",desc:"ЖКХ в Telegram: статус по адресу и лента, показания счётчиков, оплата, каталог услуг, заявки, статус работ, чат-бот «Капелька». Прототип.",inter:"Кейс направления Дом и ЖКХ: городская служба как приложение без установки.",pf:"vodokanal",screens:3,links:[{label:"Открыть в Telegram",url:"https://t.me/Demo_App_AIbot/vodokanal?startapp=ref_213418325"},{label:"Веб-версия",url:"https://vodokanal-rho.vercel.app"}]},
+    almare:{t:"case",layer:"L3",s:"dev",dom:"Город и дом",x:1840,y:690,label:"AL MARE",cat:"Кейс · жилой дом · Батуми",desc:"Приложение жилого дома на 217 соседей: пульс дома и заявки, взносы и платежи, заявки в УК, голосования, чат дома по темам, соседи (помощь и обмен), ИИ-консьерж «Альма». Прототип.",inter:"Кейс направления Дом и ЖКХ; соседи — готовая аудитория для CityHub и Loop.",pf:"almare",screens:6,links:[{label:"@almare_house_bot",url:"https://t.me/almare_house_bot"}]}
   },
   links: [
-    ["menu","creator"],["menu","l1"],["menu","l2"],["menu","l3"],["creator","l1"],["creator","l2"],["creator","l3"],
+    /* студия → петля */
+    ["site","studiobot"],["site","osbuilder"],["site","loop"],["site","l1"],["site","l3"],
+    ["studiobot","linkos"],["studiobot","osbuilder"],["studiobot","dine"],["studiobot","portfolio"],
+    ["linkos","osbuilder"],["linkos","l3"],["osbuilder","l3"],["osbuilder","l2"],["osbuilder","loop"],
+    ["portfolio","l3"],
+    /* ядро */
     ["l1","l2"],["l2","l3"],["l3","l1"],
-    ["l1","wwc"],["l1","korobka"],["l1","cityhub"],["l1","neon"],["l1","batumito"],
-    ["l2","wwc"],["l2","korobka"],["l2","cityhub"],["l2","neon"],["l2","batumito"],
-    ["l3","crypto"],["l3","events"],["l3","stage"],["l3","carrent"],["l3","tours"],["l3","dine"],["l3","shops"],
-    ["wwc","dine"],["wwc","shops"],
-    ["cityhub","dine"],["cityhub","events"],["cityhub","tours"],["cityhub","carrent"],["cityhub","shops"],
+    ["loop","l1"],["loop","l3"],["loop","l2"],["loop","cityhub"],["loop","epoch"],["loop","dine"],["loop","carrent"],
+    /* L2 */
+    ["l1","wwc"],["l1","korobka"],["l1","cityhub"],["l1","neon"],["l1","batumito"],["l1","bazapp"],["l1","realestate"],
+    ["l2","wwc"],["l2","korobka"],["l2","cityhub"],["l2","neon"],["l2","batumito"],["l2","bazapp"],["l2","realestate"],
+    /* L3 направления */
+    ["l3","crypto"],["l3","events"],["l3","stage"],["l3","carrent"],["l3","tours"],["l3","dine"],["l3","shops"],["l3","construction"],["l3","anzh"],["l3","kingfit"],["l3","dropper"],["l3","med"],["l3","cityhome"],
+    ["wwc","dine"],["wwc","shops"],["wwc","dolceeda"],
+    ["cityhub","dine"],["cityhub","events"],["cityhub","tours"],["cityhub","carrent"],["cityhub","shops"],["cityhub","cityhome"],["cityhub","med"],
     ["neon","events"],["neon","tours"],["neon","carrent"],["neon","dine"],
     ["batumito","tours"],["batumito","carrent"],["batumito","dine"],["batumito","shops"],["batumito","events"],
-    ["korobka","shops"],["korobka","crypto"],
-    ["l1","realestate"],["l2","realestate"],["realestate","korobka"],["realestate","tours"],["realestate","events"],["realestate","crypto"],["realestate","construction"],["realestate","dine"],
-    ["l3","construction"],["construction","korobka"],["construction","crypto"],["construction","shops"],
+    ["korobka","shops"],["korobka","crypto"],["realestate","korobka"],["realestate","tours"],["realestate","events"],["realestate","crypto"],["realestate","construction"],["realestate","dine"],
+    ["construction","korobka"],["construction","crypto"],["construction","shops"],
     ["events","stage"],["events","tours"],["dine","events"],["dine","tours"],["carrent","tours"],
-    ["editcmd","l3"],["editcmd","dine"],["leados","l3"],["leados","cityhub"],["leados","dine"],
-    ["musichaed","l1"],["musichaed","l2"],["musichaed","stage"],["musichaed","events"],["news","l1"],["news","l2"],["news","l3"],["news","leados"],["news","arcades"],["news","boardgames"],
-    ["arcades","l1"],["arcades","dine"],["arcades","batumito"],["arcades","tours"],["arcades","shops"],
-    ["boardgames","l1"],["boardgames","l2"],["arcades","boardgames"],
-    ["l1","bazapp"],["l2","bazapp"],["bazapp","shops"],["bazapp","crypto"],["bazapp","dine"],
-    ["l3","anzh"],["anzh","dine"],["anzh","cityhub"],["anzh","crypto"],["anzh","neon"],
-    ["l3","kingfit"],["kingfit","l1"],["kingfit","cityhub"],["kingfit","tours"],
-    ["l3","dropper"],["dropper","dine"],["dropper","shops"],["dropper","cityhub"],["dropper","neon"],["dropper","batumito"],
+    ["bazapp","shops"],["bazapp","crypto"],["bazapp","dine"],
+    ["anzh","dine"],["anzh","cityhub"],["anzh","crypto"],["anzh","neon"],
+    ["kingfit","l1"],["kingfit","cityhub"],["kingfit","tours"],
+    ["dropper","dine"],["dropper","shops"],["dropper","cityhub"],["dropper","neon"],["dropper","batumito"],
+    ["cityhome","shops"],["cityhome","construction"],
+    /* утилиты */
+    ["editcmd","l3"],["editcmd","dine"],["leados","l3"],["leados","cityhub"],["leados","dine"],["leados","med"],["leados","news"],
+    ["promos","l3"],["promos","l1"],["promos","nardum"],["promos","cityhub"],
+    /* медиа */
+    ["musichaed","l1"],["musichaed","l2"],["musichaed","stage"],["musichaed","events"],
+    ["news","l1"],["news","l2"],["news","l3"],["news","arcades"],["news","boardgames"],
+    ["social","site"],["social","studiobot"],["social","portfolio"],["social","l1"],
+    /* игры */
+    ["arcades","l1"],["arcades","dine"],["arcades","batumito"],["arcades","tours"],["arcades","shops"],["arcades","loop"],
+    ["boardgames","l1"],["boardgames","l2"],["arcades","boardgames"],["boardgames","nardum"],
     ["crookedcook","dine"],["crookedcook","arcades"],["crookedcook","l1"],["crookedcook","neon"],
-    ["selfix","l1"],["selfix","boardgames"],["selfix","news"]
+    ["selfix","l1"],["selfix","boardgames"],["selfix","news"],
+    ["nardum","l1"],["nardum","loop"],
+    /* кейсы → направления */
+    ["ebit","events"],["ebit","dine"],["realtyforum","events"],["realtyforum","realestate"],["bimboo","events"],["bimboo","dine"],
+    ["realtypreset","construction"],["realtypreset","realestate"],["alliance","construction"],["alliance","realestate"],
+    ["dolceeda","dine"],["epoch","dine"],["neko","dine"],["neko","studiobot"],["postnicken","dine"],["postnicken","tours"],
+    ["zemdoc","med"],["antiage","med"],["megagym","kingfit"],["megagym","cityhub"],["anzhskin","anzh"],
+    ["paratravel","tours"],["tds","shops"],["tds","construction"],["vodokanal","cityhome"],["almare","cityhome"]
   ],
   zones: [
-    {label:"APPHUB STUDIO BOT",sub:"корень · Menu + Creator",x:190,y:40,bx:40,by:18,bw:300,bh:116,c:"#C5FF5F"},
-    {label:"UTILITIES",sub:"вне петли · бесплатно → трафик",x:1130,y:40,bx:980,by:18,bw:300,bh:116,c:"#38bdf8"},
-    {label:"MULTIMEDIA",sub:"вне петли · трафик к пользователям",x:190,y:752,bx:40,by:730,bw:300,bh:116,c:"#a78bfa"},
-    {label:"ИГРЫ",sub:"аркады и настолки · вовлечение",x:1130,y:716,bx:974,by:700,bw:312,bh:168,c:"#fbbf24"}
+    {label:"APPHUB STUDIO",sub:"вход · сайт → визитка → конструктор → студия",x:260,y:-16,bx:40,by:-40,bw:440,bh:175,c:"#C5FF5F"},
+    {label:"UTILITIES",sub:"вне петли · бесплатно → трафик",x:1130,y:-16,bx:980,by:-40,bw:300,bh:175,c:"#38bdf8"},
+    {label:"MULTIMEDIA",sub:"вне петли · трафик к пользователям",x:260,y:752,bx:40,by:730,bw:440,bh:116,c:"#a78bfa"},
+    {label:"ИГРЫ",sub:"аркады и настолки · вовлечение",x:1204,y:716,bx:974,by:700,bw:460,bh:168,c:"#fbbf24"},
+    {label:"КЕЙСЫ · ЖИВЫЕ ПРИЛОЖЕНИЯ",sub:"клиентские продукты из портфолио · клик — экраны",x:1745,y:-16,bx:1560,by:-40,bw:370,bh:880,c:"#2dd4bf"}
   ]
 };
 
 /* ——— Совместная правка через общую базу (Supabase) ———
-   Пока null → карта работает локально (правки в localStorage браузера).
-   Чтобы Roch и Дима правили ОДНУ общую карту — заполни url и anon-ключ (publishable, НЕ service_role!):
-   window.APPHUB_SYNC = {
-     url:      "https://ТВОЙ-ПРОЕКТ.supabase.co",
-     key:      "anon-public-ключ",
-     table:    "apphub_map",
-     row:      "main",
-     writeKey: "секрет"   // кто правит базу — открывают ссылку с ?key=секрет (без него правки только локальные)
-   };
-*/
+   ⚠ 2026-09-14: прежний проект ANZH Store (bsebatbejrhiabgsjhax) не резолвится (NXDOMAIN) — база недоступна.
+   Карта работает от этого файла; редактор при недоступной базе сохраняет правки в браузере и один раз предупреждает.
+   Чтобы вернуть общую базу: создай Supabase-проект → выполни src/supabase.sql → впиши url и anon-ключ ниже. Row для v2 = "v2". */
 window.APPHUB_SYNC = {
   url:      "https://bsebatbejrhiabgsjhax.supabase.co",
   key:      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzZWJhdGJlanJoaWFiZ3NqaGF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MDMxOTMsImV4cCI6MjA5MDE3OTE5M30.KodqrjevcHK1sN3F4Hsq200TgGYlGhhAlmdCMtq32XQ",
   table:    "apphub_map",
-  row:      "main",
+  row:      "v2",
   writeKey: "AppHUB.Admin"   // правят базу те, кто открыл ссылку с ?key=AppHUB.Admin (регистр важен)
 };
 
@@ -484,7 +553,7 @@ window.APPHUB_SYNC = {
 /* AppHub.Studio — карта экосистемы. Общая логика для публичной и внутренней версий.
    Режим берётся из <body data-mode="public|internal">. Редактор работает только в internal. */
 (function(){
-const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v2";
+const NS="http://www.w3.org/2000/svg",KEY="apphub-map-v3";
 const MODE=document.body.dataset.mode||"public";
 // Сейчас (фаза разработки) редактор виден ПО УМОЛЧАНИЮ — кнопка «Редактор» в шапке.
 // Чтобы дать клиенту чистую витрину без редактора — добавь к URL флаг ?client (или ?clean / ?view).
@@ -497,11 +566,14 @@ const EDITABLE=MODE==="internal"||EDIT_UNLOCK;
 const GATED=EDITABLE&&MODE!=="internal";
 const CAN_WRITE=!!(SYNC&&EDITABLE&&(!SYNC.writeKey||Q.get("key")===SYNC.writeKey));
 const WHO=((Q.get("who")||"").trim())||"—";
-const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
-const LAYERS=[["ROOT","Корень"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
+const C={ROOT:"#C5FF5F",L1:"#f472b6",L2:"#fb923c",L3:"#2dd4bf",NET:"#C5FF5F",UT:"#38bdf8",MM:"#a78bfa",GAMES:"#fbbf24"};
+const LAYERS=[["ROOT","Студия"],["L1","L1 · Users"],["L2","L2 · Агрегаторы"],["L3","L3 · Бизнесы"],["NET","Loop · сеть"],["UT","Утилиты"],["MM","Мультимедиа"],["GAMES","Игры"]];
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
-const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Стройка","#f59e0b"],["Ритейл","#a78bfa"],["Услуги","#f472b6"]];
+const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Недвижимость","#f59e0b"],["Ритейл","#a78bfa"],["Здоровье","#f472b6"],["Город и дом","#818cf8"]];
+const META=(window.APPHUB_DATA&&window.APPHUB_DATA.meta)||{};
+const PF_URL=META.portfolioUrl||"https://t.me/Portfolio_AppHub_Bot",PF_GAL=META.galleryBase||"https://apphub-portfolio-livid.vercel.app/gallery/";
 const DOMC=Object.fromEntries(DOMS);
+const LBADGE={ROOT:"СТУДИЯ",NET:"LOOP · СЕТЬ",UT:"УТИЛИТА",MM:"МЕДИА",GAMES:"ИГРЫ"};
 const DEF=window.APPHUB_DATA;
 
 /* ——— state ——— */
@@ -518,18 +590,22 @@ initState();
 /* ——— синхронизация с общей базой (Supabase REST) ——— */
 let remoteStamp=null,pushT=0,applyingRemote=false,pendingRec=null;
 function sbH(){return {apikey:SYNC.key,Authorization:"Bearer "+SYNC.key};}
-async function sbPull(){if(!SYNC)return null;try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}?id=eq.${encodeURIComponent(SYNC.row)}&select=data,updated_at,updated_by`,{headers:sbH(),cache:"no-store"});if(!r.ok)return null;const a=await r.json();return(a&&a[0])||null;}catch(e){return null;}}
-async function sbPush(){if(!CAN_WRITE)return;const stamp=new Date().toISOString();const body=[{id:SYNC.row,data:{nodes:N,links:L,zones:ZONES},updated_at:stamp,updated_by:WHO}];
+let syncDown=false,syncTick=0;
+async function sbPull(){if(!SYNC)return null;try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}?id=eq.${encodeURIComponent(SYNC.row)}&select=data,updated_at,updated_by`,{headers:sbH(),cache:"no-store"});if(!r.ok)return{err:r.status};const a=await r.json();syncDown=false;return(a&&a[0])||null;}catch(e){return{err:"net"};}}
+async function sbPush(){if(!CAN_WRITE||syncDown)return;const stamp=new Date().toISOString();const body=[{id:SYNC.row,data:{nodes:N,links:L,zones:ZONES},updated_at:stamp,updated_by:WHO}];
   try{const r=await fetch(`${SYNC.url}/rest/v1/${SYNC.table}`,{method:"POST",headers:{...sbH(),"Content-Type":"application/json",Prefer:"resolution=merge-duplicates,return=minimal"},body:JSON.stringify(body)});
-    if(r.ok)remoteStamp=stamp;else toast("⚠ Облако: "+r.status);}catch(e){toast("⚠ Нет связи с базой");}}
+    if(r.ok)remoteStamp=stamp;else toast("⚠ Облако: "+r.status+" — правки только в этом браузере");}catch(e){syncDown=true;toast("⚠ Нет связи с базой — правки только в этом браузере");}}
 function queuePush(){if(!CAN_WRITE)return;clearTimeout(pushT);pushT=setTimeout(sbPush,900);}
 function applyRemote(rec){if(!rec||!rec.data||!rec.data.nodes)return;applyingRemote=true;N=rec.data.nodes;L=rec.data.links||[];ZONES=rec.data.zones||DEF.zones;remoteStamp=rec.updated_at;firstRender=true;render();buildChrome();if(selectedId&&N[selectedId])select(selectedId);else reset();applyingRemote=false;}
 function showSyncBanner(rec){pendingRec=rec;let b=$("#syncBanner");if(!b){b=document.createElement("div");b.id="syncBanner";b.className="syncBanner";b.innerHTML=`<span></span><button class="btn prim ehbtn">Обновить</button>`;diagram.appendChild(b);b.querySelector("button").addEventListener("click",()=>{if(pendingRec)applyRemote(pendingRec);b.classList.remove("show");});}
   b.querySelector("span").textContent="🔄 "+(rec.updated_by&&rec.updated_by!=="—"?rec.updated_by:"Партнёр")+" обновил карту";b.classList.add("show");}
 function startSync(){if(!SYNC)return;
-  sbPull().then(rec=>{if(rec&&rec.data&&rec.data.nodes){applyRemote(rec);toast("☁ Карта загружена из общей базы");}
+  sbPull().then(rec=>{if(rec&&rec.err){syncDown=true;if(EDITABLE)toast("☁ Общая база недоступна — правки сохраняются в этом браузере");return;}
+    if(rec&&rec.data&&rec.data.nodes){applyRemote(rec);toast("☁ Карта загружена из общей базы");}
     else if(CAN_WRITE){sbPush();toast("☁ Общая база создана из текущей карты");}});
-  if(EDITABLE)setInterval(async()=>{if(document.hidden||applyingRemote||nodeDrag||dragging)return;const rec=await sbPull();
+  if(EDITABLE)setInterval(async()=>{if(document.hidden||applyingRemote||nodeDrag||dragging)return;
+    if(syncDown&&(++syncTick%6))return;   // база лежит — пробуем раз в минуту, не спамим
+    const rec=await sbPull();if(rec&&rec.err){syncDown=true;return;}
     if(rec&&rec.updated_at&&rec.updated_at!==remoteStamp){
       if(editMode&&panel.dataset.editing)showSyncBanner(rec);
       else{applyRemote(rec);toast("🔄 Обновлено партнёром"+(rec.updated_by&&rec.updated_by!=="—"?(" · "+rec.updated_by):""));}}
@@ -548,9 +624,10 @@ const panel=$("#panel"),diagram=$(".diagram");
 /* ——— адаптивная ширина карточек по реальной ширине текста ——— */
 const measEl=ex("text",{class:"clabel",x:-9999,y:-9999});measEl.style.visibility="hidden";measEl.setAttribute("pointer-events","none");svg.appendChild(measEl);
 function measureText(str,fs,weight){measEl.setAttribute("font-size",fs);measEl.setAttribute("font-weight",weight||700);measEl.textContent=str||"";return measEl.getComputedTextLength()||(String(str||"").length*fs*0.58);}
-const miniFs=n=>{const L=(n.label||"").length;return L>16?13:(L>11?14:(L>6?15:16.5));};
-const miniW=n=>Math.max(96,Math.round(measureText(n.label,miniFs(n))+40));  // текст + поля по 20px
+const miniFs=n=>{if(n.t==="case")return 12;const L=(n.label||"").length;return L>16?13:(L>11?14:(L>6?15:16.5));};
+const miniW=n=>n.t==="case"?Math.max(84,Math.round(measureText(n.label,12)+28)):Math.max(96,Math.round(measureText(n.label,miniFs(n))+40));  // текст + поля
 const nodeW=n=>n.t==="hub"?n.w:miniW(n);
+const nodeH=n=>n.t==="hub"?n.h:(n.t==="case"?36:46);
 const subW=s=>Math.max(86,Math.round(measureText(s.label,12)+30));
 if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
 /* ——— инъекция админ-панели на публичной странице (только при ?edit) ——— */
@@ -567,12 +644,14 @@ if(GATED){
   if(!$("#fileImg")){const fi=document.createElement("input");fi.type="file";fi.id="fileImg";fi.accept="image/*";fi.multiple=true;fi.className="hidden";document.body.appendChild(fi);}
   if(!$("#fileJson")){const fj=document.createElement("input");fj.type="file";fj.id="fileJson";fj.accept="application/json,.json";fj.className="hidden";document.body.appendChild(fj);}
 }
-const feeder=(a,b)=>["UT","MM","GAMES","ROOT"].includes(N[a].layer)||["UT","MM","GAMES","ROOT"].includes(N[b].layer);
+const FEED=["UT","MM","GAMES","ROOT","NET"];
+const feeder=(a,b)=>FEED.includes(N[a].layer)||FEED.includes(N[b].layer);
+const caseEnd=(a,b)=>N[a].t==="case"||N[b].t==="case";
 const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().join()||k===["l2","l3"].sort().join()||k===["l3","l1"].sort().join();};
-const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
+const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("NET"))return C.NET;if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
 const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)},mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
 const STATUS_KEYS=["live","dev","concept"];
-const matchFilter=n=>{if(filter==="all")return true;if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
+const matchFilter=n=>{if(filter==="all")return true;if(filter==="case")return n.t==="case";if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
 function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"none"});const id="cm"+(cometN++);mp.id=id;gLoop.appendChild(mp);
   const g=ex("g",{}),rr=r||4;
@@ -601,7 +680,7 @@ function render(){
     const s=ex("text",{class:"zsub",x:z.x,y:z.y+16});s.textContent=z.sub;gZ.appendChild(s);});
   const isHub=k=>["l1","l2","l3"].includes(k);
   L.forEach(([a,b])=>{if(!N[a]||!N[b])return;const d=path(a,b),f=feeder(a,b),mn=isMain(a,b),col=fcol(a,b);
-    const hubEnd=isHub(a)||isHub(b);
+    const hubEnd=isHub(a)||isHub(b)||caseEnd(a,b);
     const prod=!mn&&!f&&!hubEnd;
     // структурные связи (петля/фидеры/к хабам) — чёткие; продукт↔продукт — еле заметные
     const baseCore=mn?.85:(f?.26:(hubEnd?.34:.09));
@@ -613,18 +692,18 @@ function render(){
     gL.appendChild(glow);gL.appendChild(core);linkEls.push({a,b,glow,core,f,mn,prod,baseCore,baseGlow,baseW});
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
-  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=n.t==="hub"?n.h:46;
-    const g=ex("g",{class:"node","data-id":id});
+  Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=nodeH(n),cs=n.t==="case";
+    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
-    const hub=n.t==="hub",hp=hub?7:3;
-    g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:hub?24:16,fill:c,opacity:hub?.26:.18}));
-    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:"#0c0e16"}));
-    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:hub?18:13,fill:c,"fill-opacity":hub?.2:.13,stroke:c,"stroke-width":hub?2.2:1.6}));
-    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx:n.t==="hub"?18:13,fill:"url(#sheen)","pointer-events":"none"}));
+    const hub=n.t==="hub",hp=hub?7:(cs?2:3),rx=hub?18:(cs?11:13);
+    g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:rx+3,fill:c,opacity:hub?.26:(cs?.12:.18)}));
+    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:"#0c0e16"}));
+    g.appendChild(ex("rect",{class:"card",x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:c,"fill-opacity":hub?.2:(cs?.09:.13),stroke:c,"stroke-width":hub?2.2:(cs?1.2:1.6),"stroke-opacity":cs?.75:1}));
+    g.appendChild(ex("rect",{x:n.x-w/2,y:n.y-h/2,width:w,height:h,rx,fill:"url(#sheen)","pointer-events":"none"}));
     if(n.t==="hub"){const t1=ex("text",{class:"clabel",x:n.x,y:n.y-9,"font-size":15});t1.textContent=n.label;g.appendChild(t1);
       const t2=ex("text",{class:"csub",x:n.x,y:n.y+13,"font-size":12});t2.textContent=n.sub||"";g.appendChild(t2);}
     else{const t=ex("text",{class:"clabel",x:n.x,y:n.y,"font-size":miniFs(n)});t.textContent=n.label;g.appendChild(t);
-      if(n.s&&n.s!=="core"){const st=stOf(n);g.appendChild(ex("circle",{cx:n.x+w/2-9,cy:n.y-h/2+9,r:5,fill:st.c,stroke:"#0c0e16","stroke-width":1.5}));}}
+      if(n.s&&n.s!=="core"){const st=stOf(n);g.appendChild(ex("circle",{cx:n.x+w/2-(cs?7:9),cy:n.y-h/2+(cs?7:9),r:cs?4:5,fill:st.c,stroke:"#0c0e16","stroke-width":1.5}));}}
     gN.appendChild(g);nodeEls[id]=g;idx++;});
   firstRender=false;applyFilter();
   if(selectedId&&N[selectedId])applyHighlight(selectedId);
@@ -657,7 +736,7 @@ function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.to
 function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
 function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
   const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
-  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-23);d=Math.max(d,n.y+23);});
+  let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);const hh=nodeH(n)/2;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-hh);d=Math.max(d,n.y+hh);});
   a-=28;c+=28;b-=44;d+=28;const col=DOMC[dom]||"#C5FF5F";
   gPod.appendChild(ex("rect",{x:a,y:b,width:c-a,height:d-b,rx:22,fill:col,"fill-opacity":.07,stroke:col,"stroke-opacity":.55,"stroke-width":1.6,"stroke-dasharray":"8 6"}));
   const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
@@ -677,23 +756,28 @@ function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
 /* ——— panels ——— */
 function defaultPanel(){
   if(EDITABLE&&editMode)return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>РЕДАКТОР</div><div class="pTitle">Режим редактирования</div><p class="hint">Тащи узлы мышью. Клик по узлу — правка описания, скриншотов, ссылок, статуса и связей. Кнопка «Проект» — создать новый и связать в цепочку.</p>`;
-  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА</div><div class="pTitle">Одна петля — десятки продуктов</div><p class="hint">Это не отдельные приложения, а связанная экосистема: пользователи, агрегаторы и бизнесы замыкаются в цикл, усиливая друг друга. Кликни любой узел — описание, статус и живая ссылка.</p><div class="cta"><h4>Хотите свой продукт в этой петле?</h4><p>Мы собираем приложения под управлением ИИ и встраиваем их в общий поток трафика.</p><a class="pLink" href="https://apphub.studio" target="_blank" rel="noopener">Связаться с AppHub →</a></div>`;
+  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Слева — вход в студию, справа — живые кейсы из портфолио. Кликни любой узел: описание, статус, экраны и рабочая ссылка.</p><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
-function shots(n){const arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)return"";
+function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
+function shots(n){let arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)arr=pfImgs(n);if(!arr.length)return"";
   if(arr.length===1)return`<div class="shot" data-img="${esc(arr[0])}"><img src="${esc(arr[0])}" alt="${esc(n.label)}" loading="lazy"></div>`;
   return`<div class="shots">${arr.map(s=>`<img src="${esc(s)}" data-img="${esc(s)}" alt="${esc(n.label)}" loading="lazy">`).join("")}</div>`;}
 function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
-  if(arr.length)return arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
-  return`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;}
+  let out=arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
+  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;
+  if(n.admin&&n.admin.url)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
+  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Все экраны в портфолио →</a>`;
+  return out;}
+function pfLine(n){if(!n.pf&&!n.admin)return"";const a=[];if(n.screens)a.push(`${n.screens} экранов в портфолио`);if(n.admin&&n.admin.screens)a.push(`админка · ${n.admin.screens} экранов`);return a.length?`<div class="pfline">▣ ${a.join(" · ")}</div>`:"";}
 function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
   if(!ks.length)return"";
   ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
   return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
-  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img;
-  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${esc(n.layer)}</div>
-  <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>
+  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img&&!n.pf;
+  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
+  <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
@@ -706,6 +790,7 @@ function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
   const linked=new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]));
   panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>ПРАВКА</div>
   <div class="fld"><label>Название</label><input id="f-label" value="${esc(n.label)}"></div>
+  ${n.t!=="hub"?`<div class="fld"><label>Тип</label><select id="f-type"><option value="mini"${n.t!=="case"?" selected":""}>Продукт / направление</option><option value="case"${n.t==="case"?" selected":""}>Кейс (клиентское приложение)</option></select></div>`:""}
   <div class="fld"><label>Слой</label><select id="f-layer">${LAYERS.map(([k,t])=>`<option value="${k}"${k===n.layer?" selected":""}>${t}</option>`).join("")}</select></div>
   <div class="fld"><label>Статус</label><select id="f-status">${Object.entries(STATUS).map(([k,v])=>`<option value="${k}"${k===(n.s||"concept")?" selected":""}>${v.t}</option>`).join("")}</select></div>
   <div class="fld"><label>Категория (подпись)</label><input id="f-cat" value="${esc(n.cat||"")}"></div>
@@ -723,6 +808,7 @@ function subRow(s,i){return`<div class="srow" data-i="${i}" data-x="${s.x!=null?
 function commitForm(){const id=panel.dataset.editing;if(!id||!N[id])return;const n=N[id];const g=s=>panel.querySelector(s);
   if(g("#f-label"))n.label=g("#f-label").value.trim()||n.label;
   if(g("#f-layer"))n.layer=g("#f-layer").value;
+  if(g("#f-type")&&n.t!=="hub")n.t=g("#f-type").value;
   if(g("#f-status"))n.s=g("#f-status").value;
   if(g("#f-cat"))n.cat=g("#f-cat").value;
   if(g("#f-desc"))n.desc=g("#f-desc").value;
@@ -744,10 +830,11 @@ let toastT;function toast(msg){const t=$("#toast");t.textContent=msg;t.classList
 function buildChrome(){
   const products=Object.values(N).filter(n=>n.s!=="core");
   const live=products.filter(n=>n.s==="live").length,dev=products.filter(n=>n.s==="dev").length;
-  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>продуктов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b>3</b><span>слоя петли</span></div><div class="stat"><b>4</b><span>источника трафика</span></div>`;
-  const LL={ROOT:"Корень",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
-  const LS={ROOT:"Корень",L1:"L1",L2:"L2",L3:"L3",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
-  const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c]];
+  const cases=products.filter(n=>n.t==="case").length;
+  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>узлов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
+  const LL={ROOT:"Студия",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",NET:"Loop · сеть",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const LS={ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
+  const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c],["case","Кейсы","#2dd4bf"]];
   const ldefsShort=LAYERS.map(([k])=>[k,LS[k],C[k]]),ldefsFull=LAYERS.map(([k])=>[k,LL[k],C[k]]);
   const chipsEl=$("#chips");
   if(chipsEl){const chip=([k,t,c])=>`<button class="chip${k===filter?" on":""}" data-f="${k}">${c?`<span class="cdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
@@ -810,9 +897,9 @@ window.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;ptrs.
   if(dragging){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;const m=svg.getScreenCTM();ztx=stx+dx/m.a;zty=sty+dy/m.d;applyZ();}});
 const upP=e=>{if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=0;if(nodeDrag){if(moved)save();nodeDrag=null;}if(ptrs.size===0)dragging=false;};
 window.addEventListener("pointerup",upP);window.addEventListener("pointercancel",upP);
-function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=n.t==="hub"?n.h:46;
+function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=nodeH(n);
   g.querySelectorAll("rect").forEach(r=>{r.setAttribute("x",n.x-w/2);r.setAttribute("y",n.y-h/2);});
-  const cir=g.querySelector("circle");if(cir){cir.setAttribute("cx",n.x+w/2-9);cir.setAttribute("cy",n.y-h/2+9);}
+  const cir=g.querySelector("circle");if(cir){const o=n.t==="case"?7:9;cir.setAttribute("cx",n.x+w/2-o);cir.setAttribute("cy",n.y-h/2+o);}
   const tx=g.querySelectorAll("text");if(n.t==="hub"){if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y-9);}if(tx[1]){tx[1].setAttribute("x",n.x);tx[1].setAttribute("y",n.y+13);}}else if(tx[0]){tx[0].setAttribute("x",n.x);tx[0].setAttribute("y",n.y);}
   linkEls.forEach(le=>{if(le.a===id||le.b===id){const d=path(le.a,le.b);le.core.setAttribute("d",d);le.glow.setAttribute("d",d);}});}
 
@@ -905,14 +992,16 @@ document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResult
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
-  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub — 22 продукта, связанных в одну петлю трафика. За минуту покажу, как она устроена. Можно пропустить в любой момент.",focus:"all"},
-  {t:"L1 · Пользователь и AI-агент",x:"Всё начинается здесь. У каждого пользователя — личный AI-ассистент: сам находит предложения, всё готовит, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
-  {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам. Они подбирают подходящие бизнесы под нишу и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2"]},
-  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: бронь, заказ, оплата. Это рестораны, туры, аренда, события и десятки других.",focus:"l3",scale:1.5,spot:["l3"]},
-  {t:"↺ Петля замыкается",x:"Бизнес возвращает пользователя обратно в L1 — и цикл повторяется. Каждый продукт усиливает поток трафика для остальных. В этом сила экосистемы.",focus:"all",spot:["l1","l2","l3"]},
-  {t:"4 источника трафика",x:"По углам — бот, утилиты, мультимедиа и игры. Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["menu","creator","editcmd","leados","news","musichaed","arcades","boardgames"]},
-  {t:"Статусы продуктов",x:"Зелёная точка — продукт уже в проде. Жёлтая — в разработке. Вот, например, Neon — живой агрегатор Батуми. Кликни узел — увидишь описание и рабочую ссылку.",focus:"neon",scale:1.9,spot:["neon"],select:"neon"},
-  {t:"Твоя очередь 🚀",x:"Готово! Кликай любой узел, фильтруй по статусу сверху, ищи продукты. Поехали.",focus:"all"}
+  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 17 живых клиентских приложений. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
+  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), OS Builder (приложение из 20 шаблонов) и портфолио на 34 продукта.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
+  {t:"L1 · Пользователь и ИИ-агент",x:"Всё начинается здесь. Человек уже залогинен в мессенджере — ноль установок и паролей. Рядом его ИИ-агент: сам находит предложения, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
+  {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам — CityHub, Neon, BazApp, Korob·ka. Они подбирают бизнесы под нишу или город и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2","cityhub","neon","bazapp","korobka"]},
+  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. Каждый проект — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","cityhome"]},
+  {t:"Живые кейсы",x:"Справа — 17 реальных клиентских приложений из портфолио: рестораны, клиники, застройщики, форумы, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","anzhskin","paratravel","tds","vodokanal","almare"]},
+  {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
+  {t:"Источники трафика",x:"По углам — утилиты и биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
+  {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
+  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. Поехали.",focus:"all"}
 ];
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
@@ -931,7 +1020,7 @@ function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
   let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;
-  ids.forEach(id=>{const n=N[id],w=nodeW(n),h=(n.t==="hub"?n.h:46);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
+  ids.forEach(id=>{const n=N[id],w=nodeW(n),h=nodeH(n);mnx=Math.min(mnx,n.x-w/2);mxx=Math.max(mxx,n.x+w/2);mny=Math.min(mny,n.y-h/2);mxy=Math.max(mxy,n.y+h/2);});
   const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
   const pad=70,bw=(mxx-mnx)+pad*2,bh=(mxy-mny)+pad*2;
   const fit=Math.min(rect.width/(m*bw),(rect.height*(isMob()?0.7:0.92))/(m*bh));
@@ -944,7 +1033,7 @@ function buildTour(){
   document.body.appendChild(tourCard);
   tourCard.addEventListener("click",e=>{const t=e.target.closest("[data-t]")?.dataset.t;if(!t)return;if(t==="skip")endTour();else if(t==="prev")tourGo(tourIdx-1);else tourGo(tourIdx+1);});
 }
-function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured","1");}catch(e){}}
+function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 function endTour(){tourIdx=-1;document.body.classList.remove("touring");spotlight(null);smooth(true);focusAll();setTimeout(()=>smooth(false),720);tourBg&&tourBg.classList.add("hidden");tourCard&&tourCard.classList.add("hidden");reset();}
 function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;const s=TOUR[i];
   tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=s.x;
@@ -963,12 +1052,12 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА</div><h2>Карта продуктов AppHub</h2><p>Десятки приложений, замкнутых в одну петлю трафика: пользователи → агрегаторы → бизнесы → снова пользователи. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><p>Студия, петля трафика, сеть Loop и ${META.portfolio||34} продукта в портфолио — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
 function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
-function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured","1");}catch(e){}}
+function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 
 /* ——— go ——— */
 render();buildChrome();
@@ -976,7 +1065,7 @@ render();buildChrome();
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{render();if(selectedId&&N[selectedId])applyHighlight(selectedId);});
 if(location.hash)openHash();else{reset();focusAll();}
 window.addEventListener("hashchange",openHash);
-if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
+if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured-v2");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 startSync();
 })();
 

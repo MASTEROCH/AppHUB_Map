@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>AppHub.Studio — экосистема продуктов</title>
-<meta name="description" content="Интерактивная карта экосистемы AppHub.Studio: десятки продуктов, замкнутых в петлю трафика L1 → L2 → L3 — пользователи, агрегаторы и бизнесы.">
-<meta property="og:title" content="AppHub.Studio — экосистема продуктов">
-<meta property="og:description" content="Одна петля — десятки продуктов под управлением ИИ. Кликни узел, чтобы увидеть продукт.">
+<title>AppHub — карта экосистемы 2026</title>
+<meta name="description" content="Интерактивная карта экосистемы AppHub: студия, петля трафика L1 → L2 → L3, сеть лояльности Loop и 34 живых продукта из портфолио — рестораны, клиники, застройщики, форумы, ЖКХ.">
+<meta property="og:title" content="AppHub — карта экосистемы 2026">
+<meta property="og:description" content="Приложение без установки — и целая сеть за ним. Кликни узел: экраны, статус и рабочая ссылка.">
 <meta property="og:type" content="website">
 <link rel="icon" href="{{FAVICON}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,18 +16,19 @@
 </head>
 <body data-mode="public">
   <div class="bar">
-    <div class="brand">{{LOGO}}AppHub<small>STUDIO · ЭКОСИСТЕМА</small></div>
+    <div class="brand">{{LOGO}}AppHub<small>ЭКОСИСТЕМА · 2026</small></div>
     <div class="grow"></div>
     <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off"><div class="results" id="results"></div></div>
     <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button><div class="fmenu" id="filterMenu"></div></div>
     <button class="btn icon" id="linksBtn" aria-label="Все связи" title="Показать все связи"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="6" r="2"/><circle cx="18.5" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9" stroke-linecap="round"/></svg></button>
     <button class="btn demo" id="tourBtn">▶ Демо-тур</button>
-    <a class="btn prim" href="https://apphub.studio" target="_blank" rel="noopener">Связаться</a>
+    <a class="btn" id="pfBtn" href="https://t.me/Portfolio_AppHub_Bot" target="_blank" rel="noopener" title="34 продукта · 205 экранов">▣ Портфолио</a>
+    <a class="btn prim" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать приложение</a>
   </div>
   <div class="head">
-    <div class="eyebrow">ЭКОСИСТЕМА ПРОДУКТОВ</div>
-    <h1>Одна петля — десятки продуктов</h1>
-    <p class="lede">Не разрозненные приложения, а <b>связанная система</b>: пользователи → агрегаторы → бизнесы → снова пользователи. Каждый продукт усиливает поток трафика для остальных.</p>
+    <div class="eyebrow">ЭКОСИСТЕМА ПРОДУКТОВ · СЕНТЯБРЬ 2026</div>
+    <h1>Приложение без установки — и сеть за ним</h1>
+    <p class="lede">Пользователи → агрегаторы → бизнесы → снова пользователи. Каждое приложение студии — узел <b>сети Loop</b>: гость одного бизнеса приносит выручку другому. Слева — вход в студию, справа — живые кейсы.</p>
     <div class="stats" id="stats"></div>
   </div>
   <div class="chips" id="chips"></div>
@@ -46,7 +47,7 @@
     </div>
     <aside class="panel" id="panel"></aside>
   </div>
-  <div class="foot">AppHub.Studio · экосистема приложений под управлением ИИ</div>
+  <div class="foot">AppHub · приложения без установки · карта актуализирована 14.09.2026</div>
   <div id="lightbox"><img alt=""></div>
   <div id="toast"></div>
   <script src="data.js"></script>

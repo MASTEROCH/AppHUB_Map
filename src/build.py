@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Собирает самодостаточные HTML из шаблонов src/ + ассетов (CSS/JS/данные инлайнятся).
 Запуск:  python3 src/build.py   (из корня проекта)
-Редактируй ТОЛЬКО src/* — корневые index.html и AppHub-карта-экосистемы.html генерируются."""
+Редактируй ТОЛЬКО src/* — v2/index.html и AppHub-карта-экосистемы.html генерируются.
+Корневой index.html = замороженная v1 (не пересобирается)."""
 import pathlib, urllib.parse
 
 SRC = pathlib.Path(__file__).parent
@@ -28,12 +29,15 @@ def inline(html: str) -> str:
     html = html.replace('<script src="app.js"></script>', f"<script>\n{app}\n</script>")
     return "<!-- СГЕНЕРИРОВАНО из src/ через build.py — не редактировать вручную -->\n" + html
 
+# v2 (2026-09-14): публичная витрина живёт по адресу /v2/ (apphub-map.com/v2/).
+# Корневой index.html — замороженная карта v1 (июль 2026), build его НЕ трогает.
 targets = {
-    "public.html":   "index.html",
+    "public.html":   "v2/index.html",
     "internal.html": "AppHub-карта-экосистемы.html",
 }
 for tpl, out in targets.items():
     src_html = (SRC / tpl).read_text(encoding="utf-8")
+    (ROOT / out).parent.mkdir(parents=True, exist_ok=True)
     (ROOT / out).write_text(inline(src_html), encoding="utf-8")
     print(f"✓ {out}  ({len(inline(src_html))//1024} KB, self-contained)")
 print("Готово.")
