@@ -28,8 +28,8 @@ body::before{content:"";position:fixed;inset:0;background:
 .brand{font-family:'Manrope';font-weight:800;font-size:16px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
 .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 14px var(--lime);animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{50%{opacity:.5;transform:scale(.8)}}
-.brand{gap:11px}
-.brand .logo{width:50px;height:50px;margin:-8px 0;display:block;flex:0 0 auto;fill:#fff;filter:drop-shadow(0 0 8px rgba(255,255,255,.32));animation:logoPulse 3.4s ease-in-out infinite}
+.brand{gap:4px}
+.brand .logo{width:50px;height:50px;margin:-8px -6px -8px -4px;display:block;flex:0 0 auto;fill:#fff;filter:drop-shadow(0 0 8px rgba(255,255,255,.32));animation:logoPulse 3.4s ease-in-out infinite}
 .brand .logo path{fill:#fff}
 @keyframes logoPulse{50%{filter:drop-shadow(0 0 13px rgba(197,255,95,.75))}}
 .brand small{color:var(--muted);font-weight:500;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em}
