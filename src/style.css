@@ -599,8 +599,5 @@ body.filter-open .fmscrim{display:block}
 /* ——— презентация в панели «Инвестору»: обложка-превью, клик открывает PDF ——— */
 .deck{position:relative;display:block;margin-top:8px;border-radius:16px;overflow:hidden;border:1px solid var(--hair-2);box-shadow:var(--spec),0 20px 44px -18px rgba(0,0,0,.85);background:#0c0e16;transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s}
 .deck img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
-.deck .deckcap{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));display:flex;flex-direction:column;gap:3px}
-.deck .deckcap b{font-family:'Manrope';font-weight:800;font-size:15px;color:#fff}
-.deck .deckcap small{font-family:'JetBrains Mono';font-size:11px;color:#c4c8d0;letter-spacing:.02em}
 .deck i{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:12px;background:rgba(197,255,95,.9);color:#0a0d05;font-style:normal;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(197,255,95,.6)}
 .deck:hover{transform:translateY(-3px);border-color:rgba(197,255,95,.5)}
