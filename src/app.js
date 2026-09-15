@@ -283,7 +283,7 @@ function defaultPanel(){
 <div class="lrow"><span class="lsw" style="background:${C.L3}"></span><b>L3</b><span>приложения бизнесов и живые кейсы справа</span></div>
 <div class="lrow"><span class="lsw" style="background:${C.NET}"></span><b>Loop</b><span>сеть лояльности — возвращает гостя в петлю</span></div>
 <div class="lrow dots"><i style="background:${STATUS.live.c}"></i>в проде <i style="background:${STATUS.dev.c}"></i>прототип / демо <i style="background:${STATUS.concept.c}"></i>концепт</div>
-<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>${socialRow("Мы в сети")}`;
+<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><button class="pLink alt" data-inv style="margin-top:12px">📈 Инвестору: цифры, модель, тарифы →</button><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>${socialRow("Мы в сети")}`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
 function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
@@ -371,7 +371,7 @@ function commitForm(){const id=panel.dataset.editing;if(!id||!N[id])return;const
   if(subs.length)n.subs=subs;else delete n.subs;}
 
 /* ——— deep-link ——— */
-function openHash(){const id=decodeURIComponent(location.hash.replace("#",""));if(id&&N[id])select(id);else reset();}
+function openHash(){const id=decodeURIComponent(location.hash.replace("#",""));if(id==="investor"){openInvestor();return;}if(id&&N[id])select(id);else reset();}
 
 /* ——— lightbox / toast ——— */
 const lb=$("#lightbox");let galArr=[],galI=0,galCap="";
@@ -550,6 +550,7 @@ panel.addEventListener("click",e=>{
   const dm=e.target.closest("[data-dom]");if(dm){reset();setFilter("dom:"+dm.dataset.dom);toast("Тема · "+dm.dataset.dom);return;}
   const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
   const sh=e.target.closest("[data-share]");if(sh){shareNode(sh.dataset.share);return;}
+  if(e.target.closest("[data-inv]")){openInvestor();return;}
   const sv=e.target.closest("[data-view]");if(sv&&selectedId){heroView=sv.dataset.view;const top=panel.scrollTop;renderInfo(selectedId);panel.scrollTop=top;return;}
   const gal=e.target.closest("[data-gal]");if(gal){openGallery(heroImgs,+gal.dataset.gal,selectedId&&N[selectedId]?N[selectedId].label:"");return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
@@ -677,13 +678,31 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div><button class="wlink" data-w="investor">Я инвестор или партнёр → цифры и модель</button></div>`;
   document.body.appendChild(welcomeEl);
-  welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
+  welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="investor"){closeWelcome();openInvestor();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
 function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
 function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 
+/* ——— «Инвестору»: факты, модель, что смотреть на карте — только проверенные цифры (кит 2026-09-09/10, NOTEBOOK 11.09) ——— */
+function renderInvestor(){const go=(id,t)=>N[id]?`<button class="rel" data-go="${id}"><span class="rdot" style="background:${C[N[id].layer]||C.L2}"></span>${t}</button>`:"";
+  return`${CLOSE}<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ИНВЕСТОРУ · ${esc(META.updated||"2026")}</div>
+  <div class="pTitle">Приложение без установки — и рельсы под ним</div>
+  <p class="hint">Студия — вход. Конструктор — масштаб без нашего времени. Сеть Loop — правила, по которым бизнесы обмениваются клиентами. Каждая ступень нужна, чтобы дойти до следующей.</p>
+  <div class="facts"><div><b>${META.portfolio||34}</b><span>продукта в портфолио</span></div><div><b>${META.screens||205}</b><span>реальных экранов</span></div><div><b>${META.niches||16}</b><span>ниш освоено</span></div><div><b>20</b><span>шаблонов BuildOS</span></div><div><b>1–3</b><span>дня на приложение</span></div><div><b>2</b><span>приложения в проекте: клиент + админка</span></div></div>
+  <div class="pSec"><h4>Три ступени монетизации</h4>
+    <div class="steps"><div class="step on"><i>01</i><b>Студия</b><span>приложение под ключ за 1–3 дня · один проект — один чек · работает</span></div>
+    <div class="step dev"><i>02</i><b>Конструктор BuildOS</b><span>бизнес собирает сам из 20 шаблонов · Stars, крипта, PRO-подписка · фронт готов, публикация ждёт бэкенда</span></div>
+    <div class="step seed"><i>03</i><b>Протокол Loop</b><span>1–5% покупки возвращается баллами, которые тратятся в любом приложении сети · растёт связями, а не проектами</span></div></div></div>
+  <div class="pSec"><h4>Тарифы и оффер</h4><div class="tiers"><span>FREE $0</span><span>STARTER $49</span><span>PRO $99</span><span>BUSINESS $149</span><span>ENTERPRISE $1 500/год</span></div>
+    <p class="small">Founding Partner: <b>$1 500</b> вместо $2 500 до 1 января 2027, 10 мест. Через 12 месяцев клиент получает docker-образы и уносит приложение на свой хостинг — гарантированный выход вместо вечной аренды у подрядчика.</p></div>
+  <div class="pSec"><h4>Что смотреть на карте</h4><div class="rels">${go("loop","Loop · сеть")}${go("osbuilder","BuildOS")}${go("geos","GEOS · ядро мест")}${go("epoch","EPOCH · живой ресторан")}${go("cityhub","CityHub")}${go("antiage","AntiAge · клиника")}</div></div>
+  <div class="ctarow"><a class="pLink go" href="https://apphub.studio/founders" target="_blank" rel="noopener"><b>Founding Partners</b><small>apphub.studio/founders</small><i>↗</i></a><a class="pLink alt" href="mailto:hello@apphub.studio?subject=AppHub%20%E2%80%94%20%D0%B8%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80%D1%83">✉ hello@apphub.studio</a><a class="pLink alt" href="map-2x.png" target="_blank" rel="noopener">▣ Карта для слайдов · PNG</a></div>
+  <p class="small muted">Питч-дек, финмодель и условия раунда — по запросу на почту студии. На карте только цифры из живых продуктов.</p>${socialRow("Мы в сети")}`;}
+function openInvestor(){if(EDITABLE&&editMode)return;closeWelcome();closeFilter();selectedId=null;clearSubs();baseLinks();Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
+  panel.innerHTML=renderInvestor();panel.classList.add("open");document.body.classList.add("sel-open");panel.scrollTop=0;try{history.replaceState(null,"",location.pathname+location.search+"#investor");}catch(e){}if(!isMob())focusAll(true);}
+$("#invBtn")?.addEventListener("click",openInvestor);
 /* ——— «?»: стартовая панель с легендой (публичная витрина не открывает её сама) ——— */
 function openHelp(){if(EDITABLE&&editMode)return;const was=selectedId;selectedId=null;clearSubs();baseLinks();Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
   panel.innerHTML=CLOSE+defaultPanel();panel.classList.add("open");document.body.classList.add("sel-open");try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}if(was&&!isMob())focusAll(true);}

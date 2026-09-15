@@ -477,7 +477,7 @@ h1{margin-top:3px}
 .htrack{padding-left:24px;padding-right:24px}
 @media(max-width:760px){.hero{margin-left:-18px;margin-right:-18px}.htrack{padding-left:18px;padding-right:18px}}
 .zoom [data-z=help]{font-family:'Manrope'}
-@media(max-width:760px){.zoom [data-z=help]{display:none}}
+
 
 /* ——— iOS 27 Liquid Glass: реальная рефракция (Chromium, гейт html.lg-real), fallback — обычный blur ——— */
 html.lg-real .bar{backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens)}
@@ -573,3 +573,23 @@ body.filter-open .fmscrim{display:block}
 
 /* при открытом фильтре HUD не просвечивает сквозь стекло листа */
 @media(max-width:760px){body.filter-open .zoom{opacity:0;pointer-events:none;transition:opacity .2s}}
+
+/* ——— панель «Инвестору» ——— */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px}
+.facts div{background:rgba(255,255,255,.05);border:1px solid var(--hair);border-radius:16px;padding:12px 14px;box-shadow:var(--spec)}
+.facts b{display:block;font-family:'Manrope';font-weight:800;font-size:24px;letter-spacing:-.02em;color:var(--lime);font-variant-numeric:tabular-nums;line-height:1}
+.facts span{display:block;font-size:12px;color:#c4c8d0;margin-top:5px;line-height:1.3}
+.steps{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.step{display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:start;padding:12px 14px;border-radius:16px;border:1px solid var(--hair);background:rgba(255,255,255,.04)}
+.step i{font-style:normal;font-family:'JetBrains Mono';font-size:12px;color:var(--lime);grid-row:1/3;padding-top:2px}
+.step b{font-family:'Manrope';font-weight:800;font-size:14px}
+.step span{display:block;font-size:12.5px;color:#c4c8d0;line-height:1.4;margin-top:3px}
+.step.on{border-color:rgba(52,211,153,.35)}.step.dev{border-color:rgba(251,191,36,.3)}.step.seed{border-color:rgba(197,255,95,.3)}
+.tiers{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tiers span{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.03em;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--hair);color:#dfe1e6;white-space:nowrap}
+.small{font-size:13px;line-height:1.5;color:#c4c8d0;margin-top:10px}
+.small b{color:var(--lime)}
+.muted{color:var(--muted);font-size:12px}
+.wlink{margin-top:14px;background:none;border:0;color:var(--muted);font-family:'Inter';font-size:13px;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;position:relative}
+.wlink:hover{color:var(--lime)}
+@media(max-width:760px){#invBtn{display:none}.facts b{font-size:22px}}
