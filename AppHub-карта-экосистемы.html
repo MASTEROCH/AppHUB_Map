@@ -333,14 +333,12 @@ body.edit svg#map{cursor:default}
 
 /* ——— фильтр-меню (иконка настроек) ——— */
 .fwrap{position:relative}
-.fmenu{position:absolute;top:calc(100% + 8px);right:0;z-index:55;display:none;flex-direction:column;gap:2px;min-width:200px;background:rgba(13,15,23,.97);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:6px;box-shadow:var(--spec),var(--depth);max-height:min(72vh,440px);overflow-y:auto}
 .fmenu.open{display:flex}
 .fmcap{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;padding:8px 10px 4px}
 .fmrow{display:flex;align-items:center;gap:8px;background:none;border:0;color:var(--ink);text-align:left;padding:8px 11px;border-radius:9px;cursor:pointer;font-family:'Inter';font-size:14px;font-weight:600;transition:.12s;width:100%}
 .fmrow:hover{background:rgba(255,255,255,.09)}
 .fmrow.active{background:rgba(197,255,95,.15);color:#eaffc4}
 .fmrow .rdot{width:9px;height:9px;border-radius:50%;flex:0 0 9px;box-shadow:0 0 6px currentColor}
-@media(max-width:760px){.fmenu{position:fixed;top:auto;right:8px;left:auto;min-width:220px}}
 @media(max-width:760px){#pfBtn{display:none}}   /* портфолио на мобиле — из карточки, шапка и так в три ряда */
 
 /* ——— тег темы (домен) в карточке ——— */
@@ -437,8 +435,6 @@ body.fs .panel{top:82px}
   .stage{margin-top:8px}
   .zoom{left:10px;bottom:calc(80px + env(safe-area-inset-bottom));gap:6px}
   .zoom [data-z=in],.zoom [data-z=out]{display:none}
-  body>.fmenu{position:fixed;top:auto;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));min-width:0;max-height:min(58vh,420px);border-radius:20px;z-index:61;animation:menuIn .32s cubic-bezier(.16,1,.3,1)}
-  @keyframes menuIn{from{opacity:0;transform:translateY(14px)}}
   .hero{height:215px;margin:12px -4px 0}
   .panel{height:60vh;padding-top:22px}
   .panel .badge{margin-top:8px}
@@ -502,11 +498,11 @@ h1{margin-top:3px}
 
 /* ——— iOS 27 Liquid Glass: реальная рефракция (Chromium, гейт html.lg-real), fallback — обычный blur ——— */
 html.lg-real .bar{backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens)}
-html.lg-real .dock,html.lg-real .tour,html.lg-real .wcard,html.lg-real body>.fmenu{backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens);-webkit-backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens)}
+html.lg-real .dock,html.lg-real .tour,html.lg-real .wcard,html.lg-real .fmenu{backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens);-webkit-backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens)}
 html.lg-real .zoom button,html.lg-real .hudedit{backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens)}
 html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
 /* рефракционная кромка — светлый rim сверху и тень-объём, как у стекла iOS 27 */
-.dock,.tour,.wcard,.panel,body>.fmenu{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.05),inset 1px 0 0 rgba(255,255,255,.06),0 30px 80px -24px rgba(0,0,0,.8)}
+.dock,.tour,.wcard,.panel,.fmenu{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.05),inset 1px 0 0 rgba(255,255,255,.06),0 30px 80px -24px rgba(0,0,0,.8)}
 /* ——— доступность: фокус с клавиатуры на узлах, reduced transparency ——— */
 .node:focus{outline:none}
 .node:focus-visible .card{stroke:#fff;stroke-width:2.6}
@@ -560,6 +556,41 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
   .zoom{bottom:calc(92px + env(safe-area-inset-bottom))}
 }
 
+/* ——— ФИЛЬТР: поповер на десктопе, нижний лист на телефоне; чипы по группам, счётчик, сброс ——— */
+.fmenu{position:fixed;z-index:70;display:none;flex-direction:column;gap:2px;width:min(380px,calc(100vw - 24px));max-height:min(78vh,620px);overflow-y:auto;background:rgba(13,15,23,.9);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--hair-2);border-radius:20px;padding:12px 14px 14px;animation:menuIn .32s cubic-bezier(.16,1,.3,1);overscroll-behavior:contain}
+.fmenu.open{display:flex}
+@keyframes menuIn{from{opacity:0;transform:translateY(10px)}}
+.fmgrab{display:none}
+.fmhead{display:flex;align-items:center;gap:10px;padding:2px 2px 8px}
+.fmhead b{font-family:'Manrope';font-weight:800;font-size:16px}
+.fmcount{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--muted);flex:1}
+.fmx{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid var(--hair);color:var(--ink);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.fmcap{padding:10px 2px 6px}
+.fgrid{display:flex;flex-wrap:wrap;gap:6px}
+.fchip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid var(--hair);color:#d4d7de;border-radius:999px;padding:8px 12px;font-size:13px;font-weight:600;font-family:'Inter';cursor:pointer;transition:.2s cubic-bezier(.16,1,.3,1);box-shadow:var(--spec);-webkit-tap-highlight-color:transparent}
+.fchip .rdot{width:8px;height:8px;border-radius:50%;box-shadow:0 0 7px currentColor}
+.fchip:hover{background:rgba(255,255,255,.11)}
+.fchip.active{background:linear-gradient(180deg,#dcff8a,#b8f04c);color:#0a0d05;border-color:rgba(197,255,95,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 8px 18px -8px rgba(197,255,95,.5)}
+.fchip.active .rdot{box-shadow:0 0 0 2px rgba(10,13,5,.25)}
+.fmfoot{display:flex;gap:8px;margin-top:14px}
+.fmfoot .btn{flex:1;justify-content:center}
+.fmscrim{position:fixed;inset:0;z-index:69;background:rgba(4,5,8,.55);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;animation:fade .25s}
+body.filter-open .fmscrim{display:block}
+@media(min-width:761px){body.filter-open .fmscrim{display:none}}
+#filterBtn.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6)}
+@media(max-width:760px){
+  .fmenu{left:0;right:0;bottom:0;top:auto;width:auto;max-height:82vh;border-radius:28px 28px 0 0;padding:10px 16px calc(16px + env(safe-area-inset-bottom));animation:sheetUp .42s cubic-bezier(.16,1,.3,1)}
+  @keyframes sheetUp{from{transform:translateY(40px);opacity:0}}
+  .fmgrab{display:block;width:44px;height:5px;border-radius:3px;background:rgba(255,255,255,.3);margin:2px auto 12px}
+  .fchip{padding:10px 14px;font-size:14px}
+  .dock .on{color:var(--lime)}
+  .dock .on svg{stroke:var(--lime)}
+  body.filter-open .dock{transform:translateY(130%);opacity:0;pointer-events:none}
+}
+
+/* при открытом фильтре HUD не просвечивает сквозь стекло листа */
+@media(max-width:760px){body.filter-open .zoom{opacity:0;pointer-events:none;transition:opacity .2s}}
+
 </style>
 </head>
 <body data-mode="internal">
@@ -568,7 +599,7 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
     <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M651.594 390.536C653.686 390.656 654.73 390.962 655.932 392.748C656.311 401.079 623.196 473.867 616.99 487.884L584.053 563.22L561.012 616.273C556.562 626.643 552.495 637.476 547.311 647.495C546.256 649.533 544.014 653.92 541.625 654.384C534.732 655.725 492.508 623.235 484.134 617.15C473.862 623.118 464.13 631.869 454.25 638.466C448.669 642.193 433.113 655.722 427.449 655.091C424.477 652.691 415.754 610.786 413.946 603.614C411.222 590.344 406.701 572.202 403.169 559.138C386.134 549.197 369.254 538.991 352.535 528.525C346.209 524.587 325.128 511.449 320.718 506.434C320.564 503.079 331.286 499.528 334.177 498.561C357.739 490.675 381.378 482.98 404.862 474.862L546.025 425.664L615.258 402.524C623.911 399.623 643.662 392.306 651.594 390.536ZM454.085 584.714C465.668 593.408 478.199 600.923 489.234 609.204C505.807 620.232 521.99 631.78 538.504 642.773C548.951 617.593 643.175 408.818 642.61 406.497L555.1 489.039C522.25 519.665 485.445 553.019 454.085 584.714ZM339.171 508.497C347.672 514.281 358.382 519.396 366.269 524.863C380.208 533.072 393.674 541.587 407.785 549.546C426.485 536.999 446.548 524.765 465.531 512.513L569.623 445.179L609.821 419.471C612.34 417.857 624.631 410.18 626.098 408.677L625.349 408.548C608.099 413.687 588.704 420.897 571.486 426.691C530.681 440.306 490.011 454.324 449.483 468.745L380.204 493.346C367.855 497.743 350.947 503.305 339.171 508.497Z"/><path d="M644.022 460.751C646.418 463.353 652.378 474.765 654.476 478.608L678.351 523.074L703.786 569.832C714.594 589.654 724.738 605.33 725.586 628.975C726.556 651.509 718.325 673.47 702.784 689.816C689.892 703.467 666.868 714.9 648.071 715.555C636.118 716.7 624.068 714.866 612.997 710.217C591.887 701.205 584.663 685.393 576.173 665.748C572.643 657.69 569.219 649.585 565.901 641.437L619.743 517.284C627.229 500.038 635.801 477.098 644.022 460.751Z"/><path d="M503.303 308.696C515.976 307.515 531.265 309.605 543.199 313.83C568.905 322.93 578.209 341.156 590.228 363.738C594.962 372.631 600.545 381.824 604.8 391.022L453.113 443.49C427.592 452.783 401.829 461.399 375.851 469.329L422.764 383.927L436.708 358.404C441.414 349.749 444.479 343.116 450.669 335.287C464.253 318.106 482.218 311.245 503.303 308.696Z"/><path d="M339.061 535.728C345.543 537.191 384.692 561.877 391.952 566.539C397.144 585.438 400.72 604.812 405.481 623.983C408.726 637.052 411.014 661.34 425.535 666.467C433.001 669.103 443.277 662.51 449.891 658.91C441.195 681.625 433.855 698.736 411.122 709.986C389.712 719.648 364.312 717.039 343.782 706.393C323.614 696.126 308.483 678.105 301.861 656.465C291.401 622.485 303.738 598.78 319.839 570.41C326.377 558.923 332.785 547.361 339.061 535.728Z"/></svg>AppHub<small>ECOSYSTEM · РЕДАКТОР</small></div>
     <div class="grow"></div>
     <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off" enterkeyhint="search" spellcheck="false" aria-label="Поиск продукта"><div class="results" id="results"></div></div>
-    <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button><div class="fmenu" id="filterMenu"></div></div>
+    <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button></div>
     <button class="btn icon" id="linksBtn" aria-label="Все связи" title="Показать все связи"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="6" r="2"/><circle cx="18.5" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9" stroke-linecap="round"/></svg></button>
     <button class="btn" id="tourBtn">▶ Тур</button>
     <button class="btn" id="addBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button>
@@ -602,10 +633,12 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
   </main>
   <div class="foot">внутренняя версия v2 · данные в браузере (общая база недоступна) · экспортируй JSON и вшей в src/data.js, чтобы стало каноном</div>
   <nav class="dock" id="dock" aria-label="Действия">
-    <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg>Фильтр</button>
+    <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg><span>Фильтр</span></button>
     <button id="dockTour"><svg viewBox="0 0 24 24"><path d="M7 4l12 8-12 8z"/></svg>Тур</button>
-    <a href="https://t.me/Portfolio_AppHub_Bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>Портфолио</a>
+    <button id="dockPortfolio"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>Портфолио</button>
   </nav>
+  <div class="fmscrim" id="fmScrim"></div>
+  <div class="fmenu" id="filterMenu" role="dialog" aria-label="Фильтр"></div>
   <div id="lightbox"><img alt=""></div>
   <div id="toast"></div>
   <input type="file" id="fileImg" accept="image/*" multiple class="hidden">
@@ -1020,7 +1053,16 @@ function applyHighlight(id){const conn=new Set([id]);lowerLinks();
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){raiseLink(le);le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
 function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});drawDomainPod();}
-function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
+function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));applyFilter();updateFilterUI();focusFilter();}
+function filterLabel(k){if(k==="all")return"";if(k.indexOf("dom:")===0)return k.slice(4);const m={live:"Живые",dev:"В разработке",concept:"Концепты",case:"Кейсы",ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};return m[k]||k;}
+function updateFilterUI(){const n=Object.values(N).filter(x=>matchFilter(x)&&x.s!=="core").length,tot=Object.values(N).filter(x=>x.s!=="core").length,on=filter!=="all";
+  $$("#filterMenu .fchip").forEach(x=>{const a=x.dataset.f===filter;x.classList.toggle("active",a);x.setAttribute("aria-checked",a);});
+  const c=$("#fmCount");if(c)c.textContent=on?`${n} из ${tot}`:`все · ${tot}`;const r=$("#fmReset");if(r)r.style.visibility=on?"visible":"hidden";
+  const d=$("#dockFilter");if(d){d.classList.toggle("on",on);const l=d.querySelector("span")||d.appendChild(document.createElement("span"));l.textContent=on?filterLabel(filter):"Фильтр";}
+  $("#filterBtn")?.classList.toggle("on",on);}
+function openFilter(){const fm=$("#filterMenu");if(!fm)return;if(!isMob()){const b=$("#filterBtn");const r=b?b.getBoundingClientRect():{bottom:70,right:innerWidth-16};fm.style.top=(r.bottom+8)+"px";fm.style.right=Math.max(12,innerWidth-r.right)+"px";fm.style.bottom="auto";}else{fm.style.top="";fm.style.right="";fm.style.bottom="";}
+  fm.classList.add("open");document.body.classList.add("filter-open");}
+function closeFilter(){$("#filterMenu")?.classList.remove("open");document.body.classList.remove("filter-open");}
 function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
   const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
   let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);const hh=nodeH(n)/2;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-hh);d=Math.max(d,n.y+hh);});
@@ -1171,11 +1213,17 @@ function buildChrome(){
     chipsEl.innerHTML=sdefs.map(chip).join("")+'<span class="chsep"></span>'+ldefsShort.map(chip).join("");
     chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)setFilter(b.dataset.f);});}
   const fm=$("#filterMenu"),fb=$("#filterBtn");
-  if(fm){const row=([k,t,c])=>`<button class="fmrow${k===filter?" active":""}" data-f="${k}"><span class="rdot" style="background:${c||"transparent"};color:${c||"transparent"};${c?"":"box-shadow:none"}"></span>${t}</button>`;
-    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("")+`<div class="fmcap">Темы</div>`+DOMS.map(([d,c])=>row(["dom:"+d,d,c])).join("");
-    fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);fm.classList.remove("open");}});
-    fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
-    document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
+  if(fm){const chip=([k,t,c])=>`<button class="fchip${k===filter?" active":""}" data-f="${k}" role="radio" aria-checked="${k===filter}">${c?`<span class="rdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
+    fm.innerHTML=`<div class="fmgrab"></div><div class="fmhead"><b>Фильтр</b><span class="fmcount" id="fmCount"></span><button class="fmx" data-fclose aria-label="Закрыть">✕</button></div>
+      <div class="fmcap">Статус</div><div class="fgrid" role="radiogroup">${sdefs.map(chip).join("")}</div>
+      <div class="fmcap">Слои</div><div class="fgrid" role="radiogroup">${ldefsFull.map(chip).join("")}</div>
+      <div class="fmcap">Темы</div><div class="fgrid" role="radiogroup">${DOMS.map(([d,c])=>chip(["dom:"+d,d,c])).join("")}</div>
+      <div class="fmfoot"><button class="btn" data-f="all" id="fmReset">Сбросить</button><button class="btn prim" data-fclose>Готово</button></div>`;
+    fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);if(isMob())return;closeFilter();return;}if(e.target.closest("[data-fclose]"))closeFilter();});
+    fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.contains("open")?closeFilter():openFilter();});
+    $("#fmScrim")?.addEventListener("click",closeFilter);
+    document.addEventListener("click",e=>{if(fm.classList.contains("open")&&!e.target.closest("#filterMenu,#filterBtn,#dockFilter"))closeFilter();});
+    updateFilterUI();}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
   countUp();edgeFade($("#stats"));edgeFade($("#chips"));
 }
@@ -1287,6 +1335,7 @@ window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
   if(lb.style.display==="flex"){if(e.key==="ArrowRight")galGo(1);else if(e.key==="ArrowLeft")galGo(-1);else if(e.key==="Escape")closeLight();return;}
   if((e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А")&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){e.preventDefault();toggleFS();return;}
+  if(e.key==="Escape"&&document.body.classList.contains("filter-open")){closeFilter();return;}
   if(e.key==="Escape"){const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}
     if(!selectedId&&document.body.classList.contains("fs")&&!document.fullscreenElement){setFS(false);return;}reset();}
 });
@@ -1457,11 +1506,12 @@ function toggleFS(){const on=!document.body.classList.contains("fs");
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("fs"))setFS(false);});
 let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(Q.has("portrait")&&(window.innerWidth<=760)!==PORTRAIT){location.reload();return;}if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
 /* ——— мобильный док (Apple HIG: действия под большим пальцем) ——— */
-// ГОТЧА: backdrop-filter на .bar делает её containing block для position:fixed → меню фильтра на мобиле уезжало за экран. Переносим в body.
-if(isMob()&&$("#filterMenu"))document.body.appendChild($("#filterMenu"));
-$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.toggle("open");});
+// меню фильтра живёт в body (backdrop-filter на .bar делал её containing block для fixed); поповер позиционируется JS от кнопки
+$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.contains("open")?closeFilter():openFilter();});
+const openPortfolio=()=>{closeWelcome();if(N.portfolio)select("portfolio");else window.open(PF_URL,"_blank","noopener");};
+$("#dockPortfolio")?.addEventListener("click",openPortfolio);$("#pfBtn")?.addEventListener("click",openPortfolio);
 $("#dockTour")?.addEventListener("click",()=>{closeWelcome();startTour();});
-document.addEventListener("click",e=>{if(!e.target.closest(".fwrap")&&!e.target.closest("#dockFilter")&&!e.target.closest("#filterMenu"))$("#filterMenu")?.classList.remove("open");});
+
 
 /* ——— go ——— */
 render();buildChrome();

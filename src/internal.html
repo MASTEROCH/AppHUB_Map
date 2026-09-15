@@ -21,7 +21,7 @@
     <div class="brand">{{LOGO}}AppHub<small>ECOSYSTEM · РЕДАКТОР</small></div>
     <div class="grow"></div>
     <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off" enterkeyhint="search" spellcheck="false" aria-label="Поиск продукта"><div class="results" id="results"></div></div>
-    <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button><div class="fmenu" id="filterMenu"></div></div>
+    <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button></div>
     <button class="btn icon" id="linksBtn" aria-label="Все связи" title="Показать все связи"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="6" r="2"/><circle cx="18.5" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9" stroke-linecap="round"/></svg></button>
     <button class="btn" id="tourBtn">▶ Тур</button>
     <button class="btn" id="addBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>Проект</button>
@@ -55,10 +55,12 @@
   </main>
   <div class="foot">внутренняя версия v2 · данные в браузере (общая база недоступна) · экспортируй JSON и вшей в src/data.js, чтобы стало каноном</div>
   <nav class="dock" id="dock" aria-label="Действия">
-    <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg>Фильтр</button>
+    <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg><span>Фильтр</span></button>
     <button id="dockTour"><svg viewBox="0 0 24 24"><path d="M7 4l12 8-12 8z"/></svg>Тур</button>
-    <a href="https://t.me/Portfolio_AppHub_Bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>Портфолио</a>
+    <button id="dockPortfolio"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>Портфолио</button>
   </nav>
+  <div class="fmscrim" id="fmScrim"></div>
+  <div class="fmenu" id="filterMenu" role="dialog" aria-label="Фильтр"></div>
   <div id="lightbox"><img alt=""></div>
   <div id="toast"></div>
   <input type="file" id="fileImg" accept="image/*" multiple class="hidden">

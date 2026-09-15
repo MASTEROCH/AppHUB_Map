@@ -244,7 +244,16 @@ function applyHighlight(id){const conn=new Set([id]);lowerLinks();
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;if(on){raiseLink(le);le.core.setAttribute("opacity",.9);le.glow.setAttribute("opacity",.22);conn.add(le.a);conn.add(le.b);}});}
 function applyFilter(){Object.entries(nodeEls).forEach(([id,g])=>{g.classList.toggle("dim",!matchFilter(N[id]));});drawDomainPod();}
-function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));$$("#filterMenu [data-f]").forEach(x=>x.classList.toggle("active",x.dataset.f===k));applyFilter();focusFilter();}
+function setFilter(k){filter=k;$$("#chips .chip").forEach(x=>x.classList.toggle("on",x.dataset.f===k));applyFilter();updateFilterUI();focusFilter();}
+function filterLabel(k){if(k==="all")return"";if(k.indexOf("dom:")===0)return k.slice(4);const m={live:"Живые",dev:"В разработке",concept:"Концепты",case:"Кейсы",ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};return m[k]||k;}
+function updateFilterUI(){const n=Object.values(N).filter(x=>matchFilter(x)&&x.s!=="core").length,tot=Object.values(N).filter(x=>x.s!=="core").length,on=filter!=="all";
+  $$("#filterMenu .fchip").forEach(x=>{const a=x.dataset.f===filter;x.classList.toggle("active",a);x.setAttribute("aria-checked",a);});
+  const c=$("#fmCount");if(c)c.textContent=on?`${n} из ${tot}`:`все · ${tot}`;const r=$("#fmReset");if(r)r.style.visibility=on?"visible":"hidden";
+  const d=$("#dockFilter");if(d){d.classList.toggle("on",on);const l=d.querySelector("span")||d.appendChild(document.createElement("span"));l.textContent=on?filterLabel(filter):"Фильтр";}
+  $("#filterBtn")?.classList.toggle("on",on);}
+function openFilter(){const fm=$("#filterMenu");if(!fm)return;if(!isMob()){const b=$("#filterBtn");const r=b?b.getBoundingClientRect():{bottom:70,right:innerWidth-16};fm.style.top=(r.bottom+8)+"px";fm.style.right=Math.max(12,innerWidth-r.right)+"px";fm.style.bottom="auto";}else{fm.style.top="";fm.style.right="";fm.style.bottom="";}
+  fm.classList.add("open");document.body.classList.add("filter-open");}
+function closeFilter(){$("#filterMenu")?.classList.remove("open");document.body.classList.remove("filter-open");}
 function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("dom:")!==0)return;const dom=filter.slice(4);
   const ids=Object.keys(N).filter(id=>N[id].dom===dom);if(!ids.length)return;
   let a=1e9,b=1e9,c=-1e9,d=-1e9;ids.forEach(id=>{const n=N[id],w=nodeW(n);const hh=nodeH(n)/2;a=Math.min(a,n.x-w/2);c=Math.max(c,n.x+w/2);b=Math.min(b,n.y-hh);d=Math.max(d,n.y+hh);});
@@ -395,11 +404,17 @@ function buildChrome(){
     chipsEl.innerHTML=sdefs.map(chip).join("")+'<span class="chsep"></span>'+ldefsShort.map(chip).join("");
     chipsEl.addEventListener("click",e=>{const b=e.target.closest(".chip");if(b)setFilter(b.dataset.f);});}
   const fm=$("#filterMenu"),fb=$("#filterBtn");
-  if(fm){const row=([k,t,c])=>`<button class="fmrow${k===filter?" active":""}" data-f="${k}"><span class="rdot" style="background:${c||"transparent"};color:${c||"transparent"};${c?"":"box-shadow:none"}"></span>${t}</button>`;
-    fm.innerHTML=`<div class="fmcap">Статус</div>`+sdefs.map(row).join("")+`<div class="fmcap">Слои</div>`+ldefsFull.map(row).join("")+`<div class="fmcap">Темы</div>`+DOMS.map(([d,c])=>row(["dom:"+d,d,c])).join("");
-    fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);fm.classList.remove("open");}});
-    fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
-    document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
+  if(fm){const chip=([k,t,c])=>`<button class="fchip${k===filter?" active":""}" data-f="${k}" role="radio" aria-checked="${k===filter}">${c?`<span class="rdot" style="background:${c};color:${c}"></span>`:""}${t}</button>`;
+    fm.innerHTML=`<div class="fmgrab"></div><div class="fmhead"><b>Фильтр</b><span class="fmcount" id="fmCount"></span><button class="fmx" data-fclose aria-label="Закрыть">✕</button></div>
+      <div class="fmcap">Статус</div><div class="fgrid" role="radiogroup">${sdefs.map(chip).join("")}</div>
+      <div class="fmcap">Слои</div><div class="fgrid" role="radiogroup">${ldefsFull.map(chip).join("")}</div>
+      <div class="fmcap">Темы</div><div class="fgrid" role="radiogroup">${DOMS.map(([d,c])=>chip(["dom:"+d,d,c])).join("")}</div>
+      <div class="fmfoot"><button class="btn" data-f="all" id="fmReset">Сбросить</button><button class="btn prim" data-fclose>Готово</button></div>`;
+    fm.addEventListener("click",e=>{const b=e.target.closest("[data-f]");if(b){setFilter(b.dataset.f);if(isMob())return;closeFilter();return;}if(e.target.closest("[data-fclose]"))closeFilter();});
+    fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.contains("open")?closeFilter():openFilter();});
+    $("#fmScrim")?.addEventListener("click",closeFilter);
+    document.addEventListener("click",e=>{if(fm.classList.contains("open")&&!e.target.closest("#filterMenu,#filterBtn,#dockFilter"))closeFilter();});
+    updateFilterUI();}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
   countUp();edgeFade($("#stats"));edgeFade($("#chips"));
 }
@@ -511,6 +526,7 @@ window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
   if(lb.style.display==="flex"){if(e.key==="ArrowRight")galGo(1);else if(e.key==="ArrowLeft")galGo(-1);else if(e.key==="Escape")closeLight();return;}
   if((e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А")&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){e.preventDefault();toggleFS();return;}
+  if(e.key==="Escape"&&document.body.classList.contains("filter-open")){closeFilter();return;}
   if(e.key==="Escape"){const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}
     if(!selectedId&&document.body.classList.contains("fs")&&!document.fullscreenElement){setFS(false);return;}reset();}
 });
@@ -681,11 +697,12 @@ function toggleFS(){const on=!document.body.classList.contains("fs");
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("fs"))setFS(false);});
 let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(Q.has("portrait")&&(window.innerWidth<=760)!==PORTRAIT){location.reload();return;}if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
 /* ——— мобильный док (Apple HIG: действия под большим пальцем) ——— */
-// ГОТЧА: backdrop-filter на .bar делает её containing block для position:fixed → меню фильтра на мобиле уезжало за экран. Переносим в body.
-if(isMob()&&$("#filterMenu"))document.body.appendChild($("#filterMenu"));
-$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.toggle("open");});
+// меню фильтра живёт в body (backdrop-filter на .bar делал её containing block для fixed); поповер позиционируется JS от кнопки
+$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.contains("open")?closeFilter():openFilter();});
+const openPortfolio=()=>{closeWelcome();if(N.portfolio)select("portfolio");else window.open(PF_URL,"_blank","noopener");};
+$("#dockPortfolio")?.addEventListener("click",openPortfolio);$("#pfBtn")?.addEventListener("click",openPortfolio);
 $("#dockTour")?.addEventListener("click",()=>{closeWelcome();startTour();});
-document.addEventListener("click",e=>{if(!e.target.closest(".fwrap")&&!e.target.closest("#dockFilter")&&!e.target.closest("#filterMenu"))$("#filterMenu")?.classList.remove("open");});
+
 
 /* ——— go ——— */
 render();buildChrome();
