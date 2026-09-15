@@ -593,3 +593,5 @@ body.filter-open .fmscrim{display:block}
 .wlink{margin-top:14px;background:none;border:0;color:var(--muted);font-family:'Inter';font-size:13px;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;position:relative}
 .wlink:hover{color:var(--lime)}
 @media(max-width:760px){#invBtn{display:none}.facts b{font-size:22px}}
+
+.src{margin-top:8px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.03em;color:var(--muted);line-height:1.5}

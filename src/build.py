@@ -31,6 +31,10 @@ def inline(html: str) -> str:
 
 # v2 (2026-09-14): публичная витрина живёт по адресу /v2/ (apphub-map.com/v2/).
 # Корневой index.html — замороженная карта v1 (июль 2026), build его НЕ трогает.
+# цифры портфолио (34 · 205 · 16) — из массива портфолио-бота, а не руками: v2/stats.json
+import subprocess
+subprocess.run(["python3", str(SRC / "sync_stats.py")], check=False)
+
 targets = {
     "public.html":   "v2/index.html",
     "internal.html": "AppHub-карта-экосистемы.html",
