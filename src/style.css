@@ -212,7 +212,7 @@ body.edit svg#map{cursor:default}
 .hidden{display:none!important}
 
 /* ——— smooth zoom (тур + кнопки) ——— */
-#viewport.smooth{transition:transform .7s cubic-bezier(.4,0,.2,1)}
+/* переходы transform на SVG убраны: Safari их не анимирует, полёт камеры — в JS (tweenTo) */
 
 /* ——— демо-кнопка с пульсом ——— */
 .btn.demo::after{content:"";position:absolute;inset:-3px;border-radius:16px;border:1.5px solid var(--lime);opacity:0;animation:demoPulse 2.2s ease-out infinite;pointer-events:none}
@@ -525,10 +525,11 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
 @media(max-width:760px){body.touring .head,body.touring .chips{display:none}}
 
 /* ——— соц-иконки на холсте (зона студии) ——— */
-.socn{cursor:pointer;color:#e6e8ee}
+.socn{cursor:pointer;color:#eef0f4;transform-box:fill-box;transform-origin:center;transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
 .socn .socbg{transition:fill .2s,stroke .2s}
-.socn:hover .socbg{fill:rgba(197,255,95,.18);stroke:rgba(197,255,95,.55)}
-.socn:hover{color:#fff}
+.socn:hover,.socn:focus-visible{transform:scale(1.12);outline:none}
+.socn:hover .socbg,.socn:focus-visible .socbg{fill:rgba(197,255,95,.2);stroke:rgba(197,255,95,.65)}
+.socn:active{transform:scale(.96)}
 
 /* ——— под нижним доком: блюр-вуаль во всю ширину до края экрана (канон Epoch / CityHUB / BuildOS) ——— */
 @media(max-width:760px){

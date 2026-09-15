@@ -239,7 +239,7 @@ body.edit svg#map{cursor:default}
 .hidden{display:none!important}
 
 /* ——— smooth zoom (тур + кнопки) ——— */
-#viewport.smooth{transition:transform .7s cubic-bezier(.4,0,.2,1)}
+/* переходы transform на SVG убраны: Safari их не анимирует, полёт камеры — в JS (tweenTo) */
 
 /* ——— демо-кнопка с пульсом ——— */
 .btn.demo::after{content:"";position:absolute;inset:-3px;border-radius:16px;border:1.5px solid var(--lime);opacity:0;animation:demoPulse 2.2s ease-out infinite;pointer-events:none}
@@ -552,10 +552,11 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
 @media(max-width:760px){body.touring .head,body.touring .chips{display:none}}
 
 /* ——— соц-иконки на холсте (зона студии) ——— */
-.socn{cursor:pointer;color:#e6e8ee}
+.socn{cursor:pointer;color:#eef0f4;transform-box:fill-box;transform-origin:center;transition:transform .28s cubic-bezier(.34,1.56,.64,1)}
 .socn .socbg{transition:fill .2s,stroke .2s}
-.socn:hover .socbg{fill:rgba(197,255,95,.18);stroke:rgba(197,255,95,.55)}
-.socn:hover{color:#fff}
+.socn:hover,.socn:focus-visible{transform:scale(1.12);outline:none}
+.socn:hover .socbg,.socn:focus-visible .socbg{fill:rgba(197,255,95,.2);stroke:rgba(197,255,95,.65)}
+.socn:active{transform:scale(.96)}
 
 /* ——— под нижним доком: блюр-вуаль во всю ширину до края экрана (канон Epoch / CityHUB / BuildOS) ——— */
 @media(max-width:760px){
@@ -637,8 +638,8 @@ window.APPHUB_DATA = {
     site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в BuildOS и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",imgs:["/v2/shots/site-1.jpg","/v2/shots/osb-1.jpg","/v2/shots/osb-2.jpg","/v2/shots/site-2.jpg","/v2/shots/site-3.jpg"],links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
     studiobot:{t:"mini",layer:"ROOT",s:"live",x:262,y:44,label:"Studio Bot",cat:"Студия · родитель всех ботов",desc:"@AppHub_Studio_Bot — витрина студии в Telegram (Taplink): продукты и кейсы одним касанием, контакты фаундеров, репост страницы, оффер ИИ-маркетолога. Родитель всей семьи ботов: демо Dine, Neko, Batumi живут внутри него.",inter:"Принимает заявки с сайта и конструктора; запускает демо L3-приложений; отсюда рождаются продукт-боты (LinkOS, BuildOS) и юзер-боты клиентов.",pf:"taplink",screens:5,links:[{label:"@AppHub_Studio_Bot",url:"https://t.me/AppHub_Studio_Bot"},{label:"Поддержка",url:"https://t.me/AppHub_Support"}]},
     portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 34 продукта · 205 экранов",desc:"Портфолио-бот: 34 карточки, 205 реальных экранов, поиск, фильтры по 16 нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",imgs:["/v2/shots/portfolio-1.jpg","/v2/shots/portfolio-2.jpg","/v2/shots/portfolio-3.jpg"],links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
-    linkos:{t:"mini",layer:"ROOT",s:"live",x:150,y:98,label:"LinkOS",cat:"Студия · ступень 1 · визитка",desc:"Конструктор цифровых визиток внутри Telegram: блоки, темы, публикация за Stars, личный кабинет, редактор QR-кода. Первая ступень воронки: free → PRO.",inter:"Вход в экосистему для малого бизнеса. Апселлит BuildOS (ступень 2) и кастом студии (ступень 3). Механика конструктора наследуется в BuildOS один-в-один.",pf:"linkos",screens:13,links:[{label:"@Linkos_AppHub_bot",url:"https://t.me/Linkos_AppHub_bot"}]},
-    osbuilder:{t:"mini",layer:"ROOT",s:"dev",x:290,y:98,label:"BuildOS",cat:"Студия · ступень 2 · AppHUB BuildOS · конструктор приложений",desc:"AppHUB BuildOS — платформа сборки приложений семейства *OS (LinkOS → PromOS → BuildOS): конструктор Telegram Mini App под нишу — 20 шаблонов (бьюти, кафе, медицина, магазин, фитнес, ивенты, недвижимость, аренда, крипто, город, ЖКХ…), редактор блоков и бренда, умные модули (запись, push, Loop), автозаполнение из Telegram, magic-импорт бренда с сайта или Instagram за 30 секунд. Публикация в бот клиента и оплата — на подключении бэкенда.",inter:"Собирает L3-приложения из ДНК доноров (Dine, CityHub, Zem Doc, AllTrust…) без участия студии — философия 95/5. Данные о местах и нишах берёт из ядра GEOS, дистрибуцию — из PromOS, вход — из LinkOS. Каждый собранный бот автоматически встаёт в сеть Loop.",pf:"apphub-os",screens:10,links:[{label:"apphub-os.vercel.app",url:"https://apphub-os.vercel.app"}]},
+    linkos:{t:"mini",layer:"ROOT",s:"live",x:190,y:98,label:"LinkOS",cat:"Студия · ступень 1 · визитка",desc:"Конструктор цифровых визиток внутри Telegram: блоки, темы, публикация за Stars, личный кабинет, редактор QR-кода. Первая ступень воронки: free → PRO.",inter:"Вход в экосистему для малого бизнеса. Апселлит BuildOS (ступень 2) и кастом студии (ступень 3). Механика конструктора наследуется в BuildOS один-в-один.",pf:"linkos",screens:13,links:[{label:"@Linkos_AppHub_bot",url:"https://t.me/Linkos_AppHub_bot"}]},
+    osbuilder:{t:"mini",layer:"ROOT",s:"dev",x:335,y:98,label:"BuildOS",cat:"Студия · ступень 2 · AppHUB BuildOS · конструктор приложений",desc:"AppHUB BuildOS — платформа сборки приложений семейства *OS (LinkOS → PromOS → BuildOS): конструктор Telegram Mini App под нишу — 20 шаблонов (бьюти, кафе, медицина, магазин, фитнес, ивенты, недвижимость, аренда, крипто, город, ЖКХ…), редактор блоков и бренда, умные модули (запись, push, Loop), автозаполнение из Telegram, magic-импорт бренда с сайта или Instagram за 30 секунд. Публикация в бот клиента и оплата — на подключении бэкенда.",inter:"Собирает L3-приложения из ДНК доноров (Dine, CityHub, Zem Doc, AllTrust…) без участия студии — философия 95/5. Данные о местах и нишах берёт из ядра GEOS, дистрибуцию — из PromOS, вход — из LinkOS. Каждый собранный бот автоматически встаёт в сеть Loop.",pf:"apphub-os",screens:10,links:[{label:"apphub-os.vercel.app",url:"https://apphub-os.vercel.app"}]},
 
     /* ——— ПЕТЛЯ · ядро ——— */
     l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их ИИ-агенты",cat:"L1 · точка входа",desc:"Пользователь уже залогинен в мессенджере: ноль установок, паролей и сторов. Рядом — его ИИ-агент, который сам находит предложения и готовит действие, человеку остаётся подтвердить и оплатить. Заявлено публично: приложения студии взаимодействуют с ИИ-агентами других моделей; машиночитаемый слой — в roadmap.",inter:"Ассистент идёт к L2-агрегаторам и напрямую в L3-бизнесы. Loop-баллы, заработанные в одном приложении, тратит в любом другом — это и возвращает его в петлю.",link:null},
@@ -756,7 +757,7 @@ window.APPHUB_DATA = {
     ["paratravel","tours"],["tds","shops"],["tds","construction"],["vodokanal","cityhome"],["almare","cityhome"]
   ],
   zones: [
-    {label:"APPHUB STUDIO",sub:"вход · сайт → LinkOS → BuildOS → студия",x:260,y:-16,bx:40,by:-40,bw:440,bh:175,c:"#C5FF5F",soc:{x:416,y:98,step:22}},
+    {label:"APPHUB STUDIO",sub:"вход · сайт → LinkOS → BuildOS → студия",x:260,y:-16,bx:40,by:-40,bw:440,bh:232,c:"#C5FF5F",soc:{x:260,y:158,step:52,r:17}},
     {label:"ЯДРО И УТИЛИТЫ",sub:"GEOS · PromOS · контент — вне петли, кормят её трафиком",x:1160,y:-16,bx:940,by:-40,bw:440,bh:175,c:"#38bdf8"},
     {label:"MULTIMEDIA",sub:"вне петли · трафик к пользователям",x:260,y:752,bx:40,by:730,bw:440,bh:116,c:"#a78bfa"},
     {label:"ИГРЫ",sub:"аркады и настолки · вовлечение",x:1204,y:716,bx:974,by:700,bw:460,bh:168,c:"#fbbf24"},
@@ -911,7 +912,7 @@ function mobileLayout(){const P={},zones=[];const put=(id,x,y)=>{if(N[id])P[id]=
   let y=88;
   y=grid(["site","studiobot","portfolio"],y,3,54);y=grid(["linkos","osbuilder"],y+54,2,54);
   zone(["site","studiobot","portfolio","linkos","osbuilder"],"APPHUB STUDIO","вход · сайт → LinkOS → BuildOS → студия","#C5FF5F");
-  {const z=zones[zones.length-1];if(z){z.bh+=46;z.soc={x:MOBC,y:y+56,step:34};}y+=46;}
+  {const z=zones[zones.length-1];if(z){z.bh+=62;z.soc={x:MOBC,y:y+62,step:52,r:17};}y+=62;}
   y+=110;put("l1",MOBC,y);
   y+=160;put("l2",MOBC,y);
   y=grid(Object.keys(N).filter(k=>N[k].layer==="L2"&&N[k].t==="mini"),y+92,3,54);
@@ -929,13 +930,14 @@ function mobileLayout(){const P={},zones=[];const put=(id,x,y)=>{if(N[id])P[id]=
 
 /* ——— соцсети на холсте: круглые стеклянные кнопки с иконками площадок ——— */
 const SOC_DOM=new DOMParser();
-function drawSocials(g,cx,cy,step){const list=(META.social||[]).filter(x=>x.k!=="web");if(!list.length)return;const w=(list.length-1)*step;
-  list.forEach((x,i)=>{const px=cx-w/2+i*step,r=11;const a=ex("a",{class:"socn",href:x.url,target:"_blank",rel:"noopener"});a.setAttribute("aria-label",x.label);
+function drawSocials(g,cx,cy,step,r){const list=(META.social||[]).filter(x=>x.k!=="web");if(!list.length)return;const w=(list.length-1)*step;r=r||17;
+  list.forEach((x,i)=>{const px=cx-w/2+i*step;const a=ex("g",{class:"socn","data-url":x.url,role:"link",tabindex:"0"});a.setAttribute("aria-label",x.label);
     const tt=ex("title",{});tt.textContent=x.label;a.appendChild(tt);
-    a.appendChild(ex("circle",{cx:px,cy:cy,r:r+1,fill:"#0c0e16"}));
-    a.appendChild(ex("circle",{class:"socbg",cx:px,cy:cy,r,fill:"rgba(255,255,255,.08)",stroke:"rgba(255,255,255,.16)","stroke-width":1}));
-    const doc=SOC_DOM.parseFromString((SOC_ICO[x.k]||SOC_ICO.web).replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" '),"image/svg+xml").documentElement;
-    const ig=ex("g",{transform:`translate(${px-7},${cy-7}) scale(${14/24})`,fill:doc.getAttribute("fill")||"none",stroke:doc.getAttribute("stroke")||"none","stroke-width":doc.getAttribute("stroke-width")||"2","stroke-linecap":"round","pointer-events":"none"});
+    a.appendChild(ex("circle",{cx:px,cy:cy,r:r+3,fill:"#C5FF5F",opacity:.07}));
+    a.appendChild(ex("circle",{cx:px,cy:cy,r,fill:"#0c0e16"}));
+    a.appendChild(ex("circle",{class:"socbg",cx:px,cy:cy,r,fill:"rgba(255,255,255,.09)",stroke:"rgba(255,255,255,.2)","stroke-width":1.2}));
+    const ic=Math.round(r*1.06),doc=SOC_DOM.parseFromString((SOC_ICO[x.k]||SOC_ICO.web).replace("<svg ",'<svg xmlns="http://www.w3.org/2000/svg" '),"image/svg+xml").documentElement;
+    const ig=ex("g",{transform:`translate(${px-ic/2},${cy-ic/2}) scale(${ic/24})`,fill:doc.getAttribute("fill")||"none",stroke:doc.getAttribute("stroke")||"none","stroke-width":doc.getAttribute("stroke-width")||"2","stroke-linecap":"round","pointer-events":"none"});
     [...doc.childNodes].forEach(n=>{if(n.nodeType===1)ig.appendChild(document.importNode(n,true));});
     a.appendChild(ig);g.appendChild(a);});}
 
@@ -964,7 +966,7 @@ function render(){
     gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:18,fill:z.c,"fill-opacity":.07,stroke:z.c,"stroke-opacity":.42,"stroke-width":1.4}));
     const l=ex("text",{class:"zlabel",x:z.x,y:z.y,fill:z.c});l.textContent=z.label;gZ.appendChild(l);
     const s=ex("text",{class:"zsub",x:z.x,y:z.y+16});s.textContent=z.sub;gZ.appendChild(s);
-    if(z.soc)drawSocials(gZ,z.soc.x,z.soc.y,z.soc.step||22);});
+    if(z.soc)drawSocials(gZ,z.soc.x,z.soc.y,z.soc.step||52,z.soc.r||17);});
   const isHub=k=>["l1","l2","l3"].includes(k);
   L.forEach(([a,b])=>{if(!N[a]||!N[b])return;const d=path(a,b),f=feeder(a,b),mn=isMain(a,b),col=fcol(a,b);
     const hubEnd=isHub(a)||isHub(b)||caseEnd(a,b);
@@ -1188,23 +1190,47 @@ function countUp(){if(countedOnce||matchMedia("(prefers-reduced-motion:reduce)")
     const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);el.textContent=Math.round(end*e);if(k<1)requestAnimationFrame(step);};
     requestAnimationFrame(step);setTimeout(()=>{el.textContent=end;},dur+i*90+200);});}
 
-/* ——— zoom / pan / pinch / node-drag ——— */
+/* ——— zoom / pan engine: два движка + инерция ———
+   A. lerp (колесо, кнопки, dblclick): экспоненциальное приближение к цели, независимое от FPS, масштаб в лог-пространстве.
+   B. tween (фокус, тур, сброс): «полёт камеры» 720ms out-expo — интерполируется центр камеры и лог-масштаб, а не голые tx/ty.
+   Пан: прямой при перетаскивании + инерция-бросок после отпускания. Пинч: прямой, с мягким упором за границами и пружиной назад.
+   Никаких CSS-transition на transform SVG — Safari их не анимирует. ——— */
 let zk=1,ztx=0,zty=0;          // отрисованный трансформ
-let tk=1,ttx=0,tty=0,zRAF=0;   // целевой трансформ + id rAF-анимации
+let tk=1,ttx=0,tty=0,zRAF=0;   // цель + id активной анимации
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const applyZ=()=>vp.setAttribute("transform",`translate(${ztx} ${zty}) scale(${zk})`);
 const svgPt=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());};
-const clampK=k=>Math.min(PORTRAIT?7:4,Math.max(.4,k));
+const KMIN=.4,KMAX=PORTRAIT?7:4;
+const clampK=k=>Math.min(KMAX,Math.max(KMIN,k));
+const softK=k=>k>KMAX?KMAX*Math.pow(k/KMAX,.35):(k<KMIN?KMIN*Math.pow(k/KMIN,.35):k);   // резиновый упор пинча
 function syncTarget(){tk=zk;ttx=ztx;tty=zty;}
-function cancelZAnim(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}syncTarget();}
-// мгновенный зум к точке (для пинча/жестов прямого управления)
-function zoomAt(px,py,f){const nk=clampK(zk*f),k=nk/zk;ztx=px-(px-ztx)*k;zty=py-(py-zty)*k;zk=nk;applyZ();}
-// плавный инерционный зум к точке (px,py — в координатах svg)
-function zoomTo(px,py,nk){if(!zRAF)syncTarget();nk=clampK(nk);const k=nk/tk;ttx=px-(px-ttx)*k;tty=py-(py-tty)*k;tk=nk;runZAnim();}
-function runZAnim(){if(zRAF)return;vp.classList.remove("smooth");
-  const step=()=>{const e=.2;zk+=(tk-zk)*e;ztx+=(ttx-ztx)*e;zty+=(tty-zty)*e;
-    if(Math.abs(tk-zk)<3e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
+function stopAnim(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}}
+let flingRAF=0;function stopFling(){if(flingRAF){cancelAnimationFrame(flingRAF);flingRAF=0;}}
+function cancelZAnim(){stopAnim();stopFling();syncTarget();}
+const screenCenterPt=()=>{const r=svg.getBoundingClientRect();return svgPt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});};
+// мгновенный зум к точке (пинч — прямое управление)
+function zoomAt(px,py,f){const nk=softK(zk*f),k=nk/zk;ztx=px-(px-ztx)*k;zty=py-(py-zty)*k;zk=nk;applyZ();}
+// A. lerp к цели
+function zoomTo(px,py,nk){if(!zRAF)syncTarget();stopFling();nk=clampK(nk);const k=nk/tk;ttx=px-(px-ttx)*k;tty=py-(py-tty)*k;tk=nk;runZAnim();}
+function runZAnim(){stopAnim();let last=performance.now();
+  const step=now=>{const dt=Math.min(64,now-last);last=now;const e=RM?1:1-Math.pow(1-.22,dt/16.7);
+    zk=Math.exp(Math.log(zk)+(Math.log(tk)-Math.log(zk))*e);ztx+=(ttx-ztx)*e;zty+=(tty-zty)*e;
+    if(Math.abs(Math.log(tk/zk))<2e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
     applyZ();zRAF=requestAnimationFrame(step);};
   zRAF=requestAnimationFrame(step);}
+// B. полёт камеры к (k,tx,ty)
+const outExpo=t=>t>=1?1:1-Math.pow(2,-10*t);
+function tweenTo(k,tx,ty,dur){stopAnim();stopFling();k=clampK(k);tk=k;ttx=tx;tty=ty;
+  if(RM||!dur||dur<=0){zk=k;ztx=tx;zty=ty;applyZ();return;}
+  const P=screenCenterPt(),k0=zk,c0x=(P.x-ztx)/k0,c0y=(P.y-zty)/k0,c1x=(P.x-tx)/k,c1y=(P.y-ty)/k,lk0=Math.log(k0),lk1=Math.log(k),t0=performance.now();
+  const step=now=>{const t=Math.min(1,(now-t0)/dur),e=outExpo(t);const kk=Math.exp(lk0+(lk1-lk0)*e),cx=c0x+(c1x-c0x)*e,cy=c0y+(c1y-c0y)*e;
+    zk=kk;ztx=P.x-kk*cx;zty=P.y-kk*cy;applyZ();if(t<1)zRAF=requestAnimationFrame(step);else{zk=k;ztx=tx;zty=ty;applyZ();zRAF=0;}};
+  zRAF=requestAnimationFrame(step);}
+// инерция после броска
+function fling(vx,vy){stopFling();let last=performance.now();
+  const step=now=>{const dt=Math.min(64,now-last);last=now;ztx+=vx*dt;zty+=vy*dt;const f=Math.pow(.935,dt/16.7);vx*=f;vy*=f;applyZ();syncTarget();
+    if(Math.hypot(vx,vy)<.004){flingRAF=0;return;}flingRAF=requestAnimationFrame(step);};
+  flingRAF=requestAnimationFrame(step);}
 // тачпад Mac: пинч (ctrlKey) или Cmd/Ctrl+колесо → зум к курсору; два пальца (обычный скролл) → панорама холста
 svg.addEventListener("wheel",e=>{e.preventDefault();
   if(e.ctrlKey||e.metaKey){
@@ -1212,31 +1238,39 @@ svg.addEventListener("wheel",e=>{e.preventDefault();
     dy=Math.max(-50,Math.min(50,dy));
     const p=svgPt(e);zoomTo(p.x,p.y,tk*Math.exp(-dy*0.0024));return;
   }
-  // панорама двумя пальцами / колесом
-  if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}
+  cancelZAnim();
   const m=svg.getScreenCTM();let dx=e.deltaX,dy=e.deltaY;if(e.deltaMode===1){dx*=16;dy*=16;}else if(e.deltaMode===2){dx*=window.innerWidth||1200;dy*=window.innerHeight||800;}
   ztx-=dx/m.a;zty-=dy/m.d;applyZ();syncTarget();
 },{passive:false});
+function zoomStep(f){const mid=screenCenterPt();zoomTo(mid.x,mid.y,(zRAF?tk:zk)*f);}
 $(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
   if(z==="fs"){toggleFS();return;}
   if(z==="help"){openHelp();return;}
-  if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}
-  const r=svg.getBoundingClientRect(),mid=svgPt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});
-  zoomTo(mid.x,mid.y,tk*(z==="in"?1.5:1/1.5));});
+  if(z==="reset"){focusAll(true);return;}
+  zoomStep(z==="in"?1.5:1/1.5);});
+// клавиатура: + / − / 0 (не в полях ввода)
+window.addEventListener("keydown",e=>{if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.key==="+"||e.key==="="){e.preventDefault();zoomStep(1.5);}else if(e.key==="-"||e.key==="_"){e.preventDefault();zoomStep(1/1.5);}else if(e.key==="0"){e.preventDefault();focusAll(true);}});
 // двойной клик по пустому холсту — плавный зум к точке (как в картах)
 svg.addEventListener("dblclick",e=>{if(e.target.closest(".node")||e.target.closest(".subnode"))return;e.preventDefault();const p=svgPt(e);zoomTo(p.x,p.y,(zRAF?tk:zk)*1.7);});
 
-const ptrs=new Map();let dragging=false,moved=false,sx,sy,stx,sty,pinchD=0,nodeDrag=null;
+const ptrs=new Map();let dragging=false,moved=false,sx,sy,stx,sty,pinchD=0,pinchP=null,nodeDrag=null,samples=[];
 svg.addEventListener("pointerdown",e=>{e.preventDefault();ptrs.set(e.pointerId,e);cancelZAnim();
   if(ptrs.size===2){dragging=false;nodeDrag=null;const[a,b]=[...ptrs.values()];pinchD=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);return;}
   const ng=e.target.closest(".node");
   if(EDITABLE&&editMode&&ng){const id=ng.dataset.id;const p=svgPt(e);nodeDrag={id,ox:N[id].x,oy:N[id].y,px:p.x,py:p.y};moved=false;}
-  else{dragging=true;moved=false;sx=e.clientX;sy=e.clientY;stx=ztx;sty=zty;}});
+  else{dragging=true;moved=false;sx=e.clientX;sy=e.clientY;stx=ztx;sty=zty;samples=[{t:performance.now(),x:e.clientX,y:e.clientY}];}});
 window.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;ptrs.set(e.pointerId,e);
-  if(ptrs.size>=2){const[a,b]=[...ptrs.values()],d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(pinchD){const p=svgPt({clientX:(a.clientX+b.clientX)/2,clientY:(a.clientY+b.clientY)/2});zoomAt(p.x,p.y,d/pinchD);moved=true;}pinchD=d;return;}
+  if(ptrs.size>=2){const[a,b]=[...ptrs.values()],d=Math.hypot(a.clientX-b.clientX,a.clientY-b.clientY);if(pinchD){pinchP=svgPt({clientX:(a.clientX+b.clientX)/2,clientY:(a.clientY+b.clientY)/2});zoomAt(pinchP.x,pinchP.y,d/pinchD);moved=true;}pinchD=d;return;}
   if(nodeDrag){const p=svgPt(e);const dx=p.x-nodeDrag.px,dy=p.y-nodeDrag.py;if(Math.abs(dx)+Math.abs(dy)>2)moved=true;N[nodeDrag.id].x=nodeDrag.ox+dx;N[nodeDrag.id].y=nodeDrag.oy+dy;liveMove(nodeDrag.id);return;}
-  if(dragging){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;const m=svg.getScreenCTM();ztx=stx+dx/m.a;zty=sty+dy/m.d;applyZ();}});
-const upP=e=>{if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=0;if(nodeDrag){if(moved)save();nodeDrag=null;}if(ptrs.size===0)dragging=false;};
+  if(dragging){const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>4)moved=true;const m=svg.getScreenCTM();ztx=stx+dx/m.a;zty=sty+dy/m.d;applyZ();
+    const now=performance.now();samples.push({t:now,x:e.clientX,y:e.clientY});while(samples.length>2&&now-samples[0].t>110)samples.shift();}});
+const upP=e=>{if(!ptrs.has(e.pointerId))return;ptrs.delete(e.pointerId);
+  if(ptrs.size<2&&pinchD){pinchD=0;// пружина назад, если пинч ушёл за границы
+    if(zk>KMAX||zk<KMIN){const k=clampK(zk),P=pinchP||screenCenterPt(),r=k/zk;tweenTo(k,P.x-(P.x-ztx)*r,P.y-(P.y-zty)*r,420);}}
+  if(nodeDrag){if(moved)save();nodeDrag=null;}
+  if(ptrs.size===0){if(dragging&&moved&&samples.length>1&&e.type==="pointerup"){const a=samples[0],b=samples[samples.length-1],dt=Math.max(1,b.t-a.t);if(performance.now()-b.t<80){const m=svg.getScreenCTM();const vx=(b.x-a.x)/dt/m.a,vy=(b.y-a.y)/dt/m.d;if(Math.hypot(vx,vy)*m.a>.25)fling(vx,vy);}}
+    dragging=false;syncTarget();}};
 window.addEventListener("pointerup",upP);window.addEventListener("pointercancel",upP);
 function liveMove(id){const n=N[id],g=nodeEls[id];if(!g)return;const w=nodeW(n),h=nodeH(n);
   g.querySelectorAll("rect").forEach(r=>{r.setAttribute("x",n.x-w/2);r.setAttribute("y",n.y-h/2);});
@@ -1252,8 +1286,8 @@ svg.addEventListener("pointerout",e=>{if(e.target.closest(".node")&&!e.relatedTa
 function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();let x=e.clientX-r.left+14,y=e.clientY-r.top+14;if(x>r.width-180)x-=200;tip.style.left=x+"px";tip.style.top=y+"px";}
 
 /* ——— click ——— */
-svg.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const ng=e.target.closest(".node");if(!ng)return;e.preventDefault();select(ng.dataset.id);});
-svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
+svg.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const so=e.target.closest(".socn");if(so){e.preventDefault();window.open(so.dataset.url,"_blank","noopener");return;}const ng=e.target.closest(".node");if(!ng)return;e.preventDefault();select(ng.dataset.id);});
+svg.addEventListener("click",e=>{if(moved){moved=false;return;}const so=e.target.closest(".socn");if(so){window.open(so.dataset.url,"_blank","noopener");return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
 window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
   if(lb.style.display==="flex"){if(e.key==="ArrowRight")galGo(1);else if(e.key==="ArrowLeft")galGo(-1);else if(e.key==="Escape")closeLight();return;}
@@ -1356,18 +1390,18 @@ const TOUR=[
 ];
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
-function smooth(on){vp.classList.toggle("smooth",on);}
-function smoothPulse(){vp.classList.add("smooth");setTimeout(()=>{if(tourIdx<0)vp.classList.remove("smooth");},780);}
+function smooth(on){}   // анимация теперь в JS (tweenTo), CSS-переходы не нужны
+function smoothPulse(){}
 const isMob=()=>window.innerWidth<=760;
 /* центрировать viewBox-точку (cx,cy) в точке экрана (доля высоты yf, сдвиг влево xoff) при масштабе scale */
-function panTo(cx,cy,scale,yf,xoff){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}const rect=svg.getBoundingClientRect();
+function panTo(cx,cy,scale,yf,xoff,dur){const rect=svg.getBoundingClientRect();
   const pt=svgPt({clientX:rect.left+rect.width/2-(xoff||0),clientY:rect.top+rect.height*(yf==null?0.5:yf)});
-  zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();syncTarget();}
+  const k=clampK(scale);tweenTo(k,pt.x-k*cx,pt.y-k*cy,dur==null?720:dur);}
 function portraitK(){const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);return clampK((rect.width*0.97)/(m*v.width));}
 function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();if(PORTRAIT){panTo(MOBC,n.y,portraitK(),0.3);return;}panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
-function fitWidthTop(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
-  const k=clampK((rect.width*0.97)/(m*v.width));const pt=svgPt({clientX:rect.left+rect.width/2,clientY:rect.top+10});zk=k;ztx=pt.x-k*(v.x+v.width/2);zty=pt.y-k*v.y;applyZ();syncTarget();}
+function fitWidthTop(dur){const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
+  const k=clampK((rect.width*0.97)/(m*v.width));const pt=svgPt({clientX:rect.left+rect.width/2,clientY:rect.top+10});tweenTo(k,pt.x-k*(v.x+v.width/2),pt.y-k*v.y,dur==null?720:dur);}
 function focusAll(sm){if(sm)smoothPulse();if(PORTRAIT)fitWidthTop();else focusCenter(1,0.5);}   // телефон = десктоп: вся схема целиком, дальше пинч
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
   if(PORTRAIT){panTo(MOBC,n.y,portraitK(),0.22);smoothPulse();return;}
@@ -1439,7 +1473,7 @@ render();buildChrome();
 // шрифты грузятся асинхронно — после готовности перерисовываем, чтобы ширина карточек измерилась точно
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{render();if(selectedId&&N[selectedId]){applyHighlight(selectedId);if(PORTRAIT)focusSelected(selectedId);}else if(PORTRAIT)fitWidthTop();});
 if(PORTRAIT){requestAnimationFrame(()=>{if(!selectedId&&tourIdx<0)fitWidthTop();});setTimeout(()=>{if(!selectedId&&tourIdx<0)fitWidthTop();},450);}
-if(location.hash)openHash();else{reset();focusAll();}
+if(location.hash)openHash();else{reset();if(PORTRAIT)fitWidthTop(0);else{const c=vbCenter();panTo(c[0],c[1],1,0.5,0,0);}}
 window.addEventListener("hashchange",openHash);
 if(MODE==="public"&&!GATED&&!location.hash){let toured;try{toured=localStorage.getItem("apphub-toured-v2");}catch(e){}if(!toured)setTimeout(showWelcome,450);}
 startSync();
