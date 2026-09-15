@@ -172,10 +172,11 @@ function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n
     gN.appendChild(g);subEls.push(g);});}
 
 /* ——— highlight / filter ——— */
-function baseLinks(){linkEls.forEach(le=>{const rv=le.prod&&showAllLinks;le.core.setAttribute("opacity",rv?.34:le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",rv?.06:le.baseGlow);});}
+function baseLinks(){linkEls.forEach(le=>{if(!le.mn){le.core.classList.remove("flowline");le.core.setAttribute("stroke-dasharray",le.f?"6 7":"none");}const rv=le.prod&&showAllLinks;le.core.setAttribute("opacity",rv?.34:le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",rv?.06:le.baseGlow);});}
 function applyHighlight(id){const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;
     le.core.setAttribute("opacity",on?1:.035);le.core.setAttribute("stroke-width",on?(le.f?2.2:2.9):le.baseW);le.glow.setAttribute("opacity",on?.34:.018);
+    if(!le.mn){le.core.classList.toggle("flowline",on);if(!on)le.core.setAttribute("stroke-dasharray",le.f?"6 7":"none");}
     if(on){conn.add(le.a);conn.add(le.b);}});
   Object.entries(nodeEls).forEach(([nid,g])=>{g.style.opacity=conn.has(nid)?1:.26;g.classList.toggle("sel",nid===id);});}
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
@@ -190,7 +191,7 @@ function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("do
   const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
 
 const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
-function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
+function select(id){if(!N[id])return;if(selectedId!==id)heroView="client";selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
   if(EDITABLE&&editMode)renderEdit(id);else renderInfo(id);
   panel.classList.add("open");document.body.classList.add("sel-open");
   if(!(EDITABLE&&editMode))focusSelected(id);
@@ -204,32 +205,64 @@ function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
 /* ——— panels ——— */
 function defaultPanel(){
   if(EDITABLE&&editMode)return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>РЕДАКТОР</div><div class="pTitle">Режим редактирования</div><p class="hint">Тащи узлы мышью. Клик по узлу — правка описания, скриншотов, ссылок, статуса и связей. Кнопка «Проект» — создать новый и связать в цепочку.</p>`;
-  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Слева — вход в студию, справа — живые кейсы из портфолио. Кликни любой узел: описание, статус, экраны и рабочая ссылка.</p><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
+  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Кликни любой узел: экраны, статус и рабочая ссылка.</p>
+<div class="legend"><h4>Как читать карту</h4>
+<div class="lrow"><span class="lsw" style="background:${C.L1}"></span><b>L1</b><span>пользователи и их ИИ-агенты — откуда приходит спрос</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.L2}"></span><b>L2</b><span>агрегаторы — подбирают бизнесы под запрос</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.L3}"></span><b>L3</b><span>приложения бизнесов и живые кейсы справа</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.NET}"></span><b>Loop</b><span>сеть лояльности — возвращает гостя в петлю</span></div>
+<div class="lrow dots"><i style="background:${STATUS.live.c}"></i>в проде <i style="background:${STATUS.dev.c}"></i>прототип / демо <i style="background:${STATUS.concept.c}"></i>концепт</div>
+<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
 function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
 function shots(n){let arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)arr=pfImgs(n);if(!arr.length)return"";
   if(arr.length===1)return`<div class="shot" data-img="${esc(arr[0])}"><img src="${esc(arr[0])}" alt="${esc(n.label)}" loading="lazy"></div>`;
   return`<div class="shots">${arr.map(s=>`<img src="${esc(s)}" data-img="${esc(s)}" alt="${esc(n.label)}" loading="lazy">`).join("")}</div>`;}
-function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
-  let out=arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
-  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;
-  if(n.admin&&n.admin.url)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
-  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Все экраны в портфолио →</a>`;
+function linkBtns(n){let arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
+  const adm=heroView==="admin"&&hasAdmin(n)&&n.admin.url;
+  if(adm)arr=[{label:n.admin.label||"Админка",url:n.admin.url,admin:true},...arr.slice(0,1).map(l=>({label:"📱 Клиентское приложение",url:l.url}))];
+  const isAddr=t=>/^(@|https?:|t\.me|[a-z0-9-]+(\.[a-z0-9-]+)+)/i.test(t||"");
+  let out=arr.map((l,i)=>i?`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`
+    :`<a class="pLink go" href="${esc(l.url)}" target="_blank" rel="noopener"><b>${l.admin?"Открыть админку":(isAddr(l.label)?"Открыть приложение":esc(l.label))}</b><small>${l.admin?esc(l.label)+" · демо":(isAddr(l.label)?esc(l.label):(/t\.me/.test(l.url)?"в Telegram":"откроется в новой вкладке"))}</small><i>↗</i></a>`).join("");
+  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":(n.s==="concept"?"концепт · ссылки пока нет":"в разработке · демо скоро")}</span>`;
+  if(n.admin&&n.admin.url&&!adm)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
+  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио →</a>`;
+  out+=`<button class="pLink alt share" data-share="${esc(n.label)}">🔗 Поделиться</button>`;
   return out;}
+async function shareNode(label){const url=location.origin+location.pathname+"#"+(selectedId||"");const text=`${label} — карта экосистемы AppHub`;
+  if(navigator.share&&isMob()){try{await navigator.share({title:text,url});return;}catch(e){if(e&&e.name==="AbortError")return;}}
+  let ok=false;try{await navigator.clipboard.writeText(url);ok=true;}catch(e){}
+  if(!ok){try{const ta=document.createElement("textarea");ta.value=url;ta.style.cssText="position:fixed;opacity:0";document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");ta.remove();}catch(e){}}
+  toast(ok?"🔗 Ссылка на «"+label+"» скопирована":"🔗 "+url);}
 function pfLine(n){if(!n.pf&&!n.admin)return"";const a=[];if(n.screens)a.push(`${n.screens} экранов в портфолио`);if(n.admin&&n.admin.screens)a.push(`админка · ${n.admin.screens} экранов`);return a.length?`<div class="pfline">▣ ${a.join(" · ")}</div>`:"";}
 function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
   if(!ks.length)return"";
   ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
   return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
+function imgsOf(n){let a=n.imgs||(n.img?[n.img]:[]);if(!a.length)a=pfImgs(n);return a;}
+let heroImgs=[],heroView="client";
+const hasAdmin=n=>!!(n.admin&&(n.admin.pf||(n.admin.imgs&&n.admin.imgs.length)));
+function adminImgs(n){const a=n.admin||{};return a.imgs&&a.imgs.length?a.imgs:pfImgs({pf:a.pf,screens:a.screens});}
+function viewImgs(n){return heroView==="admin"&&hasAdmin(n)?adminImgs(n):imgsOf(n);}
+function segRow(n){if(!hasAdmin(n))return"";const adm=heroView==="admin";
+  return`<div class="segrow"><div class="seg" role="tablist"><button role="tab" class="${adm?"":"on"}" data-view="client">📱 Клиент</button><button role="tab" class="${adm?"on":""}" data-view="admin">⚙ Админка</button></div><span class="segcap">${adm?(n.admin.screens?n.admin.screens+" экранов":"панель"):(n.screens?n.screens+" экранов":"приложение")}</span></div>`;}
+function hero(n){const a=viewImgs(n);heroImgs=a;if(!a.length)return"";
+  return`${segRow(n)}<div class="hero${hasAdmin(n)?" has-seg":""}"><div class="htrack">${a.map((src,i)=>`<div class="hslide"><div class="phone" data-gal="${i}"><img src="${esc(src)}" alt="${esc(n.label)} · экран ${i+1}" loading="${i?"lazy":"eager"}" decoding="async"></div></div>`).join("")}</div>${a.length>1?`<div class="hdots">${a.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`:""}</div>`;}
+function edgeFade(el){if(!el||el.dataset.ef)return;el.dataset.ef="1";const upd=()=>{const max=el.scrollWidth-el.clientWidth;el.style.setProperty("--fl",el.scrollLeft>4?"34px":"0px");el.style.setProperty("--fr",max-el.scrollLeft>4?"56px":"0px");};
+  el.addEventListener("scroll",upd,{passive:true});new ResizeObserver(upd).observe(el);upd();}
+function bindHero(){edgeFade(panel.querySelector(".htrack"));panel.querySelectorAll(".phone img").forEach(im=>{const ok=()=>im.setAttribute("data-ok","1");if(im.complete&&im.naturalWidth)ok();else im.addEventListener("load",ok,{once:true});});
+  const tr=panel.querySelector(".htrack");if(!tr)return;const dots=panel.querySelectorAll(".hdots i");
+  tr.addEventListener("scroll",()=>{const sl=tr.querySelector(".hslide");if(!sl)return;const i=Math.round(tr.scrollLeft/(sl.offsetWidth+10));dots.forEach((d,j)=>d.classList.toggle("on",j===i));},{passive:true});}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
-  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img&&!n.pf;
-  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
+  const h=hero(n);
+  panel.innerHTML=`${CLOSE}${h}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
+  <div class="ctarow">${linkBtns(n)}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
+  ${!h&&n.s!=="core"&&n.s!=="concept"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -270,8 +303,19 @@ function commitForm(){const id=panel.dataset.editing;if(!id||!N[id])return;const
 function openHash(){const id=decodeURIComponent(location.hash.replace("#",""));if(id&&N[id])select(id);else reset();}
 
 /* ——— lightbox / toast ——— */
-const lb=$("#lightbox");function openLight(src){lb.querySelector("img").src=src;lb.style.display="flex";}
-lb.addEventListener("click",()=>lb.style.display="none");
+const lb=$("#lightbox");let galArr=[],galI=0,galCap="";
+lb.innerHTML=`<button class="lbx" aria-label="Закрыть">✕</button><div class="lbstage"><div class="lbphone"><img alt=""></div><button class="lbnav prev" aria-label="Назад">‹</button><button class="lbnav next" aria-label="Дальше">›</button></div><div class="lbcap"></div><div class="lbcount"></div>`;
+function galShow(){const img=lb.querySelector("img");img.style.opacity=0;img.src=galArr[galI];img.onload=()=>{img.style.opacity=1;};
+  lb.querySelector(".lbcount").textContent=galArr.length>1?`${galI+1} / ${galArr.length}`:"";lb.querySelector(".lbcap").textContent=galCap;
+  lb.querySelector(".prev").style.visibility=galI>0?"visible":"hidden";lb.querySelector(".next").style.visibility=galI<galArr.length-1?"visible":"hidden";}
+function openGallery(arr,i,cap){if(!arr||!arr.length)return;galArr=arr;galI=Math.max(0,Math.min(i||0,arr.length-1));galCap=cap||"";lb.style.display="flex";document.body.classList.add("lb-open");galShow();}
+function openLight(src){openGallery([src],0);}
+function closeLight(){lb.style.display="none";document.body.classList.remove("lb-open");}
+function galGo(d){const n=galI+d;if(n<0||n>=galArr.length)return;galI=n;galShow();}
+lb.addEventListener("click",e=>{if(e.target.closest(".prev")){galGo(-1);return;}if(e.target.closest(".next")){galGo(1);return;}if(e.target.closest(".lbx")||!e.target.closest(".lbphone"))closeLight();});
+(()=>{let sx=0,sy=0,on=false;const st=lb.querySelector(".lbstage");
+  st.addEventListener("pointerdown",e=>{on=true;sx=e.clientX;sy=e.clientY;},{passive:true});
+  st.addEventListener("pointerup",e=>{if(!on)return;on=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))galGo(dx<0?1:-1);else if(dy>80&&Math.abs(dy)>Math.abs(dx))closeLight();},{passive:true});})();
 let toastT;function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),1800);}
 
 /* ——— stats / chips / legend (built by JS) ——— */
@@ -279,7 +323,7 @@ function buildChrome(){
   const products=Object.values(N).filter(n=>n.s!=="core");
   const live=products.filter(n=>n.s==="live").length,dev=products.filter(n=>n.s==="dev").length;
   const cases=products.filter(n=>n.t==="case").length;
-  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>узлов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
+  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>продуктов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
   const LL={ROOT:"Студия",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",NET:"Loop · сеть",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const LS={ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c],["case","Кейсы","#2dd4bf"]];
@@ -295,7 +339,13 @@ function buildChrome(){
     fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
     document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
+  countUp();edgeFade($("#stats"));edgeFade($("#chips"));
 }
+let countedOnce=false;
+function countUp(){if(countedOnce||matchMedia("(prefers-reduced-motion:reduce)").matches)return;countedOnce=true;
+  $$("#stats .stat b").forEach((el,i)=>{const end=parseInt(el.textContent,10);if(!end)return;const t0=performance.now()+i*90,dur=900;el.textContent="0";
+    const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);el.textContent=Math.round(end*e);if(k<1)requestAnimationFrame(step);};
+    requestAnimationFrame(step);setTimeout(()=>{el.textContent=end;},dur+i*90+200);});}
 
 /* ——— zoom / pan / pinch / node-drag ——— */
 let zk=1,ztx=0,zty=0;          // отрисованный трансформ
@@ -327,6 +377,8 @@ svg.addEventListener("wheel",e=>{e.preventDefault();
   ztx-=dx/m.a;zty-=dy/m.d;applyZ();syncTarget();
 },{passive:false});
 $(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
+  if(z==="fs"){toggleFS();return;}
+  if(z==="help"){openHelp();return;}
   if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}
   const r=svg.getBoundingClientRect(),mid=svgPt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});
   zoomTo(mid.x,mid.y,tk*(z==="in"?1.5:1/1.5));});
@@ -362,7 +414,10 @@ function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();le
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
 window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
-  if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
+  if(lb.style.display==="flex"){if(e.key==="ArrowRight")galGo(1);else if(e.key==="ArrowLeft")galGo(-1);else if(e.key==="Escape")closeLight();return;}
+  if((e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А")&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){e.preventDefault();toggleFS();return;}
+  if(e.key==="Escape"){const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}
+    if(!selectedId&&document.body.classList.contains("fs")&&!document.fullscreenElement){setFS(false);return;}reset();}
 });
 
 /* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
@@ -380,6 +435,9 @@ panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
   const dm=e.target.closest("[data-dom]");if(dm){reset();setFilter("dom:"+dm.dataset.dom);toast("Тема · "+dm.dataset.dom);return;}
   const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
+  const sh=e.target.closest("[data-share]");if(sh){shareNode(sh.dataset.share);return;}
+  const sv=e.target.closest("[data-view]");if(sv&&selectedId){heroView=sv.dataset.view;const top=panel.scrollTop;renderInfo(selectedId);panel.scrollTop=top;return;}
+  const gal=e.target.closest("[data-gal]");if(gal){openGallery(heroImgs,+gal.dataset.gal,selectedId&&N[selectedId]?N[selectedId].label:"");return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;
   if(act==="addlink"){commitForm();(N[id].links=N[id].links||[]).push({label:"",url:""});renderEdit(id);}
@@ -449,7 +507,7 @@ const TOUR=[
   {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
   {t:"Источники трафика",x:"По углам — утилиты и биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
   {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
-  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. Поехали.",focus:"all"}
+  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. ⤢ или клавиша F — карта на весь экран для презентации; в карточке — «Поделиться», чтобы отправить ссылку на конкретный продукт.",focus:"all"}
 ];
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
@@ -462,7 +520,7 @@ function panTo(cx,cy,scale,yf,xoff){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}
   zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();syncTarget();}
 function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
-function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
+function focusAll(sm){if(sm)smoothPulse();if(isMob())panTo(880,430,2.15,0.5);else focusCenter(1,0.5);}  // телефон: старт на ядре петли L2–L3, остальное — пан/пинч
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
   panTo(n.x,n.y,n.t==="hub"?(mob?1.45:1.35):(mob?1.85:1.75),mob?0.24:0.46,mob?0:204);smoothPulse();}
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
@@ -500,12 +558,31 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><p>Студия, петля трафика, сеть Loop и ${META.portfolio||34} продукта в портфолио — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
 function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
 function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
+
+/* ——— «?»: стартовая панель с легендой (публичная витрина не открывает её сама) ——— */
+function openHelp(){if(EDITABLE&&editMode)return;const was=selectedId;selectedId=null;clearSubs();baseLinks();Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
+  panel.innerHTML=CLOSE+defaultPanel();panel.classList.add("open");document.body.classList.add("sel-open");try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}if(was&&!isMob())focusAll(true);}
+/* ——— полноэкранный режим: прячем шапку и фильтры, карта на весь экран (Fullscreen API там, где он есть) ——— */
+function setFS(on){document.body.classList.toggle("fs",on);$("#fsBtn")?.classList.toggle("on",on);$("#fsBtn")?.setAttribute("title",on?"Выйти из полного экрана":"На весь экран");
+  setTimeout(()=>{if(tourIdx>=0)return;if(selectedId&&N[selectedId])focusSelected(selectedId);else focusAll(true);},80);toast(on?"⤢ Карта на весь экран · Esc — выход":"Обычный режим");}
+function toggleFS(){const on=!document.body.classList.contains("fs");
+  if(on){const el=document.documentElement,rq=el.requestFullscreen||el.webkitRequestFullscreen;if(rq&&!isMob()){try{const r=rq.call(el);if(r&&r.catch)r.catch(()=>{});}catch(e){}}}
+  else if(document.fullscreenElement||document.webkitFullscreenElement){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}}
+  setFS(on);}
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("fs"))setFS(false);});
+let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
+/* ——— мобильный док (Apple HIG: действия под большим пальцем) ——— */
+// ГОТЧА: backdrop-filter на .bar делает её containing block для position:fixed → меню фильтра на мобиле уезжало за экран. Переносим в body.
+if(isMob()&&$("#filterMenu"))document.body.appendChild($("#filterMenu"));
+$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.toggle("open");});
+$("#dockTour")?.addEventListener("click",()=>{closeWelcome();startTour();});
+document.addEventListener("click",e=>{if(!e.target.closest(".fwrap")&&!e.target.closest("#dockFilter")&&!e.target.closest("#filterMenu"))$("#filterMenu")?.classList.remove("open");});
 
 /* ——— go ——— */
 render();buildChrome();

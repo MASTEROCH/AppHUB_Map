@@ -3,7 +3,12 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#06070b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AppHub Map">
+<link rel="apple-touch-icon" href="/v2/apple-touch-icon.png">
 <title>AppHub.Studio — карта экосистемы · редактор</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20fill%3D%22%23C5FF5F%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20viewBox%3D%220%200%201024%201024%22%3E%3Cpath%20d%3D%22M651.594%20390.536C653.686%20390.656%20654.73%20390.962%20655.932%20392.748C656.311%20401.079%20623.196%20473.867%20616.99%20487.884L584.053%20563.22L561.012%20616.273C556.562%20626.643%20552.495%20637.476%20547.311%20647.495C546.256%20649.533%20544.014%20653.92%20541.625%20654.384C534.732%20655.725%20492.508%20623.235%20484.134%20617.15C473.862%20623.118%20464.13%20631.869%20454.25%20638.466C448.669%20642.193%20433.113%20655.722%20427.449%20655.091C424.477%20652.691%20415.754%20610.786%20413.946%20603.614C411.222%20590.344%20406.701%20572.202%20403.169%20559.138C386.134%20549.197%20369.254%20538.991%20352.535%20528.525C346.209%20524.587%20325.128%20511.449%20320.718%20506.434C320.564%20503.079%20331.286%20499.528%20334.177%20498.561C357.739%20490.675%20381.378%20482.98%20404.862%20474.862L546.025%20425.664L615.258%20402.524C623.911%20399.623%20643.662%20392.306%20651.594%20390.536ZM454.085%20584.714C465.668%20593.408%20478.199%20600.923%20489.234%20609.204C505.807%20620.232%20521.99%20631.78%20538.504%20642.773C548.951%20617.593%20643.175%20408.818%20642.61%20406.497L555.1%20489.039C522.25%20519.665%20485.445%20553.019%20454.085%20584.714ZM339.171%20508.497C347.672%20514.281%20358.382%20519.396%20366.269%20524.863C380.208%20533.072%20393.674%20541.587%20407.785%20549.546C426.485%20536.999%20446.548%20524.765%20465.531%20512.513L569.623%20445.179L609.821%20419.471C612.34%20417.857%20624.631%20410.18%20626.098%20408.677L625.349%20408.548C608.099%20413.687%20588.704%20420.897%20571.486%20426.691C530.681%20440.306%20490.011%20454.324%20449.483%20468.745L380.204%20493.346C367.855%20497.743%20350.947%20503.305%20339.171%20508.497Z%22/%3E%3Cpath%20d%3D%22M644.022%20460.751C646.418%20463.353%20652.378%20474.765%20654.476%20478.608L678.351%20523.074L703.786%20569.832C714.594%20589.654%20724.738%20605.33%20725.586%20628.975C726.556%20651.509%20718.325%20673.47%20702.784%20689.816C689.892%20703.467%20666.868%20714.9%20648.071%20715.555C636.118%20716.7%20624.068%20714.866%20612.997%20710.217C591.887%20701.205%20584.663%20685.393%20576.173%20665.748C572.643%20657.69%20569.219%20649.585%20565.901%20641.437L619.743%20517.284C627.229%20500.038%20635.801%20477.098%20644.022%20460.751Z%22/%3E%3Cpath%20d%3D%22M503.303%20308.696C515.976%20307.515%20531.265%20309.605%20543.199%20313.83C568.905%20322.93%20578.209%20341.156%20590.228%20363.738C594.962%20372.631%20600.545%20381.824%20604.8%20391.022L453.113%20443.49C427.592%20452.783%20401.829%20461.399%20375.851%20469.329L422.764%20383.927L436.708%20358.404C441.414%20349.749%20444.479%20343.116%20450.669%20335.287C464.253%20318.106%20482.218%20311.245%20503.303%20308.696Z%22/%3E%3Cpath%20d%3D%22M339.061%20535.728C345.543%20537.191%20384.692%20561.877%20391.952%20566.539C397.144%20585.438%20400.72%20604.812%20405.481%20623.983C408.726%20637.052%20411.014%20661.34%20425.535%20666.467C433.001%20669.103%20443.277%20662.51%20449.891%20658.91C441.195%20681.625%20433.855%20698.736%20411.122%20709.986C389.712%20719.648%20364.312%20717.039%20343.782%20706.393C323.614%20696.126%20308.483%20678.105%20301.861%20656.465C291.401%20622.485%20303.738%20598.78%20319.839%20570.41C326.377%20558.923%20332.785%20547.361%20339.061%20535.728Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -87,7 +92,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 .stage{display:flex;flex:1 1 auto;min-height:0;gap:16px;margin:10px 0 0;width:100%;padding:0 14px;align-items:stretch}
 .diagram{flex:1 1 100%;min-width:0;position:relative;border-radius:26px;border:1px solid var(--hair);background:rgba(255,255,255,.018);overflow:hidden;box-shadow:var(--spec),0 30px 70px -28px rgba(0,0,0,.7);user-select:none;-webkit-user-select:none}
 .diagram::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;background:radial-gradient(130% 100% at 50% 44%,transparent 62%,rgba(4,5,8,.32) 100%)}
-svg#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+svg#map{position:relative;z-index:1;width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 svg#map text{user-select:none;-webkit-user-select:none}
 svg#map:active{cursor:grabbing}
 #links path{transition:opacity .28s ease}
@@ -353,6 +358,148 @@ body.edit svg#map{cursor:default}
 .pLink.alt:hover{background:rgba(255,255,255,.14);box-shadow:var(--spec),0 10px 24px -10px rgba(0,0,0,.6)}
 .cta .pLink.alt{margin-left:0}
 
+/* ——— WOW-слой: медленная аврора за картой (2 слоя, transform-only, дешёвая) ——— */
+.diagram::before{content:"";position:absolute;inset:-18%;z-index:0;pointer-events:none;background:
+  radial-gradient(38% 34% at 22% 28%,rgba(244,114,182,.11),transparent 62%),
+  radial-gradient(34% 34% at 80% 24%,rgba(56,189,248,.11),transparent 62%),
+  radial-gradient(46% 40% at 56% 86%,rgba(197,255,95,.09),transparent 62%);
+  animation:aurora 28s cubic-bezier(.45,0,.55,1) infinite alternate;will-change:transform}
+@keyframes aurora{to{transform:translate(4%,-3%) rotate(2.5deg) scale(1.06)}}
+
+/* ——— HUD: иконки в стеклянных кругах, состояние «включено» ——— */
+.zoom button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.zoom button.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -6px rgba(197,255,95,.5)}
+
+/* ——— карточка: hero-карусель экранов в телефонных рамках ——— */
+.hero{position:relative;margin:34px -8px 0;height:270px}  /* сверху место под крестик закрытия */
+.htrack{display:flex;gap:10px;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 8px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.htrack::-webkit-scrollbar{display:none}
+.hslide{flex:0 0 auto;height:100%;scroll-snap-align:start}
+.phone{height:100%;aspect-ratio:430/932;border-radius:22px;overflow:hidden;background:#0c0e16;border:1px solid var(--hair-2);box-shadow:var(--spec),0 18px 40px -18px rgba(0,0,0,.85);cursor:zoom-in;transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .35s}
+.phone:hover{transform:translateY(-3px);border-color:rgba(197,255,95,.5);box-shadow:var(--spec),0 24px 48px -18px rgba(197,255,95,.25)}
+.phone img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;animation:imgIn .55s both cubic-bezier(.16,1,.3,1)}
+@keyframes imgIn{from{opacity:0;transform:scale(1.04)}}
+.hdots{display:flex;gap:5px;justify-content:center;margin-top:9px}
+.hdots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:.3s cubic-bezier(.16,1,.3,1)}
+.hdots i.on{width:18px;border-radius:3px;background:var(--lime);box-shadow:0 0 8px rgba(197,255,95,.55)}
+.panel .badge{margin-top:12px}
+/* CTA-иерархия: одна лаймовая кнопка «открыть», остальное — стекло */
+.ctarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ctarow .pLink{margin:0}
+.pLink.go{flex:1 1 100%;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:13px 18px 12px 20px;border-radius:16px;position:relative;overflow:hidden;text-align:left;line-height:1.15;background:linear-gradient(180deg,#dcff8a,#b8f04c);color:#0a0d05;border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 12px 30px -10px rgba(197,255,95,.55)}
+.pLink.go b{font-family:'Manrope';font-weight:800;font-size:16px;letter-spacing:-.01em;grid-column:1;grid-row:1}
+.pLink.go small{grid-column:1;grid-row:2;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.02em;color:rgba(10,13,5,.62);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pLink.go i{grid-column:2;grid-row:1/3;font-style:normal;font-size:20px;font-weight:700;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(10,13,5,.12);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.pLink.go:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 18px 40px -12px rgba(197,255,95,.7)}
+.pLink.go:hover i{transform:translate(2px,-2px)}
+.pLink.go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.2s cubic-bezier(.16,1,.3,1) 1.4s infinite}
+@keyframes sheen{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:13px;white-space:nowrap}
+.ctarow .pLink:not(.go):not(.alt){background:rgba(197,255,95,.14);color:#e6ffb8;border:1px solid rgba(197,255,95,.35);box-shadow:var(--spec)}
+.noshot{margin-top:14px;padding:16px}
+
+/* ——— галерея-лайтбокс: экран в телефоне, стрелки, счётчик, свайп ——— */
+#lightbox{flex-direction:column;cursor:default;padding:24px}
+#lightbox .lbstage{position:relative;height:min(84vh,880px);aspect-ratio:430/932;max-width:92vw;display:flex;align-items:center;justify-content:center}
+#lightbox .lbphone{height:100%;aspect-ratio:430/932;border-radius:30px;overflow:hidden;border:1px solid var(--hair-2);box-shadow:0 50px 120px rgba(0,0,0,.75),var(--spec);background:#0c0e16;animation:tourIn .4s cubic-bezier(.16,1,.3,1)}
+#lightbox .lbphone img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:top;display:block;border-radius:0;box-shadow:none;transition:opacity .25s}
+#lightbox .lbx{position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid var(--hair-2);color:#fff;font-size:18px;cursor:pointer;z-index:2;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s}
+#lightbox .lbx:hover{background:rgba(255,255,255,.2);transform:rotate(90deg)}
+#lightbox .lbnav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid var(--hair-2);color:#fff;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+#lightbox .lbnav:hover{background:rgba(255,255,255,.2)}
+#lightbox .lbnav.prev{left:-66px}#lightbox .lbnav.next{right:-66px}
+#lightbox .lbcap{font-family:'Manrope';font-weight:700;font-size:15px;margin-top:16px}
+#lightbox .lbcount{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;color:var(--muted);margin-top:4px}
+body.lb-open{overflow:hidden}
+
+/* ——— полноэкранный режим: только карта ——— */
+body.fs .head,body.fs .chips,body.fs .foot{display:none}
+body.fs .bar{position:fixed;left:0;right:0;top:0;z-index:48;background:linear-gradient(180deg,rgba(6,7,11,.78),rgba(6,7,11,0));border-bottom:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;pointer-events:none}
+body.fs .bar>*{pointer-events:auto}
+body.fs .stage{position:fixed;inset:0;margin:0;padding:0;gap:0}
+body.fs .diagram{border-radius:0;border:0;box-shadow:none}
+body.fs .zoom{left:22px;bottom:calc(22px + env(safe-area-inset-bottom))}
+body.fs .panel{top:82px}
+
+/* ——— мобильный док + шапка «логотип + поиск» (действия под большим пальцем, safe-area) ——— */
+.dock{display:none}
+@media(max-width:760px){
+  .dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;display:flex;gap:2px;padding:6px;background:rgba(13,15,23,.74);backdrop-filter:blur(42px) saturate(200%) brightness(1.08);-webkit-backdrop-filter:blur(42px) saturate(200%) brightness(1.08);border:1px solid var(--hair-2);border-radius:26px;box-shadow:var(--spec),0 20px 50px -18px rgba(0,0,0,.85);transition:transform .42s cubic-bezier(.16,1,.3,1),opacity .3s}
+  .dock a,.dock button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:#cfd2da;font-family:'Inter';font-size:10.5px;font-weight:600;padding:7px 4px;border-radius:20px;text-decoration:none;cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+  .dock svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .dock a:active,.dock button:active{background:rgba(255,255,255,.1);color:#fff;transform:scale(.96)}
+  .dock .prim{color:var(--lime)}
+  body.sel-open .dock,body.touring .dock,body.lb-open .dock{transform:translateY(130%);opacity:0;pointer-events:none}
+  .bar .btn,.bar a.prim,.bar .fwrap>#filterBtn,.bar #linksBtn,.bar #tourBtn,.bar .grow{display:none}  /* .fwrap остаётся: в нём живёт меню фильтра для дока */
+  .search{order:0;flex:1 1 auto;min-width:0}
+  .chips{display:none}
+  .stats{margin-top:7px}
+  .stage{margin-top:8px}
+  .zoom{left:10px;bottom:calc(80px + env(safe-area-inset-bottom));gap:6px}
+  .zoom [data-z=in],.zoom [data-z=out]{display:none}
+  body>.fmenu{position:fixed;top:auto;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));min-width:0;max-height:min(58vh,420px);border-radius:20px;z-index:61;animation:menuIn .32s cubic-bezier(.16,1,.3,1)}
+  @keyframes menuIn{from{opacity:0;transform:translateY(14px)}}
+  .hero{height:215px;margin:12px -4px 0}
+  .panel{height:60vh;padding-top:22px}
+  .panel .badge{margin-top:8px}
+  .pTitle{font-size:23px}
+  .pLink.go{padding:12px 14px 11px 16px}.pLink.go b{font-size:15px}
+  #toast{bottom:calc(88px + env(safe-area-inset-bottom))}
+  body.fs .zoom{left:10px;bottom:calc(80px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  .diagram::before,.pLink.go::after,.brand .logo,.btn.demo::after,.node.spot{animation:none!important}
+  #viewport.smooth,.panel,.node{transition:none!important}
+}
+
+/* ——— переключатель Клиент | Админка над превью (iOS segmented) ——— */
+.segrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:34px}
+.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:13px;padding:3px;box-shadow:var(--spec)}
+.seg button{background:none;border:0;color:#b9bdc6;font-family:'Manrope';font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:10px;cursor:pointer;transition:.28s cubic-bezier(.16,1,.3,1);white-space:nowrap}
+.seg button.on{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.12));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 12px -6px rgba(0,0,0,.7)}
+.seg button:hover:not(.on){color:#fff}
+.segcap{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.04em;color:var(--muted)}
+.hero.has-seg{margin-top:10px}
+@media(max-width:760px){.segrow{margin-top:14px}.hero.has-seg{margin-top:8px}}
+
+/* ——— доводка: скелетон экрана пока грузится, хоткей-плашка, тесная шапка, кнопка «поделиться» ——— */
+.phone{background:linear-gradient(110deg,#0c0e16 40%,#151826 50%,#0c0e16 60%) 0 0/220% 100%;animation:shimmer 1.6s linear infinite}
+@keyframes shimmer{to{background-position:-120% 0}}
+.phone:has(img[data-ok]){animation:none;background:#0c0e16}
+.kbd{display:inline-block;font-family:'JetBrains Mono';font-size:10px;padding:1px 6px;border:1px solid var(--hair-2);border-bottom-width:2px;border-radius:5px;color:#cfd2da;letter-spacing:0;vertical-align:1px}
+.head{padding-top:8px}
+h1{margin-top:3px}
+.lede{margin-top:4px}
+.stats{margin-top:8px}
+.chips{margin-top:7px}
+.pLink.share{cursor:pointer;font-family:'Manrope'}
+@media(max-width:760px){.kbd,.eyebrow .kbd{display:none}.eyebrow{font-size:10px}}
+@media(max-width:760px){.eyebrow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+
+/* ——— легенда в стартовой панели + цифры приветствия ——— */
+.legend{margin-top:18px;padding:14px 14px 10px;border:1px solid var(--hair);border-radius:16px;background:rgba(255,255,255,.035)}
+.legend h4{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:9px}
+.legend .lrow{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#cfd2da;padding:4px 0;line-height:1.35}
+.legend .lrow b{font-family:'JetBrains Mono';font-weight:600;font-size:11.5px;color:#fff;min-width:34px}
+.legend .lsw{width:10px;height:10px;border-radius:3px;flex:0 0 10px;box-shadow:0 0 8px currentColor}
+.legend .dots{flex-wrap:wrap;gap:6px 4px;margin-top:6px;padding-top:9px;border-top:1px solid var(--hair);font-size:12px}
+.legend .dots i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 3px 0 8px}
+.legend .dots i:first-child{margin-left:0}
+.legend .keys{color:var(--muted);font-size:11.5px;gap:6px}
+.wstats{display:flex;justify-content:center;gap:10px;margin:6px 0 14px;position:relative}
+.wstats div{display:flex;align-items:baseline;gap:5px;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:12px;padding:7px 12px;box-shadow:var(--spec)}
+.wstats b{font-family:'Manrope';font-weight:800;font-size:18px;color:var(--lime);font-variant-numeric:tabular-nums}
+.wstats span{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);letter-spacing:.04em}
+.stat b{font-variant-numeric:tabular-nums;min-width:1.2em;display:inline-block;text-align:right}
+
+/* ——— затухание у краёв горизонтальных лент: край намекает, что дальше есть ещё ——— */
+.htrack,#stats,#chips{--fl:0px;--fr:0px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);transition:--fl .3s,--fr .3s}
+.hero{margin-left:-24px;margin-right:-24px}
+.htrack{padding-left:24px;padding-right:24px}
+@media(max-width:760px){.hero{margin-left:-18px;margin-right:-18px}.htrack{padding-left:18px;padding-right:18px}}
+.zoom [data-z=help]{font-family:'Manrope'}
+@media(max-width:760px){.zoom [data-z=help]{display:none}}
+
 </style>
 </head>
 <body data-mode="internal">
@@ -388,11 +535,16 @@ body.edit svg#map{cursor:default}
         <g id="viewport"><g id="loopg"></g><g id="zones"></g><g id="links"></g><g id="nodes"></g></g>
       </svg>
       <div class="editHint">✏️ Режим редактора · тащи узлы · клик — правка</div>
-      <div class="zoom"><button data-z="in">+</button><button data-z="out">−</button><button data-z="reset">⤢</button></div>
+      <div class="zoom"><button data-z="help" id="helpBtn" title="Как читать карту" aria-label="Как читать карту"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 0c0 1.6-2.5 2-2.5 3.5M12 17h.01"/></svg></button><button data-z="fs" id="fsBtn" title="На весь экран" aria-label="На весь экран"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button data-z="in" aria-label="Приблизить">+</button><button data-z="out" aria-label="Отдалить">−</button><button data-z="reset" title="Показать всю карту" aria-label="Показать всю карту"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="3"/></svg></button></div>
     </div>
     <aside class="panel" id="panel"></aside>
   </div>
   <div class="foot">внутренняя версия v2 · данные в браузере (общая база недоступна) · экспортируй JSON и вшей в src/data.js, чтобы стало каноном</div>
+  <nav class="dock" id="dock" aria-label="Действия">
+    <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg>Фильтр</button>
+    <button id="dockTour"><svg viewBox="0 0 24 24"><path d="M7 4l12 8-12 8z"/></svg>Тур</button>
+    <a href="https://t.me/Portfolio_AppHub_Bot" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>Портфолио</a>
+  </nav>
   <div id="lightbox"><img alt=""></div>
   <div id="toast"></div>
   <input type="file" id="fileImg" accept="image/*" multiple class="hidden">
@@ -409,9 +561,9 @@ window.APPHUB_DATA = {
   meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/" },
   nodes: {
     /* ——— APPHUB STUDIO · вход в экосистему ——— */
-    site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в OS Builder и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
+    site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в OS Builder и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",imgs:["/v2/shots/site-1.jpg","/v2/shots/osb-1.jpg","/v2/shots/osb-2.jpg","/v2/shots/site-2.jpg","/v2/shots/site-3.jpg"],links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
     studiobot:{t:"mini",layer:"ROOT",s:"live",x:262,y:44,label:"Studio Bot",cat:"Студия · родитель всех ботов",desc:"@AppHub_Studio_Bot — витрина студии в Telegram (Taplink): продукты и кейсы одним касанием, контакты фаундеров, репост страницы, оффер ИИ-маркетолога. Родитель всей семьи ботов: демо Dine, Neko, Batumi живут внутри него.",inter:"Принимает заявки с сайта и конструктора; запускает демо L3-приложений; отсюда рождаются продукт-боты (LinkOS, OS Builder) и юзер-боты клиентов.",pf:"taplink",screens:5,links:[{label:"@AppHub_Studio_Bot",url:"https://t.me/AppHub_Studio_Bot"},{label:"Поддержка",url:"https://t.me/AppHub_Support"}]},
-    portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 34 продукта · 205 экранов",desc:"Портфолио-бот: 34 карточки, 205 реальных экранов, поиск, фильтры по 16 нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
+    portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 34 продукта · 205 экранов",desc:"Портфолио-бот: 34 карточки, 205 реальных экранов, поиск, фильтры по 16 нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",imgs:["/v2/shots/portfolio-1.jpg","/v2/shots/portfolio-2.jpg","/v2/shots/portfolio-3.jpg"],links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
     linkos:{t:"mini",layer:"ROOT",s:"live",x:190,y:98,label:"LinkOS",cat:"Студия · ступень 1 · визитка",desc:"Конструктор цифровых визиток внутри Telegram: блоки, темы, публикация за Stars, личный кабинет, редактор QR-кода. Первая ступень воронки: free → PRO.",inter:"Вход в экосистему для малого бизнеса. Апселлит OS Builder (ступень 2) и кастом студии (ступень 3). Механика конструктора наследуется в OS Builder один-в-один.",pf:"linkos",screens:13,links:[{label:"@Linkos_AppHub_bot",url:"https://t.me/Linkos_AppHub_bot"}]},
     osbuilder:{t:"mini",layer:"ROOT",s:"dev",x:335,y:98,label:"OS Builder",cat:"Студия · ступень 2 · конструктор приложений",desc:"AppHUB OS Builder — конструктор Telegram Mini App под нишу: 20 шаблонов (бьюти, кафе, медицина, магазин, фитнес, ивенты, недвижимость, аренда, крипто, город, ЖКХ…), редактор блоков и бренда, умные модули (запись, push, Loop), автозаполнение из Telegram, magic-импорт бренда с сайта или Instagram за 30 секунд. Публикация в бот клиента и оплата — на подключении бэкенда.",inter:"Собирает L3-приложения из ДНК доноров (Dine, CityHub, Zem Doc, AllTrust…) без участия студии — философия 95/5. Каждый собранный бот автоматически встаёт в сеть Loop.",pf:"apphub-os",screens:10,links:[{label:"apphub-os.vercel.app",url:"https://apphub-os.vercel.app"}]},
 
@@ -419,31 +571,31 @@ window.APPHUB_DATA = {
     l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их ИИ-агенты",cat:"L1 · точка входа",desc:"Пользователь уже залогинен в мессенджере: ноль установок, паролей и сторов. Рядом — его ИИ-агент, который сам находит предложения и готовит действие, человеку остаётся подтвердить и оплатить. Заявлено публично: приложения студии взаимодействуют с ИИ-агентами других моделей; машиночитаемый слой — в roadmap.",inter:"Ассистент идёт к L2-агрегаторам и напрямую в L3-бизнесы. Loop-баллы, заработанные в одном приложении, тратит в любом другом — это и возвращает его в петлю.",link:null},
     l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу или город (CityHub, Neon, BazApp, Korobka). Возможны white-label-версии каждого.",inter:"Принимают запрос ассистента L1, подбирают L3-бизнесы, собирают предложение и раздают трафик вниз по петле.",link:null},
     l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — меню, бронь, запись, оплата, лояльность. Каждый проект — два приложения: клиентское и админ-панель. Собираются студией за 1–3 дня или через OS Builder. Справа — 17 живых кейсов из портфолио.",inter:"Принимают заказ из петли и от утилит; через Loop возвращают гостя в L1 и передают соседним бизнесам сети. Общаются между собой через ботов.",link:null},
-    loop:{t:"mini",layer:"NET",s:"dev",x:685,y:690,label:"LOOP · сеть лояльности",cat:"Протокол · ступень 3 · то, ради чего всё",desc:"Loop — единая валюта сети: 1–5% от покупки возвращается клиенту Loop-баллами, которые он тратит в любом приложении сети. Партнёры получают cross-traffic и готовую лояльность без рекламных бюджетов. Взнос бизнеса идёт в общий призовой фонд с публичным ежемесячным розыгрышем в Батуми. Механика встроена в часть приложений; единый реестр начислений с выпиской бизнесу — следующий шаг (оценка полгода).",inter:"Замыкает петлю L3 → L1: гость одного бизнеса приносит выручку другому. Граф связей между бизнесами — то, чего нет ни у одного конкурента с «отдельной TMA». Сверху подключаются CityHub, EPOCH, Dine, Car Rent.",links:[{label:"apphub.studio/loop",url:"https://apphub.studio/loop"}]},
+    loop:{t:"mini",layer:"NET",s:"dev",x:685,y:690,label:"LOOP · сеть лояльности",cat:"Протокол · ступень 3 · то, ради чего всё",desc:"Loop — единая валюта сети: 1–5% от покупки возвращается клиенту Loop-баллами, которые он тратит в любом приложении сети. Партнёры получают cross-traffic и готовую лояльность без рекламных бюджетов. Взнос бизнеса идёт в общий призовой фонд с публичным ежемесячным розыгрышем в Батуми. Механика встроена в часть приложений; единый реестр начислений с выпиской бизнесу — следующий шаг (оценка полгода).",inter:"Замыкает петлю L3 → L1: гость одного бизнеса приносит выручку другому. Граф связей между бизнесами — то, чего нет ни у одного конкурента с «отдельной TMA». Сверху подключаются CityHub, EPOCH, Dine, Car Rent.",imgs:["/v2/shots/loop-1.jpg","/v2/shots/loop-2.jpg","/v2/shots/loop-3.jpg"],links:[{label:"apphub.studio/loop",url:"https://apphub.studio/loop"}]},
 
     /* ——— L2 · агрегаторы ——— */
     wwc:{t:"mini",layer:"L2",s:"dev",dom:"Еда",x:470,y:282,label:"WWC",cat:"L2 · кулинария",desc:"What We Cook — кулинарные поединки и рейтинги лучших рецептов. Родственник Dolce Eda (повара, книга рецептов, челленджи).",inter:"Совместно редактируемые списки продуктов → Shops; рецепты → заказ блюд в Dine и Dolce Eda.",link:null},
     bazapp:{t:"mini",layer:"L2",s:"dev",dom:"Ритейл",x:470,y:400,label:"BazApp",cat:"L2 · P2P-маркетплейс",desc:"P2P-маркетплейс в Telegram: объявления по категориям, защита от скама, AI Deal Room для разрешения споров, рейтинг продавцов.",inter:"Сводит покупателей и продавцов; заказы → Shops, оплата — Crypto. Принимает пользователей из L1.",link:null},
     korobka:{t:"mini",layer:"L2",s:"dev",dom:"Недвижимость",x:470,y:518,label:"Korob·ka",cat:"L2 · калькуляторы подрядчика",desc:"Калькуляторы подрядчика: кладка и перегородки по RDS 82-202-96, смета материалов с запасом на подрезку, ИИ-прораб, история заказов, голосование за следующий калькулятор. Три языка. В портфолио — прототип.",inter:"Магнит-утилита для стройки: ведёт в Shops (стройматериалы), к Realty и Стройке; крупные расчёты — через Crypto.",pf:"korobka",screens:8,links:[{label:"korob-ka.vercel.app",url:"https://korob-ka.vercel.app"}]},
     cityhub:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:790,y:270,label:"CityHub",cat:"L2 · городской гид",desc:"«Куда пойти сейчас»: места рядом на карте, события, ниши и категории, профиль с баллами Loop. Умный городской консьерж с ИИ-рекомендациями, квестами и стриками.",inter:"Распределяет трафик в Dine, Events, Tours, CarRent, Shops, Дом и ЖКХ; первый носитель Loop в городе.",pf:"cityhub",screens:4,links:[{label:"Открыть CityHUB",url:"https://masteroch.github.io/cityhub/"}]},
-    neon:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки, автопарк. Донор дизайна для Car Rent.",inter:"Ведёт в Events, Tours, CarRent, Dine; ИИ-консьерж NEON AI.",links:[{label:"@BatumiNeonBot",url:"https://t.me/BatumiNeonBot"},{label:"Веб-версия",url:"https://batumi-neon-tma.vercel.app"}]},
+    neon:{t:"mini",layer:"L2",s:"live",dom:"Батуми",x:800,y:400,label:"Neon",cat:"L2 · Батуми",desc:"Batumi Neon — городской и развлекательный агрегатор Батуми: ночная жизнь, вечеринки, автопарк. Донор дизайна для Car Rent.",inter:"Ведёт в Events, Tours, CarRent, Dine; ИИ-консьерж NEON AI.",imgs:["/v2/shots/neon-1.jpg","/v2/shots/neon-2.jpg","/v2/shots/neon-3.jpg"],links:[{label:"@BatumiNeonBot",url:"https://t.me/BatumiNeonBot"}]},
     batumito:{t:"mini",layer:"L2",s:"dev",dom:"Батуми",x:790,y:530,label:"Batumito",cat:"L2 · Батуми",desc:"Батумский агрегатор: доставка на пляж, городские события, ночная жизнь, дорогие машины, приватные пати. Из той же серии, что Neon.",inter:"Ведёт в Tours, CarRent, Dine, Shops, Events; логистика — Dropper.",link:null},
-    realestate:{t:"mini",layer:"L2",s:"dev",dom:"Недвижимость",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",desc:"Агрегатор недвижимости: подборки объектов и застройщиков. Кейсы уже есть — Realty Preset и Alliance Centropolis продают новостройки прямо в Telegram.",inter:"Замыкается на Korobka и Стройку; ведёт к застройщикам (Realty Preset, Alliance), в Tours и Events (Realty Forum); крупные расчёты — через Crypto.",link:null},
+    realestate:{t:"mini",layer:"L2",s:"dev",dom:"Недвижимость",x:625,y:538,label:"Realty",cat:"L2 · недвижимость",pf:"realty-preset",desc:"Агрегатор недвижимости: подборки объектов и застройщиков. Кейсы уже есть — Realty Preset и Alliance Centropolis продают новостройки прямо в Telegram.",inter:"Замыкается на Korobka и Стройку; ведёт к застройщикам (Realty Preset, Alliance), в Tours и Events (Realty Forum); крупные расчёты — через Crypto.",link:null},
 
     /* ——— L3 · направления бизнесов ——— */
-    crypto:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: KYC, лояльность, снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы. Антифрод-опыт отсюда переиспользуется в Loop.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой, Realty, BazApp.",links:[{label:"@AllTrustMe_robot",url:"https://t.me/AllTrustMe_robot/app"},{label:"Веб-версия",url:"https://alltrust-me.vercel.app"}]},
-    events:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1190,y:255,label:"Events",cat:"L3 · события",desc:"Событийные приложения: форумы, выставки, конференции, фестивали. Живые кейсы — EBIT Batumi Expo 2026 (4000+ гостей, ИИ-гид) и Realty Forum 2026 (QR-бейджи, B2B-мэтчинг).",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],links:[{label:"EBIT Expo 2026",url:"https://t.me/expobatumibot/EBIT2026?startapp=home"},{label:"Realty Forum 2026",url:"https://realty-forum-tma.vercel.app"}]},
+    crypto:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1030,y:272,label:"Crypto",cat:"L3 · финтех",desc:"AllTrust.me — крипто-обменник: KYC, лояльность, снятие наличных. Под крупные покупки — недвижимость, ремонт, стройматериалы. Антифрод-опыт отсюда переиспользуется в Loop.",inter:"Завести деньги в крипту и снять кэш на дорогую покупку. Связан с Korobka, Стройкой, Realty, BazApp.",imgs:["/v2/shots/crypto-1.jpg"],links:[{label:"@AllTrustMe_robot",url:"https://t.me/AllTrustMe_robot/app"},{label:"alltrustme.vercel.app",url:"https://alltrustme.vercel.app"}]},
+    events:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1190,y:255,label:"Events",cat:"L3 · события",pf:"ebit",desc:"Событийные приложения: форумы, выставки, конференции, фестивали. Живые кейсы — EBIT Batumi Expo 2026 (4000+ гостей, ИИ-гид) и Realty Forum 2026 (QR-бейджи, B2B-мэтчинг).",inter:"Принимает из CityHub, Neon, Batumito; связан со Stage и Tours; переводит трафик в Dine — на рестораны и кафе.",subs:[{label:"Экспо",x:1030,y:178},{label:"Конференции",x:1190,y:178},{label:"Фестивали",x:1360,y:178}],links:[{label:"EBIT Expo 2026",url:"https://t.me/expobatumibot/EBIT2026?startapp=home"},{label:"Realty Forum 2026",url:"https://realty-forum-tma.vercel.app"}]},
     stage:{t:"mini",layer:"L3",s:"concept",dom:"Туризм",x:1340,y:282,label:"Stage",cat:"L3 · организаторы (рабочее имя)",desc:"Для организаторов концертов и событий: продажа билетов, контакты специалистов, проходки.",inter:"Связан с Events; контент — MusicHAEd.",link:null},
-    med:{t:"mini",layer:"L3",s:"live",dom:"Здоровье",x:1470,y:210,label:"Клиники",cat:"L3 · медицина",desc:"Медцентры и клиники: запись к врачу с выбором времени, прайс, специалисты, результаты до/после, ИИ-регистратура. Живые кейсы — Земский Доктор (dr.Zem) и AntiAge (344 позиции прайса, кабинет клиники).",inter:"Трафик из CityHub; лояльность через Loop; контент — LeadOS. Соседи — ANZH и фитнес.",link:null},
+    med:{t:"mini",layer:"L3",s:"live",dom:"Здоровье",x:1470,y:210,label:"Клиники",cat:"L3 · медицина",pf:"antiage",desc:"Медцентры и клиники: запись к врачу с выбором времени, прайс, специалисты, результаты до/после, ИИ-регистратура. Живые кейсы — Земский Доктор (dr.Zem) и AntiAge (344 позиции прайса, кабинет клиники).",inter:"Трафик из CityHub; лояльность через Loop; контент — LeadOS. Соседи — ANZH и фитнес.",link:null},
     carrent:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1030,y:400,label:"Car Rent",cat:"L3 · автопрокат",desc:"Аренда авто: каталог, бронь с оплатой (Wallet или Stars), клуб со статусами, рефералка, ИИ-консьерж. Живые кейсы — LiteRent и Batumi Neon.",inter:"Для туризма — Neon, Batumito, Tours, CityHub. Loop встроен.",pf:"batumi-neon",screens:7,links:[{label:"LiteRent",url:"https://t.me/LiteRent_robot/app"},{label:"Batumi Neon",url:"https://t.me/BatumiNeonBot"}]},
-    tours:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1340,y:522,label:"Tours",cat:"L3 · туры",desc:"Туры и экскурсии. Живой кейс — Paratravel Club: подбор туров за 4 вопроса, консьерж, клуб с кэшбэком, trip-companion и админка с ИИ-сводкой.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],links:[{label:"Paratravel Club",url:"https://paratravel-club.vercel.app"}]},
+    tours:{t:"mini",layer:"L3",s:"live",dom:"Туризм",x:1340,y:522,label:"Tours",cat:"L3 · туры",pf:"paratravel-club",desc:"Туры и экскурсии. Живой кейс — Paratravel Club: подбор туров за 4 вопроса, консьерж, клуб с кэшбэком, trip-companion и админка с ИИ-сводкой.",inter:"Связаны с Neon, Batumito, CityHub, CarRent, Dine, Events.",subs:[{label:"Экскурсии",x:1150,y:610},{label:"Медицинские",x:1308,y:610},{label:"Спортивные",x:1230,y:682}],links:[{label:"Paratravel Club",url:"https://paratravel-club.vercel.app"}]},
     dine:{t:"mini",layer:"L3",s:"live",dom:"Еда",x:1190,y:542,label:"Dine",cat:"L3 · HoReCa · шаблон-донор",desc:"Ресторанное приложение и шаблон для HoReCa: меню с фото, корзина, бронь стола, лиги гостей, бонусы. Плюс админка ресторатора: меню, заказы, брони, аналитика зала. Донор для EPOCH, Neko Sushi, Dolce Eda.",inter:"Трафик из WWC, CityHub, Batumito, Neon; игры для гостей — Crooked Cook; доставка — Dropper; контент — LeadOS.",subs:[{label:"Рестораны",x:1035,y:612},{label:"Бары",x:1190,y:612},{label:"Кафе",x:1345,y:612},{label:"Отели",x:1041,y:680},{label:"Бьюти",x:1190,y:680},{label:"Доставка",x:1339,y:680}],pf:"dine",screens:6,admin:{label:"Админка ресторатора",url:"https://t.me/AppHub_Studio_Bot/Dine_admin?startapp=demo",pf:"dine-admin",screens:4},links:[{label:"Демо клиента",url:"https://t.me/AppHub_Studio_Bot/dine?startapp=demo"}]},
-    shops:{t:"mini",layer:"L3",s:"live",dom:"Ритейл",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",desc:"Магазины и ритейл: каталог, корзина, оплата, клуб. Живой кейс — ТДС Мебель: кухня по фото комнаты, каталог на 3 201 позицию, цех раскроя в админке.",inter:"Заказы из WWC, CityHub, Batumito, Korobka, BazApp; логистика — Dropper.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],links:[{label:"ТДС Мебель",url:"https://tds-mebel.vercel.app"}]},
-    construction:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",desc:"Застройщики, бригады, прорабы, дизайнеры. Живые кейсы — Realty Preset (3D-шахматка дома, статусы квартир, ход стройки) и Alliance Centropolis (планировки, инвест-условия).",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
+    shops:{t:"mini",layer:"L3",s:"live",dom:"Ритейл",x:1030,y:525,label:"Shops",cat:"L3 · ритейл",pf:"tds-mebel",desc:"Магазины и ритейл: каталог, корзина, оплата, клуб. Живой кейс — ТДС Мебель: кухня по фото комнаты, каталог на 3 201 позицию, цех раскроя в админке.",inter:"Заказы из WWC, CityHub, Batumito, Korobka, BazApp; логистика — Dropper.",subs:[{label:"Продукты",x:875,y:610},{label:"Одежда",x:990,y:610},{label:"Зоо",x:1105,y:610},{label:"Стройматериалы",x:925,y:680},{label:"Техника",x:1070,y:680}],links:[{label:"ТДС Мебель",url:"https://tds-mebel.vercel.app"}]},
+    construction:{t:"mini",layer:"L3",s:"live",dom:"Недвижимость",x:1370,y:408,label:"Стройка",cat:"L3 · застройщики и услуги",pf:"realty-preset",desc:"Застройщики, бригады, прорабы, дизайнеры. Живые кейсы — Realty Preset (3D-шахматка дома, статусы квартир, ход стройки) и Alliance Centropolis (планировки, инвест-условия).",inter:"Магазины (Shops) и строительные услуги; замыкается на Korobka и Realty; крипто-обменник — за снятием наличных.",subs:[{label:"Застройщики",x:1462,y:340},{label:"Бригады",x:1487,y:386},{label:"Прорабы",x:1487,y:432},{label:"Дизайнеры",x:1462,y:478}],link:null},
     anzh:{t:"mini",layer:"L3",s:"live",dom:"Здоровье",x:1455,y:512,label:"ANZH",cat:"L3 · бьюти",desc:"ANZH.store — бьюти-экосистема в Telegram (клиент + админка): ИИ-маскот, диагностика кожи, запись на процедуры, программа лояльности. Рядом — ANZH Skin Intelligence (6 тестов → Skin Passport) и прототип приложения бьюти-мастера.",inter:"Трафик из CityHub, Neon; оплата — Crypto; контент — LeadOS; лояльность — Loop.",pf:"beauty-tma",screens:5,links:[{label:"anzh.store",url:"https://anzh.store"},{label:"@ANZH_studio_bot",url:"https://t.me/ANZH_studio_bot"}]},
     kingfit:{t:"mini",layer:"L3",s:"dev",dom:"Здоровье",x:1465,y:300,label:"KING Fit",cat:"L3 · фитнес",desc:"Фитнес-трекер с ИИ-тренером для залов и персональных тренеров: план дня, тренировки по подходам, питание и рекорды. Демо. Родственник — Mega Gym Batumi (клубная карта с QR, 25 тренеров).",inter:"Привлекает пользователей L1; связан с CityHub и спортивными турами Tours; оплата — Crypto.",pf:"king-fit",screens:7,links:[{label:"king-fit.vercel.app",url:"https://king-fit.vercel.app"}]},
     dropper:{t:"mini",layer:"L3",s:"dev",dom:"Еда",x:1490,y:440,label:"Dropper",cat:"L3 · доставка (роботы)",desc:"Доставка роботами в Батуми: еда и товары от кафе и магазинов прямо к клиенту на пляж, в парк или офис. B2B-SaaS для заведений.",inter:"Логистика для Dine и Shops; трафик из CityHub, Neon, Batumito.",link:null},
-    cityhome:{t:"mini",layer:"L3",s:"live",dom:"Город и дом",x:1480,y:600,label:"Дом и ЖКХ",cat:"L3 · городские сервисы",desc:"Приложения дома и города: показания счётчиков, платежи и квитанции, заявки с фото и статусом работ, голосования, чат дома, ИИ-консьерж. Живые кейсы — AL MARE Batumi (217 соседей, консьерж «Альма») и Водоканал.",inter:"Трафик из CityHub; сервисы дома → Shops и Стройка; лояльность — Loop.",link:null},
+    cityhome:{t:"mini",layer:"L3",s:"live",dom:"Город и дом",x:1480,y:600,label:"Дом и ЖКХ",cat:"L3 · городские сервисы",pf:"almare",desc:"Приложения дома и города: показания счётчиков, платежи и квитанции, заявки с фото и статусом работ, голосования, чат дома, ИИ-консьерж. Живые кейсы — AL MARE Batumi (217 соседей, консьерж «Альма») и Водоканал.",inter:"Трафик из CityHub; сервисы дома → Shops и Стройка; лояльность — Loop.",link:null},
 
     /* ——— UTILITIES · вне петли · трафик ——— */
     editcmd:{t:"mini",layer:"UT",s:"concept",x:1058,y:44,label:"Edit Cmd",cat:"Утилита · вне петли",desc:"Edit Commander — бесплатный пакетный редактор (PDF, HTML). Вводный продукт с нашей рекламой.",inter:"Реклама приводит трафик в петлю; уникализирует апки. Связан с L3 и Dine.",link:null},
@@ -452,15 +604,15 @@ window.APPHUB_DATA = {
 
     /* ——— MULTIMEDIA · трафик к пользователям ——— */
     news:{t:"mini",layer:"MM",s:"concept",x:120,y:810,label:"News",cat:"Мультимедиа · контент",desc:"Telegram-каналы: новости, подборки, обзоры; питают чаты.",inter:"Направляет аудиторию в L2-агрегаторы, продвигает L3-приложения, рекламирует игры; авто-публикация через LeadOS.",link:null},
-    musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали, Stage), может взаимодействовать с L1-агентами.",link:"https://musichaed.vercel.app"},
+    musichaed:{t:"mini",layer:"MM",s:"live",x:262,y:810,label:"MusicHAEd",cat:"Мультимедиа · вне петли",desc:"Музыкальный плеер. Отдельное приложение — приводит внешний трафик в экосистему.",inter:"Направляет трафик в L2-агрегаторы, рекомендует тематические L3-приложения (концерты, фестивали, Stage), может взаимодействовать с L1-агентами.",links:[{label:"musichaed.vercel.app",url:"https://musichaed.vercel.app"}]},
     social:{t:"mini",layer:"MM",s:"live",x:404,y:810,label:"Соцсети",cat:"Мультимедиа · бренд apphubstudio",desc:"Единый хэндл бренда — apphubstudio. Живые: Telegram-канал, Instagram, X, LinkedIn, Product Hunt. Заведены, но пусты: Threads, Facebook. Контент — брендбук v1.0 и дистрибуционный кит.",inter:"Внешний трафик на сайт, в Studio Bot и портфолио; позже — автопостинг через LeadOS.",links:[{label:"Telegram-канал",url:"https://t.me/AppHub_Studio"},{label:"Instagram",url:"https://www.instagram.com/apphubstudio/"},{label:"X",url:"https://x.com/Apphubstudio"},{label:"LinkedIn",url:"https://www.linkedin.com/company/apphubstudio/"},{label:"Product Hunt",url:"https://www.producthunt.com/@apphubstudio"}]},
 
     /* ——— GAMES · вовлечение ——— */
-    crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"Crooked Cook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь промокод и возвращаешься в заведение.",inter:"Удержание в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",link:"https://t.me/crooked_cook_bot"},
-    selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",link:"https://masteroch.github.io/selfix/"},
+    crookedcook:{t:"mini",layer:"GAMES",s:"live",dom:"Еда",x:1058,y:772,label:"Crooked Cook",cat:"Игры · для HoReCa",desc:"Аркада-merge для гостей кафе и ресторанов: играешь, пока ждёшь заказ, бьёшь рекорд — получаешь промокод и возвращаешься в заведение.",inter:"Удержание в заведениях Dine; связана с Аркадами; вовлекает пользователей L1.",links:[{label:"@crooked_cook_bot",url:"https://t.me/crooked_cook_bot"}]},
+    selfix:{t:"mini",layer:"GAMES",s:"live",x:1206,y:772,label:"Selfix",cat:"Игры · тест личности",desc:"Telegram-приложение: тест личности Big Five (OCEAN) с образными типами, PvP-дуэли и рейтинг.",inter:"Вовлекает пользователей L1; связан с Настолками; продвигается через News-каналы.",imgs:["/v2/shots/selfix-1.jpg","/v2/shots/selfix-2.jpg"],links:[{label:"Открыть Selfix",url:"https://masteroch.github.io/selfix/"}]},
     nardum:{t:"mini",layer:"GAMES",s:"live",x:1354,y:772,label:"NARDUM",cat:"Игры · длинные нарды",desc:"Длинные нарды в Telegram: партия против бота с подсказками коуча, школа тактик, вызов друга по ссылке, ранги и зал славы. Игра, где 60% — навык. Открыл в портфолио группу «Игры и развлечения».",inter:"Первая живая настолка сети: мультиплеер между пользователями L1, вызов друга — виральный вход. Кандидат на Loop-баллы за победы.",pf:"nardum",screens:6,links:[{label:"@nardum_game_bot",url:"https://t.me/nardum_game_bot"}]},
     arcades:{t:"mini",layer:"GAMES",s:"concept",x:1058,y:840,label:"Аркады",cat:"Игры · вовлечение",desc:"Аркадные игры для заведений и сети. Удержание и вовлечение: играешь — зарабатываешь Loop-баллы.",inter:"Подключены к Loop; связаны с Dine, Batumito, Tours, Shops; вовлекают пользователей L1.",link:null},
-    boardgames:{t:"mini",layer:"GAMES",s:"live",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",desc:"Настольные игры: нарды (NARDUM — уже живой), шахматы и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах; ведут рекламный трафик на сервисы через L2.",links:[{label:"NARDUM",url:"https://t.me/nardum_game_bot"}]},
+    boardgames:{t:"mini",layer:"GAMES",s:"live",x:1206,y:840,label:"Настолки",cat:"Игры · мультиплеер",pf:"nardum",desc:"Настольные игры: нарды (NARDUM — уже живой), шахматы и проще. Мультиплеер между пользователями.",inter:"Связаны с L1 — взаимодействие между пользователями; публикуются в чатах и каналах; ведут рекламный трафик на сервисы через L2.",links:[{label:"NARDUM",url:"https://t.me/nardum_game_bot"}]},
 
     /* ——— КЕЙСЫ · живые клиентские приложения из портфолио (правая колонка) ——— */
     ebit:{t:"case",layer:"L3",s:"live",dom:"Туризм",x:1650,y:60,label:"EBIT Expo 2026",cat:"Кейс · выставка · Батуми",desc:"Выставка гостеприимства в Батуми (4000+ гостей): каталог участников с фильтрами, карточки стендов с материалами и прайсом, программа по дням, QR-бейдж со сканером и ИИ-гид EBI по стендам и расписанию. Английский интерфейс.",inter:"Кейс направления Events. Стенды-рестораторы уходят в Dine, гости — в CityHub и Tours.",pf:"ebit",screens:5,links:[{label:"Открыть в Telegram",url:"https://t.me/expobatumibot/EBIT2026?startapp=home"}]},
@@ -724,10 +876,11 @@ function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n
     gN.appendChild(g);subEls.push(g);});}
 
 /* ——— highlight / filter ——— */
-function baseLinks(){linkEls.forEach(le=>{const rv=le.prod&&showAllLinks;le.core.setAttribute("opacity",rv?.34:le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",rv?.06:le.baseGlow);});}
+function baseLinks(){linkEls.forEach(le=>{if(!le.mn){le.core.classList.remove("flowline");le.core.setAttribute("stroke-dasharray",le.f?"6 7":"none");}const rv=le.prod&&showAllLinks;le.core.setAttribute("opacity",rv?.34:le.baseCore);le.core.setAttribute("stroke-width",le.baseW);le.glow.setAttribute("opacity",rv?.06:le.baseGlow);});}
 function applyHighlight(id){const conn=new Set([id]);
   linkEls.forEach(le=>{const on=le.a===id||le.b===id;
     le.core.setAttribute("opacity",on?1:.035);le.core.setAttribute("stroke-width",on?(le.f?2.2:2.9):le.baseW);le.glow.setAttribute("opacity",on?.34:.018);
+    if(!le.mn){le.core.classList.toggle("flowline",on);if(!on)le.core.setAttribute("stroke-dasharray",le.f?"6 7":"none");}
     if(on){conn.add(le.a);conn.add(le.b);}});
   Object.entries(nodeEls).forEach(([nid,g])=>{g.style.opacity=conn.has(nid)?1:.26;g.classList.toggle("sel",nid===id);});}
 function previewLinks(id){if(selectedId)return;const conn=new Set([id]);
@@ -742,7 +895,7 @@ function drawDomainPod(){if(!gPod)return;gPod.innerHTML="";if(filter.indexOf("do
   const t=ex("text",{x:a+18,y:b+24,fill:col});t.setAttribute("style","font-family:'JetBrains Mono';font-size:13px;letter-spacing:.16em;font-weight:500");t.textContent="ТЕМА · "+dom.toUpperCase();gPod.appendChild(t);}
 
 const CLOSE='<div class="grab" data-grab></div><button class="pclose" data-close aria-label="Закрыть">✕</button>';
-function select(id){if(!N[id])return;selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
+function select(id){if(!N[id])return;if(selectedId!==id)heroView="client";selectedId=id;clearSubs();applyHighlight(id);if(N[id].subs)showSubs(id);
   if(EDITABLE&&editMode)renderEdit(id);else renderInfo(id);
   panel.classList.add("open");document.body.classList.add("sel-open");
   if(!(EDITABLE&&editMode))focusSelected(id);
@@ -756,32 +909,64 @@ function reset(){const had=selectedId;selectedId=null;clearSubs();baseLinks();
 /* ——— panels ——— */
 function defaultPanel(){
   if(EDITABLE&&editMode)return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>РЕДАКТОР</div><div class="pTitle">Режим редактирования</div><p class="hint">Тащи узлы мышью. Клик по узлу — правка описания, скриншотов, ссылок, статуса и связей. Кнопка «Проект» — создать новый и связать в цепочку.</p>`;
-  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Слева — вход в студию, справа — живые кейсы из портфолио. Кликни любой узел: описание, статус, экраны и рабочая ссылка.</p><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
+  if(MODE==="public")return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><div class="pTitle">Приложение без установки — и сеть за ним</div><p class="hint">Пользователи, агрегаторы и бизнесы замыкаются в петлю, а сеть Loop делает гостя одного бизнеса клиентом другого. Кликни любой узел: экраны, статус и рабочая ссылка.</p>
+<div class="legend"><h4>Как читать карту</h4>
+<div class="lrow"><span class="lsw" style="background:${C.L1}"></span><b>L1</b><span>пользователи и их ИИ-агенты — откуда приходит спрос</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.L2}"></span><b>L2</b><span>агрегаторы — подбирают бизнесы под запрос</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.L3}"></span><b>L3</b><span>приложения бизнесов и живые кейсы справа</span></div>
+<div class="lrow"><span class="lsw" style="background:${C.NET}"></span><b>Loop</b><span>сеть лояльности — возвращает гостя в петлю</span></div>
+<div class="lrow dots"><i style="background:${STATUS.live.c}"></i>в проде <i style="background:${STATUS.dev.c}"></i>прототип / демо <i style="background:${STATUS.concept.c}"></i>концепт</div>
+<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
 function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
 function shots(n){let arr=n.imgs||(n.img?[n.img]:[]);if(!arr.length)arr=pfImgs(n);if(!arr.length)return"";
   if(arr.length===1)return`<div class="shot" data-img="${esc(arr[0])}"><img src="${esc(arr[0])}" alt="${esc(n.label)}" loading="lazy"></div>`;
   return`<div class="shots">${arr.map(s=>`<img src="${esc(s)}" data-img="${esc(s)}" alt="${esc(n.label)}" loading="lazy">`).join("")}</div>`;}
-function linkBtns(n){const arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
-  let out=arr.map(l=>`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`).join("");
-  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":"в разработке"}</span>`;
-  if(n.admin&&n.admin.url)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
-  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Все экраны в портфолио →</a>`;
+function linkBtns(n){let arr=n.links||(n.link?[{label:"Открыть продукт",url:n.link}]:[]);
+  const adm=heroView==="admin"&&hasAdmin(n)&&n.admin.url;
+  if(adm)arr=[{label:n.admin.label||"Админка",url:n.admin.url,admin:true},...arr.slice(0,1).map(l=>({label:"📱 Клиентское приложение",url:l.url}))];
+  const isAddr=t=>/^(@|https?:|t\.me|[a-z0-9-]+(\.[a-z0-9-]+)+)/i.test(t||"");
+  let out=arr.map((l,i)=>i?`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`
+    :`<a class="pLink go" href="${esc(l.url)}" target="_blank" rel="noopener"><b>${l.admin?"Открыть админку":(isAddr(l.label)?"Открыть приложение":esc(l.label))}</b><small>${l.admin?esc(l.label)+" · демо":(isAddr(l.label)?esc(l.label):(/t\.me/.test(l.url)?"в Telegram":"откроется в новой вкладке"))}</small><i>↗</i></a>`).join("");
+  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":(n.s==="concept"?"концепт · ссылки пока нет":"в разработке · демо скоро")}</span>`;
+  if(n.admin&&n.admin.url&&!adm)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
+  if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио →</a>`;
+  out+=`<button class="pLink alt share" data-share="${esc(n.label)}">🔗 Поделиться</button>`;
   return out;}
+async function shareNode(label){const url=location.origin+location.pathname+"#"+(selectedId||"");const text=`${label} — карта экосистемы AppHub`;
+  if(navigator.share&&isMob()){try{await navigator.share({title:text,url});return;}catch(e){if(e&&e.name==="AbortError")return;}}
+  let ok=false;try{await navigator.clipboard.writeText(url);ok=true;}catch(e){}
+  if(!ok){try{const ta=document.createElement("textarea");ta.value=url;ta.style.cssText="position:fixed;opacity:0";document.body.appendChild(ta);ta.select();ok=document.execCommand("copy");ta.remove();}catch(e){}}
+  toast(ok?"🔗 Ссылка на «"+label+"» скопирована":"🔗 "+url);}
 function pfLine(n){if(!n.pf&&!n.admin)return"";const a=[];if(n.screens)a.push(`${n.screens} экранов в портфолио`);if(n.admin&&n.admin.screens)a.push(`админка · ${n.admin.screens} экранов`);return a.length?`<div class="pfline">▣ ${a.join(" · ")}</div>`:"";}
 function related(id){const ks=[...new Set(L.filter(p=>p.includes(id)).map(p=>p[0]===id?p[1]:p[0]))].filter(k=>N[k]);
   if(!ks.length)return"";
   ks.sort((a,b)=>(N[a].t==="hub"?0:1)-(N[b].t==="hub"?0:1)||N[a].label.localeCompare(N[b].label,"ru"));
   return`<div class="pSec"><h4>Связан с · ${ks.length} →</h4><div class="rels">${ks.map(k=>`<button class="rel" data-go="${k}"><span class="rdot" style="background:${C[N[k].layer]||C.L2}"></span>${esc(N[k].label)}</button>`).join("")}</div></div>`;}
+function imgsOf(n){let a=n.imgs||(n.img?[n.img]:[]);if(!a.length)a=pfImgs(n);return a;}
+let heroImgs=[],heroView="client";
+const hasAdmin=n=>!!(n.admin&&(n.admin.pf||(n.admin.imgs&&n.admin.imgs.length)));
+function adminImgs(n){const a=n.admin||{};return a.imgs&&a.imgs.length?a.imgs:pfImgs({pf:a.pf,screens:a.screens});}
+function viewImgs(n){return heroView==="admin"&&hasAdmin(n)?adminImgs(n):imgsOf(n);}
+function segRow(n){if(!hasAdmin(n))return"";const adm=heroView==="admin";
+  return`<div class="segrow"><div class="seg" role="tablist"><button role="tab" class="${adm?"":"on"}" data-view="client">📱 Клиент</button><button role="tab" class="${adm?"on":""}" data-view="admin">⚙ Админка</button></div><span class="segcap">${adm?(n.admin.screens?n.admin.screens+" экранов":"панель"):(n.screens?n.screens+" экранов":"приложение")}</span></div>`;}
+function hero(n){const a=viewImgs(n);heroImgs=a;if(!a.length)return"";
+  return`${segRow(n)}<div class="hero${hasAdmin(n)?" has-seg":""}"><div class="htrack">${a.map((src,i)=>`<div class="hslide"><div class="phone" data-gal="${i}"><img src="${esc(src)}" alt="${esc(n.label)} · экран ${i+1}" loading="${i?"lazy":"eager"}" decoding="async"></div></div>`).join("")}</div>${a.length>1?`<div class="hdots">${a.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`:""}</div>`;}
+function edgeFade(el){if(!el||el.dataset.ef)return;el.dataset.ef="1";const upd=()=>{const max=el.scrollWidth-el.clientWidth;el.style.setProperty("--fl",el.scrollLeft>4?"34px":"0px");el.style.setProperty("--fr",max-el.scrollLeft>4?"56px":"0px");};
+  el.addEventListener("scroll",upd,{passive:true});new ResizeObserver(upd).observe(el);upd();}
+function bindHero(){edgeFade(panel.querySelector(".htrack"));panel.querySelectorAll(".phone img").forEach(im=>{const ok=()=>im.setAttribute("data-ok","1");if(im.complete&&im.naturalWidth)ok();else im.addEventListener("load",ok,{once:true});});
+  const tr=panel.querySelector(".htrack");if(!tr)return;const dots=panel.querySelectorAll(".hdots i");
+  tr.addEventListener("scroll",()=>{const sl=tr.querySelector(".hslide");if(!sl)return;const i=Math.round(tr.scrollLeft/(sl.offsetWidth+10));dots.forEach((d,j)=>d.classList.toggle("on",j===i));},{passive:true});}
 function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
-  const noShot=MODE==="public"&&n.s==="live"&&!(n.imgs&&n.imgs.length)&&!n.img&&!n.pf;
-  panel.innerHTML=`${CLOSE}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
+  const h=hero(n);
+  panel.innerHTML=`${CLOSE}${h}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
+  <div class="ctarow">${linkBtns(n)}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${shots(n)}${noShot?'<div class="noshot">скриншоты скоро</div>':""}<div style="margin-top:14px">${linkBtns(n)}</div>${related(id)}`;}
+  ${!h&&n.s!=="core"&&n.s!=="concept"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -822,8 +1007,19 @@ function commitForm(){const id=panel.dataset.editing;if(!id||!N[id])return;const
 function openHash(){const id=decodeURIComponent(location.hash.replace("#",""));if(id&&N[id])select(id);else reset();}
 
 /* ——— lightbox / toast ——— */
-const lb=$("#lightbox");function openLight(src){lb.querySelector("img").src=src;lb.style.display="flex";}
-lb.addEventListener("click",()=>lb.style.display="none");
+const lb=$("#lightbox");let galArr=[],galI=0,galCap="";
+lb.innerHTML=`<button class="lbx" aria-label="Закрыть">✕</button><div class="lbstage"><div class="lbphone"><img alt=""></div><button class="lbnav prev" aria-label="Назад">‹</button><button class="lbnav next" aria-label="Дальше">›</button></div><div class="lbcap"></div><div class="lbcount"></div>`;
+function galShow(){const img=lb.querySelector("img");img.style.opacity=0;img.src=galArr[galI];img.onload=()=>{img.style.opacity=1;};
+  lb.querySelector(".lbcount").textContent=galArr.length>1?`${galI+1} / ${galArr.length}`:"";lb.querySelector(".lbcap").textContent=galCap;
+  lb.querySelector(".prev").style.visibility=galI>0?"visible":"hidden";lb.querySelector(".next").style.visibility=galI<galArr.length-1?"visible":"hidden";}
+function openGallery(arr,i,cap){if(!arr||!arr.length)return;galArr=arr;galI=Math.max(0,Math.min(i||0,arr.length-1));galCap=cap||"";lb.style.display="flex";document.body.classList.add("lb-open");galShow();}
+function openLight(src){openGallery([src],0);}
+function closeLight(){lb.style.display="none";document.body.classList.remove("lb-open");}
+function galGo(d){const n=galI+d;if(n<0||n>=galArr.length)return;galI=n;galShow();}
+lb.addEventListener("click",e=>{if(e.target.closest(".prev")){galGo(-1);return;}if(e.target.closest(".next")){galGo(1);return;}if(e.target.closest(".lbx")||!e.target.closest(".lbphone"))closeLight();});
+(()=>{let sx=0,sy=0,on=false;const st=lb.querySelector(".lbstage");
+  st.addEventListener("pointerdown",e=>{on=true;sx=e.clientX;sy=e.clientY;},{passive:true});
+  st.addEventListener("pointerup",e=>{if(!on)return;on=false;const dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy))galGo(dx<0?1:-1);else if(dy>80&&Math.abs(dy)>Math.abs(dx))closeLight();},{passive:true});})();
 let toastT;function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("show"),1800);}
 
 /* ——— stats / chips / legend (built by JS) ——— */
@@ -831,7 +1027,7 @@ function buildChrome(){
   const products=Object.values(N).filter(n=>n.s!=="core");
   const live=products.filter(n=>n.s==="live").length,dev=products.filter(n=>n.s==="dev").length;
   const cases=products.filter(n=>n.t==="case").length;
-  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>узлов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
+  const statsEl=$("#stats");if(statsEl)statsEl.innerHTML=`<div class="stat"><b>${products.length}</b><span>продуктов</span></div><div class="stat"><b style="color:#34d399">${live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;
   const LL={ROOT:"Студия",L1:"L1 · Users",L2:"L2 · Агрегаторы",L3:"L3 · Бизнесы",NET:"Loop · сеть",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const LS={ROOT:"Студия",L1:"L1",L2:"L2",L3:"L3",NET:"Loop",UT:"Утилиты",MM:"Медиа",GAMES:"Игры"};
   const sdefs=[["all","Все",null],["live","Живые",STATUS.live.c],["dev","В разработке",STATUS.dev.c],["concept","Концепты",STATUS.concept.c],["case","Кейсы","#2dd4bf"]];
@@ -847,7 +1043,13 @@ function buildChrome(){
     fb?.addEventListener("click",e=>{e.stopPropagation();fm.classList.toggle("open");});
     document.addEventListener("click",e=>{if(!e.target.closest(".fwrap"))fm.classList.remove("open");});}
   const tip=document.createElement("div");tip.className="tip";tip.id="tooltip";diagram.appendChild(tip);
+  countUp();edgeFade($("#stats"));edgeFade($("#chips"));
 }
+let countedOnce=false;
+function countUp(){if(countedOnce||matchMedia("(prefers-reduced-motion:reduce)").matches)return;countedOnce=true;
+  $$("#stats .stat b").forEach((el,i)=>{const end=parseInt(el.textContent,10);if(!end)return;const t0=performance.now()+i*90,dur=900;el.textContent="0";
+    const step=now=>{const k=Math.min(1,Math.max(0,(now-t0)/dur)),e=1-Math.pow(1-k,3);el.textContent=Math.round(end*e);if(k<1)requestAnimationFrame(step);};
+    requestAnimationFrame(step);setTimeout(()=>{el.textContent=end;},dur+i*90+200);});}
 
 /* ——— zoom / pan / pinch / node-drag ——— */
 let zk=1,ztx=0,zty=0;          // отрисованный трансформ
@@ -879,6 +1081,8 @@ svg.addEventListener("wheel",e=>{e.preventDefault();
   ztx-=dx/m.a;zty-=dy/m.d;applyZ();syncTarget();
 },{passive:false});
 $(".zoom").addEventListener("click",e=>{const z=e.target.closest("button")?.dataset.z;if(!z)return;
+  if(z==="fs"){toggleFS();return;}
+  if(z==="help"){openHelp();return;}
   if(z==="reset"){if(!zRAF)syncTarget();tk=1;ttx=0;tty=0;runZAnim();return;}
   const r=svg.getBoundingClientRect(),mid=svgPt({clientX:r.left+r.width/2,clientY:r.top+r.height/2});
   zoomTo(mid.x,mid.y,tk*(z==="in"?1.5:1/1.5));});
@@ -914,7 +1118,10 @@ function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();le
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
 window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
-  if(e.key==="Escape"){lb.style.display="none";const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}reset();}
+  if(lb.style.display==="flex"){if(e.key==="ArrowRight")galGo(1);else if(e.key==="ArrowLeft")galGo(-1);else if(e.key==="Escape")closeLight();return;}
+  if((e.key==="f"||e.key==="F"||e.key==="а"||e.key==="А")&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName||"")){e.preventDefault();toggleFS();return;}
+  if(e.key==="Escape"){const w=$("#welcome");if(w&&!w.classList.contains("hidden")){closeWelcome();return;}
+    if(!selectedId&&document.body.classList.contains("fs")&&!document.fullscreenElement){setFS(false);return;}reset();}
 });
 
 /* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
@@ -932,6 +1139,9 @@ panel.addEventListener("click",e=>{
   if(e.target.closest("[data-close]")){reset();return;}
   const dm=e.target.closest("[data-dom]");if(dm){reset();setFilter("dom:"+dm.dataset.dom);toast("Тема · "+dm.dataset.dom);return;}
   const go=e.target.closest("[data-go]");if(go){select(go.dataset.go);return;}
+  const sh=e.target.closest("[data-share]");if(sh){shareNode(sh.dataset.share);return;}
+  const sv=e.target.closest("[data-view]");if(sv&&selectedId){heroView=sv.dataset.view;const top=panel.scrollTop;renderInfo(selectedId);panel.scrollTop=top;return;}
+  const gal=e.target.closest("[data-gal]");if(gal){openGallery(heroImgs,+gal.dataset.gal,selectedId&&N[selectedId]?N[selectedId].label:"");return;}
   const shot=e.target.closest("[data-img]");if(shot){openLight(shot.dataset.img);return;}
   if(!EDITABLE)return;const act=e.target.closest("[data-act]")?.dataset.act;if(!act)return;const id=panel.dataset.editing;
   if(act==="addlink"){commitForm();(N[id].links=N[id].links||[]).push({label:"",url:""});renderEdit(id);}
@@ -1001,7 +1211,7 @@ const TOUR=[
   {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
   {t:"Источники трафика",x:"По углам — утилиты и биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
   {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
-  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. Поехали.",focus:"all"}
+  {t:"Твоя очередь 🚀",x:"Готово! Кликай узлы, фильтруй по статусу и темам, ищи продукты. ⤢ или клавиша F — карта на весь экран для презентации; в карточке — «Поделиться», чтобы отправить ссылку на конкретный продукт.",focus:"all"}
 ];
 let tourIdx=-1,tourBg,tourCard;
 function vbCenter(){const v=svg.viewBox.baseVal;return[v.x+v.width/2,v.y+v.height/2];}
@@ -1014,7 +1224,7 @@ function panTo(cx,cy,scale,yf,xoff){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}
   zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();syncTarget();}
 function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
-function focusAll(sm){if(sm)smoothPulse();focusCenter(isMob()?1.85:1,isMob()?0.5:0.5);}
+function focusAll(sm){if(sm)smoothPulse();if(isMob())panTo(880,430,2.15,0.5);else focusCenter(1,0.5);}  // телефон: старт на ядре петли L2–L3, остальное — пан/пинч
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
   panTo(n.x,n.y,n.t==="hub"?(mob?1.45:1.35):(mob?1.85:1.75),mob?0.24:0.46,mob?0:204);smoothPulse();}
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
@@ -1052,12 +1262,31 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><p>Студия, петля трафика, сеть Loop и ${META.portfolio||34} продукта в портфолио — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
 function showWelcome(){if(!welcomeEl)buildWelcome();welcomeEl.classList.remove("hidden");}
 function closeWelcome(){if(welcomeEl)welcomeEl.classList.add("hidden");try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
+
+/* ——— «?»: стартовая панель с легендой (публичная витрина не открывает её сама) ——— */
+function openHelp(){if(EDITABLE&&editMode)return;const was=selectedId;selectedId=null;clearSubs();baseLinks();Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
+  panel.innerHTML=CLOSE+defaultPanel();panel.classList.add("open");document.body.classList.add("sel-open");try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}if(was&&!isMob())focusAll(true);}
+/* ——— полноэкранный режим: прячем шапку и фильтры, карта на весь экран (Fullscreen API там, где он есть) ——— */
+function setFS(on){document.body.classList.toggle("fs",on);$("#fsBtn")?.classList.toggle("on",on);$("#fsBtn")?.setAttribute("title",on?"Выйти из полного экрана":"На весь экран");
+  setTimeout(()=>{if(tourIdx>=0)return;if(selectedId&&N[selectedId])focusSelected(selectedId);else focusAll(true);},80);toast(on?"⤢ Карта на весь экран · Esc — выход":"Обычный режим");}
+function toggleFS(){const on=!document.body.classList.contains("fs");
+  if(on){const el=document.documentElement,rq=el.requestFullscreen||el.webkitRequestFullscreen;if(rq&&!isMob()){try{const r=rq.call(el);if(r&&r.catch)r.catch(()=>{});}catch(e){}}}
+  else if(document.fullscreenElement||document.webkitFullscreenElement){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}}
+  setFS(on);}
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("fs"))setFS(false);});
+let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
+/* ——— мобильный док (Apple HIG: действия под большим пальцем) ——— */
+// ГОТЧА: backdrop-filter на .bar делает её containing block для position:fixed → меню фильтра на мобиле уезжало за экран. Переносим в body.
+if(isMob()&&$("#filterMenu"))document.body.appendChild($("#filterMenu"));
+$("#dockFilter")?.addEventListener("click",e=>{e.stopPropagation();$("#filterMenu")?.classList.toggle("open");});
+$("#dockTour")?.addEventListener("click",()=>{closeWelcome();startTour();});
+document.addEventListener("click",e=>{if(!e.target.closest(".fwrap")&&!e.target.closest("#dockFilter")&&!e.target.closest("#filterMenu"))$("#filterMenu")?.classList.remove("open");});
 
 /* ——— go ——— */
 render();buildChrome();

@@ -75,7 +75,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 .stage{display:flex;flex:1 1 auto;min-height:0;gap:16px;margin:10px 0 0;width:100%;padding:0 14px;align-items:stretch}
 .diagram{flex:1 1 100%;min-width:0;position:relative;border-radius:26px;border:1px solid var(--hair);background:rgba(255,255,255,.018);overflow:hidden;box-shadow:var(--spec),0 30px 70px -28px rgba(0,0,0,.7);user-select:none;-webkit-user-select:none}
 .diagram::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;z-index:1;background:radial-gradient(130% 100% at 50% 44%,transparent 62%,rgba(4,5,8,.32) 100%)}
-svg#map{width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+svg#map{position:relative;z-index:1;width:100%;height:100%;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 svg#map text{user-select:none;-webkit-user-select:none}
 svg#map:active{cursor:grabbing}
 #links path{transition:opacity .28s ease}
@@ -340,3 +340,145 @@ body.edit svg#map{cursor:default}
 .pLink.alt{background:rgba(255,255,255,.08);color:var(--ink);border:1px solid var(--hair-2);box-shadow:var(--spec)}
 .pLink.alt:hover{background:rgba(255,255,255,.14);box-shadow:var(--spec),0 10px 24px -10px rgba(0,0,0,.6)}
 .cta .pLink.alt{margin-left:0}
+
+/* ——— WOW-слой: медленная аврора за картой (2 слоя, transform-only, дешёвая) ——— */
+.diagram::before{content:"";position:absolute;inset:-18%;z-index:0;pointer-events:none;background:
+  radial-gradient(38% 34% at 22% 28%,rgba(244,114,182,.11),transparent 62%),
+  radial-gradient(34% 34% at 80% 24%,rgba(56,189,248,.11),transparent 62%),
+  radial-gradient(46% 40% at 56% 86%,rgba(197,255,95,.09),transparent 62%);
+  animation:aurora 28s cubic-bezier(.45,0,.55,1) infinite alternate;will-change:transform}
+@keyframes aurora{to{transform:translate(4%,-3%) rotate(2.5deg) scale(1.06)}}
+
+/* ——— HUD: иконки в стеклянных кругах, состояние «включено» ——— */
+.zoom button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+.zoom button.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -6px rgba(197,255,95,.5)}
+
+/* ——— карточка: hero-карусель экранов в телефонных рамках ——— */
+.hero{position:relative;margin:34px -8px 0;height:270px}  /* сверху место под крестик закрытия */
+.htrack{display:flex;gap:10px;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 8px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.htrack::-webkit-scrollbar{display:none}
+.hslide{flex:0 0 auto;height:100%;scroll-snap-align:start}
+.phone{height:100%;aspect-ratio:430/932;border-radius:22px;overflow:hidden;background:#0c0e16;border:1px solid var(--hair-2);box-shadow:var(--spec),0 18px 40px -18px rgba(0,0,0,.85);cursor:zoom-in;transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .35s}
+.phone:hover{transform:translateY(-3px);border-color:rgba(197,255,95,.5);box-shadow:var(--spec),0 24px 48px -18px rgba(197,255,95,.25)}
+.phone img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;animation:imgIn .55s both cubic-bezier(.16,1,.3,1)}
+@keyframes imgIn{from{opacity:0;transform:scale(1.04)}}
+.hdots{display:flex;gap:5px;justify-content:center;margin-top:9px}
+.hdots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:.3s cubic-bezier(.16,1,.3,1)}
+.hdots i.on{width:18px;border-radius:3px;background:var(--lime);box-shadow:0 0 8px rgba(197,255,95,.55)}
+.panel .badge{margin-top:12px}
+/* CTA-иерархия: одна лаймовая кнопка «открыть», остальное — стекло */
+.ctarow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ctarow .pLink{margin:0}
+.pLink.go{flex:1 1 100%;display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:13px 18px 12px 20px;border-radius:16px;position:relative;overflow:hidden;text-align:left;line-height:1.15;background:linear-gradient(180deg,#dcff8a,#b8f04c);color:#0a0d05;border:1px solid rgba(255,255,255,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 12px 30px -10px rgba(197,255,95,.55)}
+.pLink.go b{font-family:'Manrope';font-weight:800;font-size:16px;letter-spacing:-.01em;grid-column:1;grid-row:1}
+.pLink.go small{grid-column:1;grid-row:2;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.02em;color:rgba(10,13,5,.62);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pLink.go i{grid-column:2;grid-row:1/3;font-style:normal;font-size:20px;font-weight:700;width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(10,13,5,.12);transition:transform .35s cubic-bezier(.16,1,.3,1)}
+.pLink.go:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 18px 40px -12px rgba(197,255,95,.7)}
+.pLink.go:hover i{transform:translate(2px,-2px)}
+.pLink.go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.2s cubic-bezier(.16,1,.3,1) 1.4s infinite}
+@keyframes sheen{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:13px;white-space:nowrap}
+.ctarow .pLink:not(.go):not(.alt){background:rgba(197,255,95,.14);color:#e6ffb8;border:1px solid rgba(197,255,95,.35);box-shadow:var(--spec)}
+.noshot{margin-top:14px;padding:16px}
+
+/* ——— галерея-лайтбокс: экран в телефоне, стрелки, счётчик, свайп ——— */
+#lightbox{flex-direction:column;cursor:default;padding:24px}
+#lightbox .lbstage{position:relative;height:min(84vh,880px);aspect-ratio:430/932;max-width:92vw;display:flex;align-items:center;justify-content:center}
+#lightbox .lbphone{height:100%;aspect-ratio:430/932;border-radius:30px;overflow:hidden;border:1px solid var(--hair-2);box-shadow:0 50px 120px rgba(0,0,0,.75),var(--spec);background:#0c0e16;animation:tourIn .4s cubic-bezier(.16,1,.3,1)}
+#lightbox .lbphone img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:top;display:block;border-radius:0;box-shadow:none;transition:opacity .25s}
+#lightbox .lbx{position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid var(--hair-2);color:#fff;font-size:18px;cursor:pointer;z-index:2;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s}
+#lightbox .lbx:hover{background:rgba(255,255,255,.2);transform:rotate(90deg)}
+#lightbox .lbnav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid var(--hair-2);color:#fff;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur)}
+#lightbox .lbnav:hover{background:rgba(255,255,255,.2)}
+#lightbox .lbnav.prev{left:-66px}#lightbox .lbnav.next{right:-66px}
+#lightbox .lbcap{font-family:'Manrope';font-weight:700;font-size:15px;margin-top:16px}
+#lightbox .lbcount{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.16em;color:var(--muted);margin-top:4px}
+body.lb-open{overflow:hidden}
+
+/* ——— полноэкранный режим: только карта ——— */
+body.fs .head,body.fs .chips,body.fs .foot{display:none}
+body.fs .bar{position:fixed;left:0;right:0;top:0;z-index:48;background:linear-gradient(180deg,rgba(6,7,11,.78),rgba(6,7,11,0));border-bottom:0;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;pointer-events:none}
+body.fs .bar>*{pointer-events:auto}
+body.fs .stage{position:fixed;inset:0;margin:0;padding:0;gap:0}
+body.fs .diagram{border-radius:0;border:0;box-shadow:none}
+body.fs .zoom{left:22px;bottom:calc(22px + env(safe-area-inset-bottom))}
+body.fs .panel{top:82px}
+
+/* ——— мобильный док + шапка «логотип + поиск» (действия под большим пальцем, safe-area) ——— */
+.dock{display:none}
+@media(max-width:760px){
+  .dock{position:fixed;left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:60;display:flex;gap:2px;padding:6px;background:rgba(13,15,23,.74);backdrop-filter:blur(42px) saturate(200%) brightness(1.08);-webkit-backdrop-filter:blur(42px) saturate(200%) brightness(1.08);border:1px solid var(--hair-2);border-radius:26px;box-shadow:var(--spec),0 20px 50px -18px rgba(0,0,0,.85);transition:transform .42s cubic-bezier(.16,1,.3,1),opacity .3s}
+  .dock a,.dock button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;color:#cfd2da;font-family:'Inter';font-size:10.5px;font-weight:600;padding:7px 4px;border-radius:20px;text-decoration:none;cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+  .dock svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .dock a:active,.dock button:active{background:rgba(255,255,255,.1);color:#fff;transform:scale(.96)}
+  .dock .prim{color:var(--lime)}
+  body.sel-open .dock,body.touring .dock,body.lb-open .dock{transform:translateY(130%);opacity:0;pointer-events:none}
+  .bar .btn,.bar a.prim,.bar .fwrap>#filterBtn,.bar #linksBtn,.bar #tourBtn,.bar .grow{display:none}  /* .fwrap остаётся: в нём живёт меню фильтра для дока */
+  .search{order:0;flex:1 1 auto;min-width:0}
+  .chips{display:none}
+  .stats{margin-top:7px}
+  .stage{margin-top:8px}
+  .zoom{left:10px;bottom:calc(80px + env(safe-area-inset-bottom));gap:6px}
+  .zoom [data-z=in],.zoom [data-z=out]{display:none}
+  body>.fmenu{position:fixed;top:auto;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));min-width:0;max-height:min(58vh,420px);border-radius:20px;z-index:61;animation:menuIn .32s cubic-bezier(.16,1,.3,1)}
+  @keyframes menuIn{from{opacity:0;transform:translateY(14px)}}
+  .hero{height:215px;margin:12px -4px 0}
+  .panel{height:60vh;padding-top:22px}
+  .panel .badge{margin-top:8px}
+  .pTitle{font-size:23px}
+  .pLink.go{padding:12px 14px 11px 16px}.pLink.go b{font-size:15px}
+  #toast{bottom:calc(88px + env(safe-area-inset-bottom))}
+  body.fs .zoom{left:10px;bottom:calc(80px + env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  .diagram::before,.pLink.go::after,.brand .logo,.btn.demo::after,.node.spot{animation:none!important}
+  #viewport.smooth,.panel,.node{transition:none!important}
+}
+
+/* ——— переключатель Клиент | Админка над превью (iOS segmented) ——— */
+.segrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:34px}
+.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:13px;padding:3px;box-shadow:var(--spec)}
+.seg button{background:none;border:0;color:#b9bdc6;font-family:'Manrope';font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:10px;cursor:pointer;transition:.28s cubic-bezier(.16,1,.3,1);white-space:nowrap}
+.seg button.on{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.12));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 12px -6px rgba(0,0,0,.7)}
+.seg button:hover:not(.on){color:#fff}
+.segcap{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.04em;color:var(--muted)}
+.hero.has-seg{margin-top:10px}
+@media(max-width:760px){.segrow{margin-top:14px}.hero.has-seg{margin-top:8px}}
+
+/* ——— доводка: скелетон экрана пока грузится, хоткей-плашка, тесная шапка, кнопка «поделиться» ——— */
+.phone{background:linear-gradient(110deg,#0c0e16 40%,#151826 50%,#0c0e16 60%) 0 0/220% 100%;animation:shimmer 1.6s linear infinite}
+@keyframes shimmer{to{background-position:-120% 0}}
+.phone:has(img[data-ok]){animation:none;background:#0c0e16}
+.kbd{display:inline-block;font-family:'JetBrains Mono';font-size:10px;padding:1px 6px;border:1px solid var(--hair-2);border-bottom-width:2px;border-radius:5px;color:#cfd2da;letter-spacing:0;vertical-align:1px}
+.head{padding-top:8px}
+h1{margin-top:3px}
+.lede{margin-top:4px}
+.stats{margin-top:8px}
+.chips{margin-top:7px}
+.pLink.share{cursor:pointer;font-family:'Manrope'}
+@media(max-width:760px){.kbd,.eyebrow .kbd{display:none}.eyebrow{font-size:10px}}
+@media(max-width:760px){.eyebrow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+
+/* ——— легенда в стартовой панели + цифры приветствия ——— */
+.legend{margin-top:18px;padding:14px 14px 10px;border:1px solid var(--hair);border-radius:16px;background:rgba(255,255,255,.035)}
+.legend h4{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:9px}
+.legend .lrow{display:flex;align-items:center;gap:9px;font-size:12.5px;color:#cfd2da;padding:4px 0;line-height:1.35}
+.legend .lrow b{font-family:'JetBrains Mono';font-weight:600;font-size:11.5px;color:#fff;min-width:34px}
+.legend .lsw{width:10px;height:10px;border-radius:3px;flex:0 0 10px;box-shadow:0 0 8px currentColor}
+.legend .dots{flex-wrap:wrap;gap:6px 4px;margin-top:6px;padding-top:9px;border-top:1px solid var(--hair);font-size:12px}
+.legend .dots i{width:8px;height:8px;border-radius:50%;display:inline-block;margin:0 3px 0 8px}
+.legend .dots i:first-child{margin-left:0}
+.legend .keys{color:var(--muted);font-size:11.5px;gap:6px}
+.wstats{display:flex;justify-content:center;gap:10px;margin:6px 0 14px;position:relative}
+.wstats div{display:flex;align-items:baseline;gap:5px;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:12px;padding:7px 12px;box-shadow:var(--spec)}
+.wstats b{font-family:'Manrope';font-weight:800;font-size:18px;color:var(--lime);font-variant-numeric:tabular-nums}
+.wstats span{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);letter-spacing:.04em}
+.stat b{font-variant-numeric:tabular-nums;min-width:1.2em;display:inline-block;text-align:right}
+
+/* ——— затухание у краёв горизонтальных лент: край намекает, что дальше есть ещё ——— */
+.htrack,#stats,#chips{--fl:0px;--fr:0px;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 var(--fl),#000 calc(100% - var(--fr)),transparent 100%);transition:--fl .3s,--fr .3s}
+.hero{margin-left:-24px;margin-right:-24px}
+.htrack{padding-left:24px;padding-right:24px}
+@media(max-width:760px){.hero{margin-left:-18px;margin-right:-18px}.htrack{padding-left:18px;padding-right:18px}}
+.zoom [data-z=help]{font-family:'Manrope'}
+@media(max-width:760px){.zoom [data-z=help]{display:none}}
