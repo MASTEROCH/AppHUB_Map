@@ -35,12 +35,12 @@ body::before{content:"";position:fixed;inset:0;background:
 .brand small{color:var(--muted);font-weight:500;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em}
 .grow{flex:1}
 .search{position:relative}
-.search input{width:210px;max-width:42vw;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:13px;color:var(--ink);font-size:13px;padding:10px 13px 10px 33px;font-family:inherit;transition:.25s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec)}
+.search input{width:210px;max-width:42vw;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:14px;color:var(--ink);font-size:13px;padding:10px 13px 10px 33px;font-family:inherit;transition:.25s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec)}
 .search input::placeholder{color:var(--muted)}
 .search input:focus{outline:none;border-color:rgba(197,255,95,.5);box-shadow:var(--spec),0 0 0 4px rgba(197,255,95,.14);width:250px}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--muted);fill:none;pointer-events:none}
 
-.btn{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:13px;padding:10px 14px;border-radius:13px;cursor:pointer;transition:.22s cubic-bezier(.2,.9,.3,1);white-space:nowrap;box-shadow:var(--spec)}
+.btn{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:13px;padding:10px 14px;border-radius:14px;cursor:pointer;transition:.22s cubic-bezier(.2,.9,.3,1);white-space:nowrap;box-shadow:var(--spec)}
 .btn:hover{background:rgba(255,255,255,.13);border-color:var(--hair-2);transform:translateY(-1.5px);box-shadow:var(--spec),0 10px 24px -10px rgba(0,0,0,.6)}
 .btn:active{transform:translateY(0) scale(.97)}
 .btn.prim{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 8px 22px -6px rgba(197,255,95,.5)}
@@ -58,7 +58,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 
 /* ——— stats ——— */
 .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px auto 0;max-width:820px}
-.stat{position:relative;display:flex;align-items:baseline;gap:6px;background:var(--glass);border:1px solid var(--hair);border-radius:13px;padding:7px 14px;box-shadow:var(--spec),var(--depth)}
+.stat{position:relative;display:flex;align-items:baseline;gap:6px;background:var(--glass);border:1px solid var(--hair);border-radius:14px;padding:7px 14px;box-shadow:var(--spec),var(--depth)}
 .stat::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 45%);pointer-events:none}
 .stat b{font-family:'Manrope';font-weight:800;font-size:18px;letter-spacing:-.02em;position:relative}
 .stat span{font-size:12px;color:var(--muted);font-family:'JetBrains Mono';letter-spacing:.04em;position:relative}
@@ -102,23 +102,23 @@ svg#map:active{cursor:grabbing}
 @keyframes spot{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 
 /* tooltip — стекло */
-.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:13px;padding:8px 12px;font-size:12px;line-height:1.35;max-width:230px;opacity:0;transform:translateY(5px) scale(.97);transition:.16s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
+.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:8px 12px;font-size:12px;line-height:1.35;max-width:230px;opacity:0;transform:translateY(5px) scale(.97);transition:.16s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .tip.show{opacity:1;transform:none}
 .tip b{font-family:'Manrope';font-weight:700;font-size:13px;display:block}
 .tip i{font-style:normal;color:var(--muted);font-family:'JetBrains Mono';font-size:10.5px}
 
 /* zoom — стеклянные круги */
 .zoom{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;gap:8px;z-index:5}
-.zoom button{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
+.zoom button{position:relative;width:42px;height:42px;border-radius:16px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .zoom button:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .zoom button:active{transform:scale(.92)}
-.hudedit{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth);margin-bottom:4px}
+.hudedit{position:relative;width:42px;height:42px;border-radius:16px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth);margin-bottom:4px}
 .hudedit svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hudedit:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .hudedit:active{transform:scale(.92)}
 .hudedit.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -6px rgba(197,255,95,.5)}
 .zoom .hudedit::after{content:"";position:absolute;left:8px;right:8px;bottom:-4px;height:1px;background:var(--hair)}
-.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:15px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
+.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:16px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
 body.edit .editHint{display:flex}
 .editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
 .editHint .ehbtn{padding:8px 12px;font-size:12px}
@@ -129,7 +129,7 @@ body.edit .editHint{display:flex}
 body.edit svg#map{cursor:default}
 
 /* ——— легенда-строка под картой (не перекрывает доску) ——— */
-.legendbar{display:flex;flex:0 0 auto;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 16px;margin:8px 14px 10px;padding:8px 16px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:15px;box-shadow:var(--spec),var(--depth);position:relative}
+.legendbar{display:flex;flex:0 0 auto;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 16px;margin:8px 14px 10px;padding:8px 16px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--spec),var(--depth);position:relative}
 .legendbar::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 50%);pointer-events:none}
 .legendbar .lgroup{display:flex;align-items:center;gap:13px;flex-wrap:wrap;position:relative}
 .legendbar .lcap{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
@@ -155,17 +155,17 @@ body.edit svg#map{cursor:default}
 .pSec{margin-top:17px}
 .pSec h4{font-size:11px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:5px}
 .pSec p{font-size:15px;line-height:1.55;color:#dfe1e6}
-.pLink{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;font-family:'Manrope';font-weight:700;font-size:14px;padding:11px 17px;border-radius:13px;text-decoration:none;transition:.22s cubic-bezier(.2,.9,.3,1);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -8px rgba(197,255,95,.45)}
+.pLink{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;font-family:'Manrope';font-weight:700;font-size:14px;padding:11px 17px;border-radius:14px;text-decoration:none;transition:.22s cubic-bezier(.2,.9,.3,1);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -8px rgba(197,255,95,.45)}
 .pLink:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 14px 30px -8px rgba(197,255,95,.55)}
 .pLink.off{background:transparent;color:var(--muted);border:1px dashed var(--hair-2);box-shadow:none}
 .hint{color:var(--muted);font-size:15px;line-height:1.6;margin-top:18px}
-.shot{margin-top:14px;border-radius:15px;overflow:hidden;border:1px solid var(--hair);cursor:zoom-in;box-shadow:var(--depth)}
+.shot{margin-top:14px;border-radius:16px;overflow:hidden;border:1px solid var(--hair);cursor:zoom-in;box-shadow:var(--depth)}
 .shot img{width:100%;display:block;transition:.35s}
 .shot:hover img{transform:scale(1.04)}
 .shots{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
-.shots img{height:112px;border-radius:13px;border:1px solid var(--hair);cursor:zoom-in;flex:0 0 auto;transition:.22s}
+.shots img{height:112px;border-radius:14px;border:1px solid var(--hair);cursor:zoom-in;flex:0 0 auto;transition:.22s}
 .shots img:hover{border-color:rgba(197,255,95,.6)}
-.noshot{margin-top:14px;border:1px dashed var(--hair-2);border-radius:15px;padding:24px;text-align:center;color:var(--muted);font-size:13px}
+.noshot{margin-top:14px;border:1px dashed var(--hair-2);border-radius:16px;padding:24px;text-align:center;color:var(--muted);font-size:13px}
 
 /* ——— edit form ——— */
 .fld{margin-top:13px}
@@ -185,7 +185,7 @@ body.edit svg#map{cursor:default}
 .thumb{position:relative;width:76px;height:76px;border-radius:12px;overflow:hidden;border:1px solid var(--hair)}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb b{position:absolute;top:2px;right:2px;width:19px;height:19px;background:rgba(0,0,0,.72);color:#fff;border-radius:50%;font-size:13px;line-height:19px;text-align:center;cursor:pointer}
-.conns{max-height:180px;overflow-y:auto;margin-top:6px;border:1px solid var(--hair);border-radius:13px;padding:6px}
+.conns{max-height:180px;overflow-y:auto;margin-top:6px;border:1px solid var(--hair);border-radius:14px;padding:6px}
 .conn{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:9px;cursor:pointer;font-size:13px}
 .conn:hover{background:rgba(255,255,255,.06)}
 .conn input{width:16px;height:16px;accent-color:var(--lime)}
@@ -207,7 +207,7 @@ body.edit svg#map{cursor:default}
 #lightbox{position:fixed;inset:0;background:rgba(4,5,8,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:100;display:none;align-items:center;justify-content:center;padding:30px;cursor:zoom-out;animation:fade .25s}
 #lightbox img{max-width:94vw;max-height:90vh;border-radius:18px;box-shadow:0 40px 100px rgba(0,0,0,.7)}
 @keyframes fade{from{opacity:0}}
-#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:120;background:var(--glass-2);border:1px solid rgba(197,255,95,.32);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:14px;padding:12px 19px;border-radius:15px;opacity:0;pointer-events:none;transition:.32s cubic-bezier(.2,.9,.3,1);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--spec),var(--depth)}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:120;background:var(--glass-2);border:1px solid rgba(197,255,95,.32);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:14px;padding:12px 19px;border-radius:16px;opacity:0;pointer-events:none;transition:.32s cubic-bezier(.2,.9,.3,1);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--spec),var(--depth)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden{display:none!important}
 
@@ -377,7 +377,7 @@ body.edit svg#map{cursor:default}
 .pLink.go:hover i{transform:translate(2px,-2px)}
 .pLink.go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.2s cubic-bezier(.16,1,.3,1) 1.4s infinite}
 @keyframes sheen{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
-.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:13px;white-space:nowrap}
+.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:14px;white-space:nowrap}
 .ctarow .pLink:not(.go):not(.alt){background:rgba(197,255,95,.14);color:#e6ffb8;border:1px solid rgba(197,255,95,.35);box-shadow:var(--spec)}
 .noshot{margin-top:14px;padding:16px}
 
@@ -437,7 +437,7 @@ body.fs .panel{top:82px}
 
 /* ——— переключатель Клиент | Админка над превью (iOS segmented) ——— */
 .segrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:34px}
-.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:13px;padding:3px;box-shadow:var(--spec)}
+.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:14px;padding:3px;box-shadow:var(--spec)}
 .seg button{background:none;border:0;color:#b9bdc6;font-family:'Manrope';font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:10px;cursor:pointer;transition:.28s cubic-bezier(.16,1,.3,1);white-space:nowrap}
 .seg button.on{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.12));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 12px -6px rgba(0,0,0,.7)}
 .seg button:hover:not(.on){color:#fff}
@@ -482,3 +482,41 @@ h1{margin-top:3px}
 @media(max-width:760px){.hero{margin-left:-18px;margin-right:-18px}.htrack{padding-left:18px;padding-right:18px}}
 .zoom [data-z=help]{font-family:'Manrope'}
 @media(max-width:760px){.zoom [data-z=help]{display:none}}
+
+/* ——— iOS 27 Liquid Glass: реальная рефракция (Chromium, гейт html.lg-real), fallback — обычный blur ——— */
+html.lg-real .bar{backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens)}
+html.lg-real .dock,html.lg-real .tour,html.lg-real .wcard,html.lg-real body>.fmenu{backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens);-webkit-backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens)}
+html.lg-real .zoom button,html.lg-real .hudedit{backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens)}
+html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
+/* рефракционная кромка — светлый rim сверху и тень-объём, как у стекла iOS 27 */
+.dock,.tour,.wcard,.panel,body>.fmenu{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.05),inset 1px 0 0 rgba(255,255,255,.06),0 30px 80px -24px rgba(0,0,0,.8)}
+/* ——— доступность: фокус с клавиатуры на узлах, reduced transparency ——— */
+.node:focus{outline:none}
+.node:focus-visible .card{stroke:#fff;stroke-width:2.6}
+.node.sel .card{animation:selPulse .6s cubic-bezier(.16,1,.3,1)}
+@keyframes selPulse{0%{stroke-width:6;filter:brightness(2)}100%{}}
+@media(prefers-reduced-transparency:reduce){.bar,.panel,.dock,.tour,.wcard,.fmenu,.tip,#toast,.zoom button,.hudedit,#lightbox,.welcome{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#0e1018!important}}
+/* ——— плавность: композитный слой под карту, шторка без цепного скролла ——— */
+#viewport{will-change:transform}
+.panel{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+@media(max-width:760px){.panel{border-radius:28px 28px 0 0}}
+
+/* ——— СИСТЕМА КНОПОК ПАНЕЛИ: всё на всю ширину, одна высота, один радиус (btn 14 / card 18 / sheet 28) ——— */
+.panel .pLink{display:flex;width:100%;min-height:46px;align-items:center;justify-content:center;margin:0;padding:12px 16px;border-radius:14px;font-size:14px;font-family:'Manrope';font-weight:700;text-align:center;box-sizing:border-box}
+.panel .pLink.go{display:grid;min-height:64px;text-align:left;padding:12px 16px 12px 20px;border-radius:16px}
+.ctarow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.ctarow .pLink.go,.ctarow .pLink.off,.ctarow .socrow{grid-column:1/-1}
+.ctarow .pLink:not(.go){flex:none;padding:11px 12px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctarow>.pLink:not(.go):last-child:nth-child(even){grid-column:1/-1}   /* непарная вторичная — на всю ширину */
+.cta{display:flex;flex-direction:column;gap:8px}
+.cta h4,.cta p{margin-bottom:0}
+.cta p{margin-bottom:6px}
+.cta .pLink{margin:0}
+/* ——— соцсети: настоящие иконки площадок в стеклянных плитках ——— */
+.socrow{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.soccap{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.socs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.soc{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:#e6e8ee;box-shadow:var(--spec);transition:.22s cubic-bezier(.16,1,.3,1)}
+.soc svg{width:20px;height:20px}
+.soc:hover{background:rgba(197,255,95,.16);border-color:rgba(197,255,95,.45);color:#fff;transform:translateY(-2px)}
+.ctarow .socrow{margin-top:4px}

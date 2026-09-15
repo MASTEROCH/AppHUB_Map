@@ -6,7 +6,15 @@
    Источники: _DISTRIBUTION_KIT/05_Portfolio/PORTFOLIO.md (34 продукта · 205 экранов · 16 ниш), LINKS.md, NOTEBOOK_Презентация/*.md */
 window.APPHUB_DATA = {
   viewBox: "-80 -50 2020 950",
-  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/" },
+  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/",
+    social: [
+      {k:"tg",label:"Telegram",url:"https://t.me/AppHub_Studio"},
+      {k:"ig",label:"Instagram",url:"https://www.instagram.com/apphubstudio/"},
+      {k:"x",label:"X",url:"https://x.com/Apphubstudio"},
+      {k:"in",label:"LinkedIn",url:"https://www.linkedin.com/company/apphubstudio/"},
+      {k:"ph",label:"Product Hunt",url:"https://www.producthunt.com/@apphubstudio"},
+      {k:"web",label:"apphub.studio",url:"https://apphub.studio"}
+    ] },
   nodes: {
     /* ——— APPHUB STUDIO · вход в экосистему ——— */
     site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в OS Builder и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",imgs:["/v2/shots/site-1.jpg","/v2/shots/osb-1.jpg","/v2/shots/osb-2.jpg","/v2/shots/site-2.jpg","/v2/shots/site-3.jpg"],links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},

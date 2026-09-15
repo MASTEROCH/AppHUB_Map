@@ -19,10 +19,19 @@ const LAYERS=[["ROOT","Студия"],["L1","L1 · Users"],["L2","L2 · Агре
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
 const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Недвижимость","#f59e0b"],["Ритейл","#a78bfa"],["Здоровье","#f472b6"],["Город и дом","#818cf8"]];
 const META=(window.APPHUB_DATA&&window.APPHUB_DATA.meta)||{};
+const SOC_ICO={
+  tg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 2a10 10 0 100 20 10 10 0 000-20zm4.6 6.9l-1.5 7.3c-.1.5-.4.6-.9.4l-2.4-1.8-1.2 1.1c-.1.1-.2.2-.5.2l.2-2.5 4.5-4c.2-.2 0-.3-.3-.1L8.8 13l-2.4-.7c-.5-.2-.5-.5.1-.8l9.3-3.6c.4-.1.8.1.7.9z"/></svg>',
+  ig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.3l-4.9-6.4L5.2 21H2.1l7.3-8.3L1.8 3h6.4l4.4 5.9L17.8 3zm-1.1 16.2h1.7L7.2 4.7H5.4l11.3 14.5z"/></svg>',
+  in:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 2H3.6C2.7 2 2 2.7 2 3.6v16.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6V3.6c0-.9-.7-1.6-1.6-1.6zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.7 13 12.7 14.3V19h-3V9.5h2.9v1.3c.4-.8 1.4-1.5 2.8-1.5 3 0 3.6 2 3.6 4.6V19z"/></svg>',
+  ph:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1.4 12h-2.9v3h-2V7h4.9a3.5 3.5 0 010 7zm0-5h-2.9v3h2.9a1.5 1.5 0 000-3z"/></svg>',
+  web:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>'};
+function socialRow(cap){const a=META.social||[];if(!a.length)return"";return`<div class="socrow">${cap?`<span class="soccap">${esc(cap)}</span>`:""}<div class="socs">${a.map(x=>`<a class="soc" href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.label)}" aria-label="${esc(x.label)}">${SOC_ICO[x.k]||SOC_ICO.web}</a>`).join("")}</div></div>`;}
 const PF_URL=META.portfolioUrl||"https://t.me/Portfolio_AppHub_Bot",PF_GAL=META.galleryBase||"https://apphub-portfolio-livid.vercel.app/gallery/";
 const DOMC=Object.fromEntries(DOMS);
 const LBADGE={ROOT:"СТУДИЯ",NET:"LOOP · СЕТЬ",UT:"УТИЛИТА",MM:"МЕДИА",GAMES:"ИГРЫ"};
 const DEF=window.APPHUB_DATA;
+try{if(/Chrome\//.test(navigator.userAgent)&&!/Edg\/|OPR\//.test(navigator.userAgent)&&CSS.supports("backdrop-filter","url(#x)")&&!matchMedia("(prefers-reduced-transparency:reduce)").matches)document.documentElement.classList.add("lg-real");}catch(e){}
 
 /* ——— state ——— */
 let N,L,ZONES,editMode=false,selectedId=null,firstRender=true,filter="all",pendImgFor=null,showAllLinks=false;
@@ -141,7 +150,7 @@ function render(){
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
   Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=nodeH(n),cs=n.t==="case";
-    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id});
+    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id,tabindex:"0",role:"button","aria-label":n.label+(n.cat?" · "+n.cat:"")});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
     const hub=n.t==="hub",hp=hub?7:(cs?2:3),rx=hub?18:(cs?11:13);
     g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:rx+3,fill:c,opacity:hub?.26:(cs?.12:.18)}));
@@ -212,7 +221,7 @@ function defaultPanel(){
 <div class="lrow"><span class="lsw" style="background:${C.L3}"></span><b>L3</b><span>приложения бизнесов и живые кейсы справа</span></div>
 <div class="lrow"><span class="lsw" style="background:${C.NET}"></span><b>Loop</b><span>сеть лояльности — возвращает гостя в петлю</span></div>
 <div class="lrow dots"><i style="background:${STATUS.live.c}"></i>в проде <i style="background:${STATUS.dev.c}"></i>прототип / демо <i style="background:${STATUS.concept.c}"></i>концепт</div>
-<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
+<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>${socialRow("Мы в сети")}`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
 function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
@@ -259,10 +268,10 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   panel.innerHTML=`${CLOSE}${h}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
-  <div class="ctarow">${linkBtns(n)}</div>
+  <div class="ctarow">${id==="social"?`<a class="pLink go" href="https://t.me/AppHub_Studio" target="_blank" rel="noopener"><b>Telegram-канал</b><small>@AppHub_Studio</small><i>↗</i></a>`+socialRow("Все площадки · apphubstudio"):linkBtns(n)}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${!h&&n.s!=="core"&&n.s!=="concept"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
+  ${!h&&n.s!=="core"&&n.s!=="concept"&&id!=="social"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -411,6 +420,7 @@ svg.addEventListener("pointerout",e=>{if(e.target.closest(".node")&&!e.relatedTa
 function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();let x=e.clientX-r.left+14,y=e.clientY-r.top+14;if(x>r.width-180)x-=200;tip.style.left=x+"px";tip.style.top=y+"px";}
 
 /* ——— click ——— */
+svg.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const ng=e.target.closest(".node");if(!ng)return;e.preventDefault();select(ng.dataset.id);});
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
 window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
@@ -422,11 +432,14 @@ window.addEventListener("keydown",e=>{
 
 /* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
 let sheetDrag=null;
-panel.addEventListener("pointerdown",e=>{if(!isMob())return;if(!e.target.closest("[data-grab]"))return;
-  sheetDrag={y:e.clientY,h:panel.getBoundingClientRect().height};panel.style.transition="none";e.preventDefault();});
+panel.addEventListener("pointerdown",e=>{if(!isMob())return;const onGrab=!!e.target.closest("[data-grab]");
+  if(!onGrab&&(panel.scrollTop>0||e.target.closest(".htrack,button,a,input,select,textarea,.seg")))return;
+  sheetDrag={y:e.clientY,x:e.clientX,h:panel.getBoundingClientRect().height,armed:onGrab};if(onGrab){panel.style.transition="none";e.preventDefault();}});
 window.addEventListener("pointermove",e=>{if(!sheetDrag)return;
+  if(!sheetDrag.armed){const dy=e.clientY-sheetDrag.y,dx=e.clientX-sheetDrag.x;if(Math.abs(dy)<10)return;if(dy<0||Math.abs(dy)<Math.abs(dx)*1.2){sheetDrag=null;return;}sheetDrag.armed=true;panel.style.transition="none";}
   let h=sheetDrag.h+(sheetDrag.y-e.clientY);h=Math.max(90,Math.min(window.innerHeight*0.92,h));panel.style.height=h+"px";});
-window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";
+window.addEventListener("pointercancel",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";panel.style.height="";});
+window.addEventListener("pointerup",()=>{if(!sheetDrag)return;const armed=sheetDrag.armed;sheetDrag=null;panel.style.transition="";if(!armed)return;
   const vh=window.innerHeight,h=panel.getBoundingClientRect().height;
   if(h<vh*0.3)reset();else if(h>vh*0.72)panel.style.height=Math.round(vh*0.9)+"px";else panel.style.height="";});
 

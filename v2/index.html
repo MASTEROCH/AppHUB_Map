@@ -62,12 +62,12 @@ body::before{content:"";position:fixed;inset:0;background:
 .brand small{color:var(--muted);font-weight:500;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em}
 .grow{flex:1}
 .search{position:relative}
-.search input{width:210px;max-width:42vw;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:13px;color:var(--ink);font-size:13px;padding:10px 13px 10px 33px;font-family:inherit;transition:.25s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec)}
+.search input{width:210px;max-width:42vw;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:14px;color:var(--ink);font-size:13px;padding:10px 13px 10px 33px;font-family:inherit;transition:.25s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec)}
 .search input::placeholder{color:var(--muted)}
 .search input:focus{outline:none;border-color:rgba(197,255,95,.5);box-shadow:var(--spec),0 0 0 4px rgba(197,255,95,.14);width:250px}
 .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:14px;height:14px;stroke:var(--muted);fill:none;pointer-events:none}
 
-.btn{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:13px;padding:10px 14px;border-radius:13px;cursor:pointer;transition:.22s cubic-bezier(.2,.9,.3,1);white-space:nowrap;box-shadow:var(--spec)}
+.btn{position:relative;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:13px;padding:10px 14px;border-radius:14px;cursor:pointer;transition:.22s cubic-bezier(.2,.9,.3,1);white-space:nowrap;box-shadow:var(--spec)}
 .btn:hover{background:rgba(255,255,255,.13);border-color:var(--hair-2);transform:translateY(-1.5px);box-shadow:var(--spec),0 10px 24px -10px rgba(0,0,0,.6)}
 .btn:active{transform:translateY(0) scale(.97)}
 .btn.prim{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.55),0 8px 22px -6px rgba(197,255,95,.5)}
@@ -85,7 +85,7 @@ h1{font-family:'Manrope';font-weight:800;font-size:clamp(20px,2.7vw,34px);letter
 
 /* ——— stats ——— */
 .stats{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px auto 0;max-width:820px}
-.stat{position:relative;display:flex;align-items:baseline;gap:6px;background:var(--glass);border:1px solid var(--hair);border-radius:13px;padding:7px 14px;box-shadow:var(--spec),var(--depth)}
+.stat{position:relative;display:flex;align-items:baseline;gap:6px;background:var(--glass);border:1px solid var(--hair);border-radius:14px;padding:7px 14px;box-shadow:var(--spec),var(--depth)}
 .stat::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),transparent 45%);pointer-events:none}
 .stat b{font-family:'Manrope';font-weight:800;font-size:18px;letter-spacing:-.02em;position:relative}
 .stat span{font-size:12px;color:var(--muted);font-family:'JetBrains Mono';letter-spacing:.04em;position:relative}
@@ -129,23 +129,23 @@ svg#map:active{cursor:grabbing}
 @keyframes spot{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 
 /* tooltip — стекло */
-.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:13px;padding:8px 12px;font-size:12px;line-height:1.35;max-width:230px;opacity:0;transform:translateY(5px) scale(.97);transition:.16s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
+.tip{position:absolute;z-index:6;pointer-events:none;background:var(--glass-2);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:14px;padding:8px 12px;font-size:12px;line-height:1.35;max-width:230px;opacity:0;transform:translateY(5px) scale(.97);transition:.16s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .tip.show{opacity:1;transform:none}
 .tip b{font-family:'Manrope';font-weight:700;font-size:13px;display:block}
 .tip i{font-style:normal;color:var(--muted);font-family:'JetBrains Mono';font-size:10.5px}
 
 /* zoom — стеклянные круги */
 .zoom{position:absolute;left:14px;bottom:14px;display:flex;flex-direction:column;gap:8px;z-index:5}
-.zoom button{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
+.zoom button{position:relative;width:42px;height:42px;border-radius:16px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);font-size:21px;font-family:'Manrope';font-weight:700;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth)}
 .zoom button:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .zoom button:active{transform:scale(.92)}
-.hudedit{position:relative;width:42px;height:42px;border-radius:15px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth);margin-bottom:4px}
+.hudedit{position:relative;width:42px;height:42px;border-radius:16px;background:var(--glass-2);border:1px solid var(--hair);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);transition:.2s cubic-bezier(.2,.9,.3,1);box-shadow:var(--spec),var(--depth);margin-bottom:4px}
 .hudedit svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .hudedit:hover{background:rgba(255,255,255,.14);transform:translateY(-1px)}
 .hudedit:active{transform:scale(.92)}
 .hudedit.on{background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;border-color:rgba(197,255,95,.6);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -6px rgba(197,255,95,.5)}
 .zoom .hudedit::after{content:"";position:absolute;left:8px;right:8px;bottom:-4px;height:1px;background:var(--hair)}
-.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:15px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
+.editHint{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:6;display:none;align-items:center;gap:8px;background:rgba(12,14,22,.92);border:1px solid rgba(197,255,95,.3);padding:7px 8px;border-radius:16px;backdrop-filter:blur(12px);box-shadow:0 12px 34px -12px rgba(0,0,0,.7);max-width:calc(100% - 24px);flex-wrap:wrap;justify-content:center}
 body.edit .editHint{display:flex}
 .editHint .ehlabel{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.06em;color:var(--lime);padding:0 6px;white-space:nowrap}
 .editHint .ehbtn{padding:8px 12px;font-size:12px}
@@ -156,7 +156,7 @@ body.edit .editHint{display:flex}
 body.edit svg#map{cursor:default}
 
 /* ——— легенда-строка под картой (не перекрывает доску) ——— */
-.legendbar{display:flex;flex:0 0 auto;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 16px;margin:8px 14px 10px;padding:8px 16px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:15px;box-shadow:var(--spec),var(--depth);position:relative}
+.legendbar{display:flex;flex:0 0 auto;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 16px;margin:8px 14px 10px;padding:8px 16px;background:var(--glass);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--spec),var(--depth);position:relative}
 .legendbar::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.1),transparent 50%);pointer-events:none}
 .legendbar .lgroup{display:flex;align-items:center;gap:13px;flex-wrap:wrap;position:relative}
 .legendbar .lcap{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
@@ -182,17 +182,17 @@ body.edit svg#map{cursor:default}
 .pSec{margin-top:17px}
 .pSec h4{font-size:11px;letter-spacing:.07em;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:5px}
 .pSec p{font-size:15px;line-height:1.55;color:#dfe1e6}
-.pLink{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;font-family:'Manrope';font-weight:700;font-size:14px;padding:11px 17px;border-radius:13px;text-decoration:none;transition:.22s cubic-bezier(.2,.9,.3,1);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -8px rgba(197,255,95,.45)}
+.pLink{display:inline-flex;align-items:center;gap:8px;margin:8px 8px 0 0;background:linear-gradient(180deg,#d6ff7e,#b4ee49);color:#0a0d05;font-family:'Manrope';font-weight:700;font-size:14px;padding:11px 17px;border-radius:14px;text-decoration:none;transition:.22s cubic-bezier(.2,.9,.3,1);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 22px -8px rgba(197,255,95,.45)}
 .pLink:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 14px 30px -8px rgba(197,255,95,.55)}
 .pLink.off{background:transparent;color:var(--muted);border:1px dashed var(--hair-2);box-shadow:none}
 .hint{color:var(--muted);font-size:15px;line-height:1.6;margin-top:18px}
-.shot{margin-top:14px;border-radius:15px;overflow:hidden;border:1px solid var(--hair);cursor:zoom-in;box-shadow:var(--depth)}
+.shot{margin-top:14px;border-radius:16px;overflow:hidden;border:1px solid var(--hair);cursor:zoom-in;box-shadow:var(--depth)}
 .shot img{width:100%;display:block;transition:.35s}
 .shot:hover img{transform:scale(1.04)}
 .shots{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:4px}
-.shots img{height:112px;border-radius:13px;border:1px solid var(--hair);cursor:zoom-in;flex:0 0 auto;transition:.22s}
+.shots img{height:112px;border-radius:14px;border:1px solid var(--hair);cursor:zoom-in;flex:0 0 auto;transition:.22s}
 .shots img:hover{border-color:rgba(197,255,95,.6)}
-.noshot{margin-top:14px;border:1px dashed var(--hair-2);border-radius:15px;padding:24px;text-align:center;color:var(--muted);font-size:13px}
+.noshot{margin-top:14px;border:1px dashed var(--hair-2);border-radius:16px;padding:24px;text-align:center;color:var(--muted);font-size:13px}
 
 /* ——— edit form ——— */
 .fld{margin-top:13px}
@@ -212,7 +212,7 @@ body.edit svg#map{cursor:default}
 .thumb{position:relative;width:76px;height:76px;border-radius:12px;overflow:hidden;border:1px solid var(--hair)}
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb b{position:absolute;top:2px;right:2px;width:19px;height:19px;background:rgba(0,0,0,.72);color:#fff;border-radius:50%;font-size:13px;line-height:19px;text-align:center;cursor:pointer}
-.conns{max-height:180px;overflow-y:auto;margin-top:6px;border:1px solid var(--hair);border-radius:13px;padding:6px}
+.conns{max-height:180px;overflow-y:auto;margin-top:6px;border:1px solid var(--hair);border-radius:14px;padding:6px}
 .conn{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:9px;cursor:pointer;font-size:13px}
 .conn:hover{background:rgba(255,255,255,.06)}
 .conn input{width:16px;height:16px;accent-color:var(--lime)}
@@ -234,7 +234,7 @@ body.edit svg#map{cursor:default}
 #lightbox{position:fixed;inset:0;background:rgba(4,5,8,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:100;display:none;align-items:center;justify-content:center;padding:30px;cursor:zoom-out;animation:fade .25s}
 #lightbox img{max-width:94vw;max-height:90vh;border-radius:18px;box-shadow:0 40px 100px rgba(0,0,0,.7)}
 @keyframes fade{from{opacity:0}}
-#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:120;background:var(--glass-2);border:1px solid rgba(197,255,95,.32);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:14px;padding:12px 19px;border-radius:15px;opacity:0;pointer-events:none;transition:.32s cubic-bezier(.2,.9,.3,1);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--spec),var(--depth)}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);z-index:120;background:var(--glass-2);border:1px solid rgba(197,255,95,.32);color:var(--ink);font-family:'Manrope';font-weight:700;font-size:14px;padding:12px 19px;border-radius:16px;opacity:0;pointer-events:none;transition:.32s cubic-bezier(.2,.9,.3,1);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);box-shadow:var(--spec),var(--depth)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .hidden{display:none!important}
 
@@ -404,7 +404,7 @@ body.edit svg#map{cursor:default}
 .pLink.go:hover i{transform:translate(2px,-2px)}
 .pLink.go::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.2s cubic-bezier(.16,1,.3,1) 1.4s infinite}
 @keyframes sheen{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
-.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:13px;white-space:nowrap}
+.ctarow .pLink.alt,.ctarow .pLink:not(.go){flex:1 1 calc(50% - 4px);justify-content:center;font-size:13px;padding:11px 12px;border-radius:14px;white-space:nowrap}
 .ctarow .pLink:not(.go):not(.alt){background:rgba(197,255,95,.14);color:#e6ffb8;border:1px solid rgba(197,255,95,.35);box-shadow:var(--spec)}
 .noshot{margin-top:14px;padding:16px}
 
@@ -464,7 +464,7 @@ body.fs .panel{top:82px}
 
 /* ——— переключатель Клиент | Админка над превью (iOS segmented) ——— */
 .segrow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:34px}
-.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:13px;padding:3px;box-shadow:var(--spec)}
+.seg{display:inline-flex;background:rgba(255,255,255,.07);border:1px solid var(--hair);border-radius:14px;padding:3px;box-shadow:var(--spec)}
 .seg button{background:none;border:0;color:#b9bdc6;font-family:'Manrope';font-weight:700;font-size:12.5px;padding:7px 12px;border-radius:10px;cursor:pointer;transition:.28s cubic-bezier(.16,1,.3,1);white-space:nowrap}
 .seg button.on{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.12));color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 4px 12px -6px rgba(0,0,0,.7)}
 .seg button:hover:not(.on){color:#fff}
@@ -510,27 +510,66 @@ h1{margin-top:3px}
 .zoom [data-z=help]{font-family:'Manrope'}
 @media(max-width:760px){.zoom [data-z=help]{display:none}}
 
+/* ——— iOS 27 Liquid Glass: реальная рефракция (Chromium, гейт html.lg-real), fallback — обычный blur ——— */
+html.lg-real .bar{backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(10px) saturate(190%) brightness(1.06) url(#lgLens)}
+html.lg-real .dock,html.lg-real .tour,html.lg-real .wcard,html.lg-real body>.fmenu{backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens);-webkit-backdrop-filter:blur(16px) saturate(200%) brightness(1.08) url(#lgLens)}
+html.lg-real .zoom button,html.lg-real .hudedit{backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens);-webkit-backdrop-filter:blur(9px) saturate(190%) brightness(1.06) url(#lgLens)}
+html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
+/* рефракционная кромка — светлый rim сверху и тень-объём, как у стекла iOS 27 */
+.dock,.tour,.wcard,.panel,body>.fmenu{box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -1px 0 rgba(255,255,255,.05),inset 1px 0 0 rgba(255,255,255,.06),0 30px 80px -24px rgba(0,0,0,.8)}
+/* ——— доступность: фокус с клавиатуры на узлах, reduced transparency ——— */
+.node:focus{outline:none}
+.node:focus-visible .card{stroke:#fff;stroke-width:2.6}
+.node.sel .card{animation:selPulse .6s cubic-bezier(.16,1,.3,1)}
+@keyframes selPulse{0%{stroke-width:6;filter:brightness(2)}100%{}}
+@media(prefers-reduced-transparency:reduce){.bar,.panel,.dock,.tour,.wcard,.fmenu,.tip,#toast,.zoom button,.hudedit,#lightbox,.welcome{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:#0e1018!important}}
+/* ——— плавность: композитный слой под карту, шторка без цепного скролла ——— */
+#viewport{will-change:transform}
+.panel{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+@media(max-width:760px){.panel{border-radius:28px 28px 0 0}}
+
+/* ——— СИСТЕМА КНОПОК ПАНЕЛИ: всё на всю ширину, одна высота, один радиус (btn 14 / card 18 / sheet 28) ——— */
+.panel .pLink{display:flex;width:100%;min-height:46px;align-items:center;justify-content:center;margin:0;padding:12px 16px;border-radius:14px;font-size:14px;font-family:'Manrope';font-weight:700;text-align:center;box-sizing:border-box}
+.panel .pLink.go{display:grid;min-height:64px;text-align:left;padding:12px 16px 12px 20px;border-radius:16px}
+.ctarow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.ctarow .pLink.go,.ctarow .pLink.off,.ctarow .socrow{grid-column:1/-1}
+.ctarow .pLink:not(.go){flex:none;padding:11px 12px;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ctarow>.pLink:not(.go):last-child:nth-child(even){grid-column:1/-1}   /* непарная вторичная — на всю ширину */
+.cta{display:flex;flex-direction:column;gap:8px}
+.cta h4,.cta p{margin-bottom:0}
+.cta p{margin-bottom:6px}
+.cta .pLink{margin:0}
+/* ——— соцсети: настоящие иконки площадок в стеклянных плитках ——— */
+.socrow{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.soccap{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.socs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.soc{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid var(--hair);color:#e6e8ee;box-shadow:var(--spec);transition:.22s cubic-bezier(.16,1,.3,1)}
+.soc svg{width:20px;height:20px}
+.soc:hover{background:rgba(197,255,95,.16);border-color:rgba(197,255,95,.45);color:#fff;transform:translateY(-2px)}
+.ctarow .socrow{margin-top:4px}
+
 </style>
 </head>
 <body data-mode="public">
-  <div class="bar">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="lgLens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.014 0.022" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"/></filter></defs></svg>
+  <header class="bar">
     <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1024 1024"><path d="M651.594 390.536C653.686 390.656 654.73 390.962 655.932 392.748C656.311 401.079 623.196 473.867 616.99 487.884L584.053 563.22L561.012 616.273C556.562 626.643 552.495 637.476 547.311 647.495C546.256 649.533 544.014 653.92 541.625 654.384C534.732 655.725 492.508 623.235 484.134 617.15C473.862 623.118 464.13 631.869 454.25 638.466C448.669 642.193 433.113 655.722 427.449 655.091C424.477 652.691 415.754 610.786 413.946 603.614C411.222 590.344 406.701 572.202 403.169 559.138C386.134 549.197 369.254 538.991 352.535 528.525C346.209 524.587 325.128 511.449 320.718 506.434C320.564 503.079 331.286 499.528 334.177 498.561C357.739 490.675 381.378 482.98 404.862 474.862L546.025 425.664L615.258 402.524C623.911 399.623 643.662 392.306 651.594 390.536ZM454.085 584.714C465.668 593.408 478.199 600.923 489.234 609.204C505.807 620.232 521.99 631.78 538.504 642.773C548.951 617.593 643.175 408.818 642.61 406.497L555.1 489.039C522.25 519.665 485.445 553.019 454.085 584.714ZM339.171 508.497C347.672 514.281 358.382 519.396 366.269 524.863C380.208 533.072 393.674 541.587 407.785 549.546C426.485 536.999 446.548 524.765 465.531 512.513L569.623 445.179L609.821 419.471C612.34 417.857 624.631 410.18 626.098 408.677L625.349 408.548C608.099 413.687 588.704 420.897 571.486 426.691C530.681 440.306 490.011 454.324 449.483 468.745L380.204 493.346C367.855 497.743 350.947 503.305 339.171 508.497Z"/><path d="M644.022 460.751C646.418 463.353 652.378 474.765 654.476 478.608L678.351 523.074L703.786 569.832C714.594 589.654 724.738 605.33 725.586 628.975C726.556 651.509 718.325 673.47 702.784 689.816C689.892 703.467 666.868 714.9 648.071 715.555C636.118 716.7 624.068 714.866 612.997 710.217C591.887 701.205 584.663 685.393 576.173 665.748C572.643 657.69 569.219 649.585 565.901 641.437L619.743 517.284C627.229 500.038 635.801 477.098 644.022 460.751Z"/><path d="M503.303 308.696C515.976 307.515 531.265 309.605 543.199 313.83C568.905 322.93 578.209 341.156 590.228 363.738C594.962 372.631 600.545 381.824 604.8 391.022L453.113 443.49C427.592 452.783 401.829 461.399 375.851 469.329L422.764 383.927L436.708 358.404C441.414 349.749 444.479 343.116 450.669 335.287C464.253 318.106 482.218 311.245 503.303 308.696Z"/><path d="M339.061 535.728C345.543 537.191 384.692 561.877 391.952 566.539C397.144 585.438 400.72 604.812 405.481 623.983C408.726 637.052 411.014 661.34 425.535 666.467C433.001 669.103 443.277 662.51 449.891 658.91C441.195 681.625 433.855 698.736 411.122 709.986C389.712 719.648 364.312 717.039 343.782 706.393C323.614 696.126 308.483 678.105 301.861 656.465C291.401 622.485 303.738 598.78 319.839 570.41C326.377 558.923 332.785 547.361 339.061 535.728Z"/></svg>AppHub<small>ЭКОСИСТЕМА · 2026</small></div>
     <div class="grow"></div>
-    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off"><div class="results" id="results"></div></div>
+    <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" stroke-width="2"/><path d="M21 21l-4-4" stroke-width="2" stroke-linecap="round"/></svg><input id="q" placeholder="Поиск продукта…" autocomplete="off" enterkeyhint="search" spellcheck="false" aria-label="Поиск продукта"><div class="results" id="results"></div></div>
     <div class="fwrap"><button class="btn icon" id="filterBtn" aria-label="Фильтр" title="Фильтр"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke-linecap="round"/></svg></button><div class="fmenu" id="filterMenu"></div></div>
     <button class="btn icon" id="linksBtn" aria-label="Все связи" title="Показать все связи"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="6" r="2"/><circle cx="18.5" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9" stroke-linecap="round"/></svg></button>
     <button class="btn demo" id="tourBtn">▶ Демо-тур</button>
     <a class="btn" id="pfBtn" href="https://t.me/Portfolio_AppHub_Bot" target="_blank" rel="noopener" title="34 продукта · 205 экранов">▣ Портфолио</a>
     <a class="btn prim" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать приложение</a>
-  </div>
-  <div class="head">
+  </header>
+  <section class="head">
     <div class="eyebrow">ЭКОСИСТЕМА ПРОДУКТОВ · СЕНТЯБРЬ 2026 · <span class="kbd">F</span> — полный экран</div>
     <h1>Приложение без установки — и сеть за ним</h1>
     <p class="lede">Пользователи → агрегаторы → бизнесы → снова пользователи. Каждое приложение студии — узел <b>сети Loop</b>: гость одного бизнеса приносит выручку другому. Слева — вход в студию, справа — живые кейсы.</p>
     <div class="stats" id="stats"></div>
-  </div>
+  </section>
   <div class="chips" id="chips"></div>
-  <div class="stage">
+  <main class="stage">
     <div class="diagram">
       <svg id="map" viewBox="0 0 1320 870" role="img" aria-label="Карта экосистемы AppHub">
         <defs>
@@ -543,8 +582,8 @@ h1{margin-top:3px}
       </svg>
       <div class="zoom"><button data-z="help" id="helpBtn" title="Как читать карту" aria-label="Как читать карту"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 015 0c0 1.6-2.5 2-2.5 3.5M12 17h.01"/></svg></button><button data-z="fs" id="fsBtn" title="На весь экран" aria-label="На весь экран"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button><button data-z="in" aria-label="Приблизить">+</button><button data-z="out" aria-label="Отдалить">−</button><button data-z="reset" title="Показать всю карту" aria-label="Показать всю карту"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="3"/></svg></button></div>
     </div>
-    <aside class="panel" id="panel"></aside>
-  </div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </main>
   <div class="foot">AppHub · приложения без установки · карта актуализирована 14.09.2026</div>
   <nav class="dock" id="dock" aria-label="Действия">
     <button id="dockFilter"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4"/></svg>Фильтр</button>
@@ -563,7 +602,15 @@ h1{margin-top:3px}
    Источники: _DISTRIBUTION_KIT/05_Portfolio/PORTFOLIO.md (34 продукта · 205 экранов · 16 ниш), LINKS.md, NOTEBOOK_Презентация/*.md */
 window.APPHUB_DATA = {
   viewBox: "-80 -50 2020 950",
-  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/" },
+  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/",
+    social: [
+      {k:"tg",label:"Telegram",url:"https://t.me/AppHub_Studio"},
+      {k:"ig",label:"Instagram",url:"https://www.instagram.com/apphubstudio/"},
+      {k:"x",label:"X",url:"https://x.com/Apphubstudio"},
+      {k:"in",label:"LinkedIn",url:"https://www.linkedin.com/company/apphubstudio/"},
+      {k:"ph",label:"Product Hunt",url:"https://www.producthunt.com/@apphubstudio"},
+      {k:"web",label:"apphub.studio",url:"https://apphub.studio"}
+    ] },
   nodes: {
     /* ——— APPHUB STUDIO · вход в экосистему ——— */
     site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в OS Builder и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",imgs:["/v2/shots/site-1.jpg","/v2/shots/osb-1.jpg","/v2/shots/osb-2.jpg","/v2/shots/site-2.jpg","/v2/shots/site-3.jpg"],links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
@@ -728,10 +775,19 @@ const LAYERS=[["ROOT","Студия"],["L1","L1 · Users"],["L2","L2 · Агре
 const STATUS={live:{c:"#34d399",t:"Живой продукт"},dev:{c:"#fbbf24",t:"В разработке"},concept:{c:"#8a8f98",t:"Концепт"},core:{c:"#C5FF5F",t:"Ядро петли"}};
 const DOMS=[["Батуми","#38bdf8"],["Еда","#fb923c"],["Туризм","#2dd4bf"],["Недвижимость","#f59e0b"],["Ритейл","#a78bfa"],["Здоровье","#f472b6"],["Город и дом","#818cf8"]];
 const META=(window.APPHUB_DATA&&window.APPHUB_DATA.meta)||{};
+const SOC_ICO={
+  tg:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.9 2a10 10 0 100 20 10 10 0 000-20zm4.6 6.9l-1.5 7.3c-.1.5-.4.6-.9.4l-2.4-1.8-1.2 1.1c-.1.1-.2.2-.5.2l.2-2.5 4.5-4c.2-.2 0-.3-.3-.1L8.8 13l-2.4-.7c-.5-.2-.5-.5.1-.8l9.3-3.6c.4-.1.8.1.7.9z"/></svg>',
+  ig:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg>',
+  x:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.8 3h3.1l-6.8 7.8L22 21h-6.3l-4.9-6.4L5.2 21H2.1l7.3-8.3L1.8 3h6.4l4.4 5.9L17.8 3zm-1.1 16.2h1.7L7.2 4.7H5.4l11.3 14.5z"/></svg>',
+  in:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 2H3.6C2.7 2 2 2.7 2 3.6v16.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6V3.6c0-.9-.7-1.6-1.6-1.6zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 110-3.4 1.7 1.7 0 010 3.4zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.7 13 12.7 14.3V19h-3V9.5h2.9v1.3c.4-.8 1.4-1.5 2.8-1.5 3 0 3.6 2 3.6 4.6V19z"/></svg>',
+  ph:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1.4 12h-2.9v3h-2V7h4.9a3.5 3.5 0 010 7zm0-5h-2.9v3h2.9a1.5 1.5 0 000-3z"/></svg>',
+  web:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>'};
+function socialRow(cap){const a=META.social||[];if(!a.length)return"";return`<div class="socrow">${cap?`<span class="soccap">${esc(cap)}</span>`:""}<div class="socs">${a.map(x=>`<a class="soc" href="${esc(x.url)}" target="_blank" rel="noopener" title="${esc(x.label)}" aria-label="${esc(x.label)}">${SOC_ICO[x.k]||SOC_ICO.web}</a>`).join("")}</div></div>`;}
 const PF_URL=META.portfolioUrl||"https://t.me/Portfolio_AppHub_Bot",PF_GAL=META.galleryBase||"https://apphub-portfolio-livid.vercel.app/gallery/";
 const DOMC=Object.fromEntries(DOMS);
 const LBADGE={ROOT:"СТУДИЯ",NET:"LOOP · СЕТЬ",UT:"УТИЛИТА",MM:"МЕДИА",GAMES:"ИГРЫ"};
 const DEF=window.APPHUB_DATA;
+try{if(/Chrome\//.test(navigator.userAgent)&&!/Edg\/|OPR\//.test(navigator.userAgent)&&CSS.supports("backdrop-filter","url(#x)")&&!matchMedia("(prefers-reduced-transparency:reduce)").matches)document.documentElement.classList.add("lg-real");}catch(e){}
 
 /* ——— state ——— */
 let N,L,ZONES,editMode=false,selectedId=null,firstRender=true,filter="all",pendImgFor=null,showAllLinks=false;
@@ -850,7 +906,7 @@ function render(){
     if(mn&&!(a==="l3"&&b==="l1")&&!(a==="l1"&&b==="l3")){comet(d,"#fff",3.2,0,3.5);comet(d,"#fff",3.2,1.6,3.5);}});
   let idx=0;
   Object.entries(N).forEach(([id,n])=>{const c=C[n.layer]||C.L2,w=nodeW(n),h=nodeH(n),cs=n.t==="case";
-    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id});
+    const g=ex("g",{class:"node"+(cs?" case":""),"data-id":id,tabindex:"0",role:"button","aria-label":n.label+(n.cat?" · "+n.cat:"")});
     if(firstRender){g.classList.add("nodeIn");g.style.animationDelay=(idx*14)+"ms";}
     const hub=n.t==="hub",hp=hub?7:(cs?2:3),rx=hub?18:(cs?11:13);
     g.appendChild(ex("rect",{x:n.x-w/2-hp,y:n.y-h/2-hp,width:w+hp*2,height:h+hp*2,rx:rx+3,fill:c,opacity:hub?.26:(cs?.12:.18)}));
@@ -921,7 +977,7 @@ function defaultPanel(){
 <div class="lrow"><span class="lsw" style="background:${C.L3}"></span><b>L3</b><span>приложения бизнесов и живые кейсы справа</span></div>
 <div class="lrow"><span class="lsw" style="background:${C.NET}"></span><b>Loop</b><span>сеть лояльности — возвращает гостя в петлю</span></div>
 <div class="lrow dots"><i style="background:${STATUS.live.c}"></i>в проде <i style="background:${STATUS.dev.c}"></i>прототип / демо <i style="background:${STATUS.concept.c}"></i>концепт</div>
-<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>`;
+<div class="lrow keys"><span class="kbd">F</span> полный экран · <span class="kbd">Esc</span> закрыть · колесо / пинч — зум</div></div><div class="cta"><h4>Хотите своё приложение в сети?</h4><p>Базовый Mini App — за день, кастомный — до трёх. Каждый проект — клиентское приложение и админ-панель.</p><a class="pLink" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать в конструкторе →</a><a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио · ${META.portfolio||34} продукта →</a></div>${socialRow("Мы в сети")}`;
   return`<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>КАРТА</div><div class="pTitle">Ткни любой узел</div><p class="hint">Клик по проекту — описание, скриншоты и ссылки. У Dine, Shops, Tours, Events клик раскрывает направления. Колесо/пинч — зум, тащи — двигай карту.</p>`;
 }
 function pfImgs(n){if(!n.pf)return[];const k=Math.min(n.screens||3,4);const a=[];for(let i=1;i<=k;i++)a.push(PF_GAL+n.pf+"/"+i+".webp");return a;}
@@ -968,10 +1024,10 @@ function renderInfo(id){const n=N[id],c=C[n.layer]||C.L2,st=stOf(n);
   panel.innerHTML=`${CLOSE}${h}<div class="badge" style="color:${c};border:1px solid ${c}55;background:${c}16"><i style="background:${c}"></i>${n.t==="case"?"КЕЙС · ":""}${esc(LBADGE[n.layer]||n.layer)}</div>
   <div class="pTitle">${esc(n.label)}</div><div class="pCat">${esc(n.cat||"")}</div>${pfLine(n)}
   <div class="tagrow">${n.s&&n.s!=="core"?`<div class="statusLine" style="color:${st.c};background:${st.c}14"><span class="sd" style="background:${st.c}"></span>${st.t}</div>`:""}${n.dom?`<button class="domtag" data-dom="${esc(n.dom)}" style="color:${DOMC[n.dom]||"#C5FF5F"};border-color:${(DOMC[n.dom]||"#C5FF5F")}55;background:${(DOMC[n.dom]||"#C5FF5F")}14">⬡ ${esc(n.dom)}</button>`:""}</div>
-  <div class="ctarow">${linkBtns(n)}</div>
+  <div class="ctarow">${id==="social"?`<a class="pLink go" href="https://t.me/AppHub_Studio" target="_blank" rel="noopener"><b>Telegram-канал</b><small>@AppHub_Studio</small><i>↗</i></a>`+socialRow("Все площадки · apphubstudio"):linkBtns(n)}</div>
   ${n.desc?`<div class="pSec"><h4>Что это</h4><p>${esc(n.desc)}</p></div>`:""}
   ${n.inter?`<div class="pSec"><h4>Как взаимодействует</h4><p>${esc(n.inter)}</p></div>`:""}
-  ${!h&&n.s!=="core"&&n.s!=="concept"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
+  ${!h&&n.s!=="core"&&n.s!=="concept"&&id!=="social"?'<div class="noshot">📸 экраны появятся после съёмки для портфолио</div>':""}${related(id)}`;bindHero();}
 
 /* ——— editor (internal only) ——— */
 function renderEdit(id){const n=N[id],c=C[n.layer]||C.L2;
@@ -1120,6 +1176,7 @@ svg.addEventListener("pointerout",e=>{if(e.target.closest(".node")&&!e.relatedTa
 function moveTip(e){const tip=$("#tooltip"),r=diagram.getBoundingClientRect();let x=e.clientX-r.left+14,y=e.clientY-r.top+14;if(x>r.width-180)x-=200;tip.style.left=x+"px";tip.style.top=y+"px";}
 
 /* ——— click ——— */
+svg.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const ng=e.target.closest(".node");if(!ng)return;e.preventDefault();select(ng.dataset.id);});
 svg.addEventListener("click",e=>{if(moved){moved=false;return;}const ng=e.target.closest(".node");if(ng){select(ng.dataset.id);return;}if(e.target.closest(".subnode"))return;reset();});
 window.addEventListener("keydown",e=>{
   if(tourIdx>=0){if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();tourGo(tourIdx+1);return;}if(e.key==="ArrowLeft"){tourGo(tourIdx-1);return;}if(e.key==="Escape"){endTour();return;}}
@@ -1131,11 +1188,14 @@ window.addEventListener("keydown",e=>{
 
 /* ——— bottom-sheet drag (мобила): свайп ручки вверх=развернуть, вниз=закрыть ——— */
 let sheetDrag=null;
-panel.addEventListener("pointerdown",e=>{if(!isMob())return;if(!e.target.closest("[data-grab]"))return;
-  sheetDrag={y:e.clientY,h:panel.getBoundingClientRect().height};panel.style.transition="none";e.preventDefault();});
+panel.addEventListener("pointerdown",e=>{if(!isMob())return;const onGrab=!!e.target.closest("[data-grab]");
+  if(!onGrab&&(panel.scrollTop>0||e.target.closest(".htrack,button,a,input,select,textarea,.seg")))return;
+  sheetDrag={y:e.clientY,x:e.clientX,h:panel.getBoundingClientRect().height,armed:onGrab};if(onGrab){panel.style.transition="none";e.preventDefault();}});
 window.addEventListener("pointermove",e=>{if(!sheetDrag)return;
+  if(!sheetDrag.armed){const dy=e.clientY-sheetDrag.y,dx=e.clientX-sheetDrag.x;if(Math.abs(dy)<10)return;if(dy<0||Math.abs(dy)<Math.abs(dx)*1.2){sheetDrag=null;return;}sheetDrag.armed=true;panel.style.transition="none";}
   let h=sheetDrag.h+(sheetDrag.y-e.clientY);h=Math.max(90,Math.min(window.innerHeight*0.92,h));panel.style.height=h+"px";});
-window.addEventListener("pointerup",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";
+window.addEventListener("pointercancel",()=>{if(!sheetDrag)return;sheetDrag=null;panel.style.transition="";panel.style.height="";});
+window.addEventListener("pointerup",()=>{if(!sheetDrag)return;const armed=sheetDrag.armed;sheetDrag=null;panel.style.transition="";if(!armed)return;
   const vh=window.innerHeight,h=panel.getBoundingClientRect().height;
   if(h<vh*0.3)reset();else if(h>vh*0.72)panel.style.height=Math.round(vh*0.9)+"px";else panel.style.height="";});
 
