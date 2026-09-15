@@ -520,3 +520,6 @@ html.lg-real body.fs .bar{backdrop-filter:none;-webkit-backdrop-filter:none}
 .soc svg{width:20px;height:20px}
 .soc:hover{background:rgba(197,255,95,.16);border-color:rgba(197,255,95,.45);color:#fff;transform:translateY(-2px)}
 .ctarow .socrow{margin-top:4px}
+
+/* ——— портрет: во время тура и при открытой карточке шапка уходит — карте нужна высота ——— */
+@media(max-width:760px){body.touring .head,body.touring .chips{display:none}}

@@ -31,6 +31,10 @@ const PF_URL=META.portfolioUrl||"https://t.me/Portfolio_AppHub_Bot",PF_GAL=META.
 const DOMC=Object.fromEntries(DOMS);
 const LBADGE={ROOT:"СТУДИЯ",NET:"LOOP · СЕТЬ",UT:"УТИЛИТА",MM:"МЕДИА",GAMES:"ИГРЫ"};
 const DEF=window.APPHUB_DATA;
+/* ——— ПОРТРЕТ (телефон): схема перестраивается вертикально — студия → L1 → L2 → L3 → Loop → кейсы → ядро → игры → медиа.
+   Координаты из data.js — десктопные; на телефоне они пересчитываются на лету и НЕ сохраняются. ——— */
+const PORTRAIT=window.innerWidth<=760;
+const MOBW=520,MOBC=260;
 try{if(/Chrome\//.test(navigator.userAgent)&&!/Edg\/|OPR\//.test(navigator.userAgent)&&CSS.supports("backdrop-filter","url(#x)")&&!matchMedia("(prefers-reduced-transparency:reduce)").matches)document.documentElement.classList.add("lg-real");}catch(e){}
 
 /* ——— state ——— */
@@ -41,7 +45,7 @@ function initState(){
   if(EDITABLE){const s=loadState();if(s){N=s.nodes;L=s.links;ZONES=s.zones||DEF.zones;return;}}
   N=structuredClone(DEF.nodes);L=structuredClone(DEF.links);ZONES=structuredClone(DEF.zones);
 }
-function save(){if(!EDITABLE)return;try{localStorage.setItem(KEY,JSON.stringify({nodes:N,links:L,zones:ZONES}));}catch(e){toast("⚠ Не удалось сохранить (лимит)");}queuePush();}
+function save(){if(!EDITABLE)return;if(PORTRAIT){toast("Правки карты — на десктопе");return;}try{localStorage.setItem(KEY,JSON.stringify({nodes:N,links:L,zones:ZONES}));}catch(e){toast("⚠ Не удалось сохранить (лимит)");}queuePush();}
 initState();
 
 /* ——— синхронизация с общей базой (Supabase REST) ——— */
@@ -86,7 +90,7 @@ const miniW=n=>n.t==="case"?Math.max(84,Math.round(measureText(n.label,12)+28)):
 const nodeW=n=>n.t==="hub"?n.w:miniW(n);
 const nodeH=n=>n.t==="hub"?n.h:(n.t==="case"?36:46);
 const subW=s=>Math.max(86,Math.round(measureText(s.label,12)+30));
-if(DEF.viewBox)svg.setAttribute("viewBox",DEF.viewBox);
+if(DEF.viewBox&&!PORTRAIT)svg.setAttribute("viewBox",DEF.viewBox);
 /* ——— инъекция админ-панели на публичной странице (только при ?edit) ——— */
 if(GATED){
   const bar=$(".bar"),anchor=bar&&bar.querySelector("a.prim");
@@ -106,7 +110,7 @@ const feeder=(a,b)=>FEED.includes(N[a].layer)||FEED.includes(N[b].layer);
 const caseEnd=(a,b)=>N[a].t==="case"||N[b].t==="case";
 const isMain=(a,b)=>{const k=[a,b].sort().join();return k===["l1","l2"].sort().join()||k===["l2","l3"].sort().join()||k===["l3","l1"].sort().join();};
 const fcol=(a,b)=>{const x=[N[a].layer,N[b].layer];if(isMain(a,b))return"url(#flow)";if(x.includes("NET"))return C.NET;if(x.includes("ROOT"))return C.ROOT;if(x.includes("UT"))return C.UT;if(x.includes("MM"))return C.MM;if(x.includes("GAMES"))return C.GAMES;return"url(#flow)";};
-const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)},mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
+const path=(a,b)=>{const A={x:cx(a),y:cy(a)},B={x:cx(b),y:cy(b)};if(PORTRAIT){const my=(A.y+B.y)/2;return`M${A.x},${A.y} C${A.x},${my} ${B.x},${my} ${B.x},${B.y}`;}const mx=(A.x+B.x)/2;return`M${A.x},${A.y} C${mx},${A.y} ${mx},${B.y} ${B.x},${B.y}`;};
 const STATUS_KEYS=["live","dev","concept"];
 const matchFilter=n=>{if(filter==="all")return true;if(filter==="case")return n.t==="case";if(filter.indexOf("dom:")===0)return n.dom===filter.slice(4);if(STATUS_KEYS.includes(filter))return n.s===filter||(filter==="live"&&n.s==="core");return n.layer===filter;};
 let linkEls=[],nodeEls={},cometN=0;
@@ -118,19 +122,51 @@ function comet(d,color,dur,delay,r){const mp=ex("path",{d,fill:"none",stroke:"no
   const mpath=ex("mpath",{});mpath.setAttribute("href","#"+id);mpath.setAttributeNS("http://www.w3.org/1999/xlink","href","#"+id);
   am.appendChild(mpath);g.appendChild(am);gLoop.appendChild(g);}
 
+/* ——— портретная раскладка: позиции и зоны считаются из состава карты ——— */
+function mobileLayout(){const P={},zones=[];const put=(id,x,y)=>{if(N[id])P[id]={x,y};};
+  const has=id=>!!N[id];
+  const grid=(ids,y0,cols,dy)=>{const xs=cols===3?[120,260,400]:(cols===2?[165,355]:[260]);let i=0;ids.filter(has).forEach(id=>{const r=Math.floor(i/cols),c=i%cols;const rowIds=Math.min(cols,ids.filter(has).length-r*cols);const xr=rowIds===cols?xs:(rowIds===2?[190,330]:[260]);put(id,xr[c],y0+r*dy);i++;});return y0+Math.max(0,Math.ceil(i/cols)-1)*dy;};
+  const zone=(ids,label,sub,c)=>{const ks=ids.filter(k=>P[k]);if(!ks.length)return;let a=1e9,b=1e9,cc=-1e9,d=-1e9;ks.forEach(k=>{const n=N[k],w=nodeW(n),h=nodeH(n),p=P[k];a=Math.min(a,p.x-w/2);cc=Math.max(cc,p.x+w/2);b=Math.min(b,p.y-h/2);d=Math.max(d,p.y+h/2);});
+    const bx=Math.min(a-18,20),bw=Math.max(cc+18,MOBW-20)-bx,by=b-60,bh=d+18-by;zones.push({label,sub,x:MOBC,y:by+24,bx,by,bw,bh,c});};
+  let y=88;
+  y=grid(["site","studiobot","portfolio"],y,3,54);y=grid(["linkos","osbuilder"],y+54,2,54);
+  zone(["site","studiobot","portfolio","linkos","osbuilder"],"APPHUB STUDIO","вход · сайт → LinkOS → BuildOS → студия","#C5FF5F");
+  y+=110;put("l1",MOBC,y);
+  y+=160;put("l2",MOBC,y);
+  y=grid(Object.keys(N).filter(k=>N[k].layer==="L2"&&N[k].t==="mini"),y+92,3,54);
+  y+=130;put("l3",MOBC,y);
+  const dirs=["dine","events","med","anzh","kingfit","carrent","tours","shops","construction","cityhome","crypto","dropper",...Object.keys(N).filter(k=>N[k].layer==="L3"&&N[k].t==="mini"&&!["dine","events","med","anzh","kingfit","carrent","tours","shops","construction","cityhome","crypto","dropper"].includes(k))];
+  y=grid(dirs,y+92,3,54);
+  y+=90;put("loop",MOBC,y);const loopY=y;
+  const cases=Object.keys(N).filter(k=>N[k].t==="case");y=grid(cases,y+130,2,50);
+  zone(cases,"КЕЙСЫ · ЖИВЫЕ ПРИЛОЖЕНИЯ","клиентские продукты · клик — экраны","#2dd4bf");
+  const ut=Object.keys(N).filter(k=>N[k].layer==="UT");y=grid(ut,y+120,3,54);zone(ut,"ЯДРО И УТИЛИТЫ","GEOS · PromOS · контент → трафик в петлю","#38bdf8");
+  const gm=Object.keys(N).filter(k=>N[k].layer==="GAMES");y=grid(gm,y+120,3,54);zone(gm,"ИГРЫ","аркады и настолки · вовлечение","#fbbf24");
+  const mm=Object.keys(N).filter(k=>N[k].layer==="MM");y=grid(mm,y+120,3,54);zone(mm,"MULTIMEDIA","трафик к пользователям","#a78bfa");
+  const rest=Object.keys(N).filter(k=>!P[k]);if(rest.length)y=grid(rest,y+110,3,54);
+  return{pos:P,zones,h:y+60,loopY};}
+
 /* ——— render ——— */
 function render(){
   gLoop.innerHTML="";gZ.innerHTML="";gL.innerHTML="";gN.innerHTML="";linkEls=[];nodeEls={};cometN=0;clearSubs();
+  let zonesDraw=ZONES,loopY=null;
+  if(PORTRAIT){const ML=mobileLayout();Object.entries(ML.pos).forEach(([id,p])=>{N[id].x=p.x;N[id].y=p.y;});zonesDraw=ML.zones;loopY=ML.loopY;svg.setAttribute("viewBox",`0 0 ${MOBW} ${ML.h}`);}
   if(N.l1&&N.l3){
     const arc=(d,delays)=>{gLoop.appendChild(ex("path",{d,fill:"none",stroke:"url(#loop)","stroke-width":11,opacity:.12}));
       gLoop.appendChild(ex("path",{class:"flowline",d,fill:"none",stroke:"url(#loop)","stroke-width":2.4,opacity:.6,"stroke-linecap":"round"}));
       delays.forEach(dl=>comet(d,"#C5FF5F",4.5,dl,4.5));};
+    if(PORTRAIT){
+      const dL=`M${N.l3.x-80},${N.l3.y} C${-90},${N.l3.y} ${-90},${N.l1.y} ${N.l1.x-116},${N.l1.y}`;
+      const dR=`M${N.l3.x+80},${N.l3.y} C${MOBW+90},${N.l3.y} ${MOBW+90},${N.l1.y} ${N.l1.x+116},${N.l1.y}`;
+      arc(dL,[0,2.2]);arc(dR,[1.1,3.3]);
+      const t=ex("text",{class:"loopBadge",x:MOBC,y:(loopY||N.l3.y+120)+40});t.textContent="↺ ПЕТЛЯ · ВОЗВРАТ В L1";gLoop.appendChild(t);
+    }else{
     const dBot=`M${N.l3.x},${N.l3.y+62} C${N.l3.x+40},760 ${N.l1.x-40},760 ${N.l1.x},${N.l1.y+62}`;
     const dTop=`M${N.l3.x},${N.l3.y-62} C${N.l3.x+40},40 ${N.l1.x-40},40 ${N.l1.x},${N.l1.y-62}`;
     arc(dBot,[0,2.2]);arc(dTop,[1.1,3.3]);
-    const t=ex("text",{class:"loopBadge",x:(N.l1.x+N.l3.x)/2,y:752});t.textContent="↺ ПЕТЛЯ · ВОЗВРАТ В L1";gLoop.appendChild(t);
+    const t=ex("text",{class:"loopBadge",x:(N.l1.x+N.l3.x)/2,y:752});t.textContent="↺ ПЕТЛЯ · ВОЗВРАТ В L1";gLoop.appendChild(t);}
   }
-  ZONES.forEach(z=>{
+  zonesDraw.forEach(z=>{
     gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:18,fill:"#0d0f17","fill-opacity":.66}));
     gZ.appendChild(ex("rect",{x:z.bx,y:z.by,width:z.bw,height:z.bh,rx:18,fill:z.c,"fill-opacity":.07,stroke:z.c,"stroke-opacity":.42,"stroke-width":1.4}));
     const l=ex("text",{class:"zlabel",x:z.x,y:z.y,fill:z.c});l.textContent=z.label;gZ.appendChild(l);
@@ -170,7 +206,7 @@ function render(){
 let subEls=[];
 function clearSubs(){subEls.forEach(e=>e.remove());subEls=[];}
 function showSubs(id){const n=N[id];if(!n.subs||!n.subs.length)return;const px=n.x,py=n.y;
-  n.subs.forEach((s0,i)=>{let s={...s0};if(s.x==null||s.y==null){const span=Math.min(n.subs.length-1,5),ang=(-0.6+1.2*(span?i/span:.5)),r=130;s.x=px+Math.sin(ang)*r;s.y=py+90+Math.cos(ang)*22;}
+  n.subs.forEach((s0,i)=>{let s={...s0};if(PORTRAIT){delete s.x;delete s.y;}if(s.x==null||s.y==null){const span=Math.min(n.subs.length-1,5),ang=(-0.6+1.2*(span?i/span:.5)),r=130;s.x=px+Math.sin(ang)*r;s.y=py+90+Math.cos(ang)*22;}
     const d=`M${px},${py} C${(px+s.x)/2},${py} ${(px+s.x)/2},${s.y} ${s.x},${s.y}`;
     const ln=ex("path",{d,fill:"none",stroke:"#2dd4bf","stroke-width":1.4,opacity:.55,"stroke-dasharray":"4 5"});gL.appendChild(ln);subEls.push(ln);
     const w=subW(s),h=34,g=ex("g",{class:"subnode nodeIn"});
@@ -234,7 +270,7 @@ function linkBtns(n){let arr=n.links||(n.link?[{label:"Открыть проду
   const isAddr=t=>/^(@|https?:|t\.me|[a-z0-9-]+(\.[a-z0-9-]+)+)/i.test(t||"");
   let out=arr.map((l,i)=>i?`<a class="pLink" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} →</a>`
     :`<a class="pLink go" href="${esc(l.url)}" target="_blank" rel="noopener"><b>${l.admin?"Открыть админку":(isAddr(l.label)?"Открыть приложение":esc(l.label))}</b><small>${l.admin?esc(l.label)+" · демо":(isAddr(l.label)?esc(l.label):(/t\.me/.test(l.url)?"в Telegram":"откроется в новой вкладке"))}</small><i>↗</i></a>`).join("");
-  if(!arr.length)out=`<span class="pLink off">${n.s==="live"?"ссылка скоро":(n.s==="concept"?"концепт · ссылки пока нет":"в разработке · демо скоро")}</span>`;
+  if(!arr.length)out=n.s==="core"?"":`<span class="pLink off">${n.s==="live"?"ссылка скоро":(n.s==="concept"?"концепт · ссылки пока нет":"в разработке · демо скоро")}</span>`;
   if(n.admin&&n.admin.url&&!adm)out+=`<a class="pLink alt" href="${esc(n.admin.url)}" target="_blank" rel="noopener">⚙ ${esc(n.admin.label||"Админка")} →</a>`;
   if(n.pf)out+=`<a class="pLink alt" href="${PF_URL}" target="_blank" rel="noopener">▣ Портфолио →</a>`;
   out+=`<button class="pLink alt share" data-share="${esc(n.label)}">🔗 Поделиться</button>`;
@@ -361,7 +397,7 @@ let zk=1,ztx=0,zty=0;          // отрисованный трансформ
 let tk=1,ttx=0,tty=0,zRAF=0;   // целевой трансформ + id rAF-анимации
 const applyZ=()=>vp.setAttribute("transform",`translate(${ztx} ${zty}) scale(${zk})`);
 const svgPt=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());};
-const clampK=k=>Math.min(4,Math.max(.4,k));
+const clampK=k=>Math.min(PORTRAIT?7:4,Math.max(.4,k));
 function syncTarget(){tk=zk;ttx=ztx;tty=zty;}
 function cancelZAnim(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}syncTarget();}
 // мгновенный зум к точке (для пинча/жестов прямого управления)
@@ -531,10 +567,14 @@ const isMob=()=>window.innerWidth<=760;
 function panTo(cx,cy,scale,yf,xoff){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}const rect=svg.getBoundingClientRect();
   const pt=svgPt({clientX:rect.left+rect.width/2-(xoff||0),clientY:rect.top+rect.height*(yf==null?0.5:yf)});
   zk=Math.max(.4,Math.min(4,scale));ztx=pt.x-zk*cx;zty=pt.y-zk*cy;applyZ();syncTarget();}
-function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
+function portraitK(){const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);return clampK((rect.width*0.97)/(m*v.width));}
+function focusNode(id,scale){const n=N[id];if(!n)return;const mob=isMob();if(PORTRAIT){panTo(MOBC,n.y,portraitK(),0.3);return;}panTo(n.x,n.y,scale||(mob?1.7:1.5),mob?0.24:0.36);}
 function focusCenter(scale,yf){const c=vbCenter();panTo(c[0],c[1],scale,yf);}
-function focusAll(sm){if(sm)smoothPulse();if(isMob())panTo(880,430,2.15,0.5);else focusCenter(1,0.5);}  // телефон: старт на ядре петли L2–L3, остальное — пан/пинч
+function fitWidthTop(){if(zRAF){cancelAnimationFrame(zRAF);zRAF=0;}const v=svg.viewBox.baseVal,rect=svg.getBoundingClientRect(),m=Math.min(rect.width/v.width,rect.height/v.height);
+  const k=clampK((rect.width*0.97)/(m*v.width));const pt=svgPt({clientX:rect.left+rect.width/2,clientY:rect.top+10});zk=k;ztx=pt.x-k*(v.x+v.width/2);zty=pt.y-k*v.y;applyZ();syncTarget();}
+function focusAll(sm){if(sm)smoothPulse();if(PORTRAIT)fitWidthTop();else if(isMob())panTo(880,430,2.15,0.5);else focusCenter(1,0.5);}
 function focusSelected(id){const n=N[id];if(!n)return;const mob=isMob();
+  if(PORTRAIT){panTo(MOBC,n.y,portraitK(),0.22);smoothPulse();return;}
   panTo(n.x,n.y,n.t==="hub"?(mob?1.45:1.35):(mob?1.85:1.75),mob?0.24:0.46,mob?0:204);smoothPulse();}
 function focusFilter(){const ids=Object.keys(N).filter(id=>matchFilter(N[id]));
   if(filter==="all"||ids.length>=Object.keys(N).length-1||!ids.length){focusAll(true);return;}
@@ -555,11 +595,12 @@ function buildTour(){
 function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 function endTour(){tourIdx=-1;document.body.classList.remove("touring");spotlight(null);smooth(true);focusAll();setTimeout(()=>smooth(false),720);tourBg&&tourBg.classList.add("hidden");tourCard&&tourCard.classList.add("hidden");reset();}
 function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;const s=TOUR[i];
-  tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=s.x;
+  const tx=PORTRAIT?s.x.replace("Слева сверху —","Сверху —").replace("Справа —","Ниже —").replace("По углам —","Внизу —").replace("слева — вход в студию, справа — живые кейсы","сверху — вход в студию, ниже — живые кейсы"):s.x;
+  tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=tx;
   tourCard.querySelector(".tdots").innerHTML=TOUR.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("");
   tourCard.querySelector('[data-t="prev"]').style.visibility=i===0?"hidden":"visible";
   tourCard.querySelector('[data-t="next"]').textContent=i===TOUR.length-1?"Готово ✓":"Далее →";
-  if(s.focus==="all")focusCenter(isMob()?1.05:1,isMob()?0.4:0.5);else if(s.focus)focusNode(s.focus,s.scale);
+  if(s.focus==="all"){if(PORTRAIT){if(s.spot&&s.spot.length)focusNode(s.spot[0]);else fitWidthTop();}else focusCenter(1,0.5);}else if(s.focus)focusNode(s.focus,s.scale);
   spotlight(s.spot||null);
   if(s.select&&N[s.select]){clearSubs();renderInfo(s.select);panel.classList.add("open");}else panel.classList.remove("open");
 }
@@ -589,7 +630,7 @@ function toggleFS(){const on=!document.body.classList.contains("fs");
   else if(document.fullscreenElement||document.webkitFullscreenElement){try{(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}}
   setFS(on);}
 document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement&&document.body.classList.contains("fs"))setFS(false);});
-let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
+let rsT=0;window.addEventListener("resize",()=>{clearTimeout(rsT);rsT=setTimeout(()=>{if((window.innerWidth<=760)!==PORTRAIT){location.reload();return;}if(tourIdx>=0||nodeDrag||dragging)return;if(selectedId&&N[selectedId]){if(!isMob())focusSelected(selectedId);}else focusAll();},140);});
 /* ——— мобильный док (Apple HIG: действия под большим пальцем) ——— */
 // ГОТЧА: backdrop-filter на .bar делает её containing block для position:fixed → меню фильтра на мобиле уезжало за экран. Переносим в body.
 if(isMob()&&$("#filterMenu"))document.body.appendChild($("#filterMenu"));
