@@ -613,6 +613,15 @@ body.filter-open .fmscrim{display:block}
 
 .src{margin-top:8px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.03em;color:var(--muted);line-height:1.5}
 
+/* ——— презентация в панели «Инвестору»: обложка-превью, клик открывает PDF ——— */
+.deck{position:relative;display:block;margin-top:8px;border-radius:16px;overflow:hidden;border:1px solid var(--hair-2);box-shadow:var(--spec),0 20px 44px -18px rgba(0,0,0,.85);background:#0c0e16;transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .25s}
+.deck img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.deck .deckcap{position:absolute;left:0;right:0;bottom:0;padding:34px 14px 12px;background:linear-gradient(180deg,transparent,rgba(6,7,11,.92));display:flex;flex-direction:column;gap:3px}
+.deck .deckcap b{font-family:'Manrope';font-weight:800;font-size:15px;color:#fff}
+.deck .deckcap small{font-family:'JetBrains Mono';font-size:11px;color:#c4c8d0;letter-spacing:.02em}
+.deck i{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:12px;background:rgba(197,255,95,.9);color:#0a0d05;font-style:normal;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(197,255,95,.6)}
+.deck:hover{transform:translateY(-3px);border-color:rgba(197,255,95,.5)}
+
 </style>
 </head>
 <body data-mode="internal">
@@ -1541,9 +1550,12 @@ function renderInvestor(){const go=(id,t)=>N[id]?`<button class="rel" data-go="$
     <div class="step seed"><i>03</i><b>Протокол Loop</b><span>1–5% покупки возвращается баллами, которые тратятся в любом приложении сети · растёт связями, а не проектами</span></div></div></div>
   <div class="pSec"><h4>Тарифы и оффер</h4><div class="tiers"><span>FREE $0</span><span>STARTER $49</span><span>PRO $99</span><span>BUSINESS $149</span><span>ENTERPRISE $1 500/год</span></div>
     <p class="small">Founding Partner: <b>$1 500</b> вместо $2 500 до 1 января 2027, 10 мест. Через 12 месяцев клиент получает docker-образы и уносит приложение на свой хостинг — гарантированный выход вместо вечной аренды у подрядчика.</p></div>
+  <div class="pSec"><h4>Инвестиционный меморандум</h4>
+    <a class="deck" href="docs/AppHUB_Scalable_Infrastructure.pdf" target="_blank" rel="noopener" aria-label="Открыть презентацию PDF"><img src="docs/AppHUB_Scalable_Infrastructure_cover.jpg" alt="Архитектура цифрового города. От студии к масштабируемой сети" loading="lazy"><span class="deckcap"><b>Архитектура цифрового города</b><small>от студии к масштабируемой сети · сентябрь 2026 · 15 слайдов · PDF 16 МБ</small></span><i>↗</i></a>
+    <p class="small">Раунд Seed из меморандума: <b>$2 000 000 за 10%</b>, post-money $20M, equity или SAFE. Юнит-экономика: ARPA $35/мес, валовая маржа 88%, LTV $616, payback 4 месяца.</p></div>
   <div class="pSec"><h4>Что смотреть на карте</h4><div class="rels">${go("loop","Loop · сеть")}${go("osbuilder","BuildOS")}${go("geos","GEOS · ядро мест")}${go("epoch","EPOCH · живой ресторан")}${go("cityhub","CityHub")}${go("antiage","AntiAge · клиника")}</div></div>
-  <div class="ctarow"><a class="pLink go" href="https://apphub.studio/founders" target="_blank" rel="noopener"><b>Founding Partners</b><small>apphub.studio/founders</small><i>↗</i></a><a class="pLink alt" href="mailto:hello@apphub.studio?subject=AppHub%20%E2%80%94%20%D0%B8%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80%D1%83">✉ hello@apphub.studio</a><a class="pLink alt" href="map-2x.png" target="_blank" rel="noopener">▣ Карта для слайдов · PNG</a></div>
-  <p class="small muted">Питч-дек, финмодель и условия раунда — по запросу на почту студии. На карте только цифры из живых продуктов.</p>${socialRow("Мы в сети")}`;}
+  <div class="ctarow"><a class="pLink go" href="docs/AppHUB_Scalable_Infrastructure.pdf" target="_blank" rel="noopener"><b>Открыть презентацию</b><small>PDF · 15 слайдов</small><i>↗</i></a><a class="pLink alt" href="https://apphub.studio/founders" target="_blank" rel="noopener">Founding Partners →</a><a class="pLink alt" href="mailto:hello@apphub.studio?subject=AppHub%20%E2%80%94%20%D0%B8%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BE%D1%80%D1%83">✉ hello@apphub.studio</a><a class="pLink alt" href="map-2x.png" target="_blank" rel="noopener">▣ Карта для слайдов · PNG</a></div>
+  <p class="small muted">Финмодель и детали сделки — по запросу на почту студии. Цифры на карте — из живых продуктов, цифры раунда — из меморандума.</p>${socialRow("Мы в сети")}`;}
 function openInvestor(){if(EDITABLE&&editMode)return;closeWelcome();closeFilter();selectedId=null;clearSubs();baseLinks();Object.values(nodeEls).forEach(g=>{g.style.opacity=1;g.classList.remove("sel");});applyFilter();
   panel.innerHTML=renderInvestor();panel.classList.add("open");document.body.classList.add("sel-open");panel.scrollTop=0;try{history.replaceState(null,"",location.pathname+location.search+"#investor");}catch(e){}if(!isMob())focusAll(true);}
 $("#invBtn")?.addEventListener("click",openInvestor);
