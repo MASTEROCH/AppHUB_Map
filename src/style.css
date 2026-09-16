@@ -601,3 +601,22 @@ body.filter-open .fmscrim{display:block}
 .deck img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
 .deck i{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:12px;background:rgba(197,255,95,.9);color:#0a0d05;font-style:normal;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -8px rgba(197,255,95,.6)}
 .deck:hover{transform:translateY(-3px);border-color:rgba(197,255,95,.5)}
+
+/* ——— кинематографический выбор: прицел, пинг связанных узлов, лучи связей ——— */
+.ret{transform-box:fill-box;transform-origin:center;animation:retIn .6s cubic-bezier(.16,1,.3,1) both}
+.ret.still{animation:none}
+@keyframes retIn{0%{opacity:0;transform:scale(1.9)}60%{opacity:1}100%{opacity:1;transform:scale(1)}}
+.ret .retbox{animation:retDash 2.4s linear infinite}
+@keyframes retDash{to{stroke-dashoffset:-18}}
+.retlbl{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.18em;font-weight:500;opacity:.85}
+.node.ping{animation:nodePing .62s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes nodePing{0%{transform:scale(1)}45%{transform:scale(1.12)}100%{transform:scale(1)}}
+.node.ping .card{animation:cardPing .62s both}
+@keyframes cardPing{0%{filter:brightness(1)}40%{filter:brightness(1.9)}100%{filter:brightness(1)}}
+/* переключатель Фокус | Связи в карточке */
+.viewseg{display:inline-flex;margin-top:12px;background:rgba(255,255,255,.06);border:1px solid var(--hair);border-radius:14px;padding:3px;box-shadow:var(--spec)}
+.viewseg button{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:#b9bdc6;font-family:'Manrope';font-weight:700;font-size:13px;padding:8px 13px;border-radius:11px;cursor:pointer;transition:.26s cubic-bezier(.16,1,.3,1);white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.viewseg button i{font-style:normal;font-size:12px;opacity:.8}
+.viewseg button.on{background:linear-gradient(180deg,rgba(197,255,95,.22),rgba(197,255,95,.12));color:#eaffc4;box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.viewseg button:hover:not(.on){color:#fff}
+@media(prefers-reduced-motion:reduce){.ret,.ret .retbox,.node.ping,.node.ping .card{animation:none!important}}
