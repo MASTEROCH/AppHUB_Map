@@ -1333,8 +1333,10 @@ function zoomAt(px,py,f){const nk=softK(zk*f),k=nk/zk;ztx=px-(px-ztx)*k;zty=py-(
 function zoomTo(px,py,nk){if(!zRAF)syncTarget();stopFling();nk=clampK(nk);const k=nk/tk;ttx=px-(px-ttx)*k;tty=py-(py-tty)*k;tk=nk;runZAnim();}
 function runZAnim(){stopAnim();let last=performance.now();
   const step=now=>{const dt=Math.min(64,now-last);last=now;const e=RM?1:1-Math.pow(1-.34,dt/16.7);   // резче: .34 за кадр 60 Гц (Роч: «было заторможенно»)
-    zk=Math.exp(Math.log(zk)+(Math.log(tk)-Math.log(zk))*e);ztx+=(ttx-ztx)*e;zty+=(tty-zty)*e;
-    if(Math.abs(Math.log(tk/zk))<2e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
+    // масштаб и сдвиг идут ОДНИМ коэффициентом: тогда точка под курсором стоит на месте на каждом кадре
+    // (лог-интерполяция k при линейном tx давала «отъезд перед подлётом» — Роч заметил)
+    zk+=(tk-zk)*e;ztx+=(ttx-ztx)*e;zty+=(tty-zty)*e;
+    if(Math.abs(tk-zk)<3e-4&&Math.abs(ttx-ztx)<.05&&Math.abs(tty-zty)<.05){zk=tk;ztx=ttx;zty=tty;applyZ();zRAF=0;return;}
     applyZ();zRAF=requestAnimationFrame(step);};
   zRAF=requestAnimationFrame(step);}
 // B. полёт камеры к (k,tx,ty)
