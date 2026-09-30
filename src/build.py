@@ -33,7 +33,8 @@ def inline(html: str) -> str:
 # Корневой index.html — замороженная карта v1 (июль 2026), build его НЕ трогает.
 # цифры портфолио (34 · 205 · 16) — из массива портфолио-бота, а не руками: v2/stats.json
 import subprocess
-subprocess.run(["python3", str(SRC / "sync_stats.py")], check=False)
+# 30.09.2026: v2/stats.json пишет реестр AppHub (~/code/apphub-invest/registry/sync.py), а не бот.
+# sync_stats.py больше не зовём — иначе он вернёт «34 продукта» из массива бота.
 
 targets = {
     "public.html":   "v2/index.html",

@@ -412,11 +412,14 @@ function mapFacts(){const all=Object.values(N),products=all.filter(n=>n.s!=="cor
   return{products:products.length,live:products.filter(n=>n.s==="live").length,dev:products.filter(n=>n.s==="dev").length,cases:products.filter(n=>n.t==="case").length,casesLive:products.filter(n=>n.t==="case"&&n.s==="live").length,
     dirs:all.filter(n=>n.layer==="L3"&&n.t==="mini").length,admins:all.filter(n=>n.admin&&n.admin.url).length,screensOnMap:screens};}
 function renderStats(){const f=mapFacts(),statsEl=$("#stats");if(!statsEl)return;
-  statsEl.innerHTML=`<div class="stat"><b>${f.products}</b><span>узлов экосистемы</span></div><div class="stat"><b style="color:#34d399">${f.live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${f.dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${f.cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;}
+  statsEl.innerHTML=regStats().map(([v,l,c])=>`<div class="stat"><b${c?` style="color:${c}"`:""}>${v}</b><span>${l}</span></div>`).join("");}
 let statsLoaded=false;
-async function loadStats(){try{const r=await fetch("stats.json",{cache:"no-store"});if(!r.ok)return;const j=await r.json();if(!j||!j.portfolio)return;Object.assign(META,j);statsLoaded=true;
-    countedOnce=true;renderStats();const w=$("#welcome .wstats");if(w)w.innerHTML=`<div><b>${META.portfolio}</b><span>продукта</span></div><div><b>${META.screens}</b><span>экранов</span></div><div><b>${META.niches}</b><span>ниш</span></div>`;
+async function loadStats(){try{const r=await fetch("stats.json",{cache:"no-store"});if(!r.ok)return;const j=await r.json();if(!j||!j.apps)return;Object.assign(META,j);statsLoaded=true;
+    countedOnce=true;renderStats();const w=$("#welcome .wstats");if(w)w.innerHTML=regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("");
     if(location.hash==="#investor"&&panel.classList.contains("open"))panel.innerHTML=renderInvestor();}catch(e){}}
+const plRu=(n,a,b,c)=>{const x=n%10,y=n%100;return (x===1&&y!==11)?a:(x>=2&&x<=4&&(y<12||y>14))?b:c;};
+/* одна шапка на сайте, в боте и на карте — числа из реестра (v2/stats.json ← registry/sync.py) */
+function regStats(){const s=[[META.apps,plRu(META.apps,"приложение","приложения","приложений")],[META.admins,plRu(META.admins,"админ-панель","админ-панели","админ-панелей")]];if(META.liveAtClients)s.push([META.liveAtClients,"в проде у заказчиков","#34d399"]);return s;}
 function statsStamp(){const d=META.updated||"";return d?"на "+d.split("-").reverse().join("."):"";}
 
 /* ——— stats / chips / legend (built by JS) ——— */
@@ -646,12 +649,12 @@ document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResult
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
-  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 19 клиентских приложений, 14 из них уже в проде. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
-  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), BuildOS (приложение из 20 шаблонов) и портфолио на 34 продукта.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
+  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 19 кейсов из портфолио, 14 из них уже в проде. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
+  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), BuildOS (приложение из 20 шаблонов) и портфолио на 27 приложений.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
   {t:"L1 · Пользователь и ИИ-агент",x:"Всё начинается здесь. Человек уже залогинен в мессенджере — ноль установок и паролей. Рядом его ИИ-агент: сам находит предложения, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
   {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам — CityHub, Neon, BazApp, Korob·ka. Они подбирают бизнесы под нишу или город и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2","cityhub","neon","bazapp","korobka"]},
-  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. Каждый проект — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","kingfit","cityhome","crypto","dropper"]},
-  {t:"Клиентские кейсы",x:"Справа — 19 клиентских приложений из портфолио, 14 из них в проде: рестораны, клиники, застройщики, форумы, бьюти, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","kingfitapp","anzhskin","anzhstore","paratravel","tds","vodokanal","almare"]},
+  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. У проектов с бэкофисом — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","kingfit","cityhome","crypto","dropper"]},
+  {t:"Кейсы из портфолио",x:"Справа — 19 кейсов из портфолио, 14 из них в проде: рестораны, клиники, застройщики, форумы, бьюти, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","kingfitapp","anzhskin","anzhstore","paratravel","tds","vodokanal","almare"]},
   {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
   {t:"Источники трафика и ядро",x:"По углам — ядро мест GEOS, биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","geos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
   {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
@@ -705,7 +708,7 @@ function buildTour(){
 function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 function endTour(){tourIdx=-1;document.body.classList.remove("touring");spotlight(null);smooth(true);focusAll();setTimeout(()=>smooth(false),720);tourBg&&tourBg.classList.add("hidden");tourCard&&tourCard.classList.add("hidden");reset();}
 function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;const s=TOUR[i];
-  const tx=PORTRAIT?s.x.replace("Слева сверху —","Сверху —").replace("Справа —","Ниже —").replace("По углам —","Внизу —").replace("слева — вход в студию, справа — клиентские кейсы","сверху — вход в студию, ниже — клиентские кейсы"):s.x;
+  const tx=PORTRAIT?s.x.replace("Слева сверху —","Сверху —").replace("Справа —","Ниже —").replace("По углам —","Внизу —").replace("слева — вход в студию, справа — кейсы из портфолио","сверху — вход в студию, ниже — кейсы из портфолио"):s.x;
   tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=tx;
   tourCard.querySelector(".tdots").innerHTML=TOUR.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("");
   tourCard.querySelector('[data-t="prev"]').style.visibility=i===0?"hidden":"visible";
@@ -722,7 +725,7 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div><button class="wlink" data-w="investor">Я инвестор или партнёр → цифры и модель</button></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats">${regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div><button class="wlink" data-w="investor">Я инвестор или партнёр → цифры и модель</button></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="investor"){closeWelcome();openInvestor();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
@@ -734,8 +737,8 @@ function renderInvestor(){const go=(id,t)=>N[id]?`<button class="rel" data-go="$
   return`${CLOSE}<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ИНВЕСТОРУ · ${esc(META.updated||"2026")}</div>
   <div class="pTitle">Приложение без установки — и рельсы под ним</div>
   <p class="hint">Студия — вход. Конструктор — масштаб без нашего времени. Сеть Loop — правила, по которым бизнесы обмениваются клиентами. Каждая ступень нужна, чтобы дойти до следующей.</p>
-  ${(()=>{const f=mapFacts();return`<div class="facts"><div><b>${META.portfolio||34}</b><span>продукта в портфолио</span></div><div><b>${META.screens||205}</b><span>реальных экранов</span></div><div><b>${META.niches||16}</b><span>ниш освоено</span></div><div><b>${META.admins||f.admins}</b><span>админ-панелей</span></div><div><b>${f.live}</b><span>узлов в проде на карте</span></div><div><b>${f.cases}</b><span>клиентских кейсов на карте (${f.casesLive} в проде)</span></div></div>
-  <div class="src">▣ ${META.source||"портфолио-бот"} ${statsStamp()} · остальное считается из карты</div>`;})()}
+  ${(()=>{const f=mapFacts();return`<div class="facts">${regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>
+  <div class="src">▣ ${META.source||"реестр AppHub"} ${statsStamp()}</div>`;})()}
   <div class="pSec"><h4>Три ступени монетизации</h4>
     <div class="steps"><div class="step on"><i>01</i><b>Студия</b><span>приложение под ключ за 1–3 дня · один проект — один чек · работает</span></div>
     <div class="step dev"><i>02</i><b>Конструктор BuildOS</b><span>бизнес собирает сам из 20 шаблонов · Stars, крипта, PRO-подписка · фронт готов, публикация ждёт бэкенда</span></div>

@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-title" content="AppHub Map">
 <link rel="apple-touch-icon" href="/v2/apple-touch-icon.png">
 <title>AppHub — карта экосистемы 2026</title>
-<meta name="description" content="Интерактивная карта экосистемы AppHub: студия, петля трафика L1 → L2 → L3, сеть лояльности Loop и 34 живых продукта из портфолио — рестораны, клиники, застройщики, форумы, ЖКХ.">
+<meta name="description" content="Интерактивная карта экосистемы AppHub: студия, петля трафика L1 → L2 → L3, сеть лояльности Loop и 27 приложений из портфолио — рестораны, клиники, застройщики, форумы, ЖКХ.">
 <meta property="og:title" content="AppHub — карта экосистемы 2026">
 <meta property="og:description" content="Приложение без установки — и целая сеть за ним. Кликни узел: экраны, статус и рабочая ссылка.">
 <meta property="og:type" content="website">
@@ -660,13 +660,13 @@ body.filter-open .fmscrim{display:block}
     <button class="btn icon" id="linksBtn" aria-label="Все связи" title="Показать все связи"><svg viewBox="0 0 24 24"><circle cx="5.5" cy="6" r="2"/><circle cx="18.5" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7 7l4 9M17 7l-4 9M7.5 6h9" stroke-linecap="round"/></svg></button>
     <button class="btn demo" id="tourBtn">▶ Демо-тур</button>
     <button class="btn" id="invBtn" title="Цифры, модель, тарифы">📈 Инвестору</button>
-    <button class="btn" id="pfBtn" title="34 продукта · 205 экранов">▣ Портфолио</button>
+    <button class="btn" id="pfBtn" title="27 приложений · 7 админ-панелей">▣ Портфолио</button>
     <a class="btn prim" href="https://apphub.studio/constructor" target="_blank" rel="noopener">Собрать приложение</a>
   </header>
   <section class="head">
     <div class="eyebrow">ЭКОСИСТЕМА ПРОДУКТОВ · СЕНТЯБРЬ 2026<span class="fshint"> · <span class="kbd">F</span> — полный экран</span></div>
     <h1>Приложение без установки — и сеть за ним</h1>
-    <p class="lede">Пользователи → агрегаторы → бизнесы → снова пользователи. Каждое приложение студии — узел <b>сети Loop</b>: гость одного бизнеса приносит выручку другому. Слева — вход в студию, справа — клиентские кейсы.</p>
+    <p class="lede">Пользователи → агрегаторы → бизнесы → снова пользователи. Сеть <b>Loop</b> (в разработке) свяжет приложения студии: гость одного бизнеса будет приносить выручку другому. Слева — вход в студию, справа — кейсы из портфолио.</p>
     <div class="stats" id="stats"></div>
   </section>
   <div class="chips" id="chips"></div>
@@ -702,10 +702,10 @@ body.filter-open .fmscrim{display:block}
    status (s): "live" — в проде | "dev" — в разработке / прототип / демо | "concept" — концепт | "core" — слой/ядро
    type (t):   "hub" — слой петли | "mini" — продукт/направление | "case" — живой кейс из портфолио (клиентское приложение)
    pf: slug в портфолио-боте (t.me/Portfolio_AppHub_Bot) — по нему подтягиваются экраны из галереи; screens — сколько экранов там лежит.
-   Источники: _DISTRIBUTION_KIT/05_Portfolio/PORTFOLIO.md (34 продукта · 205 экранов · 16 ниш), LINKS.md, NOTEBOOK_Презентация/*.md */
+   Источники: _DISTRIBUTION_KIT/05_Portfolio/PORTFOLIO.md (цифры — из реестра AppHub → v2/stats.json, registry/sync.py), LINKS.md, NOTEBOOK_Презентация/*.md */
 window.APPHUB_DATA = {
   viewBox: "-80 -50 2020 960",
-  meta: { updated: "2026-09-14", portfolio: 34, screens: 205, niches: 16, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/",
+  meta: { updated: "2026-09-30", apps: 27, admins: 7, portfolioUrl: "https://t.me/Portfolio_AppHub_Bot", galleryBase: "https://apphub-portfolio-livid.vercel.app/gallery/",
     social: [
       {k:"tg",label:"Telegram",url:"https://t.me/AppHub_Studio"},
       {k:"ig",label:"Instagram",url:"https://www.instagram.com/apphubstudio/"},
@@ -718,14 +718,14 @@ window.APPHUB_DATA = {
     /* ——— APPHUB STUDIO · вход в экосистему ——— */
     site:{t:"mini",layer:"ROOT",s:"live",x:120,y:44,label:"Сайт",cat:"Студия · apphub.studio",desc:"Главный вход: «приложение без установки». Конструктор из 5 шагов, программа Loop, оффер Founding Partners (до 1 января 2027), кейсы и контакты. Сайт отвечает и ИИ-агентам — есть llms.txt.",inter:"Заявка с сайта уходит в Studio Bot. Конструктор ведёт в BuildOS и к ручной сборке студией. Со страницы Loop — в сеть лояльности.",imgs:["/v2/shots/site-1.jpg","/v2/shots/osb-1.jpg","/v2/shots/osb-2.jpg","/v2/shots/site-2.jpg","/v2/shots/site-3.jpg"],links:[{label:"apphub.studio",url:"https://apphub.studio"},{label:"Конструктор · 5 шагов",url:"https://apphub.studio/constructor"},{label:"Founding Partners",url:"https://apphub.studio/founders"}]},
     studiobot:{t:"mini",layer:"ROOT",s:"live",x:262,y:44,label:"Studio Bot",cat:"Студия · родитель всех ботов",desc:"@AppHub_Studio_Bot — витрина студии в Telegram (Taplink): продукты и кейсы одним касанием, контакты фаундеров, репост страницы, оффер ИИ-маркетолога. Родитель всей семьи ботов: демо Dine, Neko, Batumi живут внутри него.",inter:"Принимает заявки с сайта и конструктора; запускает демо L3-приложений; отсюда рождаются продукт-боты (LinkOS, BuildOS) и юзер-боты клиентов.",pf:"taplink",screens:5,links:[{label:"@AppHub_Studio_Bot",url:"https://t.me/AppHub_Studio_Bot"},{label:"Поддержка",url:"https://t.me/AppHub_Support"}]},
-    portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 34 продукта · 205 экранов",desc:"Портфолио-бот: 34 карточки, 205 реальных экранов, поиск, фильтры по 16 нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",imgs:["/v2/shots/portfolio-1.jpg","/v2/shots/portfolio-2.jpg","/v2/shots/portfolio-3.jpg"],links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
+    portfolio:{t:"mini",layer:"ROOT",s:"live",x:404,y:44,label:"Портфолио",cat:"Студия · 27 приложений · 7 админ-панелей",desc:"Портфолио-бот: 27 приложений студии и 7 админ-панелей, реальные экраны, поиск, фильтры по нишам, лайтбокс с подписью к каждому экрану, два языка. Счётчики считаются из данных — разойтись с реальностью не могут. Веб-зеркало для тех, кто вне Telegram.",inter:"Это «папка с наработками», когда её просят ссылкой. Каждый кейс справа на этой карте ведёт в него. Питает продажи студии и конструктор.",imgs:["/v2/shots/portfolio-1.jpg","/v2/shots/portfolio-2.jpg","/v2/shots/portfolio-3.jpg"],links:[{label:"@Portfolio_AppHub_Bot",url:"https://t.me/Portfolio_AppHub_Bot"},{label:"Веб-зеркало",url:"https://apphub-portfolio-livid.vercel.app"}]},
     linkos:{t:"mini",layer:"ROOT",s:"live",x:190,y:98,label:"LinkOS",cat:"Студия · ступень 1 · визитка",desc:"Конструктор цифровых визиток внутри Telegram: блоки, темы, публикация за Stars, личный кабинет, редактор QR-кода. Первая ступень воронки: free → PRO.",inter:"Вход в экосистему для малого бизнеса. Апселлит BuildOS (ступень 2) и кастом студии (ступень 3). Механика конструктора наследуется в BuildOS один-в-один.",pf:"linkos",screens:13,links:[{label:"@Linkos_AppHub_bot",url:"https://t.me/Linkos_AppHub_bot"}]},
     osbuilder:{t:"mini",layer:"ROOT",s:"dev",x:335,y:98,label:"BuildOS",cat:"Студия · ступень 2 · AppHUB BuildOS · конструктор приложений",desc:"AppHUB BuildOS — платформа сборки приложений семейства *OS (LinkOS → PromOS → BuildOS): конструктор Telegram Mini App под нишу — 20 шаблонов (бьюти, кафе, медицина, магазин, фитнес, ивенты, недвижимость, аренда, крипто, город, ЖКХ…), редактор блоков и бренда, умные модули (запись, push, Loop), автозаполнение из Telegram, magic-импорт бренда с сайта или Instagram за 30 секунд. Публикация в бот клиента и оплата — на подключении бэкенда.",inter:"Собирает L3-приложения из ДНК доноров (Dine, CityHub, Zem Doc, AllTrust…) без участия студии — философия 95/5. Данные о местах и нишах берёт из ядра GEOS, дистрибуцию — из PromOS, вход — из LinkOS. Каждый собранный бот автоматически встаёт в сеть Loop.",pf:"apphub-os",screens:10,links:[{label:"apphub-os.vercel.app",url:"https://apphub-os.vercel.app"}]},
 
     /* ——— ПЕТЛЯ · ядро ——— */
     l1:{t:"hub",layer:"L1",s:"core",x:180,y:400,w:232,h:108,label:"L1 · USERS / AGENTS",sub:"Пользователи и их ИИ-агенты",cat:"L1 · точка входа",desc:"Пользователь уже залогинен в мессенджере: ноль установок, паролей и сторов. Рядом — его ИИ-агент, который сам находит предложения и готовит действие, человеку остаётся подтвердить и оплатить. Заявлено публично: приложения студии взаимодействуют с ИИ-агентами других моделей; машиночитаемый слой — в roadmap.",inter:"Ассистент идёт к L2-агрегаторам и напрямую в L3-бизнесы. Loop-баллы, заработанные в одном приложении, тратит в любом другом — это и возвращает его в петлю.",link:null},
     l2:{t:"hub",layer:"L2",s:"core",x:625,y:400,w:164,h:104,label:"L2 · АГРЕГАТОРЫ",sub:"Подборки сервисов",cat:"L2 · ядро петли",desc:"Агрегаторы: подборки и каталоги сервисов под нишу или город (CityHub, Neon, BazApp, Korobka). Возможны white-label-версии каждого.",inter:"Принимают запрос ассистента L1, подбирают L3-бизнесы, собирают предложение и раздают трафик вниз по петле.",link:null},
-    l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — меню, бронь, запись, оплата, лояльность. Каждый проект — два приложения: клиентское и админ-панель. Собираются студией за 1–3 дня или через BuildOS. Справа — 19 клиентских кейсов из портфолио, 14 из них в проде.",inter:"Принимают заказ из петли и от утилит; через Loop возвращают гостя в L1 и передают соседним бизнесам сети. Общаются между собой через ботов.",link:null},
+    l3:{t:"hub",layer:"L3",s:"core",x:1190,y:400,w:160,h:104,label:"L3 · БИЗНЕСЫ",sub:"Приложения бизнесов",cat:"L3 · продукты бизнесов",desc:"Приложения конкретных бизнесов — меню, бронь, запись, оплата, лояльность. У проектов с бэкофисом — два приложения: клиентское и админ-панель. Собираются студией за 1–3 дня или через BuildOS. Справа — 19 кейсов из портфолио, 14 из них в проде.",inter:"Принимают заказ из петли и от утилит; через Loop возвращают гостя в L1 и передают соседним бизнесам сети. Общаются между собой через ботов.",link:null},
     loop:{t:"mini",layer:"NET",s:"dev",x:685,y:690,label:"LOOP · сеть лояльности",cat:"Протокол · ступень 3 · то, ради чего всё",desc:"Loop — единая валюта сети: 1–5% от покупки возвращается клиенту Loop-баллами, которые он тратит в любом приложении сети. Партнёры получают cross-traffic и готовую лояльность без рекламных бюджетов. Взнос бизнеса идёт в общий призовой фонд с публичным ежемесячным розыгрышем в Батуми. Механика встроена в часть приложений; единый реестр начислений с выпиской бизнесу — следующий шаг (оценка полгода).",inter:"Замыкает петлю L3 → L1: гость одного бизнеса приносит выручку другому. Граф связей между бизнесами — то, чего нет ни у одного конкурента с «отдельной TMA». Сверху подключаются CityHub, EPOCH, Dine, Car Rent.",imgs:["/v2/shots/loop-1.jpg","/v2/shots/loop-2.jpg","/v2/shots/loop-3.jpg"],links:[{label:"apphub.studio/loop",url:"https://apphub.studio/loop"}]},
 
     /* ——— L2 · агрегаторы ——— */
@@ -1274,11 +1274,14 @@ function mapFacts(){const all=Object.values(N),products=all.filter(n=>n.s!=="cor
   return{products:products.length,live:products.filter(n=>n.s==="live").length,dev:products.filter(n=>n.s==="dev").length,cases:products.filter(n=>n.t==="case").length,casesLive:products.filter(n=>n.t==="case"&&n.s==="live").length,
     dirs:all.filter(n=>n.layer==="L3"&&n.t==="mini").length,admins:all.filter(n=>n.admin&&n.admin.url).length,screensOnMap:screens};}
 function renderStats(){const f=mapFacts(),statsEl=$("#stats");if(!statsEl)return;
-  statsEl.innerHTML=`<div class="stat"><b>${f.products}</b><span>узлов экосистемы</span></div><div class="stat"><b style="color:#34d399">${f.live}</b><span>в проде</span></div><div class="stat"><b style="color:#fbbf24">${f.dev}</b><span>в разработке</span></div><div class="stat"><b style="color:#2dd4bf">${f.cases}</b><span>кейсов</span></div>${META.screens?`<div class="stat"><b>${META.screens}</b><span>экранов</span></div>`:""}${META.niches?`<div class="stat"><b>${META.niches}</b><span>ниш</span></div>`:""}`;}
+  statsEl.innerHTML=regStats().map(([v,l,c])=>`<div class="stat"><b${c?` style="color:${c}"`:""}>${v}</b><span>${l}</span></div>`).join("");}
 let statsLoaded=false;
-async function loadStats(){try{const r=await fetch("stats.json",{cache:"no-store"});if(!r.ok)return;const j=await r.json();if(!j||!j.portfolio)return;Object.assign(META,j);statsLoaded=true;
-    countedOnce=true;renderStats();const w=$("#welcome .wstats");if(w)w.innerHTML=`<div><b>${META.portfolio}</b><span>продукта</span></div><div><b>${META.screens}</b><span>экранов</span></div><div><b>${META.niches}</b><span>ниш</span></div>`;
+async function loadStats(){try{const r=await fetch("stats.json",{cache:"no-store"});if(!r.ok)return;const j=await r.json();if(!j||!j.apps)return;Object.assign(META,j);statsLoaded=true;
+    countedOnce=true;renderStats();const w=$("#welcome .wstats");if(w)w.innerHTML=regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("");
     if(location.hash==="#investor"&&panel.classList.contains("open"))panel.innerHTML=renderInvestor();}catch(e){}}
+const plRu=(n,a,b,c)=>{const x=n%10,y=n%100;return (x===1&&y!==11)?a:(x>=2&&x<=4&&(y<12||y>14))?b:c;};
+/* одна шапка на сайте, в боте и на карте — числа из реестра (v2/stats.json ← registry/sync.py) */
+function regStats(){const s=[[META.apps,plRu(META.apps,"приложение","приложения","приложений")],[META.admins,plRu(META.admins,"админ-панель","админ-панели","админ-панелей")]];if(META.liveAtClients)s.push([META.liveAtClients,"в проде у заказчиков","#34d399"]);return s;}
 function statsStamp(){const d=META.updated||"";return d?"на "+d.split("-").reverse().join("."):"";}
 
 /* ——— stats / chips / legend (built by JS) ——— */
@@ -1508,12 +1511,12 @@ document.addEventListener("click",e=>{if(!e.target.closest(".search"))hideResult
 
 /* ——— демо-тур (интерактивный онбординг) ——— */
 const TOUR=[
-  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 19 клиентских приложений, 14 из них уже в проде. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
-  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), BuildOS (приложение из 20 шаблонов) и портфолио на 34 продукта.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
+  {t:"Добро пожаловать 👋",x:"Это карта экосистемы AppHub на сентябрь 2026: студия, петля трафика, сеть Loop и 19 кейсов из портфолио, 14 из них уже в проде. За минуту покажу, как всё связано. Пропустить можно в любой момент.",focus:"all"},
+  {t:"Вход · студия",x:"Слева сверху — как бизнес попадает в экосистему: сайт с конструктором из 5 шагов, Studio Bot, LinkOS (визитка за минуту), BuildOS (приложение из 20 шаблонов) и портфолио на 27 приложений.",focus:"studiobot",scale:1.45,spot:["site","studiobot","portfolio","linkos","osbuilder"]},
   {t:"L1 · Пользователь и ИИ-агент",x:"Всё начинается здесь. Человек уже залогинен в мессенджере — ноль установок и паролей. Рядом его ИИ-агент: сам находит предложения, остаётся подтвердить и оплатить.",focus:"l1",scale:1.5,spot:["l1"]},
   {t:"L2 · Агрегаторы",x:"Агент идёт к агрегаторам — CityHub, Neon, BazApp, Korob·ka. Они подбирают бизнесы под нишу или город и собирают готовое предложение.",focus:"l2",scale:1.5,spot:["l2","cityhub","neon","bazapp","korobka"]},
-  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. Каждый проект — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","kingfit","cityhome","crypto","dropper"]},
-  {t:"Клиентские кейсы",x:"Справа — 19 клиентских приложений из портфолио, 14 из них в проде: рестораны, клиники, застройщики, форумы, бьюти, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","kingfitapp","anzhskin","anzhstore","paratravel","tds","vodokanal","almare"]},
+  {t:"L3 · Бизнесы",x:"Агрегатор направляет в конкретные бизнесы: меню, бронь, запись, оплата. У проектов с бэкофисом — два приложения: клиентское и админ-панель.",focus:"l3",scale:1.4,spot:["l3","dine","events","med","carrent","tours","shops","construction","anzh","kingfit","cityhome","crypto","dropper"]},
+  {t:"Кейсы из портфолио",x:"Справа — 19 кейсов из портфолио, 14 из них в проде: рестораны, клиники, застройщики, форумы, бьюти, ЖКХ. Клик по любому — экраны, ссылка на демо и админку.",focus:"alliance",scale:1.25,spot:["ebit","realtyforum","bimboo","realtypreset","alliance","dolceeda","epoch","neko","postnicken","zemdoc","antiage","megagym","kingfitapp","anzhskin","anzhstore","paratravel","tds","vodokanal","almare"]},
   {t:"↺ Loop замыкает петлю",x:"Бизнес возвращает гостя в L1 через сеть Loop: 1–5% от покупки — баллами, которые тратятся в любом приложении сети. Гость одного бизнеса приносит выручку другому. Это и есть рельсы.",focus:"loop",scale:1.6,spot:["loop","l1","l3"]},
   {t:"Источники трафика и ядро",x:"По углам — ядро мест GEOS, биржа дистрибуции PromOS, соцсети и медиа, игры (NARDUM, Crooked Cook, Selfix). Они бесплатно приводят аудиторию извне и питают петлю.",focus:"all",spot:["editcmd","leados","promos","geos","news","musichaed","social","arcades","boardgames","crookedcook","selfix","nardum"]},
   {t:"Статусы и экраны",x:"Зелёная точка — в проде, жёлтая — прототип или демо, серая — концепт. Вот EPOCH: живой ресторан в Батуми с админкой. Кликни узел — увидишь экраны и рабочую ссылку.",focus:"epoch",scale:1.8,spot:["epoch"],select:"epoch"},
@@ -1567,7 +1570,7 @@ function buildTour(){
 function startTour(){if(!tourCard)buildTour();selectedId=null;tourBg.classList.remove("hidden");tourCard.classList.remove("hidden");document.body.classList.add("touring");smooth(true);tourGo(0);try{localStorage.setItem("apphub-toured-v2","1");}catch(e){}}
 function endTour(){tourIdx=-1;document.body.classList.remove("touring");spotlight(null);smooth(true);focusAll();setTimeout(()=>smooth(false),720);tourBg&&tourBg.classList.add("hidden");tourCard&&tourCard.classList.add("hidden");reset();}
 function tourGo(i){if(i<0)return;if(i>=TOUR.length){endTour();return;}tourIdx=i;const s=TOUR[i];
-  const tx=PORTRAIT?s.x.replace("Слева сверху —","Сверху —").replace("Справа —","Ниже —").replace("По углам —","Внизу —").replace("слева — вход в студию, справа — клиентские кейсы","сверху — вход в студию, ниже — клиентские кейсы"):s.x;
+  const tx=PORTRAIT?s.x.replace("Слева сверху —","Сверху —").replace("Справа —","Ниже —").replace("По углам —","Внизу —").replace("слева — вход в студию, справа — кейсы из портфолио","сверху — вход в студию, ниже — кейсы из портфолио"):s.x;
   tourCard.querySelector("h3").textContent=s.t;tourCard.querySelector("p").textContent=tx;
   tourCard.querySelector(".tdots").innerHTML=TOUR.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("");
   tourCard.querySelector('[data-t="prev"]').style.visibility=i===0?"hidden":"visible";
@@ -1584,7 +1587,7 @@ let welcomeEl;
 function buildWelcome(){
   welcomeEl=document.createElement("div");welcomeEl.id="welcome";welcomeEl.className="welcome";
   const logo=document.querySelector(".brand .logo")?.outerHTML||"";
-  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats"><div><b>${META.portfolio||34}</b><span>продукта</span></div><div><b>${META.screens||205}</b><span>экранов</span></div><div><b>${META.niches||16}</b><span>ниш</span></div></div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div><button class="wlink" data-w="investor">Я инвестор или партнёр → цифры и модель</button></div>`;
+  welcomeEl.innerHTML=`<div class="wcard"><div class="wlogo">${logo}</div><div class="weyebrow">APPHUB · ЭКОСИСТЕМА · ${esc(META.updated||"2026")}</div><h2>Карта экосистемы AppHub</h2><div class="wstats">${regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div><p>Студия, петля трафика, сеть Loop и живые приложения — от ресторанов и клиник до застройщиков и ЖКХ. Покажу за минуту — или осмотрись сам.</p><div class="wrow"><button class="btn prim" data-w="tour">▶ Пройти тур</button><button class="btn" data-w="explore">Осмотреться сам</button></div><button class="wlink" data-w="investor">Я инвестор или партнёр → цифры и модель</button></div>`;
   document.body.appendChild(welcomeEl);
   welcomeEl.addEventListener("click",e=>{const a=e.target.closest("[data-w]")?.dataset.w;if(a==="tour"){closeWelcome();startTour();}else if(a==="investor"){closeWelcome();openInvestor();}else if(a==="explore"||e.target===welcomeEl)closeWelcome();});
 }
@@ -1596,8 +1599,8 @@ function renderInvestor(){const go=(id,t)=>N[id]?`<button class="rel" data-go="$
   return`${CLOSE}<div class="badge" style="color:var(--lime);border:1px solid rgba(197,255,95,.3);background:rgba(197,255,95,.07)"><i style="background:var(--lime)"></i>ИНВЕСТОРУ · ${esc(META.updated||"2026")}</div>
   <div class="pTitle">Приложение без установки — и рельсы под ним</div>
   <p class="hint">Студия — вход. Конструктор — масштаб без нашего времени. Сеть Loop — правила, по которым бизнесы обмениваются клиентами. Каждая ступень нужна, чтобы дойти до следующей.</p>
-  ${(()=>{const f=mapFacts();return`<div class="facts"><div><b>${META.portfolio||34}</b><span>продукта в портфолио</span></div><div><b>${META.screens||205}</b><span>реальных экранов</span></div><div><b>${META.niches||16}</b><span>ниш освоено</span></div><div><b>${META.admins||f.admins}</b><span>админ-панелей</span></div><div><b>${f.live}</b><span>узлов в проде на карте</span></div><div><b>${f.cases}</b><span>клиентских кейсов на карте (${f.casesLive} в проде)</span></div></div>
-  <div class="src">▣ ${META.source||"портфолио-бот"} ${statsStamp()} · остальное считается из карты</div>`;})()}
+  ${(()=>{const f=mapFacts();return`<div class="facts">${regStats().map(([v,l])=>`<div><b>${v}</b><span>${l}</span></div>`).join("")}</div>
+  <div class="src">▣ ${META.source||"реестр AppHub"} ${statsStamp()}</div>`;})()}
   <div class="pSec"><h4>Три ступени монетизации</h4>
     <div class="steps"><div class="step on"><i>01</i><b>Студия</b><span>приложение под ключ за 1–3 дня · один проект — один чек · работает</span></div>
     <div class="step dev"><i>02</i><b>Конструктор BuildOS</b><span>бизнес собирает сам из 20 шаблонов · Stars, крипта, PRO-подписка · фронт готов, публикация ждёт бэкенда</span></div>
