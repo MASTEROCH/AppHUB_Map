@@ -287,7 +287,8 @@
       if (REDUCED || Math.abs(d) > 220) this.view = this.target;        // телепорт при большом отставании
       else this.view += Math.abs(d) < 0.04 ? d : d * (1 - Math.exp(-(dt || 16) / 70));   // догоняние по времени: одинаково на 60 и 120 Гц
     }
-    this.pump(); this.draw(this.view); this.captions(); this.glassDraw();
+    var moving = idle || pg.on || Math.abs(this.target - this.view) > 0.02;
+    this.pump(); this.draw(moving ? this.view : Math.round(this.view)); this.captions(); this.glassDraw();
     return idle || Math.abs(this.target - this.view) > 0.02 || this.loading.size > 0 || performance.now() < this.settle;
   };
 
@@ -516,7 +517,7 @@
         function vis(u) { return its.filter(function (it) { return u >= it.a && u <= it.b; }); }
         us.forEach(function (u, i) {
           if (i < us.length - 1) { var nx = vis(us[i + 1]); if (vis(u).every(function (it) { return nx.indexOf(it) >= 0; })) return; }   // следующая точка показывает то же и больше
-          stops.push(top + (sg.start + u * (sg.n - 1)) / (t.N - 1) * span);
+          stops.push(top + Math.round(sg.start + u * (sg.n - 1)) / (t.N - 1) * span);   // целый кадр: в покое — чистая картинка, без смешения
         });
       });
     });
@@ -534,7 +535,12 @@
     stops = stops.filter(function (y, i) { return i === stops.length - 1 || stops[i + 1] - y > gap; });
   }
   function easeOut(x) { return 1 - Math.pow(1 - x, 3); }
-  function easePage(x) { return 0.35 * easeOut(x) + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * x)); }   // отклик сразу, мягкая посадка на карточку
+  function easePage(t) {                                    // трапеция скорости: видео не ползёт ступеньками в конце перехода
+    var a = 0.18, d = 0.22, v = 1 / (1 - a / 2 - d / 2);
+    if (t < a) return 0.5 * v * t * t / a;
+    if (t > 1 - d) return 1 - 0.5 * v * (1 - t) * (1 - t) / d;
+    return v * (a / 2 + t - a);
+  }
   function snapTo(y) {
     var y0 = scrollY, t0 = performance.now(), id = ++snapId; snapping = true;
     root.style.scrollBehavior = 'auto';
