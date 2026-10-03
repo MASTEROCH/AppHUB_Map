@@ -70,10 +70,11 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
           <h2 class="g-title" id="gTitle">Соберите отпуск в Батуми</h2>
           <p class="g-hint" id="gHint">Одна просьба агенту вместо ночи с вкладками.</p>
           <ul class="goals">
-            <li data-g="0.395"><i></i>Отель у моря</li>
-            <li data-g="0.445"><i></i>Ужин на двоих</li>
-            <li data-g="0.495"><i></i>Машина на день</li>
-            <li data-g="0.545"><i></i>Маршрут по городу</li>
+            <li data-g="0.452"><i></i>Отель у моря</li>
+            <li data-g="0.477"><i></i>Ужин на двоих</li>
+            <li data-g="0.502"><i></i>Машина на день</li>
+            <li data-g="0.525"><i></i>Билеты на поезд</li>
+            <li data-g="0.558"><i></i>Маршрут по городу</li>
             <li data-g="0.86"><i></i>Оплата</li>
           </ul>
           <div class="meters"><div><span>Время</span><b id="gTime">0:00</b></div><div><span>Бизнесов</span><b id="gBiz">0</b></div><div class="lp"><span>Баллы Loop</span><b id="gPts">0</b></div></div>
@@ -91,18 +92,32 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
               <div class="chat-head"><img src="img/mark-flat.svg" alt=""><div><b>AppHUB · агент</b><span>договаривается за вас</span></div></div>
               <div class="msgs" id="gMsgs">
                 <div class="msg bot on">Куда едем?</div>
-                <div class="msg me" data-t="0.31">Батуми, 12–16 октября, отель у моря, ужин 14-го на двоих, машина на день и маршрут по городу.</div>
-                <div class="msg bot" data-t="0.34">Пишу отелю, ресторану и прокату<span class="dots3"><i></i><i></i><i></i></span></div>
-                <div class="res" data-t="0.39"><img src="img/app/hotelito-1.webp" alt=""><div><b>Hotelito</b><span>Дом у воды · 12–16 октября</span></div><i class="ok"></i></div>
-                <div class="res" data-t="0.44"><img src="img/app/epoch-1.webp" alt=""><div><b>EPOCH</b><span>Столик у окна · 14 окт, 20:00</span></div><i class="ok"></i></div>
-                <div class="res" data-t="0.49"><img src="img/app/batumi-neon-1.webp" alt=""><div><b>Batumi Neon</b><span>Кабриолет на 15 октября</span></div><i class="ok"></i></div>
-                <div class="res" data-t="0.54"><img src="img/app/cityhub-1.webp" alt=""><div><b>CityHUB</b><span>Маршрут по городу на 4 дня</span></div><i class="ok"></i></div>
-                <div class="msg bot" data-t="0.565">Четыре бизнеса подтвердили. Оплатить одним касанием?</div>
+                <div class="msg me" data-t="0.3" id="gReq">Хочу в Батуми <mark data-h="0.33">12–16 октября</mark>: <mark data-h="0.345">отель у моря</mark>, <mark data-h="0.36">ужин на двоих 14-го</mark>, <mark data-h="0.375">машину на день</mark>, <mark data-h="0.39">билеты на поезд</mark> и <mark data-h="0.405">маршрут по городу</mark>.</div>
+                <div class="msg bot ai" data-t="0.325"><b class="ai-h"><i class="ai-spark"></i>Понял. 6 задач — делаю сам</b>
+                  <div class="tasks"><span data-h="0.33">Даты</span><span data-h="0.345">Отель</span><span data-h="0.36">Ужин</span><span data-h="0.375">Машина</span><span data-h="0.39">Поезд</span><span data-h="0.405">Маршрут</span></div></div>
+                <div class="res" data-t="0.43" data-done="0.452" data-pts="400"><img src="img/app/hotelito-1.webp" alt=""><div><b>Hotelito</b><span>Дом у воды · 12–16 октября</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.455" data-done="0.477" data-pts="300"><img src="img/app/epoch-1.webp" alt=""><div><b>EPOCH</b><span>Столик у окна · 14 окт, 20:00</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.48" data-done="0.502" data-pts="340"><img src="img/app/batumi-neon-1.webp" alt=""><div><b>Batumi Neon</b><span>Кабриолет на 15 октября</span></div><i class="ok"></i></div>
+                <div class="tix" data-t="0.505" data-done="0.525">
+                  <div class="tx-top"><span>Поезд · 2 места</span><i class="ok"></i></div>
+                  <div class="tx-route"><div><b>08:00</b><span>Тбилиси</span></div><i class="tx-line"></i><div class="r"><b>13:05</b><span>Батуми</span></div></div>
+                  <div class="tx-foot"><span>12 октября · вагон 2 · места 14, 15</span><i class="tx-bar"></i></div>
+                </div>
+                <div class="mapc" data-t="0.53" data-done="0.558" data-pts="200">
+                  <div class="mc-head"><img src="img/app/cityhub-1.webp" alt=""><div><b>CityHUB</b><span>Маршрут по городу на 4 дня</span></div><i class="ok"></i></div>
+                  <svg class="mc-map" viewBox="0 0 260 120" aria-hidden="true">
+                    <path class="mc-sea" d="M0 0H74C62 26 88 58 60 120H0Z"/>
+                    <path class="mc-road" d="M60 30H260M66 62H260M40 92H260M110 0V120M170 0V120M220 0V120"/>
+                    <path class="mc-route" pathLength="100" d="M54 104C78 96 86 80 106 70S150 52 168 42S212 30 232 20"/>
+                    <g class="mc-pin" data-k="0.534" transform="translate(54 104)"><circle r="5"/><text x="9" y="3">Вокзал</text></g>
+                    <g class="mc-pin" data-k="0.542" transform="translate(106 70)"><circle r="5"/><text x="9" y="3">Hotelito</text></g>
+                    <g class="mc-pin" data-k="0.55" transform="translate(168 42)"><circle r="5"/><text x="9" y="3">EPOCH</text></g>
+                    <g class="mc-pin" data-k="0.556" transform="translate(232 20)"><circle r="5"/><text x="-9" y="-5" text-anchor="end">Прокат</text></g>
+                  </svg>
+                </div>
+                <div class="msg bot" data-t="0.565">Готово: 4 бизнеса и билеты на поезд. Оплатить одним касанием?</div>
               </div>
-              <div class="chips2" id="gChips">
-                <span data-t="0.13">Батуми, 12–16 октября</span><span data-t="0.17">Отель у моря</span><span data-t="0.21">Ужин 14-го на двоих</span><span data-t="0.25">Машина на день</span><span data-t="0.28">Маршрут по городу</span>
-              </div>
-              <div class="compose"><span id="gDraft">Нажмите на подсказки…</span><span class="send" id="gSend">↑</span></div>
+              <div class="compose"><div class="draft"><p><span id="gDraft">Напишите, чего хотите…</span><i class="caret"></i></p></div><span class="send" id="gSend">↑</span></div>
             </div>
 
             <div class="gs appview" data-s="app">
@@ -113,7 +128,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
             <div class="gs pay2" data-s="pay">
               <div class="sheet open">
                 <i class="grab"></i>
-                <div class="pay-row"><span>4 бронирования</span><b>₾ 2&nbsp;480</b></div>
+                <div class="pay-row"><span>4 брони + 2 билета</span><b>₾ 2&nbsp;550</b></div>
                 <div class="seg"><span class="sg-card">Карта</span><span class="sg-crypto">Крипта</span></div>
                 <div class="coins2" id="gCoins"><span>USDT</span><span>TON</span><span>Stars</span><span>BTC</span></div>
                 <div class="cashback">+5% вернётся баллами Loop</div>
@@ -161,7 +176,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
         <div class="ch" data-seg="c07"><span class="act" data-u="0.1,1">Акт IV · Сеть</span><p class="line" data-u="0.3,1">Это AppHUB.</p></div>
         <div class="ch" data-seg="c08">
           <p class="line" data-u="0,1">Три слоя. Одна сеть.</p>
-          <p class="sub" data-u="0.8,1">Люди → агрегаторы → бизнесы. Баллы Loop ходят по&nbsp;кругу.</p>
+          <p class="sub" data-u="0.8,1">Люди → агрегаторы → бизнесы.<br>Баллы Loop ходят по&nbsp;кругу.</p>
         </div>
       </div>
       <div class="prog" aria-hidden="true"><i></i></div>
@@ -174,8 +189,8 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <canvas class="dv" aria-hidden="true"></canvas>
       <div class="dots-cap">
         <p class="count"><b id="cnt">0</b><span>приложений открыто агентам ChatGPT · сентябрь 2026</span></p>
-        <p class="line" data-d="0.34,1">А малых бизнесов — <em>сотни миллионов</em>. Для агентов их не существует.</p>
-        <p class="line" data-d="0.62,1">AppHUB делает их видимыми. Один бизнес за другим.</p>
+        <p class="line" data-d="0.34,1">А малых бизнесов — <em>сотни миллионов</em>.<br><span class="neg">Для агентов их не существует.</span></p>
+        <p class="line" data-d="0.62,1">AppHUB делает их видимыми.<br><span class="soft">Один бизнес за другим.</span></p>
       </div>
     </div>
   </section>

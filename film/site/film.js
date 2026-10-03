@@ -393,16 +393,20 @@
     this.el = el; this.stage = q('.stage'); this.p = -1;
     this.scr = {}; el.querySelectorAll('.gs').forEach(function (n) { self.scr[n.getAttribute('data-s')] = n; });
     this.msg = [].map.call(el.querySelectorAll('.msgs [data-t]'), function (n) { return { n: n, t: +n.getAttribute('data-t'), on: false }; });
-    this.chip = [].map.call(el.querySelectorAll('.chips2 [data-t]'), function (n) { return { n: n, t: +n.getAttribute('data-t'), on: false }; });
+    this.hl = [].map.call(el.querySelectorAll('[data-h]'), function (n) { return { n: n, t: +n.getAttribute('data-h'), on: false }; });
+    this.done = [].map.call(el.querySelectorAll('.msgs [data-done]'), function (n) { return { n: n, t: +n.getAttribute('data-done'), pts: +(n.getAttribute('data-pts') || 0), on: false }; });
+    this.pins = [].map.call(el.querySelectorAll('.mc-pin'), function (n) { return { n: n, t: +n.getAttribute('data-k') }; });
+    this.route = el.querySelector('.mc-route'); this.req = el.querySelector('#gReq');
+    this.reqText = this.req ? this.req.textContent.replace(/\s+/g, ' ').trim() : '';
     this.apps = [].map.call(el.querySelectorAll('.appview img[data-t]'), function (n) { return { n: n, t: +n.getAttribute('data-t') }; });
     this.goals = [].map.call(el.querySelectorAll('[data-g]'), function (n) { return { n: n, t: +n.getAttribute('data-g') }; });
-    this.msgs = q('#gMsgs'); this.chips = q('#gChips'); this.draft = q('#gDraft'); this.send = q('#gSend'); this.compose = q('.compose');
+    this.msgs = q('#gMsgs'); this.draft = q('#gDraft'); this.send = q('#gSend'); this.compose = q('.compose');
     this.tag = q('#gAppTag'); this.seg = q('.seg'); this.coins = q('#gCoins'); this.go = q('#gGo'); this.spend = q('#gSpend'); this.spent = q('#gSpent');
     this.wallet = q('#gWallet'); this.time = q('#gTime'); this.biz = q('#gBiz'); this.pts = q('#gPts'); this.prog = q('#asProg'); this.hint = q('#gHint'); this.title = q('#gTitle');
     this.screen = ''; this.nMsg = -1; this.phase = '';
   }
-  var PTS = [400, 300, 340, 200], TAGS = ['Hotelito · приложение гостевого дома', 'EPOCH · приложение ресторана', 'Batumi Neon · приложение проката'].map(L);
-  var HINTS = [[0, 'Одна просьба агенту вместо ночи с вкладками.'], [0.1, 'Агент собирает просьбу из подсказок.'], [0.33, 'Отвечают сами бизнесы — через свои приложения AppHUB.'],
+  var TAGS = ['Hotelito · приложение гостевого дома', 'EPOCH · приложение ресторана', 'Batumi Neon · приложение проката'].map(L);
+  var HINTS = [[0, 'Одна просьба агенту вместо ночи с вкладками.'], [0.09, 'Она просто пишет, чего хочет.'], [0.31, 'Агент понимает просьбу и раскладывает её на задачи.'], [0.42, 'И сам договаривается с каждым бизнесом.'],
     [0.595, 'Это настоящие приложения наших клиентов.'], [0.745, 'Картой или криптой — одним касанием.'], [0.875, 'Шесть секунд вместо ночи.'], [0.945, 'Это Loop: гость отеля стал гостем ресторана.']].map(function (h) { return [h[0], L(h[1])]; });
   function setTxt(n, v) { if (n && n.textContent !== v) n.textContent = v; }
   AgentScene.prototype.step = function () {
@@ -416,20 +420,24 @@
     var self = this;
     var screen = p < 0.08 ? 'intro' : p < 0.595 ? 'chat' : p < 0.745 ? 'app' : p < 0.875 ? 'pay' : 'done';
     if (screen !== this.screen) { for (var k in this.scr) this.scr[k].classList.toggle('on', k === screen); this.screen = screen; haptic(); }
-    // подсказки сами выбираются и складываются в просьбу
-    var picked = [];
-    this.chip.forEach(function (c) { var on = p >= c.t; if (on !== c.on) { c.on = on; c.n.classList.toggle('on', on); } if (on) picked.push(c.n.textContent); });
-    var sent = p >= 0.305;
-    this.chips.classList.toggle('gone', sent);
-    var d = sent ? '' : picked.length ? picked.join(', ') : L('Нажмите на подсказки…');
-    setTxt(this.draft, d); this.compose.classList.toggle('typing', picked.length > 0 && !sent);
-    this.send.classList.toggle('ready', picked.length >= 2); this.send.classList.toggle('sent', p >= 0.295 && p < 0.33);
+    // она печатает просьбу своими словами — по букве на шаг прокрутки
+    var sent = p >= 0.296, n = Math.round(this.reqText.length * clamp((p - 0.09) / 0.185, 0, 1));
+    setTxt(this.draft, sent || !n ? (sent ? '' : L('Напишите, чего хотите…')) : this.reqText.slice(0, n));
+    this.compose.classList.toggle('typing', n > 0 && !sent);
+    this.send.classList.toggle('ready', n > 12); this.send.classList.toggle('sent', p >= 0.285 && p < 0.32);
+    // агент понимает: смыслы в её сообщении подсвечиваются и становятся задачами
+    this.hl.forEach(function (h) { var on = p >= h.t; if (on !== h.on) { h.on = on; h.n.classList.toggle('hl', on); } });
+    // и делает сам: «в работе» → галочка; маршрут на карте прорисовывается, точки всплывают
+    this.done.forEach(function (d) { var on = p >= d.t; if (on !== d.on) { d.on = on; d.n.classList.toggle('done', on); } });
+    if (this.route) this.route.style.strokeDashoffset = (100 - 100 * clamp((p - 0.53) / 0.028, 0, 1)).toFixed(1);
+    this.pins.forEach(function (k) { k.n.classList.toggle('on', p >= k.t); });
     // переписка и ответы бизнесов
     var nOn = 0, nRes = 0, pts = 0;
     this.msg.forEach(function (m) {
       var on = p >= m.t; if (on !== m.on) { m.on = on; m.n.classList.toggle('on', on); }
-      if (on) { nOn++; if (m.n.classList.contains('res')) { pts += PTS[nRes]; nRes++; } }
+      if (on) nOn++;
     });
+    this.done.forEach(function (d) { if (d.on && d.pts) { pts += d.pts; nRes++; } });
     if (nOn !== this.nMsg) { this.nMsg = nOn; var ms = this.msgs; requestAnimationFrame(function () { ms.scrollTop = ms.scrollHeight; }); }
     // настоящие приложения: на экране последнее пройденное
     var cur = -1; this.apps.forEach(function (a, i) { if (p >= a.t) cur = i; });
@@ -524,7 +532,7 @@
     });
     var d = document.getElementById('dots'), g = document.getElementById('agent'), fin = document.getElementById('finale');
     if (d) { var dt = d.getBoundingClientRect().top + scrollY, ds = d.offsetHeight - innerHeight; [0.22, 0.5, 0.86].forEach(function (k) { stops.push(dt + ds * k); }); }
-    if (g) { var gt = g.getBoundingClientRect().top + scrollY, gs = g.offsetHeight - innerHeight; [0.04, 0.31, 0.57, 0.63, 0.68, 0.73, 0.83, 0.9, 0.99].forEach(function (k) { stops.push(gt + gs * k); }); }
+    if (g) { var gt = g.getBoundingClientRect().top + scrollY, gs = g.offsetHeight - innerHeight; [0.04, 0.2, 0.31, 0.415, 0.5, 0.575, 0.63, 0.68, 0.73, 0.83, 0.9, 0.99].forEach(function (k) { stops.push(gt + gs * k); }); }
     if (fin) { var ft = fin.getBoundingClientRect().top + scrollY; stops.push(ft + fin.offsetHeight - innerHeight); zoneEnd = ft + fin.offsetHeight; }   // последний кадр — логотип
     document.querySelectorAll('.deck .sl').forEach(function (sl) {                // слайды брифа: по одному на жест; высокий — ещё остановка на его низе
       var st = sl.getBoundingClientRect().top + scrollY, sh = sl.offsetHeight;

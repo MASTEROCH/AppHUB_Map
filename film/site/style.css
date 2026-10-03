@@ -996,3 +996,62 @@ html,body{overflow-x:clip}
 @media (prefers-reduced-motion:reduce){.dive.lure,.dive.lure:after,.dive.lure .arr{animation:none}}
 .ch .line.quiet{color:rgba(235,235,245,.88)}
 .dive .arr{margin-left:.32em}
+
+/* ════════ агент: она пишет — ИИ понимает — делает сам; билеты и карта маршрута ════════ */
+/* строка ввода растёт до трёх строк и показывает хвост набора, с курсором */
+.compose{border-radius:22px;align-items:flex-end;padding:8px 8px 8px 14px}
+.compose .draft{flex:1;min-width:0;max-height:4.1em;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;line-height:1.35;padding:4px 0}
+.compose .draft p{margin:0}
+.compose .draft span{white-space:normal;overflow:visible;text-overflow:clip;flex:none}
+.caret{display:inline-block;width:2px;height:1.05em;margin-left:1px;vertical-align:-.18em;border-radius:1px;background:#0A84FF;animation:caret 1s steps(1) infinite}
+.compose:not(.typing) .caret{display:none}
+@keyframes caret{50%{opacity:0}}
+/* смыслы в её сообщении подсвечиваются, как data detectors в iOS */
+.msg.me mark{background:transparent;color:inherit;border-radius:6px;padding:0 1px;transition:background .35s,box-shadow .35s}
+.msg.me mark.hl{background:rgba(255,255,255,.24);box-shadow:0 0 0 1.5px rgba(255,255,255,.32);animation:hlpop .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes hlpop{0%{background:rgba(255,255,255,.6)}100%{background:rgba(255,255,255,.24)}}
+.msg.ai{max-width:92%}
+.ai-h{display:flex;align-items:center;gap:7px;font-weight:600}
+.ai-spark{width:14px;height:14px;flex:none;border-radius:50%;background:conic-gradient(from 0deg,#0A84FF,#64D2FF,#30D158,#0A84FF);animation:spin 1.6s linear infinite;box-shadow:0 0 10px rgba(100,210,255,.7)}
+.tasks{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.tasks span{padding:4px 9px;border-radius:999px;font:600 12px var(--f);color:rgba(255,255,255,.45);background:rgba(255,255,255,.06);transition:all .4s cubic-bezier(.2,1.4,.4,1)}
+.tasks span.hl{color:#fff;background:rgba(10,132,255,.3);box-shadow:inset 0 0 0 .5px rgba(100,180,255,.7);transform:scale(1.04)}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* «в работе» → галочка */
+.msgs [data-done]:not(.done) .ok{background:transparent!important;box-shadow:none!important;border:2px solid rgba(255,255,255,.16);border-top-color:#0A84FF;box-sizing:border-box;animation:spin .7s linear infinite}
+.msgs [data-done]:not(.done) .ok:after{display:none}
+.msgs [data-done].done .ok{animation:okpop .45s cubic-bezier(.2,1.6,.4,1)}
+@keyframes okpop{0%{transform:scale(.4)}100%{transform:scale(1)}}
+.tix .ok,.mapc .ok{width:20px;height:20px;border-radius:50%;background:var(--green);position:relative;flex:none}
+.tix .ok:after,.mapc .ok:after{content:"";position:absolute;left:7px;top:4px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+/* билет */
+.tix{position:relative;padding:11px 14px 10px;border-radius:16px;background:#1C1C1E;animation:print .6s cubic-bezier(.2,.9,.3,1) both;
+  -webkit-mask:radial-gradient(circle 7px at 0 62%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 7px at 100% 62%,transparent 98%,#000) right/51% 100% no-repeat;
+  mask:radial-gradient(circle 7px at 0 62%,transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 7px at 100% 62%,transparent 98%,#000) right/51% 100% no-repeat}
+@keyframes print{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.tx-top{display:flex;justify-content:space-between;align-items:center;font:600 11px var(--f);letter-spacing:.06em;text-transform:uppercase;color:#64D2FF}
+.tx-route{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin:7px 0 8px}
+.tx-route b{display:block;font:600 20px var(--f);letter-spacing:-.01em;color:#fff;font-variant-numeric:tabular-nums}
+.tx-route span{font-size:12px;color:rgba(235,235,245,.6)}
+.tx-route .r{text-align:right}
+.tx-line{position:relative;height:2px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.3) 0 5px,transparent 5px 9px)}
+.tx-line:after{content:"";position:absolute;top:-3px;left:0;width:8px;height:8px;border-radius:50%;background:#64D2FF;box-shadow:0 0 10px #64D2FF;animation:train 2.4s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes train{0%{left:0}100%{left:calc(100% - 8px)}}
+.tx-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.14);font-size:11px;color:rgba(235,235,245,.55)}
+.tx-bar{width:46px;height:14px;flex:none;background:repeating-linear-gradient(90deg,rgba(255,255,255,.7) 0 1px,transparent 1px 3px,rgba(255,255,255,.7) 3px 5px,transparent 5px 6px)}
+/* карта маршрута */
+.mapc{padding:8px;border-radius:16px;background:#1C1C1E;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+.mc-head{display:grid;grid-template-columns:34px 1fr 20px;gap:9px;align-items:center;padding:0 2px 8px}
+.mc-head img{width:34px;height:34px;border-radius:9px;object-fit:cover;object-position:top}
+.mc-head b{display:block;font-size:13px}.mc-head span{font-size:12px;color:rgba(235,235,245,.6)}
+.mc-map{display:block;width:100%;height:auto;border-radius:11px;background:#10151f}
+.mc-sea{fill:#0c2738}
+.mc-road{fill:none;stroke:rgba(255,255,255,.07);stroke-width:1}
+.mc-route{fill:none;stroke:#0A84FF;stroke-width:3;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;filter:drop-shadow(0 0 3px rgba(10,132,255,.9))}
+.mc-pin{opacity:0;transition:opacity .35s}
+.mc-pin.on{opacity:1}
+.mc-pin circle{fill:#fff;stroke:#0A84FF;stroke-width:2.5}
+.mc-pin text{fill:#fff;font:600 9px var(--f);paint-order:stroke;stroke:#10151f;stroke-width:3px}
+@media (prefers-reduced-motion:reduce){.caret,.ai-spark,.tx-line:after,.msgs [data-done]:not(.done) .ok{animation:none}}
+.dots-cap .neg{color:#FF453A}
+.dots-cap .soft{color:rgba(235,235,245,.5)}
