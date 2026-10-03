@@ -15,7 +15,7 @@ here = os.path.dirname(os.path.abspath(__file__))
 src = open(os.path.join(here, 'template.html'), encoding='utf-8').read()
 
 def data_uri(name: str) -> str:
-    for ext, mime in (('jpg', 'image/jpeg'), ('png', 'image/png'), ('webp', 'image/webp')):
+    for ext, mime in (('svg', 'image/svg+xml'), ('jpg', 'image/jpeg'), ('png', 'image/png'), ('webp', 'image/webp')):
         path = os.path.join(here, 'img', f'{name}.{ext}')
         if os.path.exists(path):
             return f'data:{mime};base64,' + base64.b64encode(open(path, 'rb').read()).decode()

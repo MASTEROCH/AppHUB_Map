@@ -1,0 +1,7 @@
+{
+  "headers": [
+    { "source": "/seq/v1/(lo|hi)/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
+    { "source": "/seq/v1/manifest.json", "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }] },
+    { "source": "/(.*)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
+  ]
+}

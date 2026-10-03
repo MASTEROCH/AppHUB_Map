@@ -1,3 +1,6 @@
 .DS_Store
 *.zip
 .claude/
+film/vifix/out/
+film/site/seq/
+.vercel
