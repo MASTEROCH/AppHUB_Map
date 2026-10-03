@@ -810,7 +810,6 @@
   /* ── карта: превью на телефоне листается вбок, «Исследовать» открывает живую карту поверх страницы ── */
   (function () {
     var pan = document.getElementById('mapPan'), open = document.getElementById('mapOpen'), modal = document.getElementById('mapModal'), close = document.getElementById('mapClose');
-    if (pan) new IntersectionObserver(function (es, ob) { if (es[0].isIntersecting) { pan.scrollLeft = (pan.scrollWidth - pan.clientWidth) * 0.4; ob.disconnect(); } }).observe(pan);
     if (!open || !modal) return;
     var fr = modal.querySelector('iframe');
     function shut() { modal.hidden = true; root.style.overflow = ''; }
