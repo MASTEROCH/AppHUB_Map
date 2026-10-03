@@ -1,0 +1,56 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-03T11:30:00Z"
+  },
+  "lists": "css",
+  "title": "AppHUB — питч для инвестора",
+  "order": [
+    "cover",
+    "thesis",
+    "wall",
+    "noinstall",
+    "builder-niches",
+    "builder-linkos",
+    "machine",
+    "appos",
+    "native",
+    "layers",
+    "loop",
+    "scale",
+    "money",
+    "traction",
+    "try",
+    "ask"
+  ],
+  "sections": {
+    "s1": {
+      "description": "Кто мы и что строим: приложения без установки для малого бизнеса",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "Два конструктора: BuildOS под 20+ ниш и готовый LinkOS с ИИ-ассистентом и Web3",
+      "start": "builder-niches"
+    },
+    "s3": {
+      "description": "Машиночитаемые проекты: дверь для ИИ-агентов корпораций в малый бизнес",
+      "start": "machine"
+    },
+    "s4": {
+      "description": "Экосистема: нативное приложение, уровни L1-L2-L3 и сеть Loop на примере карты AppHUB",
+      "start": "native"
+    },
+    "s5": {
+      "description": "Масштаб, модель, трекшн, живое демо и что нужно от инвестора",
+      "start": "scale"
+    }
+  },
+  "faces": {
+    "inter": {
+      "family": "Inter",
+      "href": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    }
+  },
+  "designSystems": []
+}

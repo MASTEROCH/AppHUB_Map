@@ -1,0 +1,389 @@
+<title>Раскадровка AppHUB Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Макет: режиссёрский сценарий. Одна колонка, каждый кадр = одна строка: эскиз, реплика крупно, картинка в одно предложение, одна карточка. Тёмная база AppHUB, единственный акцент на странице: бирюзовая точка. */
+:root{
+  --page:#0A0A14; --deep:#07071A;
+  --ink0:#F4F4F8; --ink1:#A8A8B8; --ink2:#7A7A90;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14); --glass:rgba(255,255,255,.035);
+  --violet:#7C3AFF; --violet-soft:#A78BFF; --cyan:#00E0C7;
+  --grad:linear-gradient(135deg,#7C3AFF 0%,#00E0C7 100%);
+  --f:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink0);font:16px/1.55 var(--f);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 420px at 10% -5%,rgba(124,58,255,.2),transparent 70%);background-repeat:no-repeat}
+a{color:var(--violet-soft)}
+.wrap{max-width:1040px;margin:0 auto;padding-inline:clamp(16px,4vw,40px);padding-block:clamp(28px,5vw,64px) 96px}
+h1,h2,h3{margin:0;text-wrap:balance;letter-spacing:-.025em}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2)}
+.hero h1{font-size:clamp(40px,7vw,80px);font-weight:800;line-height:.98;letter-spacing:-.045em;margin-block:12px 18px}
+.hero h1 b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{color:var(--ink1);font-size:18px;max-width:60ch;margin:0}
+.dotline{margin-top:28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.dot{width:14px;height:14px;border-radius:50%;background:var(--cyan);box-shadow:0 0 0 8px rgba(0,224,199,.12),0 0 32px rgba(0,224,199,.5);flex:none}
+.dotline p{margin:0;font-size:17px;color:var(--ink0);max-width:70ch}
+.dotline p b{color:var(--cyan)}
+
+.spec{margin-top:36px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.spec div{border:1px solid var(--line2);background:var(--glass);border-radius:14px;padding:14px 16px;min-width:0}
+.spec b{display:block;font-size:28px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.spec span{font-size:13px;color:var(--ink1)}
+
+.rules{margin-top:36px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.rule{border-top:2px solid var(--violet);padding-top:10px;min-width:0}
+.rule b{display:block;font-size:14px;font-weight:800}
+.rule span{font-size:13px;color:var(--ink1)}
+
+.sec{margin-top:clamp(48px,7vw,80px)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 16px;margin-bottom:18px}
+.sec-head h2{font-size:28px;font-weight:800}
+.sec-head .hint{font-size:13px;color:var(--ink1)}
+
+.act{margin-top:40px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:baseline;border-bottom:1px solid var(--line2);padding-bottom:10px}
+.act .tc{font:600 13px var(--mono);color:var(--cyan)}
+.act h3{font-size:22px;font-weight:800}
+.act p{margin:4px 0 0;font-size:14px;color:var(--ink1)}
+
+.shot{display:grid;grid-template-columns:120px 240px minmax(0,1fr);gap:18px;padding:22px 0;border-bottom:1px solid var(--line);align-items:start}
+.shot.cut{position:relative}
+.shot.cut::before{content:"";position:absolute;left:-14px;top:30px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+.meta .no{font:900 20px var(--mono);letter-spacing:.04em;line-height:1}
+.meta .tc{font:500 12px var(--mono);color:var(--ink2);display:block;margin-top:6px}
+.meta .tag{display:inline-block;margin-top:10px;margin-right:4px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink1);border:1px solid var(--line2);border-radius:6px;padding:3px 7px}
+.meta .tag.clip{border-color:rgba(0,224,199,.5);color:var(--cyan)}
+.thumb{background:var(--deep);border:1px solid var(--line2);border-radius:12px;overflow:hidden}
+.thumb svg{display:block;width:100%;height:auto;aspect-ratio:16/9;max-width:100%}
+.txt{display:grid;gap:10px;min-width:0}
+.vo{font-size:clamp(19px,2.2vw,24px);font-weight:700;line-height:1.3;letter-spacing:-.015em;color:var(--ink0);margin:0}
+.vo.silent{color:var(--ink2);font-weight:500;font-style:italic}
+.pic{margin:0;color:var(--ink1);font-size:15px}
+.pic b{color:var(--ink0);font-weight:600}
+.cam{margin:0;font-size:14px;color:var(--ink0);border-left:2px solid var(--cyan);padding-left:12px;line-height:1.5}
+.cam b{color:var(--cyan);font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:11px;margin-right:6px}
+.gram{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gram .card{max-width:none;padding:16px}
+.gram .card .t{font-size:15px}
+.gram .card .d{font-size:14px}
+.rhythm{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.rhythm div{border-top:2px solid var(--cyan);padding-top:10px;min-width:0}
+.rhythm b{display:block;font-size:22px;font-weight:900;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rhythm span{font-size:13px;color:var(--ink1)}
+@media (max-width:900px){.gram{grid-template-columns:1fr}.rhythm{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card{border:1px solid var(--line2);background:rgba(10,10,20,.5);border-radius:12px;padding:10px 12px;display:grid;gap:3px;max-width:520px}
+.card .t{font-size:13px;font-weight:800}
+.card .d{font-size:13px;color:var(--ink1)}
+.card a{font:500 12px var(--mono);word-break:break-all}
+.push{display:grid;gap:5px;max-width:380px;margin-top:4px}
+.push div{display:flex;gap:10px;align-items:center;border:1px solid var(--line2);border-radius:10px;padding:7px 11px;background:rgba(255,255,255,.05);font-size:13.5px}
+.push .ok{width:16px;height:16px;border-radius:50%;background:var(--cyan);color:var(--page);display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+.btn{display:inline-block;background:var(--grad);color:#fff;font:900 13px var(--f);letter-spacing:.06em;padding:7px 18px;border-radius:999px;vertical-align:middle}
+
+.after{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.after .card{max-width:none;padding:14px}
+.after .card .t{font-size:15px}
+.cutlist{display:grid;gap:10px}
+.cutlist .card{max-width:none;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:14px;padding:14px}
+.cutlist .was{font-size:14px;color:var(--ink1)}
+.cutlist .was s{color:var(--ink2)}
+.cutlist .why{font-size:14px;color:var(--ink0)}
+.q{display:grid;gap:10px}
+.q .card{max-width:none;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:start;padding:14px}
+.q .n{font:900 13px var(--mono);color:var(--violet-soft);padding-top:3px}
+.q .d{font-size:15px;color:var(--ink1)}
+.q .d b{display:block;color:var(--ink0);margin-bottom:2px}
+.foot{margin-top:56px;border-top:1px solid var(--line);padding-top:16px;color:var(--ink2);font-size:13px}
+
+@media (max-width:900px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}.rules{grid-template-columns:repeat(2,minmax(0,1fr))}.after{grid-template-columns:1fr}}
+@media (max-width:760px){.shot{grid-template-columns:90px minmax(0,1fr)}.thumb{grid-column:2}.txt{grid-column:1/-1}.act{grid-template-columns:1fr;gap:4px}.cutlist .card{grid-template-columns:1fr}.shot.cut::before{left:-10px}}
+@media (max-width:480px){.spec{grid-template-columns:repeat(2,minmax(0,1fr))}.rules{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="s-one" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><circle cx="80" cy="45" r="4" fill="#00E0C7"/><circle cx="80" cy="45" r="10" fill="none" stroke="#00E0C7" stroke-width="1" opacity=".4"/><rect x="30" y="70" width="100" height="4" rx="1" fill="#A8A8B8" opacity=".5"/></symbol>
+<symbol id="s-laptop" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="34" y="18" width="92" height="54" rx="3" fill="none" stroke="#A8A8B8" stroke-width="2"/><rect x="24" y="72" width="112" height="5" rx="2" fill="#A8A8B8"/><g fill="#7C3AFF" opacity=".8"><rect x="38" y="22" width="12" height="5"/><rect x="51" y="22" width="12" height="5"/><rect x="64" y="22" width="12" height="5"/><rect x="77" y="22" width="12" height="5"/><rect x="90" y="22" width="12" height="5"/><rect x="103" y="22" width="12" height="5"/><rect x="116" y="22" width="7" height="5"/></g><g fill="#F4F4F8" opacity=".3"><rect x="40" y="32" width="36" height="34"/><rect x="80" y="32" width="40" height="14"/><rect x="80" y="50" width="40" height="16"/></g></symbol>
+<symbol id="s-swarm" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="34" y="18" width="92" height="54" rx="3" fill="#0E0E1E" stroke="#A8A8B8" stroke-width="2"/><rect x="24" y="72" width="112" height="5" rx="2" fill="#A8A8B8"/><g fill="#3A3A58"><circle cx="44" cy="28" r="2.5"/><circle cx="58" cy="24" r="2.5"/><circle cx="70" cy="34" r="2.5"/><circle cx="52" cy="44" r="2.5"/><circle cx="66" cy="52" r="2.5"/><circle cx="84" cy="26" r="2.5"/><circle cx="94" cy="40" r="2.5"/><circle cx="106" cy="30" r="2.5"/><circle cx="112" cy="50" r="2.5"/><circle cx="90" cy="58" r="2.5"/><circle cx="78" cy="46" r="2.5"/><circle cx="100" cy="62" r="2.5"/><circle cx="118" cy="40" r="2.5"/><circle cx="48" cy="60" r="2.5"/><circle cx="60" cy="64" r="2.5"/></g><path d="M48 16c3-6-3-9 0-15M112 16c3-6-3-9 0-15" fill="none" stroke="#A8A8B8" stroke-width="2" opacity=".7"/><path d="M74 39l12 12M86 39L74 51" stroke="#FF6B6B" stroke-width="3" stroke-linecap="round"/></symbol>
+<symbol id="s-lid" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="24" y="66" width="112" height="7" rx="3" fill="#A8A8B8" opacity=".5"/><circle cx="118" cy="30" r="10" fill="#A8A8B8" opacity=".5"/><path d="M104 66c0-14 8-22 14-22s14 8 14 22" fill="#A8A8B8" opacity=".35"/><circle cx="40" cy="58" r="3" fill="#00E0C7"/></symbol>
+<symbol id="s-phone" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="60" y="6" width="40" height="80" rx="7" fill="#12121F" stroke="#A8A8B8" stroke-width="2"/><g><rect x="64" y="16" width="32" height="9" rx="3" fill="#00E0C7" opacity=".95"/><rect x="64" y="28" width="32" height="9" rx="3" fill="#00E0C7" opacity=".8"/><rect x="64" y="40" width="32" height="9" rx="3" fill="#00E0C7" opacity=".65"/><rect x="64" y="52" width="32" height="9" rx="3" fill="#00E0C7" opacity=".5"/><rect x="64" y="64" width="32" height="9" rx="3" fill="#7C3AFF" opacity=".8"/></g><g fill="#00E0C7"><circle cx="30" cy="20" r="2.5"/><circle cx="30" cy="32" r="2.5"/><circle cx="30" cy="44" r="2.5"/><circle cx="30" cy="56" r="2.5"/><circle cx="30" cy="68" r="2.5"/></g><path d="M30 20v48" stroke="#00E0C7" stroke-width="1" opacity=".5"/></symbol>
+<symbol id="s-button" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="60" y="6" width="40" height="80" rx="7" fill="#12121F" stroke="#A8A8B8" stroke-width="2"/><rect x="66" y="56" width="28" height="12" rx="6" fill="#7C3AFF"/><rect x="66" y="56" width="14" height="12" rx="6" fill="#00E0C7" opacity=".8"/><circle cx="80" cy="32" r="9" fill="none" stroke="#00E0C7" stroke-width="2"/><path d="M76 32l3 3 6-6" fill="none" stroke="#00E0C7" stroke-width="2"/><circle cx="112" cy="70" r="5" fill="#F4F4F8" opacity=".6"/></symbol>
+<symbol id="s-face" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><circle cx="84" cy="34" r="14" fill="#A8A8B8" opacity=".85"/><path d="M50 86c4-24 18-32 34-32s30 8 34 32" fill="#A8A8B8" opacity=".6"/><path d="M36 86c0-30 10-46 10-46" fill="none" stroke="#A8A8B8" stroke-width="3" opacity=".5"/></symbol>
+<symbol id="s-eye" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><path d="M20 45c20-26 100-26 120 0-20 26-100 26-120 0z" fill="none" stroke="#F4F4F8" stroke-width="2.5"/><circle cx="80" cy="45" r="16" fill="#1A1033" stroke="#7C3AFF" stroke-width="3"/><circle cx="80" cy="45" r="7" fill="#07071A"/><circle cx="86" cy="39" r="3" fill="#00E0C7"/></symbol>
+<symbol id="s-carpet" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><path d="M70 88l10-60 10 60z" fill="#FF6B6B" opacity=".85"/><rect x="72" y="14" width="16" height="16" fill="#12121F" stroke="#F4F4F8" stroke-width="1.5"/><circle cx="130" cy="18" r="7" fill="#FFB547" opacity=".8"/><path d="M106 40c0-8 28-8 28 0v8c0 4-28 4-28 0z" fill="#00E0C7" opacity=".5"/><g fill="#00E0C7"><circle cx="40" cy="60" r="2.5"/><circle cx="52" cy="46" r="2.5"/><circle cx="64" cy="34" r="2.5"/></g><circle cx="80" cy="70" r="5" fill="#A8A8B8" opacity=".8"/></symbol>
+<symbol id="s-sky" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><g stroke="#7C3AFF" stroke-width="1" opacity=".5"><path d="M30 60h40M70 60h50M70 60L50 30M70 60l30-30M120 60l16-26"/></g><circle cx="30" cy="60" r="4" fill="#7C3AFF"/><circle cx="70" cy="60" r="4" fill="#00E0C7"/><circle cx="120" cy="60" r="4" fill="#F4F4F8"/><g fill="#A8A8B8" opacity=".8"><circle cx="50" cy="30" r="2"/><circle cx="100" cy="30" r="2"/><circle cx="136" cy="34" r="2"/><circle cx="20" cy="20" r="1.5"/><circle cx="140" cy="14" r="1.5"/><circle cx="90" cy="14" r="1.5"/></g><path d="M0 82h160" stroke="#00E0C7" stroke-width="1" opacity=".3"/></symbol>
+<symbol id="s-dots" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><g fill="#2A2A48"><circle cx="12" cy="14" r="3"/><circle cx="26" cy="14" r="3"/><circle cx="40" cy="14" r="3"/><circle cx="54" cy="14" r="3"/><circle cx="68" cy="14" r="3"/><circle cx="82" cy="14" r="3"/><circle cx="96" cy="14" r="3"/><circle cx="110" cy="14" r="3"/><circle cx="124" cy="14" r="3"/><circle cx="138" cy="14" r="3"/><circle cx="152" cy="14" r="3"/><circle cx="12" cy="30" r="3"/><circle cx="26" cy="30" r="3"/><circle cx="40" cy="30" r="3"/><circle cx="54" cy="30" r="3"/><circle cx="68" cy="30" r="3"/><circle cx="82" cy="30" r="3"/><circle cx="96" cy="30" r="3"/><circle cx="110" cy="30" r="3"/><circle cx="124" cy="30" r="3"/><circle cx="138" cy="30" r="3"/><circle cx="152" cy="30" r="3"/><circle cx="12" cy="46" r="3"/><circle cx="26" cy="46" r="3"/><circle cx="40" cy="46" r="3"/><circle cx="54" cy="46" r="3"/><circle cx="68" cy="46" r="3"/><circle cx="82" cy="46" r="3"/><circle cx="96" cy="46" r="3"/><circle cx="110" cy="46" r="3"/><circle cx="124" cy="46" r="3"/><circle cx="138" cy="46" r="3"/><circle cx="152" cy="46" r="3"/><circle cx="12" cy="62" r="3"/><circle cx="26" cy="62" r="3"/><circle cx="40" cy="62" r="3"/><circle cx="54" cy="62" r="3"/><circle cx="68" cy="62" r="3"/><circle cx="82" cy="62" r="3"/><circle cx="96" cy="62" r="3"/><circle cx="110" cy="62" r="3"/><circle cx="124" cy="62" r="3"/><circle cx="138" cy="62" r="3"/><circle cx="152" cy="62" r="3"/><circle cx="12" cy="78" r="3"/><circle cx="26" cy="78" r="3"/><circle cx="40" cy="78" r="3"/><circle cx="54" cy="78" r="3"/><circle cx="68" cy="78" r="3"/><circle cx="82" cy="78" r="3"/><circle cx="96" cy="78" r="3"/><circle cx="110" cy="78" r="3"/><circle cx="124" cy="78" r="3"/><circle cx="138" cy="78" r="3"/><circle cx="152" cy="78" r="3"/></g><g fill="#00E0C7"><circle cx="26" cy="30" r="3.5"/><circle cx="68" cy="46" r="3.5"/><circle cx="124" cy="14" r="3.5"/><circle cx="96" cy="78" r="3.5"/></g><circle cx="82" cy="62" r="4" fill="#7C3AFF"/></symbol>
+<symbol id="s-qr" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="60" y="6" width="40" height="80" rx="7" fill="#12121F" stroke="#A8A8B8" stroke-width="2"/><rect x="66" y="56" width="28" height="12" rx="6" fill="#7C3AFF"/><rect x="66" y="56" width="14" height="12" rx="6" fill="#00E0C7" opacity=".8"/><rect x="68" y="18" width="24" height="24" rx="2" fill="#F4F4F8" opacity=".95"/><g fill="#07071A"><rect x="71" y="21" width="6" height="6"/><rect x="83" y="21" width="6" height="6"/><rect x="71" y="33" width="6" height="6"/><rect x="81" y="31" width="3" height="3"/><rect x="85" y="35" width="4" height="4"/></g></symbol>
+<symbol id="s-pay" viewBox="0 0 160 90"><rect width="160" height="90" fill="#07071A"/><rect x="60" y="6" width="40" height="80" rx="7" fill="#12121F" stroke="#A8A8B8" stroke-width="2"/><rect x="65" y="16" width="30" height="14" rx="3" fill="#A8A8B8" opacity=".35"/><rect x="68" y="20" width="10" height="3" fill="#F4F4F8" opacity=".8"/><circle cx="88" cy="24" r="3" fill="#FF6B6B" opacity=".9"/><circle cx="92" cy="24" r="3" fill="#FFB547" opacity=".9"/><g><circle cx="70" cy="46" r="5" fill="#2A2A48"/><circle cx="80" cy="46" r="6" fill="#00E0C7"/><circle cx="90" cy="46" r="5" fill="#2A2A48"/></g><rect x="66" y="56" width="28" height="12" rx="6" fill="#7C3AFF"/><g fill="#A8A8B8" opacity=".5"><circle cx="24" cy="30" r="4"/><circle cx="36" cy="46" r="4"/><circle cx="24" cy="62" r="4"/><circle cx="136" cy="30" r="4"/><circle cx="124" cy="46" r="4"/><circle cx="136" cy="62" r="4"/></g></symbol>
+</defs>
+</svg>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">AppHUB · фильм-сайт для инвестора · раскадровка v2.3 · режиссёрская версия</div>
+    <h1>Одна <b>точка</b></h1>
+    <p class="lede">Два часа работы ножницами. Из восьми актов осталось четыре, из двадцати четырёх кадров тринадцать, из тридцати одного блока шесть. Всё, что вырезано, не пропало: оно живёт под фильмом, в деке, куда страница раскрывается после финала.</p>
+    <div class="dotline">
+      <span class="dot"></span>
+      <p><b>Метафора одна, на весь фильм.</b> Точка. Первая точка на чёрном экране. Её вкладки превращаются в рой тёмных точек. Пуши зажигают точки и выстраивают их в линию. Монеты в карусели оплаты те же точки, только с символом. Город и карта AppHUB оказываются одним звёздным небом. 4 000 ярких точек тонут в миллионах тёмных. Последняя точка загорается от её пальца. Зритель уходит с одним образом, а не с шестнадцатью слайдами.</p>
+    </div>
+    <div class="spec">
+      <div><b>2:00</b><span>полная версия, 13 кадров</span></div>
+      <div><b>0:60</b><span>короткая, 9 кадров с меткой</span></div>
+      <div><b>136</b><span>слов закадрового текста</span></div>
+      <div><b>10</b><span>видеороликов на весь фильм, остальное графика в коде</span></div>
+    </div>
+    <div class="rules">
+      <div class="rule"><b>Одна локация на акт</b><span>стол, стол, терраса, небо</span></div>
+      <div class="rule"><b>Один блок на кадр</b><span>и ни одного до акта III</span></div>
+      <div class="rule"><b>Три числа</b><span>остальные цифры в деке под фильмом</span></div>
+      <div class="rule"><b>Две тишины</b><span>после крышки и после выдоха</span></div>
+      <div class="rule"><b>Десять роликов</b><span>ни одного больше, экраны и титры рисует сайт</span></div>
+    </div>
+  </header>
+
+
+  <section class="sec" aria-labelledby="gram">
+    <div class="sec-head"><h2 id="gram">Камера и монтаж</h2><span class="hint">одна грамматика на весь фильм: десять роликов, но ни одного спокойного плана</span></div>
+    <div class="gram">
+      <div class="card"><div class="t">Два объектива, один формат</div><div class="d">24 мм для пространства (стол, дорожка), 85 мм макро для телефона, лица и глаза. Весь фильм в 2.39:1 со шторками, интерфейсные слои живут внутри кадра, а не поверх шторок. Цвет один: глубокие синие тени, бирюза экранов, фиолетовые практические источники в акте III.</div></div>
+      <div class="card"><div class="t">Камера всегда движется</div><div class="d">Каждый план либо наезд, либо долли, либо орбита, либо подъём. Камера замирает ровно дважды: после щелчка крышки и на улыбке. Статика становится событием, а не фоном.</div></div>
+      <div class="card"><div class="t">Монтаж на удар</div><div class="d">Метроном фильма: игровой тик пушей. Каждая склейка акта II падает на тик, каждая склейка акта I на звук из ноутбука. Внутри одного ролика ритм делают джамп-каты, панч-ины на 8–10% и перебивки между роликами 3 и 4, поэтому десять файлов дают сорок с лишним планов.</div></div>
+      <div class="card"><div class="t">Матч-каты вместо наплывов</div><div class="d">Между актами ни одного растворения. Крышка гаснет, телефон загорается в том же кадре. Блик в зрачке становится огнями города. Вода уходит в небо, небо в карту, карта в поле точек, точка в свет телефона. Зритель не замечает швов и не теряет темп.</div></div>
+      <div class="card"><div class="t">Направление движения</div><div class="d">В акте I камера и взгляд мечутся: ручная дрожь, крэш-зумы, фокус прыгает. С первого пуша всё движется в одну сторону: вперёд и вверх. Орбита по часовой, дорожка вперёд, подъём в небо, финальный наклон вперёд к зрителю. Хаос и порядок читаются телом, не словами.</div></div>
+      <div class="card"><div class="t">Скорость как эмоция</div><div class="d">Джамп-каты сжимают три часа в девять секунд. Телефон снят на 60 к/с, чтобы панч-ины были чистыми. Дорожка идёт на 1,2× с тремя рампами в 40% на двери, дорожке и воде. Наезд в глаз разгоняется, отъезд от точки замедляется. Ни одной скорости по умолчанию.</div></div>
+    </div>
+    <div class="rhythm">
+      <div><b>1,5 с</b><span>средний план в акте I: джамп-каты и перебивки</span></div>
+      <div><b>1,2 с</b><span>в акте II: панч-ин на каждый тик, лицо между пушами</span></div>
+      <div><b>20 с</b><span>акт III: один дубль, контраст после дроби</span></div>
+      <div><b>4–6 с</b><span>акт IV: длинные движения камеры, монтаж внутри графики</span></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="script">
+    <div class="sec-head"><h2 id="script">Сценарий</h2><span class="hint">точка слева от номера: кадр входит в версию 60 с</span></div>
+
+    <div class="act"><span class="tc">0:00–0:08</span><div><h3>Пролог</h3><p>Чёрный экран, одна точка. Факт без комментария.</p></div></div>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">01</span><span class="tc">0:00 · 8 с</span><span class="tag">титр</span><span class="tag clip">графика</span></div>
+      <div class="thumb"><svg aria-label="Одна бирюзовая точка на чёрном"><use href="#s-one"/></svg></div>
+      <div class="txt">
+        <p class="vo silent">Голоса нет. Тихий гул.</p>
+        <p class="pic">Чёрное поле. В центре загорается одна бирюзовая точка. Под ней печатается строка: <b>«29 сентября 2026. OpenAI подключила своих агентов к 4 000 приложений».</b> Точка остаётся гореть до конца пролога.</p>
+        <p class="cam"><b>Камера</b>Статики нет даже в титре: точка медленно дрейфует к центру, кадр открывается из чёрного шторками 2.39:1. Текст набирается в ритме гула.</p>
+      </div>
+    </article>
+
+    <div class="act"><span class="tc">0:08–0:32</span><div><h3>Акт I · Ночь</h3><p>Один стол, одна лампа, никакого монтажного дробления. Хаос показываем точками на экране, а не нарезкой.</p></div></div>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">02</span><span class="tc">0:08 · 9 с</span><span class="tag">съёмка</span><span class="tag clip">ролик 1</span></div>
+      <div class="thumb"><svg aria-label="Девушка за ноутбуком, вкладки множатся"><use href="#s-laptop"/></svg></div>
+      <div class="txt">
+        <p class="vo">Отпуск. Тридцать одна вкладка. Четвёртый час.</p>
+        <p class="pic">Общий план сбоку, без склеек. Девушка в худи, настольная лампа, телефон экраном вниз. На экране ноутбука вкладки множатся сами: билеты, трансфер, отели, рестораны, чат «ответим в течение 24 часов». Она не кричит и не жестикулирует: она устала. Это узнаётся сильнее ярости.</p>
+        <p class="cam"><b>Камера</b>24 мм, медленный боковой долли слева направо за её спиной, лёгкая ручная дрожь. Внутри ролика три джамп-ката: лампа и стол на месте, она меняет позу, кружка пустеет, вкладок больше. Время сжимается на глазах. Длина плана до монтажа 3 с.</p>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">03</span><span class="tc">0:17 · 9 с</span><span class="tag">съёмка + графика</span><span class="tag clip">ролик 2</span></div>
+      <div class="thumb"><svg aria-label="Вкладки рассыпаются роем тёмных точек, дым, ошибка"><use href="#s-swarm"/></svg></div>
+      <div class="txt">
+        <p class="vo">Каждый бизнес здесь отдельная дверь. И в каждую стучишься сам.</p>
+        <p class="pic">Наезд на экран. Курсор становится спиннером. Вкладки рассыпаются на тёмные точки, рой растёт и заполняет экран до черноты. Из-под клавиатуры струйка дыма. Системная ошибка во весь экран: <b>«Система не отвечает»</b>. Синий свет ошибки на её лице.</p>
+        <p class="cam"><b>Камера</b>Крэш-зум на экран со звуком, дрожь усиливается с каждым пунктом. Перевод фокуса с экрана на лицо в момент ошибки. Перебивки с роликом 1: её руки, курсор, лицо, по полсекунды. Средняя длина плана 1,5 с.</p>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">04</span><span class="tc">0:26 · 6 с</span><span class="tag">съёмка</span><span class="tag clip">ролик 2</span></div>
+      <div class="thumb"><svg aria-label="Крышка закрыта, темнота, одна точка света"><use href="#s-lid"/></svg></div>
+      <div class="txt">
+        <p class="vo silent">Тишина. Первая из двух.</p>
+        <p class="pic">Она закрывает крышку. Не швыряет: один точный жест, щелчок, и лампа гаснет вместе с экраном. Темнота две секунды. В темноте остаётся одна точка света: экран телефона, лежащего рядом.</p>
+        <p class="cam"><b>Камера</b>На щелчке крышки камера опускается на уровень стола и впервые замирает. Первая статика фильма. Склейка с актом II через свет: экран телефона загорается в том же кадре, монтажа нет.</p>
+      </div>
+    </article>
+
+    <div class="act"><span class="tc">0:32–1:03</span><div><h3>Акт II · Пять секунд</h3><p>Тот же стол. Переворот фильма. Ритм казуальной игры: каждый пуш закрывает задачу, звук на полтона выше предыдущего. Оплата картой или криптой встроена в этот же ритм.</p></div></div>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">05</span><span class="tc">0:32 · 12 с</span><span class="tag">экран</span><span class="tag clip">ролик 3</span></div>
+      <div class="thumb"><svg aria-label="Телефон, пуши зажигают точки и выстраивают их в линию"><use href="#s-phone"/></svg></div>
+      <div class="txt">
+        <p class="vo">Один запрос. Её агент сам договорился с каждым бизнесом.</p>
+        <p class="pic">Макро телефона. Пуши ложатся один под другой с интервалом в секунду. Каждый зажигает точку, и точки выстраиваются в прямую линию: это маршрут. Тот же рой, что был хаосом на ноутбуке, здесь становится порядком.</p>
+        <p class="cam"><b>Камера</b>85 мм макро, 60 к/с, медленный наезд на телефон. Каждый пуш подрезан цифровым панч-ином на 8–10% строго на тик: пять пушей, пять микроударов камеры. Между ними перебивки на её лицо в свете экрана из ролика 4, по полсекунды. Средняя длина плана 1,2 с.</p>
+        <div class="push">
+          <div><span class="ok">✓</span>Билеты куплены · 12 октября</div>
+          <div><span class="ok">✓</span>Трансфер забронирован</div>
+          <div><span class="ok">✓</span>Отель подтверждён · вид на море</div>
+          <div><span class="ok">✓</span>Ужин 14 октября, 20:00 · столик у окна</div>
+          <div><span class="ok">✓</span>+1 240 баллов Loop</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">06</span><span class="tc">0:44 · 7 с</span><span class="tag">экран</span><span class="tag clip">ролик 3</span></div>
+      <div class="thumb"><svg aria-label="Экран оплаты: карта или карусель криптовалют"><use href="#s-pay"/></svg></div>
+      <div class="txt">
+        <p class="vo">Платит как хочет. Картой или криптой. Одним касанием.</p>
+        <p class="pic">Макро телефона. Под маршрутом открывается оплата. Сверху карта: <b>Visa · Mastercard</b>. Ниже карусель монет, она листает большим пальцем: <b>USDT · BTC · ETH · TON · SOL · GRAM</b>. Монеты крупные, круглые, в один ряд: та же точка, только с символом. Останавливается на USDT, касание, галочка. Сумма на экране намеренно не в фокусе: в фильме только три числа. Звук: тот же игровой тик, что и у пушей, на полтона выше.</p>
+        <p class="cam"><b>Камера</b>Орбита вокруг телефона на 30 градусов по часовой, карусель монет листается навстречу движению камеры. Остановка на USDT совпадает с концом орбиты. Касание: панч-ин.</p>
+        <div class="card"><div class="t">Почему это в кадре, а не под фильмом</div><div class="d">Оплата криптой за секунду внутри приложения, которое не надо устанавливать, и есть наше преимущество перед любым сайтом бронирования. Кошелёк TON уже подключается через TON Connect (NARDUM), Stars принимает LinkOS, автопрокат берёт Wallet или Stars, антифрод-опыт из AllTrust.me. Список монет в карусели подтвердить с Денисом до публикации.</div><a href="https://t.me/nardum_game_bot">t.me/nardum_game_bot</a></div>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">07</span><span class="tc">0:51 · 4 с</span><span class="tag">экран</span><span class="tag clip">ролик 3</span></div>
+      <div class="thumb"><svg aria-label="Кнопка LET'S GO, палец"><use href="#s-button"/></svg></div>
+      <div class="txt">
+        <p class="vo">Ей осталось одно решение.</p>
+        <p class="pic">Пуши схлопываются в одну карточку «Маршрут готов». Снизу выезжает кнопка <span class="btn">LET'S GO</span>. Палец входит в кадр, секунда паузы, нажатие. Мягкая вибрация, экран вспыхивает бирюзовым. Без конфетти.</p>
+        <p class="cam"><b>Камера</b>Палец входит снизу, камера замедляется и садится на кнопку. Нажатие: панч-ин и вспышка на 4 кадра. После вспышки резкий переход на ролик 4 без наезда.</p>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">08</span><span class="tc">0:55 · 8 с</span><span class="tag">съёмка</span><span class="tag clip">ролик 4</span></div>
+      <div class="thumb"><svg aria-label="Она откидывается в кресле и выдыхает"><use href="#s-face"/></svg></div>
+      <div class="txt">
+        <p class="vo">Пять секунд.</p>
+        <p class="pic">Средний план. Она откидывается в кресле, закрывает глаза, выдыхает. Улыбка приходит через секунду, не сразу. Держим кадр дольше, чем удобно. На экране единственный титр фильма крупно: <b>5 секунд</b>. Вторая тишина.</p>
+        <p class="cam"><b>Камера</b>85 мм, медленный отъезд: она откидывается, камера отступает вместе с ней, кадр расширяется. На улыбке камера останавливается: вторая и последняя статика. Держим 2 с.</p>
+      </div>
+    </article>
+
+    <article class="shot">
+      <div class="meta"><span class="no">09</span><span class="tc">1:03 · 5 с</span><span class="tag">съёмка + VFX</span><span class="tag clip">ролик 5</span></div>
+      <div class="thumb"><svg aria-label="Наезд в глаз, в зрачке огни"><use href="#s-eye"/></svg></div>
+      <div class="txt">
+        <p class="vo silent">Музыка впервые раскрывается.</p>
+        <p class="pic">Она открывает глаза. Камера входит в радужку. Бирюзовый блик экрана становится огнями ночного города. Матч-кат в акт III.</p>
+        <p class="cam"><b>Камера</b>Макро-наезд в глаз с ускорением: первые две секунды медленно, последние три в разгон до черноты зрачка. Внутри зрачка проявляются огни, вип-пэн в черноту и выход на ролик 6 уже в движении.</p>
+      </div>
+    </article>
+
+    <div class="act"><span class="tc">1:03–1:28</span><div><h3>Акт III · Дорожка</h3><p>Один непрерывный кадр вместо трёх. Награда и одновременно объяснение Loop без единого слова про проценты.</p></div></div>
+
+    <article class="shot">
+      <div class="meta"><span class="no">10</span><span class="tc">1:08 · 20 с</span><span class="tag">стедикам, один дубль</span><span class="tag clip">ролик 6</span></div>
+      <div class="thumb"><svg aria-label="Красная дорожка от двери до джакузи, точки загораются по пути"><use href="#s-carpet"/></svg></div>
+      <div class="txt">
+        <p class="vo">Пока она шла, каждый бизнес на её пути уже знал о ней. Отель. Ресторан. Прокат. Никто никому не звонил. А гость одного стал гостем следующего.</p>
+        <p class="pic">Со спины, без склеек. Дверь лимузина открывается, консьерж распахивает дверь отеля, красная дорожка уходит прямо через лобби на террасу, в конце дорожки джакузи и море. Она опускается в воду. В такт её шагам в воздухе загораются три точки и соединяются линией: прокат, отель, ресторан. Вечернее платье и шампанское есть, но камера на них не задерживается.</p>
+        <p class="cam"><b>Камера</b>24 мм, стедикам со спины, один дубль на скорости 1,2×. Три рампы: 40% на открытии двери лимузина, нормальная скорость на дорожке, 40% на входе в воду. В конце камера поднимается в верхний ракурс над джакузи и наклоняется в небо: это и есть переход в ролик 7.</p>
+        <div class="card"><div class="t">Единственный блок акта: Loop</div><div class="d">Баллы отеля она потратит на ужин. 1–5% каждой покупки возвращается баллами, которые принимает любое приложение сети.</div><a href="https://apphub.studio/loop">apphub.studio/loop</a></div>
+      </div>
+    </article>
+
+    <div class="act"><span class="tc">1:28–2:00</span><div><h3>Акт IV · Небо</h3><p>Из воды в небо. Небо оказывается картой. Карта оказывается тем самым полем точек из новости. Три кадра, три блока, конец.</p></div></div>
+
+    <article class="shot">
+      <div class="meta"><span class="no">11</span><span class="tc">1:28 · 12 с</span><span class="tag">карта + графика</span><span class="tag clip">ролики 7 и 8</span></div>
+      <div class="thumb"><svg aria-label="Ночное небо становится картой экосистемы"><use href="#s-sky"/></svg></div>
+      <div class="txt">
+        <p class="vo">Это AppHUB. Приложения, которые не надо устанавливать. Двадцать семь уже работают: рестораны, клиники, отели, застройщики. И каждое агент может прочитать: цена, слот, оплата.</p>
+        <p class="pic">Камера от воды уходит вверх, в ночное небо. Звёзды складываются в созвездия: это карта AppHUB, слои L1, L2, L3 загораются один за другим, снизу кольцо Loop. Пролёт над картой на футаже фильма-путешествия. Поверх карты на две секунды проезжают семь реальных экранов приложений.</p>
+        <p class="cam"><b>Камера</b>Непрерывный вертикальный подъём без склейки: вода, терраса, звёзды, созвездия становятся картой. Дальше постоянный дрейф вперёд над картой, слои интерфейса едут с параллаксом медленнее фона. Семь экранов проезжают поперёк движения камеры.</p>
+        <div class="card"><div class="t">Блок: живая карта и портфолио</div><div class="d">59 узлов · 27 приложений · демо-тур за минуту</div><a href="https://apphub-map.com/v2/">apphub-map.com/v2</a></div>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">12</span><span class="tc">1:40 · 12 с</span><span class="tag">графика</span><span class="tag clip">ролик 10</span></div>
+      <div class="thumb"><svg aria-label="4 000 ярких точек в море тёмных, одна загорается фиолетовым"><use href="#s-dots"/></svg></div>
+      <div class="txt">
+        <p class="vo">Агенты OpenAI подключены к четырём тысячам приложений. Бизнесов в мире сотни миллионов. Мы дверь для агентов в каждый из них.</p>
+        <p class="pic">Карта превращается в поле: 4 000 ярких точек. Камера отъезжает, и вокруг открываются миллионы тёмных. Пауза. Одна тёмная точка загорается фиолетовым, за ней вторая, третья, десятая: бизнесы, вошедшие в сеть. Новостная строка из пролога возвращается на одну секунду.</p>
+        <p class="cam"><b>Камера</b>От одной точки экспоненциальный отъезд до миллионов, пауза, затем резкий обратный зум в одну тёмную точку, которая загорается фиолетовым. Вип-переход: эта точка и есть свет телефона на столе.</p>
+        <div class="card"><div class="t">Блок: как бизнес входит в сеть</div><div class="d">LinkOS: визитка с ИИ-ассистентом за две минуты. BuildOS: приложение под нишу за 30 секунд. Студия: под ключ за 1–3 дня.</div><a href="https://apphub.studio">apphub.studio</a></div>
+      </div>
+    </article>
+
+    <article class="shot cut">
+      <div class="meta"><span class="no">13</span><span class="tc">1:52 · 8 с</span><span class="tag">съёмка + экран</span><span class="tag clip">ролик 9</span></div>
+      <div class="thumb"><svg aria-label="Тот же телефон на столе, кнопка и QR"><use href="#s-qr"/></svg></div>
+      <div class="txt">
+        <p class="vo">Включите свою точку.</p>
+        <p class="pic">Тот же стол из акта I, тот же телефон, но теперь экран смотрит в камеру. На нём кнопка LET'S GO и QR-код. Палец зрителя, не её. Когда кнопка нажата, под фильмом раскрывается страница с декой. Последним встаёт lockup AppHUB.STUDIO.</p>
+        <p class="cam"><b>Камера</b>Новый ракурс для финала: строго сверху, 90 градусов, стол из акта I. Палец зрителя входит снизу кадра. После нажатия камера наклоняется из верхнего ракурса во фронтальный, и в этом движении встаёт lockup. Шторки 2.39:1 закрываются.</p>
+        <div class="card"><div class="t">Блок: попробуйте сами</div><div class="d">LinkOS · BuildOS · демо ресторана Dine · живая карта. Ни одно не нужно устанавливать.</div><a href="https://t.me/Linkos_AppHub_bot">t.me/Linkos_AppHub_bot</a></div>
+      </div>
+    </article>
+  </section>
+
+
+  <section class="sec" aria-labelledby="clips">
+    <div class="sec-head"><h2 id="clips">План из десяти роликов</h2><span class="hint">весь фильм собирается из десяти видеофайлов, всё остальное рисует сайт поверх</span></div>
+    <div class="tw" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:14px">
+      <tr><th style="text-align:left;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);padding:0 10px 8px 0;border-bottom:1px solid var(--line2);width:6%">№</th><th style="text-align:left;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);padding:0 10px 8px 0;border-bottom:1px solid var(--line2);width:20%">Ролик</th><th style="text-align:left;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);padding:0 10px 8px 0;border-bottom:1px solid var(--line2);width:10%">Кадры · длина</th><th style="text-align:left;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);padding:0 10px 8px 0;border-bottom:1px solid var(--line2);width:11%">Источник</th><th style="text-align:left;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink2);padding:0 10px 8px 0;border-bottom:1px solid var(--line2)">Что в видео и что сайт кладёт сверху</th></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">1</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Стол и вкладки</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">02 · 9 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка или генерация</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Общий план сбоку, долли слева направо. Снимаем три позы подряд одним дублем для джамп-катов: сидит прямо, сползла, голова на руке. Экран ноутбука пустой светлый: вкладки, которые множатся, сайт рисует сам.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">2</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Ошибка и крышка</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">03 + 04 · 15 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка или генерация</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Один непрерывный дубль с крэш-зумом: наезд на экран, дым из-под клавиатуры, перевод фокуса на лицо в синем свете, она закрывает крышку, камера садится на стол и замирает, темнота, рядом загорается телефон. Рой точек и текст ошибки накладывает сайт. Перебивки для акта I берутся из этого же дубля.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">3</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Телефон крупно</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">05 + 06 + 07 · 23 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Макро телефона на столе, 60 к/с: медленный наезд, затем орбита на 30 градусов, в конце палец входит снизу и нажимает. Экран телефона в видео пустой: пуши, оплата картой или криптой и кнопка LET'S GO живут в коде сайта и синхронизируются по таймкоду. Один ролик закрывает три кадра.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">4</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Выдох</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">05–08 · 16 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Средний план: сначала 8 с она смотрит в телефон в свете экрана (перебивки для акта II), потом откидывается, закрывает глаза, выдох, улыбка через секунду. Снимаем 16 с одним дублем. Единственный ролик, который нельзя генерировать: здесь нужна живая актриса. Титр «5 секунд» кладёт сайт.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">5</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Глаз</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">09 · 5 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка + VFX</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Она открывает глаза, наезд в радужку до черноты зрачка. Огни города внутри зрачка дорисовываются, переход в ролик 6.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">6</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Дорожка одним дублем</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">10 · 20 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка или генерация</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Стедикам со спины на 1,2× с тремя рампами: дверь лимузина, консьерж, красная дорожка через лобби на террасу, джакузи, она опускается в воду, камера поднимается в верхний ракурс и наклоняется в небо. Три точки Loop над дорожкой рисует сайт. Если генератор держит только 8–10 с, ролик режется на два со скрытой склейкой в дверях, а ролик 10 отдаётся под вторую половину.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">7</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Из воды в небо</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">11, начало · 5 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">генерация</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Камера уходит от поверхности воды вертикально вверх в ночное небо до чистых звёзд. Последний кадр ролика совпадает с первым кадром футажа карты.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">8</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Полёт над картой</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">11 · 12 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">готовый футаж</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Фрагмент фильма-путешествия по карте, новую съёмку не требует. Подсветку слоёв L1, L2, L3 и семь экранов приложений сайт накладывает сверху.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">9</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Финал: телефон и палец</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">13 · 8 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">съёмка</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">Тот же стол строго сверху, телефон экраном в камеру, палец зрителя входит снизу и нажимает, камера наклоняется из верхнего ракурса во фронтальный. Снимается в ту же смену, что ролики 1–5, тем же светом. Кнопка, QR и lockup в коде.</td></tr>
+      <tr><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--cyan);font-family:var(--mono);font-weight:700">10</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line)"><b>Поле точек</b></td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">12 · 12 с</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">рендер или код</td><td style="padding:10px 10px 10px 0;border-bottom:1px solid var(--line);color:var(--ink1)">4 000 ярких точек, отъезд в миллионы тёмных, фиолетовые загораются одна за другой. Если сайт рисует частицы в реальном времени, этот ролик не нужен и номер 10 становится резервом для дорожки.</td></tr>
+    </table></div>
+    <div class="cutlist" style="margin-top:14px">
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Не ролики</b></div><div class="why">Титр пролога с точкой и новостью, рой точек на экране ноутбука, экраны телефона (пуши, оплата, LET'S GO), титр «5 секунд», три точки Loop над дорожкой, подсветка карты, шесть блоков-ссылок, lockup. Всё это сайт рисует в коде поверх видео, поэтому в счёт десяти не входит и правится без пересъёмки.</div></div>
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Одна смена</b></div><div class="why">Ролики 1, 2, 3, 4, 5, 9 снимаются в одной квартире за одну смену, одним светом, в одном образе. Ролик 6 отдельно: ночь, Батуми или генерация. Ролики 7 и 10 генерация или рендер. Ролик 8 уже есть.</div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="after">
+    <div class="sec-head"><h2 id="after">Под фильмом</h2><span class="hint">страница продолжается: сюда ушло всё, что вырезано из кадра</span></div>
+    <div class="after">
+      <div class="card"><div class="t">Шесть идей</div><div class="d">Конструкторы BuildOS и LinkOS · без установки, три версии · оплата картой, Stars и криптой · машиночитаемость и агенты Apple, Meta, Google, X · нативное приложение с четырьмя входами · L1 → L2 → L3 · Loop. Каждая идея раскрывается блоком с экранами из деки.</div></div>
+      <div class="card"><div class="t">Масштаб и модель</div><div class="d">59 узлов, 54 живых сайта, 25 ботов, 205 экранов, 1 396 решений, GEOS с 235 747 городами. Три ступени монетизации, тарифы, Founding Partner.</div></div>
+      <div class="card"><div class="t">Команда и раунд</div><div class="d">Три сооснователя, контакты, QR на четыре демо. Строка раунда «$2M за 10%» включается отдельным флагом: фильм разлетится дальше деки.</div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="cuts">
+    <div class="sec-head"><h2 id="cuts">Что вырезано и почему</h2><span class="hint">режиссёрские заметки</span></div>
+    <div class="cutlist">
+      <div class="card"><div class="was"><s>Бросок ноутбука в стену</s></div><div class="why">Ярость смешит и отвлекает от продукта. Усталость и один точный щелчок крышки узнают все, кто сидит в зале. Тишина после щелчка стоит дороже любого спецэффекта.</div></div>
+      <div class="card"><div class="was"><s>Лимузин, лобби и джакузи тремя кадрами</s></div><div class="why">Один непрерывный стедикам-кадр от двери до воды. Зритель не успевает проверить логистику, а точки, загорающиеся в такт шагам, объясняют Loop без слов.</div></div>
+      <div class="card"><div class="was"><s>Экранные записи BuildOS и LinkOS</s></div><div class="why">Инвестор в фильме не читает интерфейсы. Конструкторы ушли в один блок кадра 12 и в полноценный раздел под фильмом, где их можно открыть по QR.</div></div>
+      <div class="card"><div class="was"><s>Шесть плиток цифр масштаба</s></div><div class="why">Три числа запоминаются, девять нет. В кадре остаются 4 000, 5 секунд и 27. Остальное под фильмом, где цифры читают, а не слушают.</div></div>
+      <div class="card"><div class="was"><s>Карточки Siri, Meta, Gemini, Grok</s></div><div class="why">Четыре логотипа конкурируют с нашим. Новость про dots несёт весь тезис одна, и она свежее.</div></div>
+      <div class="card"><div class="was"><s>31 всплывающий блок</s></div><div class="why">Блоки появляются только с акта III и по одному: шесть на весь фильм. Первые 64 секунды зритель смотрит кино, а не читает.</div></div>
+      <div class="card"><div class="was"><s>Команда и раунд в кадре</s></div><div class="why">Лица и суммы просят паузы и вопросов. Их место сразу под кнопкой LET'S GO, где инвестор уже решил смотреть дальше.</div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="prod">
+    <div class="sec-head"><h2 id="prod">Производство в одну строку</h2></div>
+    <div class="cutlist">
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Съёмка</b></div><div class="why">Одна смена: квартира (кадры 02, 03, 04, 08, 09, 13) и одна ночная в Батуми: лимузин у отеля с террасой, стедикам, один дубль (кадр 10). Актриса одна, два образа. Если снимать негде, акт III генерируем по референсу актрисы, остальное живьём.</div></div>
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Экран телефона</b></div><div class="why">Пуши, экран оплаты с картой и каруселью монет и кнопка LET'S GO собираются как настоящий экран нативного приложения AppHUB. Тогда их снимают с реального телефона, а на встрече показывают тот же экран вживую.</div></div>
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Графика</b></div><div class="why">Одна система частиц на весь фильм: точка, рой, линия, созвездие, поле. Карта из футажа фильма-путешествия плюс новые пролёты с подсветкой слоёв. 3D-знак только в финале.</div></div>
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Звук</b></div><div class="why">Гул (акт I), игровые тики и кнопка (акт II), тёплая тема от выдоха до конца. Один голос, спокойный, 136 слов. Две полные тишины обязательны.</div></div>
+      <div class="card"><div class="was"><b style="color:var(--ink0)">Сайт</b></div><div class="why">Как AppOS: фильм на весь экран, кнопка звука, прогресс по скроллу. Версия 60 с играет первой, «смотреть целиком» открывает 2:00. После LET'S GO страница раскрывается в деку из 16 блоков с QR внизу.</div></div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="qs">
+    <div class="sec-head"><h2 id="qs">Три решения</h2><span class="hint">остальные развилки я закрыл сам, они в заметках выше</span></div>
+    <div class="q">
+      <div class="card"><span class="n">01</span><div class="d"><b>Куда она едет: Мальдивы или Батуми?</b>Мальдивы читаются за секунду. Батуми делает каждый пуш реальным: LiteRent, Hotelito, EPOCH уже работают, и на встрече их можно открыть с телефона. Моя рекомендация: Батуми, без названия города в кадре.</div></div>
+      <div class="card"><span class="n">02</span><div class="d"><b>Чей голос?</b>Голос фаундера сильнее для инвестора, диктор ровнее. 136 слов можно записать за час. Рекомендация: Роман или Дмитрий, английскую версию вторым этапом.</div></div>
+      <div class="card"><span class="n">03</span><div class="d"><b>Съёмка или генерация?</b>Эмоция кадра 08 стоит живой съёмки. Акт III можно сгенерировать по референсу актрисы. Рекомендация: гибрид, одна съёмочная смена.</div></div>
+    </div>
+  </section>
+
+  <p class="foot">Раскадровка v2.3 · 3 октября 2026 · AppHub Studio. Новость про dots: DevDay OpenAI, 29 сентября 2026. Цифры из атласа AppHUB на 2 октября. Деку из 16 слайдов фильм не заменяет, а открывает.</p>
+</div>
