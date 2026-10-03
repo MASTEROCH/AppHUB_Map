@@ -25,6 +25,13 @@ names = set(re.findall(r'\{\{IMG:([a-z0-9-]+)\}\}', src))
 for n in names:
     src = src.replace('{{IMG:' + n + '}}', data_uri(n))
 
+# template.html писался под артефакт, который сам добавляет каркас документа.
+# Вне артефакта без charset браузер читает UTF-8 как Latin-1, без viewport телефон рисует 980px.
+if not src.lstrip().lower().startswith('<!doctype'):
+    src = ('<!doctype html>\n<html lang="ru">\n<head>\n<meta charset="utf-8">\n'
+           '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
+           '<meta name="theme-color" content="#0A0A14">\n</head>\n<body>\n' + src + '\n</body>\n</html>\n')
+
 out = os.path.join(here, 'index.html')
 open(out, 'w', encoding='utf-8').write(src)
 print(f'ok: {out} · {len(src) // 1024} KB · {len(names)} картинок')

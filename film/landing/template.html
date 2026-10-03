@@ -33,11 +33,12 @@ img{max-width:100%}
 .slot .tag{position:absolute;left:clamp(14px,3vw,36px);top:calc(var(--bar) + 14px);font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:rgba(168,168,184,.45)}
 .scene{position:absolute;inset:0;z-index:3;opacity:0;visibility:hidden;transition:opacity .22s}
 .scene.on{opacity:1;visibility:visible}
-.scene:not(.on),.scene:not(.on) *{animation:none!important}
+.scene:not(.on),.scene:not(.on) *,.scene:not(.on) *:before,.scene:not(.on) *:after{animation:none!important}
 .cam{position:absolute;inset:0;transform-origin:50% 50%}
 .amb{position:absolute;inset:0;pointer-events:none}
 .sub{position:absolute;left:50%;bottom:calc(var(--bar) + 30px);transform:translateX(-50%);z-index:8;width:min(960px,92vw);text-align:center;font-size:clamp(18px,2.3vw,28px);font-weight:700;line-height:1.3;letter-spacing:-.015em;text-shadow:0 2px 24px rgba(0,0,0,.9);pointer-events:none}
 .sub span{display:inline-block;opacity:0;transform:translateY(8px);animation:w .45s cubic-bezier(.2,.9,.3,1) forwards;margin-right:.28em}
+.sub:not(:empty):before{content:"";position:absolute;inset:-26px -10vw -18px;z-index:-1;background:radial-gradient(60% 75% at 50% 58%,rgba(4,4,10,.82),rgba(4,4,10,0));pointer-events:none}
 @keyframes w{to{opacity:1;transform:none}}
 .hint{position:absolute;right:clamp(14px,3vw,36px);top:calc(var(--bar) + 14px);z-index:8;font:500 11px var(--mono);color:var(--ink2);letter-spacing:.1em;text-transform:uppercase;pointer-events:none;opacity:0;transition:opacity .3s}
 .stage.show .hint{opacity:1}
@@ -68,11 +69,11 @@ img{max-width:100%}
 .ctl button{appearance:none;border:0;background:transparent;color:var(--ink0);cursor:pointer;padding:6px 8px;border-radius:8px;font:600 13px var(--f);display:inline-flex;align-items:center;gap:6px}
 .ctl button:hover{background:rgba(255,255,255,.08)}
 .ctl svg{width:18px;height:18px;fill:currentColor}
-.prog{flex:1;display:flex;gap:3px;height:22px;align-items:center;min-width:0}
-.chap{appearance:none;border:0;padding:0;height:4px;flex:1;background:rgba(255,255,255,.18);border-radius:2px;position:relative;cursor:pointer;overflow:hidden;min-width:4px}
+.prog{flex:1;display:flex;gap:3px;height:22px;align-items:center;min-width:0;overflow:hidden}
+.chap{appearance:none;border:0;padding:0;height:4px;flex:1;background:rgba(255,255,255,.18);border-radius:2px;position:relative;cursor:pointer;overflow:hidden;min-width:0}
 .chap i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--cyan)}
 .chap.done i{width:100%}
-.time{font:500 12px var(--mono);color:var(--ink1);white-space:nowrap}
+.time{font:500 12px var(--mono);color:var(--ink1);white-space:nowrap;flex-shrink:0}
 .cutsel{display:flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden}
 .cutsel button{border-radius:0;padding:5px 10px;font-size:12px;color:var(--ink1)}
 .cutsel button[aria-pressed="true"]{background:var(--ink0);color:var(--page)}
@@ -146,7 +147,7 @@ img{max-width:100%}
 .pglow{position:absolute;left:62%;bottom:31%;width:40px;height:24px;border-radius:6px;background:var(--cyan);opacity:0;filter:blur(2px);box-shadow:0 0 40px 10px rgba(0,224,199,.45);animation:fadein .4s 4.2s forwards;transform:perspective(600px) rotateX(70deg)}
 
 /* ═══════ ТЕЛЕФОН ═══════ */
-.phone{position:absolute;left:50%;top:50%;width:min(312px,64vmin);aspect-ratio:9/19.4;transform:translate(-50%,-50%);border-radius:44px;background:#0b0b16;border:2px solid rgba(255,255,255,.18);box-shadow:0 50px 120px rgba(0,0,0,.75),0 0 0 7px #000,0 0 0 8px rgba(255,255,255,.06);overflow:hidden;color:#fff}
+.phone{position:absolute;left:50%;top:calc(50% - (var(--bar) + 96px)/2);width:min(312px,64vmin,calc((100svh - var(--bar) - 220px) * .4639));aspect-ratio:9/19.4;transform:translate(-50%,-50%);border-radius:44px;background:#0b0b16;border:2px solid rgba(255,255,255,.18);box-shadow:0 50px 120px rgba(0,0,0,.75),0 0 0 7px #000,0 0 0 8px rgba(255,255,255,.06);overflow:hidden;color:#fff}
 .phone:before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.12),transparent 30%,transparent 70%,rgba(255,255,255,.06));pointer-events:none;z-index:3}
 .phone .isl{position:absolute;left:50%;top:12px;width:30%;height:24px;transform:translateX(-50%);background:#000;border-radius:14px;z-index:4}
 .phone .st{position:absolute;top:14px;left:22px;right:22px;display:flex;justify-content:space-between;font:700 12px var(--f);z-index:4}
@@ -267,17 +268,36 @@ img{max-width:100%}
 .sky10{position:absolute;inset:0;background:#030309;opacity:0;animation:fadein 1s 18.6s forwards}
 
 /* ═══════ 11 КАРТА ═══════ */
-.s11 .cam{animation:rise 12s linear forwards}
-@keyframes rise{from{transform:scale(1.25) translateY(4%)}to{transform:scale(1.04) translateY(-2%)}}
-.map{position:absolute;inset:0;background:url("{{IMG:map}}") center/cover no-repeat;opacity:0;animation:mapin 1.6s 3.2s forwards}
-@keyframes mapin{to{opacity:.92}}
-.lay{position:absolute;top:50%;transform:translateY(-50%);width:min(240px,27vw);background:rgba(10,10,20,.66);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);opacity:0;animation:fadein .5s forwards;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
-.lay b{display:block;font-size:14px;font-weight:800;letter-spacing:-.01em}
-.lay span{font-size:12px;color:var(--ink1);line-height:1.4}
-.lay.l1{left:5%;animation-delay:4.6s;color:var(--violet-soft)}.lay.l2{left:50%;transform:translate(-50%,-50%);animation-delay:6s;color:var(--cyan)}.lay.l3{right:5%;animation-delay:7.4s}
-.strip{position:absolute;left:0;top:calc(var(--bar) + 12px);display:flex;gap:12px;transform:translateX(100vw);animation:strip 6.5s 6.5s linear forwards}
-.strip img{height:min(170px,24vh);width:auto;border-radius:14px;border:1px solid rgba(255,255,255,.18);box-shadow:0 14px 40px rgba(0,0,0,.6)}
-@keyframes strip{to{transform:translateX(-110%)}}
+.s11 .cam{animation:ecorise 12s linear forwards}
+@keyframes ecorise{from{transform:scale(1.06)}to{transform:none}}
+.eco{position:absolute;left:0;top:calc(var(--bar)*.4);width:100%;height:calc(100% - var(--bar)*1.4 - 118px);overflow:visible;opacity:0;animation:fadein .8s .3s forwards;font-family:var(--f)}
+.eco .glow{opacity:0;animation:fadein 1.2s .5s forwards}
+.eco .core circle{fill:#0b0b16;stroke:rgba(255,255,255,.22);stroke-width:2}
+.eco .core{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .7s .5s cubic-bezier(.2,1.4,.4,1) forwards}
+.eco .ring{fill:none;stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 1.2s cubic-bezier(.6,0,.2,1) forwards}
+.eco .ring.g1{stroke:rgba(167,139,255,.7);animation-delay:1s}
+.eco .ring.g2{stroke:rgba(0,224,199,.55);animation-delay:1.5s}
+.eco .ring.g3{stroke:rgba(244,244,248,.28);animation-delay:2s}
+.eco .rl{font-size:30px;font-weight:800;letter-spacing:-.01em;text-anchor:middle;opacity:0;animation:fadein .6s forwards}
+.eco .t1{fill:var(--violet-soft);animation-delay:1.8s}.eco .t2{fill:var(--cyan);animation-delay:2.3s}.eco .t3{fill:var(--ink0);animation-delay:2.8s}
+.eco .d{transform-box:fill-box;transform-origin:center;transform:scale(0);animation:pop .45s cubic-bezier(.2,1.4,.4,1) forwards}
+.eco .d1{fill:var(--violet-soft)}.eco .d2{fill:var(--cyan)}.eco .d3{fill:var(--ink0)}
+.eco .d3.hot{animation:pop .45s cubic-bezier(.2,1.4,.4,1) forwards,hot 1.2s 8.6s ease-out forwards}
+@keyframes hot{0%{fill:var(--ink0);stroke:rgba(0,224,199,0);stroke-width:0}30%{fill:var(--cyan);stroke:rgba(0,224,199,.45);stroke-width:18}100%{fill:var(--cyan);stroke:rgba(0,224,199,0);stroke-width:4}}
+.eco .nm{font-size:28px;font-weight:600;fill:var(--ink1);opacity:0;animation:fadein .5s forwards}
+.eco .n2{fill:var(--ink0);font-weight:700}
+.eco .route{fill:none;stroke:rgba(0,224,199,.35);stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;animation:draw 2.4s 6.2s linear forwards}
+.eco .loop{fill:none;stroke:rgba(167,139,255,.6);stroke-width:2.5;stroke-dasharray:10 12;opacity:0;animation:fadein .8s 9.3s forwards}
+.eco .comet{fill:none;stroke:#fff;stroke-width:6;stroke-linecap:round;stroke-dasharray:46 2000;stroke-dashoffset:46;opacity:0;animation:comet 2.4s 6.2s linear forwards}
+.eco .comet.c2{stroke:var(--violet-soft);animation-delay:9.3s;animation-duration:1.6s}
+@keyframes comet{0%{opacity:1;stroke-dashoffset:46}96%{opacity:1}100%{opacity:0;stroke-dashoffset:-1000}}
+.eco .lp{fill:var(--violet-soft);font-weight:700;animation-delay:10.2s}
+.eco .chip{opacity:0;animation:fadein .5s 8.9s forwards}
+.eco .chip rect{fill:#0b0b16;stroke:rgba(0,224,199,.6);stroke-width:2}
+.eco .chip line{stroke:rgba(0,224,199,.6);stroke-width:2}
+.eco .chip text{font:600 26px var(--mono);fill:var(--cyan)}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes pop{to{transform:none}}
 
 /* ═══════ 12 ПОЛЕ ═══════ */
 .counter{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:min(960px,92vw)}
@@ -289,23 +309,27 @@ img{max-width:100%}
 
 /* ═══════ 13 ФИНАЛ ═══════ */
 .s13 .cam{animation:tilt 8s forwards}
+.s13 .phone{top:calc(50% - (var(--bar) + 150px)/2);width:min(300px,60vmin,calc((100svh - var(--bar) - 300px) * .4639))}
 @keyframes tilt{0%{transform:perspective(1500px) rotateX(42deg) scale(.88) translateY(12%)}55%{transform:perspective(1500px) rotateX(42deg) scale(.88) translateY(12%)}100%{transform:perspective(1500px) rotateX(0) scale(1) translateY(0)}}
 .s13 .finger{animation:finger2 8s forwards}
 @keyframes finger2{0%{bottom:-30%}30%{bottom:7%}40%{bottom:5%}48%{bottom:7%}60%{bottom:-30%}100%{bottom:-30%}}
 .s13 .flash{animation:flash2 8s forwards}
 @keyframes flash2{0%,38%{opacity:0}40%{opacity:.7}50%{opacity:0}100%{opacity:0}}
-.qrs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:2px}
-.qrs div{background:#fff;border-radius:12px;padding:6px;text-align:center}
-.qrs img{width:100%;height:auto;display:block;border-radius:4px}
-.qrs small{display:block;font:800 9px var(--f);color:#0A0A14;letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+/* финал: поле тусклых точек, по нажатию LET'S GO загорается одна — «ваша точка» */
+.s13 .field{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(167,139,255,.34) 1.3px,transparent 1.8px);background-size:15px 15px;background-position:center;-webkit-mask-image:radial-gradient(70% 55% at 50% 44%,#000 35%,transparent 100%);mask-image:radial-gradient(70% 55% at 50% 44%,#000 35%,transparent 100%);opacity:.75}
+.s13 .me{position:absolute;left:50%;top:44%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:rgba(167,139,255,.5);animation:me 8s forwards}
+.s13 .me:after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--cyan);opacity:0;animation:ripple 2.4s 3.3s cubic-bezier(.2,.7,.3,1) infinite}
+@keyframes me{0%,40%{background:rgba(167,139,255,.5);transform:none;box-shadow:none}44%{background:#fff;transform:scale(2.4);box-shadow:0 0 0 10px rgba(0,224,199,.25),0 0 60px 18px rgba(0,224,199,.55)}52%,100%{background:var(--cyan);transform:scale(1.7);box-shadow:0 0 0 7px rgba(0,224,199,.16),0 0 44px 12px rgba(0,224,199,.45)}}
+@keyframes ripple{0%{opacity:.9;transform:scale(1)}100%{opacity:0;transform:scale(7)}}
+.s13 .scr .date{position:relative;z-index:2}
 .s13 .go{animation:press2 8s forwards}
 @keyframes press2{0%{opacity:0;transform:translateY(24px)}6%{opacity:1;transform:none}38%{transform:none}41%{transform:scale(.93)}48%{transform:none}100%{opacity:1;transform:none}}
-.lockup{position:absolute;left:50%;bottom:calc(var(--bar) + 86px);transform:translateX(-50%);display:flex;align-items:center;gap:14px;opacity:0;animation:fadein 1s 5.6s forwards}
-.lockup img.mk{width:40px;height:40px}.lockup img.wm{height:32px;width:auto}
-.down{position:absolute;left:50%;bottom:calc(var(--bar) + 22px);transform:translateX(-50%);font:700 11px var(--f);letter-spacing:.18em;text-transform:uppercase;color:var(--ink1);opacity:0;animation:fadein 1s 6.6s forwards;text-align:center}
-.down:after{content:"";display:block;width:1px;height:26px;margin:8px auto 0;background:linear-gradient(var(--cyan),transparent);animation:drop 1.4s infinite}
+.lockup{position:absolute;left:50%;bottom:calc(var(--bar) + max(96px, 60px + 3.5vw));transform:translateX(-50%);display:flex;align-items:center;gap:14px;opacity:0;animation:fadein 1s 5.6s forwards}
+.lockup img.mk{width:58px;height:58px;filter:drop-shadow(0 0 22px rgba(124,58,255,.6)) drop-shadow(0 0 40px rgba(0,224,199,.25))}.lockup img.wm{height:34px;width:auto}
+.down{position:absolute;left:50%;bottom:calc(var(--bar) + 6px);white-space:nowrap;transform:translateX(-50%);font:700 11px var(--f);letter-spacing:.18em;text-transform:uppercase;color:var(--ink1);opacity:0;animation:fadein 1s 6.6s forwards;text-align:center}
+.down:after{content:"";display:none;width:1px;height:26px;margin:8px auto 0;background:linear-gradient(var(--cyan),transparent);animation:drop 1.4s infinite}
 @keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-.again{position:absolute;left:50%;top:calc(var(--bar) + 20px);transform:translateX(-50%);z-index:8;appearance:none;border:1px solid var(--line2);background:rgba(10,10,20,.6);color:var(--ink0);font:600 13px var(--f);padding:9px 16px;border-radius:999px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .4s}
+.again{position:absolute;left:50%;top:max(4px,calc((var(--bar) - 34px)/2));transform:translateX(-50%);z-index:10;appearance:none;border:1px solid var(--line2);background:rgba(10,10,20,.6);color:var(--ink0);font:600 13px var(--f);padding:7px 16px;border-radius:999px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .4s}
 .stage.done .again{opacity:1;pointer-events:auto}
 
 /* ═══════ ПОД ФИЛЬМОМ ═══════ */
@@ -381,14 +405,12 @@ img{max-width:100%}
 .ask h2{font-size:clamp(26px,3.6vw,44px)}
 .ask .contact{font-size:clamp(20px,2.6vw,32px);font-weight:800;letter-spacing:-.02em}
 .ask .contact small{display:block;font-size:14px;color:var(--ink1);font-weight:500;margin-top:6px}
-.round{display:none;font-size:clamp(30px,4.2vw,52px);font-weight:900;letter-spacing:-.05em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
-.ask.flag .round{display:block}
 .foot{display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:18px;color:var(--ink2);font-size:13px}
 .foot .lk{display:flex;align-items:center;gap:10px}
 .foot img.mk{width:28px;height:28px}.foot img.wm{height:22px;width:auto}
 
 @media (max-width:900px){.grid3,.team{grid-template-columns:1fr 1fr}.try{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}.steps div+div{border-left:0;border-top:1px solid var(--line2)}.ask{grid-template-columns:1fr}}
-@media (max-width:640px){.grid3,.team,.try{grid-template-columns:1fr}.card2{right:auto;left:50%;top:auto;bottom:calc(var(--bar) + 74px);transform:translateX(-50%);width:min(340px,90vw);animation-name:fadein}.lay{width:44vw}.lay.l1{left:3%}.lay.l3{right:3%}.hint,.cutsel,.cnt{display:none}.laptop{width:92vw;bottom:26%}.sub{font-size:17px}}
+@media (max-width:640px){.grid3,.team,.try{grid-template-columns:1fr}.card2{right:auto;left:50%;top:auto;bottom:calc(var(--bar) + 74px);transform:translateX(-50%);width:min(340px,90vw);animation-name:fadein}.hint,.cutsel,.cnt{display:none}.laptop{width:92vw;bottom:26%}.sub{font-size:17px}}
 @media (prefers-reduced-motion:reduce){.scene *{animation-duration:.01s!important}.cam,.fly{animation:none!important}}
 </style>
 
@@ -466,7 +488,7 @@ img{max-width:100%}
   <!-- 10 дорожка -->
   <section class="scene s10" data-id="s10"><div class="world"><div class="fly">
       <div class="floor"></div><div class="col" style="left:33%;transform:translate(-50%,-100%) translateZ(-350px)"></div><div class="col" style="left:67%;transform:translate(-50%,-100%) translateZ(-350px)"></div><div class="col" style="left:31%;transform:translate(-50%,-100%) translateZ(-900px)"></div><div class="col" style="left:69%;transform:translate(-50%,-100%) translateZ(-900px)"></div><div class="col" style="left:29%;transform:translate(-50%,-100%) translateZ(-1450px)"></div><div class="col" style="left:71%;transform:translate(-50%,-100%) translateZ(-1450px)"></div><div class="col" style="left:28%;transform:translate(-50%,-100%) translateZ(-2000px)"></div><div class="col" style="left:72%;transform:translate(-50%,-100%) translateZ(-2000px)"></div><div class="col" style="left:27%;transform:translate(-50%,-100%) translateZ(-2550px)"></div><div class="col" style="left:73%;transform:translate(-50%,-100%) translateZ(-2550px)"></div>
-      <div class="badge3" style="--z:-420px;left:30%;opacity:0;animation:fadein .5s 4.5s forwards"><i></i>Прокат · LiteRent</div>
+      <div class="badge3" style="--z:-420px;left:30%;opacity:0;animation:fadein .5s 4.5s forwards"><i></i>Прокат · Batumi Neon</div>
       <div class="badge3" style="--z:-1250px;left:70%;opacity:0;animation:fadein .5s 9.5s forwards"><i></i>Отель · Hotelito</div>
       <div class="badge3" style="--z:-2050px;left:34%;opacity:0;animation:fadein .5s 14.5s forwards"><i></i>Ресторан · EPOCH</div>
       <div class="door"></div>
@@ -476,24 +498,20 @@ img{max-width:100%}
   </section>
 
   <!-- 11 карта -->
-  <section class="scene s11" data-id="s11"><div class="cam"><div class="map"></div></div>
-    <div class="lay l1"><b>L1 · Люди и их агенты</b><span>уже залогинены в мессенджере</span></div>
-    <div class="lay l2"><b>L2 · Агрегаторы</b><span>CityHub, Neon, BazApp, Korob·ka</span></div>
-    <div class="lay l3"><b>L3 · Бизнесы</b><span>меню, бронь, запись, оплата, админка</span></div>
-    <div class="strip"><img src="{{IMG:epoch}}" alt="EPOCH"><img src="{{IMG:butyfly}}" alt="Butyfly"><img src="{{IMG:hotelito}}" alt="Hotelito"><img src="{{IMG:realty-preset}}" alt="Realty Preset"><img src="{{IMG:furniturum}}" alt="Furniturum"><img src="{{IMG:ebit}}" alt="EBIT Expo"><img src="{{IMG:nardum}}" alt="NARDUM"></div>
+  <section class="scene s11" data-id="s11"><div class="cam"><svg class="eco" viewBox="-520 -500 1040 1000" preserveAspectRatio="xMidYMid meet" aria-label="Экосистема AppHUB: L1 люди и их агенты, L2 агрегаторы, L3 приложения бизнесов, Loop"><defs><radialGradient id="ecoGlow"><stop offset="0" stop-color="#7C3AFF" stop-opacity=".55"/><stop offset=".45" stop-color="#7C3AFF" stop-opacity=".16"/><stop offset="1" stop-color="#7C3AFF" stop-opacity="0"/></radialGradient></defs><circle class="glow" r="170" fill="url(#ecoGlow)"/><circle class="ring g1" r="125" pathLength="1000"/><circle class="ring g2" r="255" pathLength="1000"/><circle class="ring g3" r="390" pathLength="1000"/><g class="core"><circle r="50"/><image href="{{IMG:mark-white}}" x="-28" y="-28" width="56" height="56"/></g><text class="rl t1" y="-142">L1 · люди и их агенты</text><text class="rl t2" y="-272">L2 · агрегаторы</text><text class="rl t3" y="-410">L3 · бизнесы · 27 приложений</text><circle class="d d1" cx="117.5" cy="-42.8" r="9" style="animation-delay:1.60s"/><circle class="d d1" cx="95.8" cy="80.3" r="9" style="animation-delay:1.68s"/><circle class="d d1" cx="-21.7" cy="123.1" r="9" style="animation-delay:1.76s"/><circle class="d d1" cx="-117.5" cy="42.8" r="9" style="animation-delay:1.84s"/><circle class="d d1" cx="-95.8" cy="-80.3" r="9" style="animation-delay:1.92s"/><circle class="d d2" cx="220.8" cy="127.5" r="12" style="animation-delay:2.20s"/><text class="nm n2" x="241.6" y="163.5" text-anchor="start" style="animation-delay:2.40s">CityHub</text><circle class="d d2" cx="220.8" cy="-127.5" r="12" style="animation-delay:2.35s"/><text class="nm n2" x="241.6" y="-149.5" text-anchor="start" style="animation-delay:2.55s">Neon</text><circle class="d d2" cx="-239.6" cy="-87.2" r="12" style="animation-delay:2.50s"/><text class="nm n2" x="-262.2" y="-105.4" text-anchor="end" style="animation-delay:2.70s">BazApp</text><circle class="d d2" cx="-195.3" cy="163.9" r="12" style="animation-delay:2.65s"/><text class="nm n2" x="-213.7" y="203.3" text-anchor="end" style="animation-delay:2.85s">Korob·ka</text><circle class="d d3" cx="45.3" cy="-387.4" r="8" style="animation-delay:3.00s"/><circle class="d d3" cx="133.4" cy="-366.5" r="8" style="animation-delay:3.07s"/><circle class="d d3" cx="214.3" cy="-325.8" r="8" style="animation-delay:3.14s"/><circle class="d d3" cx="283.7" cy="-267.6" r="8" style="animation-delay:3.21s"/><circle class="d d3" cx="337.7" cy="-195.0" r="8" style="animation-delay:3.28s"/><circle class="d d3" cx="373.6" cy="-111.9" r="8" style="animation-delay:3.35s"/><circle class="d d3" cx="389.3" cy="-22.7" r="8" style="animation-delay:3.42s"/><circle class="d d3" cx="384.1" cy="67.7" r="8" style="animation-delay:3.49s"/><circle class="d d3 hot" cx="358.1" cy="154.5" r="8" style="animation-delay:3.56s"/><circle class="d d3" cx="312.8" cy="232.9" r="8" style="animation-delay:3.63s"/><circle class="d d3" cx="250.7" cy="298.8" r="8" style="animation-delay:3.70s"/><circle class="d d3" cx="175.0" cy="348.5" r="8" style="animation-delay:3.77s"/><circle class="d d3" cx="89.9" cy="379.5" r="8" style="animation-delay:3.84s"/><circle class="d d3" cx="0.0" cy="390.0" r="8" style="animation-delay:3.91s"/><circle class="d d3" cx="-89.9" cy="379.5" r="8" style="animation-delay:3.98s"/><circle class="d d3" cx="-175.0" cy="348.5" r="8" style="animation-delay:4.05s"/><circle class="d d3" cx="-250.7" cy="298.8" r="8" style="animation-delay:4.12s"/><circle class="d d3" cx="-312.8" cy="232.9" r="8" style="animation-delay:4.19s"/><circle class="d d3" cx="-358.1" cy="154.5" r="8" style="animation-delay:4.26s"/><circle class="d d3" cx="-384.1" cy="67.7" r="8" style="animation-delay:4.33s"/><circle class="d d3" cx="-389.3" cy="-22.7" r="8" style="animation-delay:4.40s"/><circle class="d d3" cx="-373.6" cy="-111.9" r="8" style="animation-delay:4.47s"/><circle class="d d3" cx="-337.7" cy="-195.0" r="8" style="animation-delay:4.54s"/><circle class="d d3" cx="-283.7" cy="-267.6" r="8" style="animation-delay:4.61s"/><circle class="d d3" cx="-214.3" cy="-325.8" r="8" style="animation-delay:4.68s"/><circle class="d d3" cx="-133.4" cy="-366.5" r="8" style="animation-delay:4.75s"/><circle class="d d3" cx="-45.3" cy="-387.4" r="8" style="animation-delay:4.82s"/><text class="nm n3" x="-358.5" y="-219.0" text-anchor="end" style="animation-delay:4.60s">KING FIT</text><text class="nm n3" x="-227.5" y="-357.9" text-anchor="end" style="animation-delay:4.72s">Butyfly</text><text class="nm n3" x="227.5" y="-357.9" text-anchor="start" style="animation-delay:4.84s">Furniturum</text><text class="nm n3" x="358.5" y="-219.0" text-anchor="start" style="animation-delay:4.96s">NARDUM</text><text class="nm n3" x="380.1" y="190.0" text-anchor="start" style="animation-delay:5.08s">EPOCH</text><text class="nm n3" x="185.8" y="396.0" text-anchor="start" style="animation-delay:5.20s">Hotelito</text><text class="nm n3" x="-185.8" y="396.0" text-anchor="end" style="animation-delay:5.32s">Batumi Neon</text><text class="nm n3" x="-332.1" y="273.2" text-anchor="end" style="animation-delay:5.44s">EBIT Expo</text><path class="route" d="M95.8 80.3 L220.8 127.5 L358.1 154.5" pathLength="1000"/><path class="comet" d="M95.8 80.3 L220.8 127.5 L358.1 154.5" pathLength="1000"/><path class="loop" d="M358.1 154.5 Q120 380 -21.7 123.1" pathLength="1000"/><path class="comet c2" d="M358.1 154.5 Q120 380 -21.7 123.1" pathLength="1000"/><text class="nm lp" x="146" y="296" text-anchor="middle">Loop · 1–5% баллами</text><g class="chip"><line x1="358.1" y1="154.5" x2="330.1" y2="96.5"/><rect x="90.10000000000002" y="42.5" width="300" height="56" rx="14"/><text x="240.10000000000002" y="78.5" text-anchor="middle">{ цена · слот · оплата }</text></g></svg></div>
   </section>
 
   <!-- 12 поле -->
-  <section class="scene s12" data-id="s12"><div class="counter"><b id="big">0</b><span>приложений подключены к агентам OpenAI</span><div class="m">бизнесов в мире <i>сотни миллионов</i></div><div class="m2">AppHUB включает их по одному. Каждое приложение сети агент может прочитать.</div></div></section>
+  <section class="scene s12" data-id="s12"><div class="counter"><b id="big">0</b><span>приложений подключены к агентам OpenAI</span><div class="m">бизнесов в мире <i>сотни миллионов</i></div><div class="m2">AppHUB включает их по одному и строит приложения так, чтобы агент мог их прочитать.</div></div></section>
 
   <!-- 13 финал -->
   <section class="scene s13" data-id="s13"><div class="amb" style="background:radial-gradient(45% 55% at 50% 50%,rgba(124,58,255,.16),transparent 70%),#04040a"></div><div class="cam">
     <div class="phone"><div class="isl"></div><div class="st"><span>23:42</span><span>●●● ⌁ ▮</span></div><div class="scr"><div class="date" style="margin:0 0 6px">AppHUB · без установки</div>
-      <div class="qrs"><div><img src="{{IMG:qr-linkos}}" alt="QR LinkOS"><small>LinkOS</small></div><div><img src="{{IMG:qr-buildos}}" alt="QR BuildOS"><small>BuildOS</small></div><div><img src="{{IMG:qr-dine}}" alt="QR демо Dine"><small>Dine демо</small></div><div><img src="{{IMG:qr-map}}" alt="QR карты"><small>Карта</small></div></div>
+      <div class="field"></div><div class="me"></div>
       <button class="go" type="button">LET'S GO</button></div><div class="finger"></div></div></div>
     <div class="flash"></div>
-    <div class="lockup"><img class="mk" src="{{IMG:mark-white}}" alt=""><img class="wm" src="{{IMG:wordmark-white}}" alt="AppHUB"></div>
-    <div class="down">Листайте · дека под фильмом</div>
+    <div class="lockup"><img class="mk" src="{{IMG:mark3d}}" alt=""><img class="wm" src="{{IMG:wordmark-white}}" alt="AppHUB"></div>
+    <div class="down">Листайте · дека под фильмом ↓</div>
   </section>
 
   <p class="sub" id="sub"></p>
@@ -530,10 +548,10 @@ img{max-width:100%}
     <span class="eyebrow rv">AppHUB · Тбилиси · pre-seed · октябрь 2026</span>
     <h2 class="rv">Шесть идей, из которых <b>собран AppHUB</b></h2>
     <div class="grid3">
-      <div class="tile rv"><span class="n">01</span><h3>Конструктор приложений</h3><p>BuildOS под 20+ ниш: ниша, ссылка на Instagram, бренд подтягивается за 30 секунд. LinkOS уже готов: визитка с личным ИИ-ассистентом и Web3.</p><a href="https://apphub-os.vercel.app">apphub-os.vercel.app</a></div>
+      <div class="tile rv"><span class="n">01</span><h3>Конструктор приложений</h3><p>BuildOS под 20+ ниш: ниша, ссылка на Instagram, бренд подтягивается за 30 секунд. LinkOS уже работает: визитка за две минуты. Следом — личный ИИ-ассистент и Web3.</p><a href="https://apphub-os.vercel.app">apphub-os.vercel.app</a></div>
       <div class="tile rv"><span class="n">02</span><h3>Без установки</h3><p>Одно приложение в трёх версиях: в Telegram, по ссылке в любом браузере, включая встроенные браузеры Instagram, Facebook, YouTube и TikTok, и как Web3-версия на TON.</p><a href="https://apphub.studio">apphub.studio</a></div>
-      <div class="tile rv"><span class="n">03</span><h3>Машиночитаемые проекты</h3><p>Siri на Gemini, Meta Business Agent, покупки внутри Gemini, Grok как шопинг-агент, dots у OpenAI. Каждое приложение AppHUB агент читает как API: цена, слот, оплата.</p><a href="https://apphub.studio/llms.txt">apphub.studio/llms.txt</a></div>
-      <div class="tile rv"><span class="n">04</span><h3>Нативное приложение</h3><p>Вход через Telegram, Meta, Google и Apple. Один аккаунт для всех приложений сети и кошелька Loop. Оплата картой, Stars и криптой.</p></div>
+      <div class="tile rv"><span class="n">03</span><h3>Машиночитаемые проекты</h3><p>Siri на Gemini, Meta Business Agent, покупки внутри Gemini, Grok как шопинг-агент, dots у OpenAI. Строим приложения так, чтобы агент читал их как API: цена, слот, оплата. Этот слой в дорожной карте.</p><a href="https://apphub.studio/llms.txt">apphub.studio/llms.txt</a></div>
+      <div class="tile rv"><span class="n">04</span><h3>Нативное приложение</h3><p>В разработке: вход через Telegram, Meta, Google и Apple. Один аккаунт для всех приложений сети и кошелька Loop. Оплата картой, Stars и криптой.</p></div>
       <div class="tile rv"><span class="n">05</span><h3>Сеть лояльности Loop</h3><p>1–5% покупки возвращается баллами, которые принимает любое приложение сети. Взносы бизнесов идут в призовой фонд с ежемесячным публичным розыгрышем в Батуми.</p><a href="https://apphub.studio/loop">apphub.studio/loop</a></div>
       <div class="tile rv"><span class="n">06</span><h3>Три уровня: L1 · L2 · L3</h3><p>Люди и их агенты, агрегаторы, бизнесы. Одна петля трафика, которую снизу замыкает Loop. Всё это на живой карте из 59 узлов.</p><a href="https://apphub-map.com/v2/">apphub-map.com/v2</a></div>
     </div>
@@ -545,7 +563,7 @@ img{max-width:100%}
     <p class="rv">Одна ниша, один проект, экраны листаются сами. Все собраны студией за 1–3 дня, у проектов с бэкофисом две части: клиентское приложение и панель управления.</p>
     <div class="niches">
       <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:epoch}}" alt="EPOCH: экран 1" loading="lazy" class=on></div><div class="nn">Рестораны и кафе</div><h3>EPOCH</h3><p>Батуми · живой клиент. Меню с фото и корзиной, бронь стола, бонусные уровни, QR-карта гостя и панель управления на 319 блюд.</p><div class="sc"><span>меню</span><span>бронь</span><span>лояльность</span><span>админка</span></div><a href="https://epoch-client-lovat.vercel.app">epoch-client-lovat.vercel.app</a></div>
-      <div class="nc rv"><div class="car" data-car><span class="tag live">в проде</span><img src="{{IMG:batumi-neon}}" alt="Batumi Neon · LiteRent: экран 1" loading="lazy" class=on><img src="{{IMG:lr-14}}" alt="Batumi Neon · LiteRent: экран 2" loading="lazy"><img src="{{IMG:lr-15}}" alt="Batumi Neon · LiteRent: экран 3" loading="lazy"><img src="{{IMG:lr-16}}" alt="Batumi Neon · LiteRent: экран 4" loading="lazy"><img src="{{IMG:lr-17}}" alt="Batumi Neon · LiteRent: экран 5" loading="lazy"><img src="{{IMG:neon-1}}" alt="Batumi Neon · LiteRent: экран 6" loading="lazy"><img src="{{IMG:neon-2}}" alt="Batumi Neon · LiteRent: экран 7" loading="lazy"><img src="{{IMG:neon-3}}" alt="Batumi Neon · LiteRent: экран 8" loading="lazy"><div class=dots><i class=on></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="nn">Аренда авто</div><h3>Batumi Neon · LiteRent</h3><p>Батуми · живые клиенты. Каталог, бронь с оплатой Wallet или Stars, клуб со статусами, ИИ-консьерж.</p><div class="sc"><span>бронь</span><span>оплата</span><span>клуб</span><span>ИИ-консьерж</span></div><a href="https://t.me/LiteRent_robot/app">t.me/LiteRent_robot/app</a></div>
+      <div class="nc rv"><div class="car" data-car><span class="tag live">в проде</span><img src="{{IMG:batumi-neon}}" alt="Batumi Neon: экран 1" loading="lazy" class=on><img src="{{IMG:neon-4}}" alt="Batumi Neon: экран 2" loading="lazy"><img src="{{IMG:neon-5}}" alt="Batumi Neon: экран 3" loading="lazy"><img src="{{IMG:neon-6}}" alt="Batumi Neon: экран 4" loading="lazy"><img src="{{IMG:neon-7}}" alt="Batumi Neon: экран 5" loading="lazy"><img src="{{IMG:neon-1}}" alt="Batumi Neon: экран 6" loading="lazy"><img src="{{IMG:neon-2}}" alt="Batumi Neon: экран 7" loading="lazy"><img src="{{IMG:neon-3}}" alt="Batumi Neon: экран 8" loading="lazy"><div class=dots><i class=on></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="nn">Аренда авто</div><h3>Batumi Neon</h3><p>Батуми. Каталог, бронь с оплатой Wallet или Stars, клуб со статусами, ИИ-консьерж.</p><div class="sc"><span>бронь</span><span>оплата</span><span>клуб</span><span>ИИ-консьерж</span></div><a href="https://batumi-neon-kappa.vercel.app">batumi-neon-kappa.vercel.app</a></div>
       <div class="nc rv"><div class="car" data-car><span class="tag live">в проде</span><img src="{{IMG:ebit}}" alt="EBIT Expo · Realty Forum: экран 1" loading="lazy" class=on><img src="{{IMG:forum-feed}}" alt="EBIT Expo · Realty Forum: экран 2" loading="lazy"><img src="{{IMG:forum-b2b}}" alt="EBIT Expo · Realty Forum: экран 3" loading="lazy"><img src="{{IMG:forum-admin}}" alt="EBIT Expo · Realty Forum: экран 4" loading="lazy"><div class=dots><i class=on></i><i></i><i></i><i></i></div></div><div class="nn">Выставки и форумы</div><h3>EBIT Expo · Realty Forum</h3><p>2026 · 4 000+ гостей. Каталог участников, программа, QR-бейдж, B2B-мэтчинг с ИИ, админка организатора с KPI дня.</p><div class="sc"><span>бейджи</span><span>мэтчинг</span><span>ИИ-гид</span><span>админка</span></div><a href="https://realty-forum-tma.vercel.app">realty-forum-tma.vercel.app</a></div>
       <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:butyfly}}" alt="Butyfly: экран 1" loading="lazy" class=on></div><div class="nn">Клиники</div><h3>Butyfly</h3><p>антивозрастная медицина. Прайс на сотни позиций, запись с выбором врача, 11 специалистов, кабинет клиники с LTV пациентов.</p><div class="sc"><span>запись</span><span>прайс</span><span>кабинет</span></div><a href="https://butyfly-v9k3.vercel.app">butyfly-v9k3.vercel.app</a></div>
       <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:hotelito}}" alt="Hotelito: экран 1" loading="lazy" class=on></div><div class="nn">Отели и гостевые дома</div><h3>Hotelito</h3><p>загородный гостевой дом. Номера и А-фреймы у воды, бани, визы гостей, хозяйская панель с календарём занятости.</p><div class="sc"><span>бронь</span><span>визы гостей</span><span>панель</span></div><a href="https://hotelito-r4w8.vercel.app">hotelito-r4w8.vercel.app</a></div>
@@ -557,7 +575,7 @@ img{max-width:100%}
       <div class="nc rv"><div class="car kb" data-car><span class="tag">демо</span><img src="{{IMG:cargobob}}" alt="CargoBob: экран 1" loading="lazy" class=on></div><div class="nn">Доставка</div><h3>CargoBob</h3><p>очередь и роли. Заказ, курьер и получатель в одном приложении, статусы в реальном времени.</p><div class="sc"><span>заказы</span><span>статусы</span></div><a href="https://masteroch.github.io/cargobob/">masteroch.github.io/cargobob/</a></div>
       <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:crypto-1}}" alt="AllTrust.me: экран 1" loading="lazy" class=on></div><div class="nn">Крипто-обмен</div><h3>AllTrust.me</h3><p>лицензированный обменник. KYC, лояльность, снятие наличных, антифрод-опыт переиспользуется в Loop.</p><div class="sc"><span>KYC</span><span>кошелёк</span><span>наличные</span></div><a href="https://t.me/AllTrustMe_robot/app">t.me/AllTrustMe_robot/app</a></div>
       <div class="nc rv"><div class="car" data-car><span class="tag live">в проде</span><img src="{{IMG:nardum}}" alt="NARDUM · Selfix: экран 1" loading="lazy" class=on><img src="{{IMG:selfix-1}}" alt="NARDUM · Selfix: экран 2" loading="lazy"><img src="{{IMG:selfix-2}}" alt="NARDUM · Selfix: экран 3" loading="lazy"><div class=dots><i class=on></i><i></i><i></i></div></div><div class="nn">Игры</div><h3>NARDUM · Selfix</h3><p>TON Connect. Нарды против бота с коучем, вызов друга по ссылке, кошелёк TON; тест личности с PvP-дуэлями.</p><div class="sc"><span>TON</span><span>PvP</span><span>рейтинг</span></div><a href="https://t.me/nardum_game_bot">t.me/nardum_game_bot</a></div>
-      <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:linkos}}" alt="LinkOS: экран 1" loading="lazy" class=on></div><div class="nn">Визитки</div><h3>LinkOS</h3><p>ступень 1 · бесплатно. Визитка-микросайт за две минуты, личный ИИ-ассистент, Web3-кошелёк, публикация за Stars.</p><div class="sc"><span>ИИ-ассистент</span><span>Web3</span><span>QR</span></div><a href="https://t.me/Linkos_AppHub_bot">t.me/Linkos_AppHub_bot</a></div>
+      <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:linkos}}" alt="LinkOS: экран 1" loading="lazy" class=on></div><div class="nn">Визитки</div><h3>LinkOS</h3><p>ступень 1 · бесплатно. Визитка-микросайт за две минуты, темы, QR, публикация за Stars. Дальше — личный ИИ-ассистент и Web3-кошелёк.</p><div class="sc"><span>блоки</span><span>темы</span><span>QR</span><span>Stars</span></div><a href="https://t.me/Linkos_AppHub_bot">t.me/Linkos_AppHub_bot</a></div>
       <div class="nc rv"><div class="car" data-car><span class="tag">демо</span><img src="{{IMG:apphub-os}}" alt="BuildOS: экран 1" loading="lazy" class=on><img src="{{IMG:osb-1}}" alt="BuildOS: экран 2" loading="lazy"><img src="{{IMG:osb-2}}" alt="BuildOS: экран 3" loading="lazy"><div class=dots><i class=on></i><i></i><i></i></div></div><div class="nn">Конструктор</div><h3>BuildOS</h3><p>ступень 2 · в работе. 20 шаблонов ниш, импорт бренда с сайта или Instagram за 30 секунд, умные модули.</p><div class="sc"><span>20 ниш</span><span>импорт бренда</span><span>модули</span></div><a href="https://apphub-os.vercel.app">apphub-os.vercel.app</a></div>
       <div class="nc rv"><div class="car kb" data-car><span class="tag live">в проде</span><img src="{{IMG:geos-1}}" alt="GEOS: экран 1" loading="lazy" class=on></div><div class="nn">Карта мест</div><h3>GEOS</h3><p>ядро мест планеты. 235 747 городов, живое состояние места, глобус на WebGL одним файлом.</p><div class="sc"><span>235 747 городов</span><span>WebGL</span></div><a href="https://geos-six.vercel.app">geos-six.vercel.app</a></div>
     </div>
@@ -566,7 +584,7 @@ img{max-width:100%}
       <div class="tile num rv"><b data-n="27">0</b><span>приложений собрано, 7 из них с панелью управления</span></div>
       <div class="tile num rv"><b data-n="20">0</b><span>ниш распаковано: каждая стала шаблоном BuildOS</span></div>
       <div class="tile num rv"><b>4 + 2</b><span>сделки по внедрению, ещё две в переговорах</span></div>
-      <div class="tile num rv"><b data-n="4000" data-plus="1">0</b><span>гостей выставки EBIT Batumi 2026 прошли через наше приложение</span></div>
+      <div class="tile num rv"><b data-n="4000" data-plus="1">0</b><span>гостей у выставки EBIT Batumi 2026 — для неё мы сделали приложение</span></div>
       <div class="tile num rv"><b>1–3</b><span>дня на приложение бизнеса под ключ, клиника на 30 врачей собрана за день</span></div>
       <div class="tile num rv"><b>3</b><span>версии каждого приложения: Telegram, ссылка, Web3 на TON</span></div>
     </div>
@@ -597,7 +615,7 @@ img{max-width:100%}
     <span class="eyebrow rv">Попробуйте сами</span>
     <h2 class="rv">Достаньте телефон. <b>Ничего устанавливать не нужно</b></h2>
     <div class="try">
-      <div class="tile rv"><img src="{{IMG:qr-linkos}}" alt="QR LinkOS"><h3>LinkOS</h3><p>Визитка с ИИ-ассистентом за две минуты. Бесплатно.</p><a href="https://t.me/Linkos_AppHub_bot">t.me/Linkos_AppHub_bot</a></div>
+      <div class="tile rv"><img src="{{IMG:qr-linkos}}" alt="QR LinkOS"><h3>LinkOS</h3><p>Визитка-микросайт за две минуты. Бесплатно.</p><a href="https://t.me/Linkos_AppHub_bot">t.me/Linkos_AppHub_bot</a></div>
       <div class="tile rv"><img src="{{IMG:qr-buildos}}" alt="QR BuildOS"><h3>BuildOS</h3><p>Ссылка на сайт или Instagram, и бренд подтянется сам.</p><a href="https://apphub-os.vercel.app">apphub-os.vercel.app</a></div>
       <div class="tile rv"><img src="{{IMG:qr-dine}}" alt="QR Dine"><h3>Ресторан за минуту</h3><p>Демо Dine и админка ресторатора в одном боте.</p><a href="https://t.me/AppHub_Studio_Bot/dine?startapp=demo">@AppHub_Studio_Bot/dine</a></div>
       <div class="tile rv"><img src="{{IMG:qr-map}}" alt="QR карты"><h3>Живая карта</h3><p>59 узлов, демо-тур за минуту.</p><a href="https://apphub-map.com/v2/">apphub-map.com/v2</a></div>
@@ -606,7 +624,7 @@ img{max-width:100%}
 
   <section class="ask rv" id="ask">
     <div><span class="eyebrow">Что нам нужно</span><h2 style="margin-top:10px">Партнёр на pre-seed, который откроет двери в бизнесы и рынки</h2><p style="color:var(--ink1);margin:12px 0 0;max-width:56ch">Метрики, финмодель и юрлицо под сделку. Интро к сетям ресторанов, клиник, отелей и застройщиков на новых рынках. Бэкенд BuildOS и единый реестр Loop.</p></div>
-    <div><div class="round">$2M за 10%</div><div class="contact">hello@apphub.studio<small>apphub.studio · AppHub Studio, Тбилиси</small></div></div>
+    <div><div class="contact">hello@apphub.studio<small>apphub.studio · AppHub Studio, Тбилиси</small></div></div>
   </section>
 
   <div class="foot"><div class="lk"><img class="mk" src="{{IMG:mark-white}}" alt=""><img class="wm" src="{{IMG:wordmark-white}}" alt="AppHUB"></div><span>Фильм-сайт · октябрь 2026 · цифры из атласа AppHUB на 2 октября · по раскадровке v2.3</span></div>
@@ -626,7 +644,7 @@ img{max-width:100%}
     {id:'s08',dur:8,vo:'Пять секунд.',form:'breath',clip:'ролик 04 · выдох'},
     {id:'s09',dur:5,vo:'',form:'iris',clip:'ролик 05 · глаз'},
     {id:'s10',dur:20,vo:'Пока она шла, каждый бизнес на её пути уже знал о ней. Отель. Ресторан. Прокат. Никто никому не звонил. А гость одного стал гостем следующего.',form:'sparks',clip:'ролик 06 · дорожка одним дублем'},
-    {id:'s11',dur:12,vo:'Это AppHUB. Приложения, которые не надо устанавливать. Двадцать семь уже работают. И каждое агент может прочитать: цена, слот, оплата.',form:'constellation',clip:'ролики 07 и 08 · небо и карта'},
+    {id:'s11',dur:12,vo:'Это AppHUB. Приложения, которые не надо устанавливать. Двадцать семь уже работают. И каждое сможет прочитать агент: цена, слот, оплата.',form:'constellation',clip:'ролики 07 и 08 · небо и карта'},
     {id:'s12',dur:12,vo:'Агенты OpenAI подключены к четырём тысячам приложений. Бизнесов в мире сотни миллионов. Мы дверь для агентов в каждый из них.',form:'field',clip:'ролик 10 · поле точек'},
     {id:'s13',dur:8,vo:'Включите свою точку.',form:'single-end',clip:'ролик 09 · финал'}
   ];
@@ -750,7 +768,5 @@ img{max-width:100%}
 
   /* карусели ниш */
   var cars=document.querySelectorAll('[data-car]');cars.forEach(function(c,ci){var imgs=c.querySelectorAll('img'),dots=c.querySelectorAll('.dots i');if(imgs.length<2)return;var k=0;setInterval(function(){imgs[k].classList.remove('on');if(dots[k])dots[k].classList.remove('on');k=(k+1)%imgs.length;imgs[k].classList.add('on');if(dots[k])dots[k].classList.add('on')},2600+ci*230)});
-  try{if(location.hash==='#round')$('ask').classList.add('flag')}catch(e){}
-  window.addEventListener('hashchange',function(){$('ask').classList.toggle('flag',location.hash==='#round')});
 })();
 </script>
