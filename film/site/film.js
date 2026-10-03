@@ -272,15 +272,16 @@
       x.fillStyle = 'rgba(6,6,10,.36)'; x.fillRect(0, 0, W, H);                       // плотность под белый текст
     }
   };
-  var IDLE_MAX = 40, IDLE_RATE = 0.6;   // 40 кадров, пик ≈ 12 кадров/с — живая скорость съёмки, без бега
+  var IDLE_MAX = 40, IDLE_HALF = 3.6;   // 40 кадров за 3,6 с в каждую сторону: в середине ≈ 16 к/с, обратный ход такой же бодрый
   Track.prototype.step = function (dt) {
     if (!this.near()) return false;
     this.target = this.progress() * (this.N - 1);
     // первый экран живёт сам: пока не листали, первые кадры идут туда-обратно (как в AppOS) — она печатает, на ноутбуке что-то меняется
     var idle = this === Engine.tracks[0] && !REDUCED && !pg.on && this.target < 0.15 && Math.abs(this.view) < IDLE_MAX + 1 && !document.getElementById('boot');
     if (idle) {
-      if (!Engine.idleT0) Engine.idleT0 = performance.now() - Math.acos(clamp(1 - 2 * this.view / IDLE_MAX, -1, 1)) / IDLE_RATE * 1000;   // вход в цикл без скачка кадра
-      this.view = (1 - Math.cos((performance.now() - Engine.idleT0) / 1000 * IDLE_RATE)) / 2 * IDLE_MAX;
+      if (!Engine.idleT0) Engine.idleT0 = performance.now() - clamp(this.view / IDLE_MAX, 0, 1) * IDLE_HALF * 1000;   // вход в цикл без скачка кадра
+      var ph = ((performance.now() - Engine.idleT0) / 1000 / IDLE_HALF) % 2, x = ph < 1 ? ph : 2 - ph;   // туда-обратно с одной скоростью
+      this.view = (0.25 * x + 0.75 * (1 - Math.cos(Math.PI * x)) / 2) * IDLE_MAX;                          // края смягчены, но без долгого зависания
     } else {
       Engine.idleT0 = 0;
       var d = this.target - this.view;
@@ -465,7 +466,7 @@
   }
   function chrome() {
     var t0 = Engine.tracks[0];
-    if (heroCard && t0) { var h = 1 - clamp(t0.target / 26, 0, 1); t0.stage.style.setProperty('--hero', h.toFixed(3)); if (h < 0.05) heroCard.setAttribute('data-off', ''); else heroCard.removeAttribute('data-off'); t0.stage.classList.toggle('hero-on', h > 0.35); }
+    if (heroCard && t0) { var h = 1 - clamp(t0.target / 26, 0, 1); if (dive) dive.classList.toggle('lure', h > 0.9 && !auto); t0.stage.style.setProperty('--hero', h.toFixed(3)); if (h < 0.05) heroCard.setAttribute('data-off', ''); else heroCard.removeAttribute('data-off'); t0.stage.classList.toggle('hero-on', h > 0.35); }
     if (!hud) return;
     var sec = sectionAtCenter(), idx = -1;
     if (sec) {

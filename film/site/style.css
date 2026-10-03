@@ -982,3 +982,17 @@ html.no-transparency .ag,html.no-transparency .ag--m,html.no-transparency .top{-
 /* свечение слайдов выступает за край — страница не должна становиться шире экрана */
 .deck{overflow:clip}
 html,body{overflow-x:clip}
+
+/* ════════ «Смотреть»: дыхание свечения, блик и кивок стрелки — пока зритель не начал ════════ */
+.hero-card .dive{position:relative;overflow:hidden;isolation:isolate}
+.dive.lure{animation:lureGlow 2.6s ease-in-out infinite}
+@keyframes lureGlow{0%,100%{box-shadow:0 0 0 0 rgba(10,132,255,.0),0 8px 24px rgba(10,132,255,.35)}50%{box-shadow:0 0 0 9px rgba(10,132,255,.16),0 10px 40px rgba(10,132,255,.6)}}
+.dive.lure:after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.42) 50%,transparent 65%);transform:translateX(-120%);animation:lureShine 3.6s 1s ease-in-out infinite}
+@keyframes lureShine{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.dive .arr{display:inline-block}
+.dive.lure .arr{animation:lureArr 1.3s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes lureArr{0%,100%{transform:translateY(-1px)}50%{transform:translateY(4px)}}
+@media (prefers-reduced-motion:reduce){.dive.lure,.dive.lure:after,.dive.lure .arr{animation:none}}
+.ch .line.quiet{color:rgba(235,235,245,.88)}
+.dive .arr{margin-left:.32em}
