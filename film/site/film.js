@@ -193,10 +193,19 @@
     var s = Math.max(cw / iw, ch / ih), dw = iw * s, ox = (cw - dw) / 2, oy = (ch - ih * s) / 2;
     var cx = ox + 0.5 * dw, cy = oy + 0.412 * ih * s;
     if (this.cnLoop) { var R2 = 0.254 * dw; this.cnLoop.style.cssText = 'left:' + (cx - R2).toFixed(1) + 'px;top:' + (cy - R2).toFixed(1) + 'px;width:' + (2 * R2).toFixed(1) + 'px;height:' + (2 * R2).toFixed(1) + 'px'; this.cnLoop.classList.toggle('on', li >= 96); }
+    var placed = [];
     this.cnTags.forEach(function (t) {
       var R = t.r * dw, x = cx + Math.cos(t.a) * R, y = cy + Math.sin(t.a) * R, w = t.n.offsetWidth, h = t.n.offsetHeight, up = t.n.classList.contains('up');
-      var left = clamp(x - w / 2, 8, cw - 8 - w), top = up ? y - 16 - h : y + 16;     // подпись над узлом (или под ним), к узлу — ножка
+      var left = clamp(x - w / 2, 8, cw - 8 - w), top = up ? y - 16 - h : y + 16, dy = 0;   // подпись над узлом (или под ним), к узлу — ножка
+      for (var g = 0; g < 4; g++) {                                                  // на узком экране подписи не налезают: отодвигаем от кольца, ножка тянется
+        var tt = top + (up ? -dy : dy), hit = null;
+        placed.forEach(function (r) { if (left < r.r + 4 && r.l < left + w + 4 && tt < r.b + 4 && r.t < tt + h + 4) hit = r; });
+        if (!hit) break;
+        dy += up ? tt + h + 6 - hit.t : hit.b + 6 - tt;
+      }
+      top += up ? -dy : dy; placed.push({ l: left, r: left + w, t: top, b: top + h });
       t.n.style.left = left.toFixed(1) + 'px'; t.n.style.top = top.toFixed(1) + 'px';
+      t.n.style.setProperty('--dy', dy.toFixed(1) + 'px');
       t.n.style.setProperty('--ax', (x - left).toFixed(1) + 'px');
       var o = li >= t.f; if (o !== t.on) { t.on = o; t.n.classList.toggle('on', o); }
     });
@@ -462,7 +471,7 @@
 
   /* ── подача AppOS: карточка первого кадра, главы, «Авто» ── */
   var heroCard = document.getElementById('heroCard'), hud = document.getElementById('chapHud'), chName = document.getElementById('chName'), chDash = document.getElementById('chDash');
-  var CHAPS = [['film', ['c01', 't12', 'c02'], 'Ночь'], ['film', ['t23a', 'x1', 'a21', 'a22', 'x2', 't34b'], 'Пробуждение'], ['agent', null, 'Пять секунд'], ['film2', ['c04', 't45', 'c05'], 'Пять секунд'],
+  var CHAPS = [['film', ['c01', 't12', 'c02'], 'Ночь'], ['film', ['t23a', 'x1', 'a21', 'a22', 'x2', 't34b'], 'Пробуждение'], ['agent', null, 'Шесть секунд'], ['film2', ['c04', 't45', 'c05'], 'Шесть секунд'],
     ['film2', ['t56', 'c06', 't67'], 'Дорожка'], ['film2', ['c07', 'c08'], 'Сеть'], ['dots', null, 'Точки'], ['finale', null, 'Финал'], ['deck', null, 'Что строим']];
   CHAPS.forEach(function (c) { c[2] = L(c[2]); });
   if (chDash) CHAPS.forEach(function () { chDash.appendChild(document.createElement('i')); });
@@ -531,7 +540,7 @@
       });
     });
     var d = document.getElementById('dots'), g = document.getElementById('agent'), fin = document.getElementById('finale');
-    if (d) { var dt = d.getBoundingClientRect().top + scrollY, ds = d.offsetHeight - innerHeight; [0.22, 0.5, 0.86].forEach(function (k) { stops.push(dt + ds * k); }); }
+    if (d) { var dt = d.getBoundingClientRect().top + scrollY, ds = d.offsetHeight - innerHeight; [0.3, 0.52, 0.86].forEach(function (k) { stops.push(dt + ds * k); }); }   // первая — когда счёт уже дошёл до 4 000+
     if (g) { var gt = g.getBoundingClientRect().top + scrollY, gs = g.offsetHeight - innerHeight; [0.04, 0.2, 0.31, 0.415, 0.5, 0.575, 0.63, 0.68, 0.73, 0.83, 0.9, 0.99].forEach(function (k) { stops.push(gt + gs * k); }); }
     if (fin) { var ft = fin.getBoundingClientRect().top + scrollY; stops.push(ft + fin.offsetHeight - innerHeight); zoneEnd = ft + fin.offsetHeight; }   // последний кадр — логотип
     document.querySelectorAll('.deck .sl').forEach(function (sl) {                // слайды брифа: по одному на жест; высокий — ещё остановка на его низе
@@ -646,6 +655,7 @@
     if (on && zoneEnd && scrollY >= zoneEnd - 2) { root.style.scrollBehavior = 'auto'; scrollTo(0, 0); }   // ниже фильма «Авто» запускает показ с начала
     auto = on; clearTimeout(autoTm); if (autoBtn) autoBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
     if (on) autoStep();
+    else if (pg.on) { snapId++; pg.on = false; snapping = false; root.style.scrollBehavior = ''; push(0); lastScroll = performance.now(); }   // стоп сразу, доводчик посадит на ближайшую карточку
   }
   function autoStep() {
     if (!auto) return;
@@ -670,7 +680,7 @@
   document.querySelectorAll('.lang-sw a').forEach(function (a) { a.addEventListener('click', function () { try { localStorage.setItem('lang', a.getAttribute('data-l')); } catch (e) {} }); });
   var dive = document.getElementById('diveBtn');
   if (dive) dive.addEventListener('click', function (e) { e.preventDefault(); setAuto(true); });
-  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, function () { if (auto) setAuto(false); }, { passive: true }); });
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) { addEventListener(ev, function (e) { if (auto && !(e.target && e.target.closest && e.target.closest('#autoBtn, #diveBtn'))) setAuto(false); }, { passive: true }); });   // касание самого тумблера — не вмешательство, иначе тап выключал и тут же включал
 
   /* ── общий цикл ── */
   var Engine = {
@@ -752,6 +762,9 @@
   fetch('seq/v1/manifest.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(boot, function () {
     var b = document.getElementById('boot'); if (b) b.remove();
   });
+  setTimeout(function () {                                   // страховка: повисший запрос не держит заставку вечно
+    var b = document.getElementById('boot'); if (b) { b.classList.add('out'); setTimeout(function () { b.remove(); Engine.kick(); }, 600); }
+  }, 12000);
 
   /* ── секции: появление, карусели экранов, наклон карточек ── */
   var io = new IntersectionObserver(function (es) {

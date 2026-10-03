@@ -3,13 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0A0A14">
+<meta name="theme-color" content="#000000">
 <title>AppHUB · Приложения, которые не надо устанавливать</title>
 <meta name="description" content="AppHUB делает приложения для малого бизнеса: открываются по ссылке, без установки, и готовы к ИИ-агентам.">
 <meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AppHUB">
+<meta property="og:title" content="AppHUB · Приложения, которые не надо устанавливать">
+<meta property="og:description" content="AppHUB делает приложения для малого бизнеса: открываются по ссылке, без установки, и готовы к ИИ-агентам.">
+<meta property="og:image" content="https://apphub-film.vercel.app/img/og-ru.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AppHUB · Приложения, которые не надо устанавливать">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="style.css">
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=q||localStorage.getItem('lang'),en=/\/en(\.html)?$/.test(location.pathname);
 if(q)localStorage.setItem('lang',q);
@@ -30,7 +42,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
   <nav class="top-nav"><a href="#top">История</a><a href="#how">Как это работает</a><a href="#deck">Что строим</a><a href="#apps">Приложения</a><a href="#map">Карта</a><a href="#team">Команда</a></nav>
   <div class="hud-r">
     <div class="chap-hud" id="chapHud" aria-hidden="true"><span class="ch-name" id="chName">Ночь</span><span class="ch-dash" id="chDash"></span></div>
-    <button class="auto" id="autoBtn" type="button" aria-pressed="false"><span>Авто</span><i></i></button>
+    <button class="auto" id="autoBtn" type="button" aria-pressed="false" aria-label="Автопоказ"><span>Авто</span><i></i></button>
     <div class="lang-sw" role="group" aria-label="Язык"><a class="on" href="./" data-l="ru">RU</a><a href="en.html" data-l="en">EN</a></div>
   </div>
 </header>
@@ -66,7 +78,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <div class="as-bg" aria-hidden="true"></div>
       <div class="g-wrap">
         <div class="hud">
-          <span class="act">Акт II · Пять секунд</span>
+          <span class="act">Акт II · Шесть секунд</span>
           <h2 class="g-title" id="gTitle">Соберите отпуск в Батуми</h2>
           <p class="g-hint" id="gHint">Одна просьба агенту вместо ночи с вкладками.</p>
           <ul class="goals">
@@ -159,8 +171,8 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
         <div class="ph-layer" aria-hidden="true"><div class="cn" id="cnLayer">
           <svg class="cn-loop" viewBox="0 0 200 200"><circle class="cl-track" cx="100" cy="100" r="98"/><circle class="cl-comet" cx="100" cy="100" r="98" pathLength="100"/></svg>
           <div class="cn-tag t-core down" data-f="32" data-a="90" data-r="0.02"><b>AppHUB</b><span>ядро сети</span></div>
-          <div class="cn-tag t-l3 up" data-f="56" data-a="-32" data-r="0.156"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Butyfly</span></div>
-          <div class="cn-tag t-l2 down" data-f="72" data-a="148" data-r="0.254"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon</span></div>
+          <div class="cn-tag t-l3 up" data-f="56" data-a="-32" data-r="0.156"><em>L3</em><b>Бизнесы</b><span>рестораны · отели · клиники</span></div>
+          <div class="cn-tag t-l2 down" data-f="72" data-a="148" data-r="0.254"><em>L2</em><b>Агрегаторы</b><span>город · аренда · недвижимость</span></div>
           <div class="cn-tag t-l1 up" data-f="86" data-a="-90" data-r="0.344"><em>L1</em><b>Люди и их агенты</b><span>визитки LinkOS</span></div>
           <div class="cn-tag t-loop down" data-f="96" data-a="28" data-r="0.254"><em>Loop</em><b>Баллы ходят по кругу</b></div>
         </div></div>
@@ -294,9 +306,11 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
         <p class="sl-p">Баллы одного бизнеса тратятся в другом. С каждой покупки возвращается 1–5%. Гость отеля становится гостем ресторана.</p>
       </div>
       <div class="sl-vis loopflow">
-        <div style="--k:0"><b>Hotelito</b><span>отель</span></div><i style="--k:1"></i>
-        <div style="--k:2"><b>EPOCH</b><span>ресторан</span></div><i style="--k:3"></i>
-        <div style="--k:4"><b>Batumi Neon</b><span>прокат авто</span></div>
+        <div style="--k:0"><b>Отели</b><span>гость копит баллы</span></div><i style="--k:1"></i>
+        <div style="--k:2"><b>Рестораны</b><span>тратит их на ужин</span></div><i style="--k:3"></i>
+        <div style="--k:4"><b>Аренда авто</b><span>платит ими за машину</span></div><i style="--k:5"></i>
+        <div style="--k:6"><b>Турагентства</b><span>и за экскурсии</span></div>
+        <p class="lf-more" style="--k:7">…и ещё 20+ ниш в одной сети</p>
       </div>
     </article>
     <article class="sl sl-wide" style="--g:#64D2FF">
@@ -307,8 +321,8 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       </div>
       <div class="sl-vis layers3">
         <div class="ly l1" style="--k:0"><em>L1</em><b>Люди и их ИИ-агенты</b><span>визитки LinkOS · вход из мессенджера</span></div>
-        <div class="ly l2" style="--k:1"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon · Realty</span></div>
-        <div class="ly l3" style="--k:2"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Dr.&nbsp;Hilling · Furniturum · KING FIT</span></div>
+        <div class="ly l2" style="--k:1"><em>L2</em><b>Агрегаторы</b><span>город · аренда · недвижимость</span></div>
+        <div class="ly l3" style="--k:2"><em>L3</em><b>Бизнесы</b><span>рестораны · отели · клиники · мебель · фитнес</span></div>
         <div class="ly lp" style="--k:3"><em>Loop</em><b>Петля возвращает гостя в L1</b><span>баллы ходят между всеми слоями</span></div>
         <a class="sl-link" href="https://apphub-map.com/v2/" style="--k:4">Открыть AppHUB Map ›</a>
       </div>
@@ -337,7 +351,6 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <a class="mq" href="https://king-fit.vercel.app"><img src="img/app/king-fit-1.webp" alt="" loading="lazy"><b>KING FIT</b><span>фитнес</span></a>
       <a class="mq" href="https://masteroch.github.io/cityhub/"><img src="img/app/cityhub-1.webp" alt="" loading="lazy"><b>CityHUB</b><span>город</span></a>
       <a class="mq" href="https://furniturum-m5t1.vercel.app"><img src="img/app/furniturum-1.webp" alt="" loading="lazy"><b>Furniturum</b><span>мебель</span></a>
-      <a class="mq" href="https://babyland-c3x7.vercel.app"><img src="img/app/babyland-1.webp" alt="" loading="lazy"><b>BabyLand</b><span>праздники</span></a>
       <a class="mq" href="https://t.me/Linkos_AppHub_bot"><img src="img/app/linkos-1.webp" alt="" loading="lazy"><b>LinkOS</b><span>визитки</span></a>
       <a class="mq" href="https://t.me/nardum_game_bot"><img src="img/app/nardum-1.webp" alt="" loading="lazy"><b>NARDUM</b><span>игра · TON</span></a>
       <a class="mq" href="https://t.me/expobatumibot"><img src="img/app/ebit-1.webp" alt="" loading="lazy"><b>EBIT Expo</b><span>выставка</span></a>
@@ -391,7 +404,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
     </div>
   </section>
 
-  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>AppHub Studio · Тбилиси · октябрь 2026</span></footer>
+  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>AppHUB Studio · Тбилиси · октябрь 2026</span></footer>
 </main>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>

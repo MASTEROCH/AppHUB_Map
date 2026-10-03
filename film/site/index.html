@@ -3,13 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0A0A14">
-<title>AppHUB · Приложения, которые не надо устанавливать</title>
+<meta name="theme-color" content="#000000">
+<title>AppHUB · Приложения, которые не&nbsp;надо устанавливать</title>
 <meta name="description" content="AppHUB делает приложения для малого бизнеса: открываются по ссылке, без установки, и готовы к ИИ-агентам.">
 <meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="AppHUB">
+<meta property="og:title" content="AppHUB · Приложения, которые не надо устанавливать">
+<meta property="og:description" content="AppHUB делает приложения для малого бизнеса: открываются по ссылке, без установки, и готовы к ИИ-агентам.">
+<meta property="og:image" content="https://apphub-film.vercel.app/img/og-ru.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AppHUB · Приложения, которые не надо устанавливать">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="style.css">
 <script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=q||localStorage.getItem('lang'),en=/\/en(\.html)?$/.test(location.pathname);
 if(q)localStorage.setItem('lang',q);
@@ -27,10 +39,10 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
 
 <header class="top">
   <a class="brand" href="#top" aria-label="AppHUB"><img src="img/mark-flat.svg" alt=""><span>AppHUB</span></a>
-  <nav class="top-nav"><a href="#top">История</a><a href="#how">Как это работает</a><a href="#deck">Что строим</a><a href="#apps">Приложения</a><a href="#map">Карта</a><a href="#team">Команда</a></nav>
+  <nav class="top-nav"><a href="#top">История</a><a href="#how">Как&nbsp;это&nbsp;работает</a><a href="#deck">Что&nbsp;строим</a><a href="#apps">Приложения</a><a href="#map">Карта</a><a href="#team">Команда</a></nav>
   <div class="hud-r">
     <div class="chap-hud" id="chapHud" aria-hidden="true"><span class="ch-name" id="chName">Ночь</span><span class="ch-dash" id="chDash"></span></div>
-    <button class="auto" id="autoBtn" type="button" aria-pressed="false"><span>Авто</span><i></i></button>
+    <button class="auto" id="autoBtn" type="button" aria-pressed="false" aria-label="Автопоказ"><span>Авто</span><i></i></button>
     <div class="lang-sw" role="group" aria-label="Язык"><a class="on" href="./" data-l="ru">RU</a><a href="en.html" data-l="en">EN</a></div>
   </div>
 </header>
@@ -45,16 +57,16 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <canvas class="ambc" aria-hidden="true"></canvas>
       <div class="panel"><canvas class="cv" aria-label="Фильм: акт I"></canvas><div class="panel-glow" aria-hidden="true"></div></div>
       <div class="hero-card" id="heroCard">
-        <h1>Приложения, которые <span class="grad">не надо устанавливать</span></h1>
-        <p class="hc-sub">Своё приложение для ресторана, отеля или клиники — за&nbsp;несколько дней. Открывается по ссылке.</p>
+        <h1>Приложения, которые <span class="grad">не&nbsp;надо устанавливать</span></h1>
+        <p class="hc-sub">Своё приложение для&nbsp;ресторана, отеля или клиники&nbsp;— за&nbsp;несколько дней. Открывается по&nbsp;ссылке.</p>
         <a class="btn pri dive" href="#film" id="diveBtn">Смотреть <span class="arr">↓</span></a>
       </div>
       <div class="caps">
-        <div class="ch" data-seg="c01"><span class="act">Акт I · Как сейчас</span><p class="line" data-u="0.06,1">Час ночи. Тридцать первая вкладка.</p><p class="sub" data-u="0.3,1">Отель — на одном сайте. Ужин — на другом. Машина — по телефону, с десяти утра.</p></div>
-        <div class="ch" data-seg="c02"><p class="line" data-u="0,0.66">Каждый бизнес — отдельная дверь.</p><p class="sub" data-u="0.2,0.66">И в каждую она стучится сама.</p><p class="line quiet" data-u="0.72,1">Ноутбук закрыт. Остаётся телефон.</p></div>
-        <div class="ch" data-seg="a21"><span class="act" data-u="0.05,1">Акт II · Ваш ход</span><p class="line" data-u="0.25,1">Телефон просыпается.</p><p class="sub" data-u="0.5,1">Внутри — AppHUB.</p></div>
-        <div class="ch" data-seg="a22"><p class="line" data-u="0,1">Он знает, где свободен столик.</p><p class="sub" data-u="0.3,1">Отель, ресторан и прокат — в одной сети приложений. Им не нужно перезванивать.</p></div>
-        <div class="ch" data-seg="t34b"><p class="line" data-u="0.1,1">Попробуйте сами.</p><p class="sub" data-u="0.45,1">Соберите её отпуск ↓</p></div>
+        <div class="ch" data-seg="c01"><span class="act">Акт I · Как&nbsp;сейчас</span><p class="line" data-u="0.06,1">Час ночи. Тридцать первая вкладка.</p><p class="sub" data-u="0.3,1">Отель&nbsp;— на&nbsp;одном сайте. Ужин&nbsp;— на&nbsp;другом. Машина&nbsp;— по&nbsp;телефону, с&nbsp;десяти утра.</p></div>
+        <div class="ch" data-seg="c02"><p class="line" data-u="0,0.66">Каждый бизнес&nbsp;— отдельная дверь.</p><p class="sub" data-u="0.2,0.66">И&nbsp;в&nbsp;каждую она стучится сама.</p><p class="line quiet" data-u="0.72,1">Ноутбук закрыт. Остаётся телефон.</p></div>
+        <div class="ch" data-seg="a21"><span class="act" data-u="0.05,1">Акт II · Ваш ход</span><p class="line" data-u="0.25,1">Телефон просыпается.</p><p class="sub" data-u="0.5,1">Внутри&nbsp;— AppHUB.</p></div>
+        <div class="ch" data-seg="a22"><p class="line" data-u="0,1">Он знает, где свободен столик.</p><p class="sub" data-u="0.3,1">Отель, ресторан и&nbsp;прокат&nbsp;— в&nbsp;одной сети приложений. Им не&nbsp;нужно перезванивать.</p></div>
+        <div class="ch" data-seg="t34b"><p class="line" data-u="0.1,1">Попробуйте сами.</p><p class="sub" data-u="0.45,1">Соберите её&nbsp;отпуск ↓</p></div>
       </div>
       <div class="prog" aria-hidden="true"><i></i></div>
     </div>
@@ -66,15 +78,15 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <div class="as-bg" aria-hidden="true"></div>
       <div class="g-wrap">
         <div class="hud">
-          <span class="act">Акт II · Пять секунд</span>
-          <h2 class="g-title" id="gTitle">Соберите отпуск в Батуми</h2>
-          <p class="g-hint" id="gHint">Одна просьба агенту вместо ночи с вкладками.</p>
+          <span class="act">Акт II · Шесть секунд</span>
+          <h2 class="g-title" id="gTitle">Соберите отпуск в&nbsp;Батуми</h2>
+          <p class="g-hint" id="gHint">Одна просьба агенту вместо ночи с&nbsp;вкладками.</p>
           <ul class="goals">
-            <li data-g="0.452"><i></i>Отель у моря</li>
-            <li data-g="0.477"><i></i>Ужин на двоих</li>
-            <li data-g="0.502"><i></i>Машина на день</li>
-            <li data-g="0.525"><i></i>Билеты на поезд</li>
-            <li data-g="0.558"><i></i>Маршрут по городу</li>
+            <li data-g="0.452"><i></i>Отель у&nbsp;моря</li>
+            <li data-g="0.477"><i></i>Ужин на&nbsp;двоих</li>
+            <li data-g="0.502"><i></i>Машина на&nbsp;день</li>
+            <li data-g="0.525"><i></i>Билеты на&nbsp;поезд</li>
+            <li data-g="0.558"><i></i>Маршрут по&nbsp;городу</li>
             <li data-g="0.86"><i></i>Оплата</li>
           </ul>
           <div class="meters"><div><span>Время</span><b id="gTime">0:00</b></div><div><span>Бизнесов</span><b id="gBiz">0</b></div><div class="lp"><span>Баллы Loop</span><b id="gPts">0</b></div></div>
@@ -86,25 +98,25 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
           <div class="dv-screen">
             <div class="dv-status"><b>23:41</b><span>●●● ▮</span></div>
 
-            <div class="gs" data-s="intro"><div class="intro"><img src="img/mark-flat.svg" alt=""><b>Отпуск в Батуми</b><span>Отель у моря, ужин на двоих, машина на день.</span><span class="intro-cta">Попросить агента</span></div></div>
+            <div class="gs" data-s="intro"><div class="intro"><img src="img/mark-flat.svg" alt=""><b>Отпуск в&nbsp;Батуми</b><span>Отель у&nbsp;моря, ужин на&nbsp;двоих, машина на&nbsp;день.</span><span class="intro-cta">Попросить агента</span></div></div>
 
             <div class="gs chat2" data-s="chat">
-              <div class="chat-head"><img src="img/mark-flat.svg" alt=""><div><b>AppHUB · агент</b><span>договаривается за вас</span></div></div>
+              <div class="chat-head"><img src="img/mark-flat.svg" alt=""><div><b>AppHUB · агент</b><span>договаривается за&nbsp;вас</span></div></div>
               <div class="msgs" id="gMsgs">
                 <div class="msg bot on">Куда едем?</div>
-                <div class="msg me" data-t="0.3" id="gReq">Хочу в Батуми <mark data-h="0.33">12–16 октября</mark>: <mark data-h="0.345">отель у моря</mark>, <mark data-h="0.36">ужин на двоих 14-го</mark>, <mark data-h="0.375">машину на день</mark>, <mark data-h="0.39">билеты на поезд</mark> и <mark data-h="0.405">маршрут по городу</mark>.</div>
-                <div class="msg bot ai" data-t="0.325"><b class="ai-h"><i class="ai-spark"></i>Понял. 6 задач — делаю сам</b>
+                <div class="msg me" data-t="0.3" id="gReq">Хочу в&nbsp;Батуми <mark data-h="0.33">12&#8288;–&#8288;16 октября</mark>: <mark data-h="0.345">отель у&nbsp;моря</mark>, <mark data-h="0.36">ужин на&nbsp;двоих 14-го</mark>, <mark data-h="0.375">машину на&nbsp;день</mark>, <mark data-h="0.39">билеты на&nbsp;поезд</mark> и <mark data-h="0.405">маршрут по&nbsp;городу</mark>.</div>
+                <div class="msg bot ai" data-t="0.325"><b class="ai-h"><i class="ai-spark"></i>Понял. 6 задач&nbsp;— делаю сам</b>
                   <div class="tasks"><span data-h="0.33">Даты</span><span data-h="0.345">Отель</span><span data-h="0.36">Ужин</span><span data-h="0.375">Машина</span><span data-h="0.39">Поезд</span><span data-h="0.405">Маршрут</span></div></div>
-                <div class="res" data-t="0.43" data-done="0.452" data-pts="400"><img src="img/app/hotelito-1.webp" alt=""><div><b>Hotelito</b><span>Дом у воды · 12–16 октября</span></div><i class="ok"></i></div>
-                <div class="res" data-t="0.455" data-done="0.477" data-pts="300"><img src="img/app/epoch-1.webp" alt=""><div><b>EPOCH</b><span>Столик у окна · 14 окт, 20:00</span></div><i class="ok"></i></div>
-                <div class="res" data-t="0.48" data-done="0.502" data-pts="340"><img src="img/app/batumi-neon-1.webp" alt=""><div><b>Batumi Neon</b><span>Кабриолет на 15 октября</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.43" data-done="0.452" data-pts="400"><img src="img/app/hotelito-1.webp" alt=""><div><b>Hotelito</b><span>Дом у&nbsp;воды · 12&#8288;–&#8288;16 октября</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.455" data-done="0.477" data-pts="300"><img src="img/app/epoch-1.webp" alt=""><div><b>EPOCH</b><span>Столик у&nbsp;окна · 14 окт, 20:00</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.48" data-done="0.502" data-pts="340"><img src="img/app/batumi-neon-1.webp" alt=""><div><b>Batumi Neon</b><span>Кабриолет на&nbsp;15 октября</span></div><i class="ok"></i></div>
                 <div class="tix" data-t="0.505" data-done="0.525">
                   <div class="tx-top"><span>Поезд · 2 места</span><i class="ok"></i></div>
                   <div class="tx-route"><div><b>08:00</b><span>Тбилиси</span></div><i class="tx-line"></i><div class="r"><b>13:05</b><span>Батуми</span></div></div>
                   <div class="tx-foot"><span>12 октября · вагон 2 · места 14, 15</span><i class="tx-bar"></i></div>
                 </div>
                 <div class="mapc" data-t="0.53" data-done="0.558" data-pts="200">
-                  <div class="mc-head"><img src="img/app/cityhub-1.webp" alt=""><div><b>CityHUB</b><span>Маршрут по городу на 4 дня</span></div><i class="ok"></i></div>
+                  <div class="mc-head"><img src="img/app/cityhub-1.webp" alt=""><div><b>CityHUB</b><span>Маршрут по&nbsp;городу на&nbsp;4 дня</span></div><i class="ok"></i></div>
                   <svg class="mc-map" viewBox="0 0 260 120" aria-hidden="true">
                     <path class="mc-sea" d="M0 0H74C62 26 88 58 60 120H0Z"/>
                     <path class="mc-road" d="M60 30H260M66 62H260M40 92H260M110 0V120M170 0V120M220 0V120"/>
@@ -115,7 +127,7 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
                     <g class="mc-pin" data-k="0.556" transform="translate(232 20)"><circle r="5"/><text x="-9" y="-5" text-anchor="end">Прокат</text></g>
                   </svg>
                 </div>
-                <div class="msg bot" data-t="0.565">Готово: 4 бизнеса и билеты на поезд. Оплатить одним касанием?</div>
+                <div class="msg bot" data-t="0.565">Готово: 4 бизнеса и&nbsp;билеты на&nbsp;поезд. Оплатить одним касанием?</div>
               </div>
               <div class="compose"><div class="draft"><p><span id="gDraft">Напишите, чего хотите…</span><i class="caret"></i></p></div><span class="send" id="gSend">↑</span></div>
             </div>
@@ -139,10 +151,10 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
             <div class="gs done2" data-s="done">
               <div class="okbig"></div>
               <b>Готово за <em>0:06</em></b>
-              <span class="vs">Без AppHUB: ночь, 31 вкладка и ни одной брони.</span>
+              <span class="vs">Без&nbsp;AppHUB: ночь, 31 вкладка и&nbsp;ни&nbsp;одной брони.</span>
               <div class="wallet"><span>Баллы Loop</span><b id="gWallet">1 240</b></div>
-              <span class="spendbtn" id="gSpend">Потратить баллы на ужин</span>
-              <div class="spent" id="gSpent"><b>EPOCH принял баллы Hotelito</b><span>Это Loop: гость отеля стал гостем ресторана.</span></div>
+              <span class="spendbtn" id="gSpend">Потратить баллы на&nbsp;ужин</span>
+              <div class="spent" id="gSpent"><b>EPOCH принял баллы Hotelito</b><span>Это&nbsp;Loop: гость отеля стал гостем ресторана.</span></div>
             </div>
           </div>
         </div>
@@ -159,21 +171,21 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
         <div class="ph-layer" aria-hidden="true"><div class="cn" id="cnLayer">
           <svg class="cn-loop" viewBox="0 0 200 200"><circle class="cl-track" cx="100" cy="100" r="98"/><circle class="cl-comet" cx="100" cy="100" r="98" pathLength="100"/></svg>
           <div class="cn-tag t-core down" data-f="32" data-a="90" data-r="0.02"><b>AppHUB</b><span>ядро сети</span></div>
-          <div class="cn-tag t-l3 up" data-f="56" data-a="-32" data-r="0.156"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Butyfly</span></div>
-          <div class="cn-tag t-l2 down" data-f="72" data-a="148" data-r="0.254"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon</span></div>
-          <div class="cn-tag t-l1 up" data-f="86" data-a="-90" data-r="0.344"><em>L1</em><b>Люди и их агенты</b><span>визитки LinkOS</span></div>
-          <div class="cn-tag t-loop down" data-f="96" data-a="28" data-r="0.254"><em>Loop</em><b>Баллы ходят по кругу</b></div>
+          <div class="cn-tag t-l3 up" data-f="56" data-a="-32" data-r="0.156"><em>L3</em><b>Бизнесы</b><span>рестораны · отели · клиники</span></div>
+          <div class="cn-tag t-l2 down" data-f="72" data-a="148" data-r="0.254"><em>L2</em><b>Агрегаторы</b><span>город · аренда · недвижимость</span></div>
+          <div class="cn-tag t-l1 up" data-f="86" data-a="-90" data-r="0.344"><em>L1</em><b>Люди и&nbsp;их&nbsp;агенты</b><span>визитки LinkOS</span></div>
+          <div class="cn-tag t-loop down" data-f="96" data-a="28" data-r="0.254"><em>Loop</em><b>Баллы ходят по&nbsp;кругу</b></div>
         </div></div>
         <div class="panel-glow" aria-hidden="true"></div></div>
       <div class="caps">
         <div class="ch" data-seg="c04"><p class="big" data-u="0.2,1">Готово.</p></div>
         <div class="ch" data-seg="c05"><span class="act" data-u="0.3,1">Акт III · Дальше</span><p class="line" data-u="0.45,1">Дальше всё происходит само.</p></div>
         <div class="ch" data-seg="c06">
-          <p class="line" data-u="0,0.4">Отель уже знает, что она приедет.</p>
-          <p class="line" data-u="0.4,0.7">Ресторан — что у неё 1&nbsp;240 баллов.</p>
-          <p class="line" data-u="0.7,1">Loop. Баллы одного бизнеса — деньги в&nbsp;другом.</p><p class="sub" data-u="0.74,1">С каждой покупки возвращается 1–5%.</p>
+          <p class="line" data-u="0,0.4">Отель уже знает, что&nbsp;она приедет.</p>
+          <p class="line" data-u="0.4,0.7">Ресторан&nbsp;— что&nbsp;у&nbsp;неё 1&nbsp;240 баллов.</p>
+          <p class="line" data-u="0.7,1">Loop. Баллы одного бизнеса&nbsp;— деньги в&nbsp;другом.</p><p class="sub" data-u="0.74,1">С&nbsp;каждой покупки возвращается 1&#8288;–&#8288;5%.</p>
         </div>
-        <div class="ch" data-seg="c07"><span class="act" data-u="0.1,1">Акт IV · Сеть</span><p class="line" data-u="0.3,1">Это AppHUB.</p></div>
+        <div class="ch" data-seg="c07"><span class="act" data-u="0.1,1">Акт IV · Сеть</span><p class="line" data-u="0.3,1">Это&nbsp;AppHUB.</p></div>
         <div class="ch" data-seg="c08">
           <p class="line" data-u="0,1">Три слоя. Одна сеть.</p>
           <p class="sub" data-u="0.8,1">Люди → агрегаторы → бизнесы.<br>Баллы Loop ходят по&nbsp;кругу.</p>
@@ -189,8 +201,8 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <canvas class="dv" aria-hidden="true"></canvas>
       <div class="dots-cap">
         <p class="count"><b id="cnt">0</b><span>приложений открыто агентам ChatGPT · сентябрь 2026</span></p>
-        <p class="line" data-d="0.34,1">А малых бизнесов — <em>сотни миллионов</em>.<br><span class="neg">Для агентов их не существует.</span></p>
-        <p class="line" data-d="0.62,1">AppHUB делает их видимыми.<br><span class="soft">Один бизнес за другим.</span></p>
+        <p class="line" data-d="0.34,1">А&nbsp;малых бизнесов&nbsp;— <em>сотни миллионов</em>.<br><span class="neg">Для&nbsp;агентов их&nbsp;не&nbsp;существует.</span></p>
+        <p class="line" data-d="0.62,1">AppHUB делает их&nbsp;видимыми.<br><span class="soft">Один бизнес за&nbsp;другим.</span></p>
       </div>
     </div>
   </section>
@@ -204,14 +216,14 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
         <div class="ph-layer" aria-hidden="true"><div class="ph-ui" id="phUi">
           <div class="pu-status"><b>23:41</b><i></i></div>
           <img class="pu-mark" src="img/mark-flat.svg" alt="">
-          <b class="pu-name">AppHUB</b><span class="pu-sub">Ваша точка в сети</span>
+          <b class="pu-name">AppHUB</b><span class="pu-sub">Ваша точка в&nbsp;сети</span>
           <span class="pu-btn"><em class="pu-off">Включить</em><em class="pu-on">✓ Включено</em></span>
           <span class="pu-tap">Tap to continue…</span>
         </div></div>
         <div class="panel-glow" aria-hidden="true"></div></div>
       <div class="caps">
         <div class="ch" data-seg="c09"><p class="big" data-u="0.15,1">Включите свою точку.</p></div>
-        <div class="ch" data-seg="a51"><p class="line" data-u="0.1,1">AppHUB.</p><p class="sub" data-u="0.2,1">Приложения, которые не надо устанавливать.</p><div class="hero-cta" data-u="0.35,1"><a class="btn pri" href="https://t.me/Portfolio_AppHub_Bot">Открыть портфолио</a><a class="btn" href="#how">Как это работает</a></div></div>
+        <div class="ch" data-seg="a51"><p class="line" data-u="0.1,1">AppHUB.</p><p class="sub" data-u="0.2,1">Приложения, которые не&nbsp;надо устанавливать.</p><div class="hero-cta" data-u="0.35,1"><a class="btn pri" href="https://t.me/Portfolio_AppHub_Bot">Открыть портфолио</a><a class="btn" href="#how">Как&nbsp;это&nbsp;работает</a></div></div>
       </div>
       <div class="prog" aria-hidden="true"><i></i></div>
     </div>
@@ -221,29 +233,29 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
   <section class="deck" id="deck">
     <article class="sl" style="--g:#2997FF">
       <div class="sl-copy">
-        <span class="sl-eye">Без установки</span>
+        <span class="sl-eye">Без&nbsp;установки</span>
         <h2 class="sl-h">Работают там, где уже сидят клиенты.</h2>
-        <p class="sl-p">Приложение открывается по&nbsp;ссылке прямо внутри Instagram, Facebook, TikTok, YouTube и Telegram — и встаёт иконкой на экран. Без стора.</p>
+        <p class="sl-p">Приложение открывается по&nbsp;ссылке прямо внутри Instagram, Facebook, TikTok, YouTube и&nbsp;Telegram&nbsp;— и&nbsp;встаёт иконкой на&nbsp;экран. Без&nbsp;стора.</p>
       </div>
       <div class="sl-vis plats">
         <span style="--k:0">Instagram</span><span style="--k:1">Facebook</span><span style="--k:2">TikTok</span><span style="--k:3">YouTube</span><span style="--k:4">Telegram</span><span style="--k:5">Браузер</span>
-        <b class="plat-to" style="--k:6">↓ Иконка на экране телефона</b>
+        <b class="plat-to" style="--k:6">↓ Иконка на&nbsp;экране телефона</b>
       </div>
     </article>
     <article class="sl" style="--g:#30D158">
       <div class="sl-copy">
         <span class="sl-eye">Конструктор BuildOS</span>
         <h2 class="sl-h">20+ ниш уже распакованы.</h2>
-        <p class="sl-p">BuildOS уже в работе: бизнес выбирает нишу и получает готовое приложение. Мы уверенно заходим в любую нишу.</p>
-        <div class="niche"><span>Рестораны</span><span>Отели</span><span>Клиники</span><span>Бьюти</span><span>Фитнес</span><span>Прокат авто</span><span>Туры</span><span>Недвижимость</span><span>Мебель</span><span>Магазины</span><span>Ивенты</span><span>Дом и ЖКХ</span></div>
+        <p class="sl-p">BuildOS уже в&nbsp;работе: бизнес выбирает нишу и&nbsp;получает готовое приложение. Мы&nbsp;уверенно заходим в&nbsp;любую нишу.</p>
+        <div class="niche"><span>Рестораны</span><span>Отели</span><span>Клиники</span><span>Бьюти</span><span>Фитнес</span><span>Прокат авто</span><span>Туры</span><span>Недвижимость</span><span>Мебель</span><span>Магазины</span><span>Ивенты</span><span>Дом и&nbsp;ЖКХ</span></div>
       </div>
       <div class="sl-vis"><div class="sl-ph"><img src="img/app/apphub-os-2.webp" alt="Конструктор BuildOS: выбор ниши" loading="lazy"></div></div>
     </article>
     <article class="sl" style="--g:#BF5AF2">
       <div class="sl-copy">
         <span class="sl-eye">LinkOS</span>
-        <h2 class="sl-h">Цифровая визитка со своим ИИ-ассистентом.</h2>
-        <p class="sl-p">Персональная визитка со встроенным ИИ-ассистентом и поддержкой Web3. Уже готова и работает на любой платформе.</p>
+        <h2 class="sl-h">Цифровая визитка со&nbsp;своим ИИ-ассистентом.</h2>
+        <p class="sl-p">Персональная визитка со&nbsp;встроенным ИИ-ассистентом и&nbsp;поддержкой Web3. Уже готова и&nbsp;работает на&nbsp;любой платформе.</p>
         <div class="pills"><span>ИИ-ассистент</span><span>Web3</span><span>Любая платформа</span></div>
         <a class="sl-link" href="https://t.me/Linkos_AppHub_bot">Открыть LinkOS ›</a>
       </div>
@@ -253,63 +265,65 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <div class="sl-copy">
         <span class="sl-eye">Приложение AppHUB</span>
         <h2 class="sl-h">Своё нативное приложение.</h2>
-        <p class="sl-p">Один вход во всю сеть — через Telegram, Meta, Google или&nbsp;Apple.</p>
+        <p class="sl-p">Один вход во&nbsp;всю сеть&nbsp;— через Telegram, Meta, Google или&nbsp;Apple.</p>
       </div>
       <div class="sl-vis signin">
         <img class="si-mark" src="img/mark-flat.svg" alt="">
-        <span style="--k:0"><svg viewBox="0 0 24 24"><path d="M21 4.5 2.8 11.6c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.5c.2.7 1.1.9 1.6.4l2.6-2.5 4.6 3.4c.6.4 1.4.1 1.6-.6L22.3 5.8c.2-.9-.6-1.6-1.3-1.3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9.3 14.9 7.9-6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Продолжить с Telegram</span>
-        <span style="--k:1"><svg viewBox="0 0 24 24"><path d="M6.6 7.5C3.9 7.5 2.5 10.6 2.5 13c0 2 1 3.5 2.8 3.5 2.6 0 4.4-4.1 6.7-7.1 1.6-2 3-1.9 4.3-1.9 2.8 0 5.2 3.3 5.2 6.5 0 1.9-.9 2.5-1.9 2.5-2.4 0-4.4-4.6-6.2-6.9C12 7.7 9.6 7.5 6.6 7.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Продолжить с Meta</span>
-        <span style="--k:2"><svg viewBox="0 0 24 24"><path d="M20.5 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h4.8a4.3 4.3 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.6-3.9 2.6-6.6z" fill="currentColor"/><path d="M12 21c2.4 0 4.4-.8 5.9-2.2l-2.9-2.2c-.8.5-1.8.9-3 .9-2.3 0-4.3-1.6-5-3.7H4v2.3A9 9 0 0 0 12 21z" fill="currentColor" opacity=".8"/><path d="M7 13.8a5.4 5.4 0 0 1 0-3.5V8H4a9 9 0 0 0 0 8.1z" fill="currentColor" opacity=".6"/><path d="M12 6.6c1.3 0 2.5.5 3.4 1.3L18 5.4A9 9 0 0 0 4 8l3 2.3c.7-2.1 2.7-3.7 5-3.7z" fill="currentColor" opacity=".9"/></svg>Продолжить с Google</span>
-        <span class="si-apple" style="--k:3"><svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7a4.5 4.5 0 0 0-3.5-1.9c-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8a4.7 4.7 0 0 0-4 2.4c-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14.1 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z" fill="currentColor"/></svg>Продолжить с Apple</span>
+        <span style="--k:0"><svg viewBox="0 0 24 24"><path d="M21 4.5 2.8 11.6c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.5c.2.7 1.1.9 1.6.4l2.6-2.5 4.6 3.4c.6.4 1.4.1 1.6-.6L22.3 5.8c.2-.9-.6-1.6-1.3-1.3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9.3 14.9 7.9-6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Продолжить с&nbsp;Telegram</span>
+        <span style="--k:1"><svg viewBox="0 0 24 24"><path d="M6.6 7.5C3.9 7.5 2.5 10.6 2.5 13c0 2 1 3.5 2.8 3.5 2.6 0 4.4-4.1 6.7-7.1 1.6-2 3-1.9 4.3-1.9 2.8 0 5.2 3.3 5.2 6.5 0 1.9-.9 2.5-1.9 2.5-2.4 0-4.4-4.6-6.2-6.9C12 7.7 9.6 7.5 6.6 7.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Продолжить с&nbsp;Meta</span>
+        <span style="--k:2"><svg viewBox="0 0 24 24"><path d="M20.5 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h4.8a4.3 4.3 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.6-3.9 2.6-6.6z" fill="currentColor"/><path d="M12 21c2.4 0 4.4-.8 5.9-2.2l-2.9-2.2c-.8.5-1.8.9-3 .9-2.3 0-4.3-1.6-5-3.7H4v2.3A9 9 0 0 0 12 21z" fill="currentColor" opacity=".8"/><path d="M7 13.8a5.4 5.4 0 0 1 0-3.5V8H4a9 9 0 0 0 0 8.1z" fill="currentColor" opacity=".6"/><path d="M12 6.6c1.3 0 2.5.5 3.4 1.3L18 5.4A9 9 0 0 0 4 8l3 2.3c.7-2.1 2.7-3.7 5-3.7z" fill="currentColor" opacity=".9"/></svg>Продолжить с&nbsp;Google</span>
+        <span class="si-apple" style="--k:3"><svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7a4.5 4.5 0 0 0-3.5-1.9c-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8a4.7 4.7 0 0 0-4 2.4c-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14.1 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z" fill="currentColor"/></svg>Продолжить с&nbsp;Apple</span>
       </div>
     </article>
     <article class="sl sl-wide" style="--g:#FF9F0A">
       <div class="sl-copy">
         <span class="sl-eye">Машиночитаемый бизнес</span>
-        <h2 class="sl-h">Мы не конкурируем с агентами корпораций. Мы — их дверь в малый бизнес.</h2>
+        <h2 class="sl-h">Мы&nbsp;не&nbsp;конкурируем с&nbsp;агентами корпораций. Мы&nbsp;— их&nbsp;дверь в&nbsp;малый бизнес.</h2>
       </div>
       <div class="sl-vis agnews">
-        <div style="--k:0"><b>Google</b><span>AI Mode бронирует столики и отели прямо в поиске</span><time>авг 2026</time></div>
-        <div style="--k:1"><b>Meta</b><span>Business Agent в WhatsApp и Instagram — у&nbsp;миллиона бизнесов</span><time>июнь 2026</time></div>
-        <div style="--k:2"><b>Apple</b><span>Новая Siri в iOS 27 действует внутри приложений</span><time>сент 2026</time></div>
-        <div style="--k:3"><b>xAI</b><span>Grok Bot сам покупает в интернет-магазинах</span><time>авг 2026</time></div>
-        <p class="news-foot" style="--k:4">Агенту нужен вход в бизнес, который он может прочитать. Пока его нет — ИИ Google звонит в кафе голосом.</p>
+        <div style="--k:0"><b>Google</b><span>AI Mode бронирует столики и&nbsp;отели прямо в&nbsp;поиске</span><time>авг 2026</time></div>
+        <div style="--k:1"><b>Meta</b><span>Business Agent в&nbsp;WhatsApp и&nbsp;Instagram&nbsp;— у&nbsp;миллиона бизнесов</span><time>июнь 2026</time></div>
+        <div style="--k:2"><b>Apple</b><span>Новая Siri в&nbsp;iOS 27 действует внутри приложений</span><time>сент 2026</time></div>
+        <div style="--k:3"><b>xAI</b><span>Grok Bot сам покупает в&nbsp;интернет-магазинах</span><time>авг 2026</time></div>
+        <p class="news-foot" style="--k:4">Агенту нужен вход в&nbsp;бизнес, который он может прочитать. Пока его&nbsp;нет&nbsp;— ИИ Google звонит в&nbsp;кафе голосом.</p>
       </div>
     </article>
     <article class="sl" style="--g:#FF9F0A">
       <div class="sl-copy">
-        <span class="sl-eye">Поиск уходит к агентам</span>
-        <h2 class="sl-h">По ссылкам кликают всё реже.</h2>
-        <p class="sl-p">AppHUB делает малый бизнес понятным для агентов. Это и есть идея AppOS.</p>
+        <span class="sl-eye">Поиск уходит к&nbsp;агентам</span>
+        <h2 class="sl-h">По&nbsp;ссылкам кликают всё реже.</h2>
+        <p class="sl-p">AppHUB делает малый бизнес понятным для&nbsp;агентов. Это&nbsp;и&nbsp;есть идея AppOS.</p>
       </div>
       <div class="sl-vis stats">
-        <div style="--k:0"><b>8% <i>vs</i> 15%</b><span>кликают по ссылкам, когда в Google есть ИИ-сводка — и когда её нет</span><small>Pew Research, июль 2025</small></div>
-        <div style="--k:1"><b>+117%</b><span>переходов с ИИ-платформ за год</span><small>Similarweb, сентябрь 2026</small></div>
+        <div style="--k:0"><b>8% <i>vs</i> 15%</b><span>кликают по&nbsp;ссылкам, когда в&nbsp;Google есть ИИ-сводка&nbsp;— и&nbsp;когда её&nbsp;нет</span><small>Pew Research, июль 2025</small></div>
+        <div style="--k:1"><b>+117%</b><span>переходов с&nbsp;ИИ-платформ за&nbsp;год</span><small>Similarweb, сентябрь 2026</small></div>
       </div>
     </article>
     <article class="sl" style="--g:#30D158">
       <div class="sl-copy">
         <span class="sl-eye">Loop</span>
         <h2 class="sl-h">Единая сеть лояльности.</h2>
-        <p class="sl-p">Баллы одного бизнеса тратятся в другом. С каждой покупки возвращается 1–5%. Гость отеля становится гостем ресторана.</p>
+        <p class="sl-p">Баллы одного бизнеса тратятся в&nbsp;другом. С&nbsp;каждой покупки возвращается 1&#8288;–&#8288;5%. Гость отеля становится гостем ресторана.</p>
       </div>
       <div class="sl-vis loopflow">
-        <div style="--k:0"><b>Hotelito</b><span>отель</span></div><i style="--k:1"></i>
-        <div style="--k:2"><b>EPOCH</b><span>ресторан</span></div><i style="--k:3"></i>
-        <div style="--k:4"><b>Batumi Neon</b><span>прокат авто</span></div>
+        <div style="--k:0"><b>Отели</b><span>гость копит баллы</span></div><i style="--k:1"></i>
+        <div style="--k:2"><b>Рестораны</b><span>тратит их&nbsp;на&nbsp;ужин</span></div><i style="--k:3"></i>
+        <div style="--k:4"><b>Аренда авто</b><span>платит ими за&nbsp;машину</span></div><i style="--k:5"></i>
+        <div style="--k:6"><b>Турагентства</b><span>и&nbsp;за&nbsp;экскурсии</span></div>
+        <p class="lf-more" style="--k:7">…и&nbsp;ещё 20+ ниш в&nbsp;одной сети</p>
       </div>
     </article>
     <article class="sl sl-wide" style="--g:#64D2FF">
       <div class="sl-copy">
         <span class="sl-eye">AppHUB Map</span>
         <h2 class="sl-h">Три слоя одной сети.</h2>
-        <p class="sl-p">Так это устроено на нашей карте экосистемы.</p>
+        <p class="sl-p">Так это&nbsp;устроено на&nbsp;нашей карте экосистемы.</p>
       </div>
       <div class="sl-vis layers3">
-        <div class="ly l1" style="--k:0"><em>L1</em><b>Люди и их ИИ-агенты</b><span>визитки LinkOS · вход из мессенджера</span></div>
-        <div class="ly l2" style="--k:1"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon · Realty</span></div>
-        <div class="ly l3" style="--k:2"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Dr.&nbsp;Hilling · Furniturum · KING FIT</span></div>
-        <div class="ly lp" style="--k:3"><em>Loop</em><b>Петля возвращает гостя в L1</b><span>баллы ходят между всеми слоями</span></div>
+        <div class="ly l1" style="--k:0"><em>L1</em><b>Люди и&nbsp;их&nbsp;ИИ-агенты</b><span>визитки LinkOS · вход из&nbsp;мессенджера</span></div>
+        <div class="ly l2" style="--k:1"><em>L2</em><b>Агрегаторы</b><span>город · аренда · недвижимость</span></div>
+        <div class="ly l3" style="--k:2"><em>L3</em><b>Бизнесы</b><span>рестораны · отели · клиники · мебель · фитнес</span></div>
+        <div class="ly lp" style="--k:3"><em>Loop</em><b>Петля возвращает гостя в&nbsp;L1</b><span>баллы ходят между всеми слоями</span></div>
         <a class="sl-link" href="https://apphub-map.com/v2/" style="--k:4">Открыть AppHUB Map ›</a>
       </div>
     </article>
@@ -317,18 +331,18 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
 
   <!-- 7. Как это работает: три шага, по экрану на шаг -->
   <section class="how" id="how">
-    <span class="eyebrow rv">Как это работает</span>
-    <h2 class="rv">Как это работает. <b>Три шага.</b></h2>
+    <span class="eyebrow rv">Как&nbsp;это&nbsp;работает</span>
+    <h2 class="rv">Как&nbsp;это&nbsp;работает. <b>Три шага.</b></h2>
     <div class="steps3">
-      <div class="st rv"><div class="st-ph"><img src="img/app/apphub-os-2.webp" alt="BuildOS: выбор ниши" loading="lazy"></div><span class="n">01 · Бизнес</span><h3>Своё приложение за несколько дней</h3><p>Студия под ключ или конструктор BuildOS: 20 шаблонов ниш, бренд подтягивается с сайта или Instagram.</p></div>
-      <div class="st rv"><div class="st-ph"><img src="img/app/epoch-2.webp" alt="EPOCH: меню" loading="lazy"></div><span class="n">02 · Клиент</span><h3>Открывает по ссылке</h3><p>В Telegram, Instagram, TikTok или браузере. Меню, бронь, запись, оплата картой или криптой.</p></div>
-      <div class="st rv"><div class="st-ph"><img src="img/app/cityhub-4.webp" alt="CityHUB: баллы" loading="lazy"></div><span class="n">03 · Сеть</span><h3>Гость переходит к соседу</h3><p>Баллы Loop одного бизнеса тратятся у другого. Агенты клиентов бронируют сами — этот слой мы строим.</p></div>
+      <div class="st rv"><div class="st-ph"><img src="img/app/apphub-os-2.webp" alt="BuildOS: выбор ниши" loading="lazy"></div><span class="n">01 · Бизнес</span><h3>Своё приложение за&nbsp;несколько дней</h3><p>Студия под ключ или конструктор BuildOS: 20 шаблонов ниш, бренд подтягивается с&nbsp;сайта или Instagram.</p></div>
+      <div class="st rv"><div class="st-ph"><img src="img/app/epoch-2.webp" alt="EPOCH: меню" loading="lazy"></div><span class="n">02 · Клиент</span><h3>Открывает по&nbsp;ссылке</h3><p>В&nbsp;Telegram, Instagram, TikTok или браузере. Меню, бронь, запись, оплата картой или криптой.</p></div>
+      <div class="st rv"><div class="st-ph"><img src="img/app/cityhub-4.webp" alt="CityHUB: баллы" loading="lazy"></div><span class="n">03 · Сеть</span><h3>Гость переходит к&nbsp;соседу</h3><p>Баллы Loop одного бизнеса тратятся у&nbsp;другого. Агенты клиентов бронируют сами&nbsp;— этот слой мы&nbsp;строим.</p></div>
     </div>
   </section>
 
   <!-- 8. Живые приложения: бегущая лента -->
   <section class="apps" id="apps">
-    <div class="apps-head"><span class="eyebrow rv">Не концепт</span><h2 class="rv">27 приложений. <b>Откройте любое.</b></h2></div>
+    <div class="apps-head"><span class="eyebrow rv">Не&nbsp;концепт</span><h2 class="rv">27 приложений. <b>Откройте любое.</b></h2></div>
     <div class="marquee rv"><div class="mq-track">
       <a class="mq" href="https://epoch-client-lovat.vercel.app"><img src="img/app/epoch-2.webp" alt="" loading="lazy"><b>EPOCH</b><span>ресторан</span></a>
       <a class="mq" href="https://hotelito-r4w8.vercel.app"><img src="img/app/hotelito-1.webp" alt="" loading="lazy"><b>Hotelito</b><span>гостевой дом</span></a>
@@ -337,17 +351,16 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
       <a class="mq" href="https://king-fit.vercel.app"><img src="img/app/king-fit-1.webp" alt="" loading="lazy"><b>KING FIT</b><span>фитнес</span></a>
       <a class="mq" href="https://masteroch.github.io/cityhub/"><img src="img/app/cityhub-1.webp" alt="" loading="lazy"><b>CityHUB</b><span>город</span></a>
       <a class="mq" href="https://furniturum-m5t1.vercel.app"><img src="img/app/furniturum-1.webp" alt="" loading="lazy"><b>Furniturum</b><span>мебель</span></a>
-      <a class="mq" href="https://babyland-c3x7.vercel.app"><img src="img/app/babyland-1.webp" alt="" loading="lazy"><b>BabyLand</b><span>праздники</span></a>
       <a class="mq" href="https://t.me/Linkos_AppHub_bot"><img src="img/app/linkos-1.webp" alt="" loading="lazy"><b>LinkOS</b><span>визитки</span></a>
       <a class="mq" href="https://t.me/nardum_game_bot"><img src="img/app/nardum-1.webp" alt="" loading="lazy"><b>NARDUM</b><span>игра · TON</span></a>
       <a class="mq" href="https://t.me/expobatumibot"><img src="img/app/ebit-1.webp" alt="" loading="lazy"><b>EBIT Expo</b><span>выставка</span></a>
       <a class="mq" href="https://drhilling-q2n6.vercel.app"><img src="img/app/drhilling-1.webp" alt="" loading="lazy"><b>Dr. Hilling</b><span>медицина</span></a>
     </div></div>
     <div class="nums">
-      <div class="num rv"><b data-n="27">0</b><span>приложений в работе</span></div>
-      <div class="num rv"><b data-n="20">0</b><span>ниш в конструкторе</span></div>
-      <div class="num rv"><b data-n="4">0</b><span>сделки по внедрению, ещё 2 в переговорах</span></div>
-      <div class="num rv"><b data-n="59">0</b><span>узлов на карте экосистемы</span></div>
+      <div class="num rv"><b data-n="27">0</b><span>приложений в&nbsp;работе</span></div>
+      <div class="num rv"><b data-n="20">0</b><span>ниш в&nbsp;конструкторе</span></div>
+      <div class="num rv"><b data-n="4">0</b><span>сделки по&nbsp;внедрению, ещё 2 в&nbsp;переговорах</span></div>
+      <div class="num rv"><b data-n="59">0</b><span>узлов на&nbsp;карте экосистемы</span></div>
     </div>
   </section>
 
@@ -355,13 +368,13 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
   <section class="mapsec" id="map">
     <div class="map-head">
       <span class="eyebrow rv">AppHUB Map</span>
-      <h2 class="rv">Вся экосистема. <b>На одной карте.</b></h2>
-      <p class="map-sub rv">Студия, агрегаторы, приложения бизнесов и петля Loop — живая карта со всеми связями.</p>
+      <h2 class="rv">Вся экосистема. <b>На&nbsp;одной карте.</b></h2>
+      <p class="map-sub rv">Студия, агрегаторы, приложения бизнесов и&nbsp;петля Loop&nbsp;— живая карта со&nbsp;всеми связями.</p>
     </div>
     <div class="map-frame rv">
       <div class="map-pan" id="mapPan"><img src="img/map-eco.webp" alt="Карта экосистемы AppHUB: L1 → L2 → L3 и петля Loop" width="2000" height="821" loading="lazy" draggable="false"></div>
       <div class="pblur" aria-hidden="true"><span></span><span></span><span></span></div>
-      <div class="map-chips"><span>L1 · люди и агенты</span><span>L2 · агрегаторы</span><span>L3 · бизнесы</span><span>Loop</span></div>
+      <div class="map-chips"><span>L1 · люди и&nbsp;агенты</span><span>L2 · агрегаторы</span><span>L3 · бизнесы</span><span>Loop</span></div>
       <a class="map-open" id="mapOpen" href="https://apphub-map.com/v2/?client" target="_blank" rel="noopener">Исследовать карту</a>
     </div>
   </section>
@@ -370,28 +383,28 @@ if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)
   <!-- 9. Модель, команда, контакт — одним блоком -->
   <section class="close" id="team">
     <div class="money rv">
-      <span class="eyebrow">Как зарабатываем</span>
+      <span class="eyebrow">Как&nbsp;зарабатываем</span>
       <div class="m3">
-        <div><b>Студия</b><span>внедрение от $1&nbsp;500 + % маржи клиента</span></div>
-        <div><b>Подписка</b><span>$0 · $49 · $99 · $149 в месяц</span></div>
-        <div><b>Loop</b><span>комиссия с оборота баллов сети</span></div>
+        <div><b>Студия</b><span>внедрение от&nbsp;$1&nbsp;500 + % маржи клиента</span></div>
+        <div><b>Подписка</b><span>$0 · $49 · $99 · $149 в&nbsp;месяц</span></div>
+        <div><b>Loop</b><span>комиссия с&nbsp;оборота баллов сети</span></div>
       </div>
     </div>
     <div class="team3 rv">
       <span class="eyebrow">Команда</span>
       <div class="ppl">
-        <div><img src="img/ph-roman.jpg" alt=""><b>Роман Чернявский</b><span>CPO · видение продукта и дизайн</span></div>
-        <div><img src="img/ph-dmitry.jpg" alt=""><b>Дмитрий Невмер</b><span>CEO · связи и стратегия</span></div>
-        <div><img src="img/ph-denis.jpg" alt=""><b>Денис Сокуренко</b><span>CTO · продукт и архитектура</span></div>
+        <div><img src="img/ph-roman.jpg" alt=""><b>Роман Чернявский</b><span>CPO · видение продукта и&nbsp;дизайн</span></div>
+        <div><img src="img/ph-dmitry.jpg" alt=""><b>Дмитрий Невмер</b><span>CEO · связи и&nbsp;стратегия</span></div>
+        <div><img src="img/ph-denis.jpg" alt=""><b>Денис Сокуренко</b><span>CTO · продукт и&nbsp;архитектура</span></div>
       </div>
     </div>
     <div class="ask2 rv">
-      <h2>Ищем партнёра на pre-seed. <b>Нужны двери в бизнесы и новые рынки — не только деньги.</b></h2>
-      <div class="hero-cta"><a class="btn pri" href="mailto:hello@apphub.studio">hello@apphub.studio</a><a class="btn" href="https://t.me/Portfolio_AppHub_Bot">Портфолио в Telegram</a></div>
+      <h2>Ищем партнёра на&nbsp;pre-seed. <b>Нужны двери в&nbsp;бизнесы и&nbsp;новые рынки&nbsp;— не&nbsp;только деньги.</b></h2>
+      <div class="hero-cta"><a class="btn pri" href="mailto:hello@apphub.studio">hello@apphub.studio</a><a class="btn" href="https://t.me/Portfolio_AppHub_Bot">Портфолио в&nbsp;Telegram</a></div>
     </div>
   </section>
 
-  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>AppHub Studio · Тбилиси · октябрь 2026</span></footer>
+  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>AppHUB Studio · Тбилиси · октябрь 2026</span></footer>
 </main>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>

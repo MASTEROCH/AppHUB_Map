@@ -9,6 +9,11 @@
     python3 -m http.server -d film/site 8776
 """
 import json, os, re, shutil
+import subprocess
+
+# страж: сломанный film.js не должен уйти даже в сборку (04.10 скобка ушла в комментарий — заставка висела вечно)
+_chk = subprocess.run(['node', '--check', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'film.js')], capture_output=True, text=True)
+if _chk.returncode: raise SystemExit('🚨 film.js не парсится:\n' + _chk.stderr.strip()[:600])
 
 here = os.path.dirname(os.path.abspath(__file__))
 landing = os.path.join(here, '..', 'landing')
@@ -29,7 +34,6 @@ sections = ''
 blocks = []
 src = open(os.path.join(here, 'index.src.html'), encoding='utf-8').read()
 out = src.replace('<!--SECTIONS-->', sections)
-open(os.path.join(here, 'index.html'), 'w', encoding='utf-8').write(out)
 
 # английская версия: тот же каркас, текст по словарю i18n/en.json, скриншоты из img/app-en (где они есть)
 tr = json.load(open(os.path.join(here, 'i18n', 'en.json'), encoding='utf-8'))
@@ -42,6 +46,7 @@ def _tx(m):
 en = re.sub(r'>([^<>]+)<', _tx, en)
 en = re.sub(r'(alt|aria-label|title|content|placeholder)="([^"]*)"', lambda m: m.group(1) + '="' + T.get(m.group(2), m.group(2)) + '"', en)
 en = en.replace('<html lang="ru">', '<html lang="en">')
+en = en.replace('img/og-ru.jpg', 'img/og-en.jpg').replace('content="ru_RU"', 'content="en_US"')
 en = en.replace('<a class="on" href="./" data-l="ru">RU</a><a href="en.html" data-l="en">EN</a>', '<a href="./" data-l="ru">RU</a><a class="on" href="en.html" data-l="en">EN</a>')
 en_shots = 0
 def _shot(m):
@@ -53,6 +58,21 @@ en = re.sub(r'img/app/([a-z0-9-]+\.webp)', _shot, en)
 en = en.replace('<script src="film.js"></script>', '<script>window.I18N=' + json.dumps(T, ensure_ascii=False) + '</script>\n<script src="film.js"></script>')
 body = re.sub(r'<script[\s\S]*?</script>', '', en)
 left = sorted(set(t.strip() for t in re.findall(r'>([^<>]*[А-Яа-яЁё][^<>]*)<', body))) + re.findall(r'(?:alt|aria-label|title|content)="([^"]*[А-Яа-яЁё][^"]*)"', body)
+# типографика: короткие слова не висят в конце строки, перед тире — неразрывный пробел (только в текстовых узлах)
+def typo(html, short):
+    rx = re.compile(r'(?<![\w&;])(' + short + r') (?=\S)', re.I)
+    def fix(m):
+        t = m.group(1)
+        if not t.strip() or '{' in t or '=>' in t: return m.group(0)
+        t = rx.sub(lambda k: k.group(1) + '&nbsp;', t)
+        t = t.replace(' — ', '&nbsp;— ').replace(' – ', '&nbsp;– ')
+        t = re.sub(r'(\d)([–-])(\d)', '\\1&#8288;\\2&#8288;\\3', t)              # «1–5%», «12–16» не рвутся на тире
+        return '>' + t + '<'
+    parts = re.split(r'(<script[\s\S]*?</script>|<style[\s\S]*?</style>)', html)
+    return ''.join(x if x.startswith(('<script', '<style')) else re.sub(r'>([^<>]+)<', fix, x) for x in parts)
+out = typo(out, r'в|во|на|с|со|и|а|но|по|за|у|к|ко|о|об|от|до|из|не|ни|для|при|без|это|что|как|их|её|его|мы|я')
+en = typo(en, r'a|an|the|to|of|in|on|at|by|and|or|for|is|it|we|no')
+open(os.path.join(here, 'index.html'), 'w', encoding='utf-8').write(out)
 open(os.path.join(here, 'en.html'), 'w', encoding='utf-8').write(en)
 if left: print('⚠️  EN: не переведено', len(left), '→', ' | '.join(left[:12]))
 
