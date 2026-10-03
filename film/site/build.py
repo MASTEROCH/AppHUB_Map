@@ -14,18 +14,6 @@ here = os.path.dirname(os.path.abspath(__file__))
 landing = os.path.join(here, '..', 'landing')
 tpl = open(os.path.join(landing, 'template.html'), encoding='utf-8').read()
 
-# секции v2 после финальной сцены фильма
-tail = tpl[tpl.index('</section>', tpl.index('class="scene s13"')):]
-starts = [m.start() for m in re.finditer(r'<section class="(sec|ask)', tail)]
-blocks = []
-for k, a in enumerate(starts):
-    b = starts[k + 1] if k + 1 < len(starts) else tail.index('</section>', a) + len('</section>')
-    blocks.append(tail[a:b].strip())
-anchors = {0: 'ideas', 1: 'apps'}
-for k, slug in anchors.items():
-    blocks[k] = blocks[k].replace('<section class="sec">', f'<section class="sec" id="{slug}">', 1)
-sections = '\n\n'.join(blocks)
-
 os.makedirs(os.path.join(here, 'img'), exist_ok=True)
 def img_path(name):
     for ext in ('svg', 'jpg', 'png', 'webp'):
@@ -34,13 +22,39 @@ def img_path(name):
             shutil.copy2(src, os.path.join(here, 'img', f'{name}.{ext}'))
             return f'img/{name}.{ext}'
     raise SystemExit(f'нет картинки {name}')
-sections = re.sub(r'\{\{IMG:([a-z0-9-]+)\}\}', lambda m: img_path(m.group(1)), sections)
-for name in ('mark-flat', 'wordmark-flat'):
+# брендовые файлы и фото команды живут в v2, экраны приложений — в img/app (tools: из галереи портфолио)
+for name in ('mark-flat', 'wordmark-flat', 'ph-roman', 'ph-dmitry', 'ph-denis'):
     img_path(name)
-
+sections = ''
+blocks = []
 src = open(os.path.join(here, 'index.src.html'), encoding='utf-8').read()
 out = src.replace('<!--SECTIONS-->', sections)
 open(os.path.join(here, 'index.html'), 'w', encoding='utf-8').write(out)
+
+# английская версия: тот же каркас, текст по словарю i18n/en.json, скриншоты из img/app-en (где они есть)
+tr = json.load(open(os.path.join(here, 'i18n', 'en.json'), encoding='utf-8'))
+T, CTX = tr['text'], tr['ctx']
+en = out
+for a_, b_ in CTX: en = en.replace(a_, b_)
+def _tx(m):
+    raw = m.group(1); key = raw.strip()
+    return '>' + raw.replace(key, T[key]) + '<' if key in T else m.group(0)
+en = re.sub(r'>([^<>]+)<', _tx, en)
+en = re.sub(r'(alt|aria-label|title|content|placeholder)="([^"]*)"', lambda m: m.group(1) + '="' + T.get(m.group(2), m.group(2)) + '"', en)
+en = en.replace('<html lang="ru">', '<html lang="en">')
+en = en.replace('<a class="on" href="./" data-l="ru">RU</a><a href="en.html" data-l="en">EN</a>', '<a href="./" data-l="ru">RU</a><a class="on" href="en.html" data-l="en">EN</a>')
+en_shots = 0
+def _shot(m):
+    global en_shots
+    f = os.path.join(here, 'img', 'app-en', m.group(1))
+    if os.path.exists(f): en_shots += 1; return 'img/app-en/' + m.group(1)
+    return m.group(0)
+en = re.sub(r'img/app/([a-z0-9-]+\.webp)', _shot, en)
+en = en.replace('<script src="film.js"></script>', '<script>window.I18N=' + json.dumps(T, ensure_ascii=False) + '</script>\n<script src="film.js"></script>')
+body = re.sub(r'<script[\s\S]*?</script>', '', en)
+left = sorted(set(t.strip() for t in re.findall(r'>([^<>]*[А-Яа-яЁё][^<>]*)<', body))) + re.findall(r'(?:alt|aria-label|title|content)="([^"]*[А-Яа-яЁё][^"]*)"', body)
+open(os.path.join(here, 'en.html'), 'w', encoding='utf-8').write(en)
+if left: print('⚠️  EN: не переведено', len(left), '→', ' | '.join(left[:12]))
 
 seq = os.path.join(here, 'seq', 'v1', 'lo')
 manifest = {d: len([f for f in os.listdir(os.path.join(seq, d)) if f.endswith('.webp')])
@@ -51,7 +65,8 @@ for lane in ('lo', 'hi'):
         assert m == n, f'{lane}/{d}: {m} кадров, а в lo {n}'
 json.dump(manifest, open(os.path.join(here, 'seq', 'v1', 'manifest.json'), 'w'))
 
-used = set(re.findall(r'img/([a-z0-9-]+\.[a-z]+)', out))
+used = set(re.findall(r'img/([a-z0-9-]+\.[a-z]+)', out + en + open(os.path.join(here, 'style.css'), encoding='utf-8').read()))
 for f in os.listdir(os.path.join(here, 'img')):
-    if f not in used: os.remove(os.path.join(here, 'img', f))
-print(f'ok: index.html · {len(out) // 1024} КБ · секций {len(blocks)} · картинок {len(used)} · отрезков {len(manifest)} · кадров {sum(manifest.values())}')
+    full = os.path.join(here, 'img', f)
+    if os.path.isfile(full) and f not in used: os.remove(full)
+print(f'ok: index.html + en.html (EN-скриншотов {en_shots}) · {len(out) // 1024} КБ · картинок {len(used)} · отрезков {len(manifest)} · кадров {sum(manifest.values())}')

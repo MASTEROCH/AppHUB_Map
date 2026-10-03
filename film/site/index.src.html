@@ -5,140 +5,377 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0A14">
 <title>AppHUB · Приложения, которые не надо устанавливать</title>
-<meta name="description" content="Фильм для инвестора: один запрос агенту вместо тридцати одной вкладки. AppHUB — дверь для ИИ-агентов в малый и средний бизнес.">
+<meta name="description" content="AppHUB делает приложения для малого бизнеса: открываются по ссылке, без установки, и готовы к ИИ-агентам.">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap">
-<link rel="preload" as="image" href="seq/v1/lo/c01/1.webp">
 <link rel="stylesheet" href="style.css">
+<script>(function(){try{var q=new URLSearchParams(location.search).get('lang'),l=q||localStorage.getItem('lang'),en=/\/en(\.html)?$/.test(location.pathname);
+if(q)localStorage.setItem('lang',q);
+if(!l){var n=(navigator.languages||[navigator.language||'']).join(',').toLowerCase();l=/(^|,)(ru|uk|be|kk)/.test(n)?'ru':'en';}
+if(l==='en'&&!en)location.replace('en.html'+location.hash);else if(l==='ru'&&en)location.replace('./'+location.hash);}catch(e){}})();</script>
 </head>
 <body>
-<noscript><style>.boot{display:none}</style></noscript>
-
 <div class="boot" id="boot" aria-hidden="true">
-  <img class="boot-mark" src="img/mark-flat.svg" alt="">
-  <div class="boot-bar"><i id="bootBar"></i></div>
+  <canvas class="boot-cv" id="bootCv"></canvas>
+  <div class="boot-orb" id="bootOrb">
+    <svg class="boot-ring" viewBox="0 0 200 200"><circle class="br-bg" cx="100" cy="100" r="97"/><circle class="br-fg" cx="100" cy="100" r="97" pathLength="100"/></svg>
+    <div class="orb-in"><img src="img/boot-logo.webp" alt="" fetchpriority="high"></div>
+  </div>
 </div>
 
 <header class="top">
   <a class="brand" href="#top" aria-label="AppHUB"><img src="img/mark-flat.svg" alt=""><span>AppHUB</span></a>
-  <nav class="top-nav"><a href="#film">Фильм</a><a href="#ideas">Идеи</a><a href="#apps">Приложения</a><a href="#ask">Контакт</a></nav>
+  <nav class="top-nav"><a href="#top">История</a><a href="#how">Как это работает</a><a href="#deck">Что строим</a><a href="#apps">Приложения</a><a href="#map">Карта</a><a href="#team">Команда</a></nav>
+  <div class="hud-r">
+    <div class="chap-hud" id="chapHud" aria-hidden="true"><span class="ch-name" id="chName">Ночь</span><span class="ch-dash" id="chDash"></span></div>
+    <button class="auto" id="autoBtn" type="button" aria-pressed="false"><span>Авто</span><i></i></button>
+    <div class="lang-sw" role="group" aria-label="Язык"><a class="on" href="./" data-l="ru">RU</a><a href="en.html" data-l="en">EN</a></div>
+  </div>
 </header>
+
 
 <main id="top">
 
-  <!-- Заставка: новость про dots, одна точка -->
-  <section class="hero" id="hero">
-    <div class="hero-dot" aria-hidden="true"></div>
-    <p class="hero-news">29 сентября 2026. OpenAI подключила своих агентов к <b>4&nbsp;000</b> приложений.</p>
-    <h1>Приложения,<br>которые <span class="grad">не надо устанавливать</span></h1>
-    <p class="hero-sub">Одна история: отпуск, тридцать одна вкладка, один запрос агенту и пять секунд.</p>
-    <a class="scroll-cue" href="#film"><span>Листайте</span><i></i></a>
-  </section>
-
-  <!-- Фильм, дорожка A: акты I–IV, клипы c01–c08 -->
-  <section class="film" id="film" data-track="A" data-segs="c01,t12,c02,t23,c03,t34,c04,t45,c05,t56,c06,t67,c07,c08">
+  <!-- 2. Фильм, акт I: ночь, вкладки, ошибка -->
+  <section class="film" id="film" data-segs="c01,t12,c02,t23a,x1,a21,a22,x2,t34b">
     <div class="stage">
       <div class="amb" aria-hidden="true"></div>
-      <div class="panel"><canvas class="cv" aria-label="Фильм AppHUB"></canvas><div class="panel-glow" aria-hidden="true"></div></div>
+      <canvas class="ambc" aria-hidden="true"></canvas>
+      <div class="panel"><canvas class="cv" aria-label="Фильм: акт I"></canvas><div class="panel-glow" aria-hidden="true"></div></div>
+      <div class="hero-card" id="heroCard">
+        <h1>Приложения, которые <span class="grad">не надо устанавливать</span></h1>
+        <p class="hc-sub">Своё приложение для ресторана, отеля или клиники — за&nbsp;несколько дней. Открывается по ссылке.</p>
+        <a class="btn pri dive" href="#film" id="diveBtn">Смотреть ↓</a>
+      </div>
       <div class="caps">
-
-        <div class="ch" data-seg="c01">
-          <span class="act">Акт I · Ночь</span>
-          <p class="line" data-u="0.08,1">Отпуск. Тридцать одна вкладка. Четвёртый час.</p>
-        </div>
-
-        <div class="ch" data-seg="c02">
-          <p class="line" data-u="0,0.62">Каждый бизнес здесь отдельная дверь. И&nbsp;в&nbsp;каждую стучишься сам.</p>
-          <p class="line quiet" data-u="0.7,1">Тишина.</p>
-        </div>
-
-        <div class="ch" data-seg="c03">
-          <span class="act" data-u="0,0.4">Акт II · Пять секунд</span>
-          <p class="line" data-u="0,0.42">Один запрос. Её агент сам договорился с каждым бизнесом.</p>
-          <ul class="pushes" data-u="0.04,0.42">
-            <li data-u="0.06,1"><i></i>Билеты куплены · 12 октября</li>
-            <li data-u="0.12,1"><i></i>Трансфер забронирован</li>
-            <li data-u="0.18,1"><i></i>Отель подтверждён · вид на море</li>
-            <li data-u="0.24,1"><i></i>Ужин 14 октября, 20:00 · столик у окна</li>
-            <li data-u="0.30,1"><i></i>+1&nbsp;240 баллов Loop</li>
-          </ul>
-          <p class="line" data-u="0.44,0.74">Платит как хочет. Картой или криптой. Одним касанием.</p>
-          <div class="coins" data-u="0.46,0.74"><span>Visa</span><span>Mastercard</span><span class="c">USDT</span><span class="c">TON</span><span class="c">Stars</span></div>
-          <p class="line" data-u="0.76,1">Ей осталось одно решение.</p>
-          <span class="go" data-u="0.8,1">LET'S GO</span>
-        </div>
-
-        <div class="ch" data-seg="c04">
-          <p class="big" data-u="0.25,1">Пять секунд.</p>
-        </div>
-
-        <div class="ch" data-seg="c05">
-          <span class="act" data-u="0.55,1">Акт III · Дорожка</span>
-        </div>
-
-        <div class="ch" data-seg="c06">
-          <p class="line" data-u="0,0.36">Пока она шла, каждый бизнес на её пути уже знал о&nbsp;ней.</p>
-          <div class="trio" data-u="0.3,0.7"><span><i></i>Прокат</span><span><i></i>Отель</span><span><i></i>Ресторан</span></div>
-          <p class="line" data-u="0.36,0.68">Отель. Ресторан. Прокат. Никто никому не звонил.</p>
-          <p class="line" data-u="0.68,1">А гость одного стал гостем следующего.</p>
-          <div class="card loop" data-u="0.72,1"><b>Loop замкнулся</b><span>Баллы отеля она потратит на ужин. <em>1–5%</em> каждой покупки возвращается баллами, которые принимает любое приложение сети.</span></div>
-        </div>
-
-        <div class="ch" data-seg="c07">
-          <span class="act" data-u="0.1,1">Акт IV · Небо</span>
-          <p class="line" data-u="0.3,1">Это AppHUB. Приложения, которые не надо устанавливать.</p>
-        </div>
-
-        <div class="ch" data-seg="c08">
-          <p class="line" data-u="0,1">Двадцать семь уже работают. И каждое сможет прочитать агент: цена, слот, оплата.</p>
-          <ol class="layers" data-u="0.3,1">
-            <li data-u="0.34,1"><b>L1</b>Люди и их агенты<small>уже залогинены в мессенджере</small></li>
-            <li data-u="0.46,1"><b>L2</b>Агрегаторы<small>CityHub, Neon, BazApp, Korob·ka</small></li>
-            <li data-u="0.58,1"><b>L3</b>27 приложений бизнесов<small>меню, бронь, запись, оплата</small></li>
-            <li data-u="0.7,1" class="lp"><b>Loop</b>Одна сеть лояльности<small>1–5% баллами в любом приложении</small></li>
-          </ol>
-        </div>
-
+        <div class="ch" data-seg="c01"><span class="act">Акт I · Как сейчас</span><p class="line" data-u="0.06,1">Час ночи. Тридцать первая вкладка.</p><p class="sub" data-u="0.3,1">Отель — на одном сайте. Ужин — на другом. Машина — по телефону, с десяти утра.</p></div>
+        <div class="ch" data-seg="c02"><p class="line" data-u="0,0.66">Каждый бизнес — отдельная дверь.</p><p class="sub" data-u="0.2,0.66">И в каждую она стучится сама.</p><p class="line quiet" data-u="0.72,1">Ноутбук закрыт. Остаётся телефон.</p></div>
+        <div class="ch" data-seg="a21"><span class="act" data-u="0.05,1">Акт II · Ваш ход</span><p class="line" data-u="0.25,1">Телефон просыпается.</p><p class="sub" data-u="0.5,1">Внутри — AppHUB.</p></div>
+        <div class="ch" data-seg="a22"><p class="line" data-u="0,1">Он знает, где свободен столик.</p><p class="sub" data-u="0.3,1">Отель, ресторан и прокат — в одной сети приложений. Им не нужно перезванивать.</p></div>
+        <div class="ch" data-seg="t34b"><p class="line" data-u="0.1,1">Попробуйте сами.</p><p class="sub" data-u="0.45,1">Соберите её отпуск ↓</p></div>
       </div>
       <div class="prog" aria-hidden="true"><i></i></div>
     </div>
   </section>
 
-  <!-- Поле точек: signature -->
+  <!-- 3. Телефон: всё происходит само по скроллу -->
+  <section class="agent-scene" id="agent">
+    <div class="stage as-stage">
+      <div class="as-bg" aria-hidden="true"></div>
+      <div class="g-wrap">
+        <div class="hud">
+          <span class="act">Акт II · Пять секунд</span>
+          <h2 class="g-title" id="gTitle">Соберите отпуск в Батуми</h2>
+          <p class="g-hint" id="gHint">Одна просьба агенту вместо ночи с вкладками.</p>
+          <ul class="goals">
+            <li data-g="0.395"><i></i>Отель у моря</li>
+            <li data-g="0.445"><i></i>Ужин на двоих</li>
+            <li data-g="0.495"><i></i>Машина на день</li>
+            <li data-g="0.545"><i></i>Маршрут по городу</li>
+            <li data-g="0.86"><i></i>Оплата</li>
+          </ul>
+          <div class="meters"><div><span>Время</span><b id="gTime">0:00</b></div><div><span>Бизнесов</span><b id="gBiz">0</b></div><div class="lp"><span>Баллы Loop</span><b id="gPts">0</b></div></div>
+          <div class="as-prog"><i id="asProg"></i></div>
+        </div>
+
+        <div class="device lg game-dev">
+          <div class="dv-island"></div>
+          <div class="dv-screen">
+            <div class="dv-status"><b>23:41</b><span>●●● ▮</span></div>
+
+            <div class="gs" data-s="intro"><div class="intro"><img src="img/mark-flat.svg" alt=""><b>Отпуск в Батуми</b><span>Отель у моря, ужин на двоих, машина на день.</span><span class="intro-cta">Попросить агента</span></div></div>
+
+            <div class="gs chat2" data-s="chat">
+              <div class="chat-head"><img src="img/mark-flat.svg" alt=""><div><b>AppHUB · агент</b><span>договаривается за вас</span></div></div>
+              <div class="msgs" id="gMsgs">
+                <div class="msg bot on">Куда едем?</div>
+                <div class="msg me" data-t="0.31">Батуми, 12–16 октября, отель у моря, ужин 14-го на двоих, машина на день и маршрут по городу.</div>
+                <div class="msg bot" data-t="0.34">Пишу отелю, ресторану и прокату<span class="dots3"><i></i><i></i><i></i></span></div>
+                <div class="res" data-t="0.39"><img src="img/app/hotelito-1.webp" alt=""><div><b>Hotelito</b><span>Дом у воды · 12–16 октября</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.44"><img src="img/app/epoch-1.webp" alt=""><div><b>EPOCH</b><span>Столик у окна · 14 окт, 20:00</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.49"><img src="img/app/batumi-neon-1.webp" alt=""><div><b>Batumi Neon</b><span>Кабриолет на 15 октября</span></div><i class="ok"></i></div>
+                <div class="res" data-t="0.54"><img src="img/app/cityhub-1.webp" alt=""><div><b>CityHUB</b><span>Маршрут по городу на 4 дня</span></div><i class="ok"></i></div>
+                <div class="msg bot" data-t="0.565">Четыре бизнеса подтвердили. Оплатить одним касанием?</div>
+              </div>
+              <div class="chips2" id="gChips">
+                <span data-t="0.13">Батуми, 12–16 октября</span><span data-t="0.17">Отель у моря</span><span data-t="0.21">Ужин 14-го на двоих</span><span data-t="0.25">Машина на день</span><span data-t="0.28">Маршрут по городу</span>
+              </div>
+              <div class="compose"><span id="gDraft">Нажмите на подсказки…</span><span class="send" id="gSend">↑</span></div>
+            </div>
+
+            <div class="gs appview" data-s="app">
+              <img data-t="0.6" src="img/app/hotelito-3.webp" alt="Приложение Hotelito"><img data-t="0.655" src="img/app/epoch-4.webp" alt="Приложение EPOCH"><img data-t="0.705" src="img/app/batumi-neon-2.webp" alt="Приложение Batumi Neon">
+              <span class="app-tag" id="gAppTag">Hotelito · приложение гостевого дома</span>
+            </div>
+
+            <div class="gs pay2" data-s="pay">
+              <div class="sheet open">
+                <i class="grab"></i>
+                <div class="pay-row"><span>4 бронирования</span><b>₾ 2&nbsp;480</b></div>
+                <div class="seg"><span class="sg-card">Карта</span><span class="sg-crypto">Крипта</span></div>
+                <div class="coins2" id="gCoins"><span>USDT</span><span>TON</span><span>Stars</span><span>BTC</span></div>
+                <div class="cashback">+5% вернётся баллами Loop</div>
+                <span class="letsgo" id="gGo">LET'S GO</span>
+              </div>
+            </div>
+
+            <div class="gs done2" data-s="done">
+              <div class="okbig"></div>
+              <b>Готово за <em>0:06</em></b>
+              <span class="vs">Без AppHUB: ночь, 31 вкладка и ни одной брони.</span>
+              <div class="wallet"><span>Баллы Loop</span><b id="gWallet">1 240</b></div>
+              <span class="spendbtn" id="gSpend">Потратить баллы на ужин</span>
+              <div class="spent" id="gSpent"><b>EPOCH принял баллы Hotelito</b><span>Это Loop: гость отеля стал гостем ресторана.</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Фильм, акты III–IV: выдох, дорожка, небо, сеть -->
+  <section class="film" id="film2" data-segs="c04,t45,c05,t56,c06,t67,c07,c08">
+    <div class="stage">
+      <div class="amb" aria-hidden="true"></div>
+      <canvas class="ambc" aria-hidden="true"></canvas>
+      <div class="panel"><canvas class="cv" aria-label="Фильм: акты III и IV"></canvas>
+        <div class="ph-layer" aria-hidden="true"><div class="cn" id="cnLayer">
+          <svg class="cn-loop" viewBox="0 0 200 200"><circle class="cl-track" cx="100" cy="100" r="98"/><circle class="cl-comet" cx="100" cy="100" r="98" pathLength="100"/></svg>
+          <div class="cn-tag t-core down" data-f="32" data-a="90" data-r="0.02"><b>AppHUB</b><span>ядро сети</span></div>
+          <div class="cn-tag t-l3 up" data-f="56" data-a="-32" data-r="0.156"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Butyfly</span></div>
+          <div class="cn-tag t-l2 down" data-f="72" data-a="148" data-r="0.254"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon</span></div>
+          <div class="cn-tag t-l1 up" data-f="86" data-a="-90" data-r="0.344"><em>L1</em><b>Люди и их агенты</b><span>визитки LinkOS</span></div>
+          <div class="cn-tag t-loop down" data-f="96" data-a="28" data-r="0.254"><em>Loop</em><b>Баллы ходят по кругу</b></div>
+        </div></div>
+        <div class="panel-glow" aria-hidden="true"></div></div>
+      <div class="caps">
+        <div class="ch" data-seg="c04"><p class="big" data-u="0.2,1">Готово.</p></div>
+        <div class="ch" data-seg="c05"><span class="act" data-u="0.3,1">Акт III · Дальше</span><p class="line" data-u="0.45,1">Дальше всё происходит само.</p></div>
+        <div class="ch" data-seg="c06">
+          <p class="line" data-u="0,0.4">Отель уже знает, что она приедет.</p>
+          <p class="line" data-u="0.4,0.7">Ресторан — что у неё 1&nbsp;240 баллов.</p>
+          <p class="line" data-u="0.7,1">Loop. Баллы одного бизнеса — деньги в&nbsp;другом.</p><p class="sub" data-u="0.74,1">С каждой покупки возвращается 1–5%.</p>
+        </div>
+        <div class="ch" data-seg="c07"><span class="act" data-u="0.1,1">Акт IV · Сеть</span><p class="line" data-u="0.3,1">Это AppHUB.</p></div>
+        <div class="ch" data-seg="c08">
+          <p class="line" data-u="0,1">Три слоя. Одна сеть.</p>
+          <p class="sub" data-u="0.8,1">Люди → агрегаторы → бизнесы. Баллы Loop ходят по&nbsp;кругу.</p>
+        </div>
+      </div>
+      <div class="prog" aria-hidden="true"><i></i></div>
+    </div>
+  </section>
+
+  <!-- 5. Поле точек: signature -->
   <section class="dots" id="dots">
     <div class="stage">
       <canvas class="dv" aria-hidden="true"></canvas>
       <div class="dots-cap">
-        <p class="count"><b id="cnt">0</b><span>приложений подключены к агентам OpenAI</span></p>
-        <p class="line" data-d="0.34,1">Бизнесов в мире <em>сотни миллионов</em>.</p>
-        <p class="line" data-d="0.62,1">Мы дверь для агентов в каждый из них.</p>
+        <p class="count"><b id="cnt">0</b><span>приложений открыто агентам ChatGPT · сентябрь 2026</span></p>
+        <p class="line" data-d="0.34,1">А малых бизнесов — <em>сотни миллионов</em>. Для агентов их не существует.</p>
+        <p class="line" data-d="0.62,1">AppHUB делает их видимыми. Один бизнес за другим.</p>
       </div>
     </div>
   </section>
 
-  <!-- Фильм, дорожка B: финал c09 -->
-  <section class="film short" id="finale" data-track="B" data-segs="c09">
+  <!-- 6. Финал фильма -->
+  <section class="film short" id="finale" data-segs="c09,x3,a42,a51">
     <div class="stage">
       <div class="amb" aria-hidden="true"></div>
-      <div class="panel"><canvas class="cv" aria-label="Финал фильма"></canvas><div class="panel-glow" aria-hidden="true"></div></div>
+      <canvas class="ambc" aria-hidden="true"></canvas>
+      <div class="panel"><canvas class="cv" aria-label="Финал"></canvas>
+        <div class="ph-layer" aria-hidden="true"><div class="ph-ui" id="phUi">
+          <div class="pu-status"><b>23:41</b><i></i></div>
+          <img class="pu-mark" src="img/mark-flat.svg" alt="">
+          <b class="pu-name">AppHUB</b><span class="pu-sub">Ваша точка в сети</span>
+          <span class="pu-btn"><em class="pu-off">Включить</em><em class="pu-on">✓ Включено</em></span>
+          <span class="pu-tap">Tap to continue…</span>
+        </div></div>
+        <div class="panel-glow" aria-hidden="true"></div></div>
       <div class="caps">
-        <div class="ch" data-seg="c09">
-          <p class="big" data-u="0.15,1">Включите свою точку.</p>
-          <div class="lockup" data-u="0.45,1"><img class="mk" src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"></div>
-          <div class="ctas" data-u="0.6,1"><a class="btn pri" href="https://t.me/Portfolio_AppHub_Bot">Открыть портфолио</a><a class="btn" href="#ideas">Листать дальше</a></div>
-        </div>
+        <div class="ch" data-seg="c09"><p class="big" data-u="0.15,1">Включите свою точку.</p></div>
+        <div class="ch" data-seg="a51"><p class="line" data-u="0.1,1">AppHUB.</p><p class="sub" data-u="0.2,1">Приложения, которые не надо устанавливать.</p><div class="hero-cta" data-u="0.35,1"><a class="btn pri" href="https://t.me/Portfolio_AppHub_Bot">Открыть портфолио</a><a class="btn" href="#how">Как это работает</a></div></div>
       </div>
       <div class="prog" aria-hidden="true"><i></i></div>
     </div>
   </section>
 
-  <div class="secs">
-<!--SECTIONS-->
-  </div>
+  <!-- 6½. Что мы строим: слайды по брифу фаундеров; листаются по одному, как карточки фильма -->
+  <section class="deck" id="deck">
+    <article class="sl" style="--g:#2997FF">
+      <div class="sl-copy">
+        <span class="sl-eye">Без установки</span>
+        <h2 class="sl-h">Работают там, где уже сидят клиенты.</h2>
+        <p class="sl-p">Приложение открывается по&nbsp;ссылке прямо внутри Instagram, Facebook, TikTok, YouTube и Telegram — и встаёт иконкой на экран. Без стора.</p>
+      </div>
+      <div class="sl-vis plats">
+        <span style="--k:0">Instagram</span><span style="--k:1">Facebook</span><span style="--k:2">TikTok</span><span style="--k:3">YouTube</span><span style="--k:4">Telegram</span><span style="--k:5">Браузер</span>
+        <b class="plat-to" style="--k:6">↓ Иконка на экране телефона</b>
+      </div>
+    </article>
+    <article class="sl" style="--g:#30D158">
+      <div class="sl-copy">
+        <span class="sl-eye">Конструктор BuildOS</span>
+        <h2 class="sl-h">20+ ниш уже распакованы.</h2>
+        <p class="sl-p">BuildOS уже в работе: бизнес выбирает нишу и получает готовое приложение. Мы уверенно заходим в любую нишу.</p>
+        <div class="niche"><span>Рестораны</span><span>Отели</span><span>Клиники</span><span>Бьюти</span><span>Фитнес</span><span>Прокат авто</span><span>Туры</span><span>Недвижимость</span><span>Мебель</span><span>Магазины</span><span>Ивенты</span><span>Дом и ЖКХ</span></div>
+      </div>
+      <div class="sl-vis"><div class="sl-ph"><img src="img/app/apphub-os-2.webp" alt="Конструктор BuildOS: выбор ниши" loading="lazy"></div></div>
+    </article>
+    <article class="sl" style="--g:#BF5AF2">
+      <div class="sl-copy">
+        <span class="sl-eye">LinkOS</span>
+        <h2 class="sl-h">Цифровая визитка со своим ИИ-ассистентом.</h2>
+        <p class="sl-p">Персональная визитка со встроенным ИИ-ассистентом и поддержкой Web3. Уже готова и работает на любой платформе.</p>
+        <div class="pills"><span>ИИ-ассистент</span><span>Web3</span><span>Любая платформа</span></div>
+        <a class="sl-link" href="https://t.me/Linkos_AppHub_bot">Открыть LinkOS ›</a>
+      </div>
+      <div class="sl-vis"><div class="sl-ph"><img src="img/app/linkos-1.webp" alt="Визитка LinkOS" loading="lazy"></div></div>
+    </article>
+    <article class="sl" style="--g:#64D2FF">
+      <div class="sl-copy">
+        <span class="sl-eye">Приложение AppHUB</span>
+        <h2 class="sl-h">Своё нативное приложение.</h2>
+        <p class="sl-p">Один вход во всю сеть — через Telegram, Meta, Google или&nbsp;Apple.</p>
+      </div>
+      <div class="sl-vis signin">
+        <img class="si-mark" src="img/mark-flat.svg" alt="">
+        <span style="--k:0"><svg viewBox="0 0 24 24"><path d="M21 4.5 2.8 11.6c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.5c.2.7 1.1.9 1.6.4l2.6-2.5 4.6 3.4c.6.4 1.4.1 1.6-.6L22.3 5.8c.2-.9-.6-1.6-1.3-1.3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m9.3 14.9 7.9-6.4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>Продолжить с Telegram</span>
+        <span style="--k:1"><svg viewBox="0 0 24 24"><path d="M6.6 7.5C3.9 7.5 2.5 10.6 2.5 13c0 2 1 3.5 2.8 3.5 2.6 0 4.4-4.1 6.7-7.1 1.6-2 3-1.9 4.3-1.9 2.8 0 5.2 3.3 5.2 6.5 0 1.9-.9 2.5-1.9 2.5-2.4 0-4.4-4.6-6.2-6.9C12 7.7 9.6 7.5 6.6 7.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>Продолжить с Meta</span>
+        <span style="--k:2"><svg viewBox="0 0 24 24"><path d="M20.5 12.2c0-.7-.1-1.3-.2-1.9H12v3.6h4.8a4.3 4.3 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.6-3.9 2.6-6.6z" fill="currentColor"/><path d="M12 21c2.4 0 4.4-.8 5.9-2.2l-2.9-2.2c-.8.5-1.8.9-3 .9-2.3 0-4.3-1.6-5-3.7H4v2.3A9 9 0 0 0 12 21z" fill="currentColor" opacity=".8"/><path d="M7 13.8a5.4 5.4 0 0 1 0-3.5V8H4a9 9 0 0 0 0 8.1z" fill="currentColor" opacity=".6"/><path d="M12 6.6c1.3 0 2.5.5 3.4 1.3L18 5.4A9 9 0 0 0 4 8l3 2.3c.7-2.1 2.7-3.7 5-3.7z" fill="currentColor" opacity=".9"/></svg>Продолжить с Google</span>
+        <span class="si-apple" style="--k:3"><svg viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7a4.5 4.5 0 0 0-3.5-1.9c-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8a4.7 4.7 0 0 0-4 2.4c-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.4-1-2.4-3.9zM14.1 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.6-2.8 1.4-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z" fill="currentColor"/></svg>Продолжить с Apple</span>
+      </div>
+    </article>
+    <article class="sl sl-wide" style="--g:#FF9F0A">
+      <div class="sl-copy">
+        <span class="sl-eye">Машиночитаемый бизнес</span>
+        <h2 class="sl-h">Мы не конкурируем с агентами корпораций. Мы — их дверь в малый бизнес.</h2>
+      </div>
+      <div class="sl-vis agnews">
+        <div style="--k:0"><b>Google</b><span>AI Mode бронирует столики и отели прямо в поиске</span><time>авг 2026</time></div>
+        <div style="--k:1"><b>Meta</b><span>Business Agent в WhatsApp и Instagram — у&nbsp;миллиона бизнесов</span><time>июнь 2026</time></div>
+        <div style="--k:2"><b>Apple</b><span>Новая Siri в iOS 27 действует внутри приложений</span><time>сент 2026</time></div>
+        <div style="--k:3"><b>xAI</b><span>Grok Bot сам покупает в интернет-магазинах</span><time>авг 2026</time></div>
+        <p class="news-foot" style="--k:4">Агенту нужен вход в бизнес, который он может прочитать. Пока его нет — ИИ Google звонит в кафе голосом.</p>
+      </div>
+    </article>
+    <article class="sl" style="--g:#FF9F0A">
+      <div class="sl-copy">
+        <span class="sl-eye">Поиск уходит к агентам</span>
+        <h2 class="sl-h">По ссылкам кликают всё реже.</h2>
+        <p class="sl-p">AppHUB делает малый бизнес понятным для агентов. Это и есть идея AppOS.</p>
+      </div>
+      <div class="sl-vis stats">
+        <div style="--k:0"><b>8% <i>vs</i> 15%</b><span>кликают по ссылкам, когда в Google есть ИИ-сводка — и когда её нет</span><small>Pew Research, июль 2025</small></div>
+        <div style="--k:1"><b>+117%</b><span>переходов с ИИ-платформ за год</span><small>Similarweb, сентябрь 2026</small></div>
+      </div>
+    </article>
+    <article class="sl" style="--g:#30D158">
+      <div class="sl-copy">
+        <span class="sl-eye">Loop</span>
+        <h2 class="sl-h">Единая сеть лояльности.</h2>
+        <p class="sl-p">Баллы одного бизнеса тратятся в другом. С каждой покупки возвращается 1–5%. Гость отеля становится гостем ресторана.</p>
+      </div>
+      <div class="sl-vis loopflow">
+        <div style="--k:0"><b>Hotelito</b><span>отель</span></div><i style="--k:1"></i>
+        <div style="--k:2"><b>EPOCH</b><span>ресторан</span></div><i style="--k:3"></i>
+        <div style="--k:4"><b>Batumi Neon</b><span>прокат авто</span></div>
+      </div>
+    </article>
+    <article class="sl sl-wide" style="--g:#64D2FF">
+      <div class="sl-copy">
+        <span class="sl-eye">AppHUB Map</span>
+        <h2 class="sl-h">Три слоя одной сети.</h2>
+        <p class="sl-p">Так это устроено на нашей карте экосистемы.</p>
+      </div>
+      <div class="sl-vis layers3">
+        <div class="ly l1" style="--k:0"><em>L1</em><b>Люди и их ИИ-агенты</b><span>визитки LinkOS · вход из мессенджера</span></div>
+        <div class="ly l2" style="--k:1"><em>L2</em><b>Агрегаторы</b><span>CityHUB · Batumi Neon · Realty</span></div>
+        <div class="ly l3" style="--k:2"><em>L3</em><b>Бизнесы</b><span>EPOCH · Hotelito · Dr.&nbsp;Hilling · Furniturum · KING FIT</span></div>
+        <div class="ly lp" style="--k:3"><em>Loop</em><b>Петля возвращает гостя в L1</b><span>баллы ходят между всеми слоями</span></div>
+        <a class="sl-link" href="https://apphub-map.com/v2/" style="--k:4">Открыть AppHUB Map ›</a>
+      </div>
+    </article>
+  </section>
 
-  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>hello@apphub.studio · AppHub Studio, Тбилиси · октябрь 2026</span></footer>
+  <!-- 7. Как это работает: три шага, по экрану на шаг -->
+  <section class="how" id="how">
+    <span class="eyebrow rv">Как это работает</span>
+    <h2 class="rv">Как это работает. <b>Три шага.</b></h2>
+    <div class="steps3">
+      <div class="st rv"><div class="st-ph"><img src="img/app/apphub-os-2.webp" alt="BuildOS: выбор ниши" loading="lazy"></div><span class="n">01 · Бизнес</span><h3>Своё приложение за несколько дней</h3><p>Студия под ключ или конструктор BuildOS: 20 шаблонов ниш, бренд подтягивается с сайта или Instagram.</p></div>
+      <div class="st rv"><div class="st-ph"><img src="img/app/epoch-2.webp" alt="EPOCH: меню" loading="lazy"></div><span class="n">02 · Клиент</span><h3>Открывает по ссылке</h3><p>В Telegram, Instagram, TikTok или браузере. Меню, бронь, запись, оплата картой или криптой.</p></div>
+      <div class="st rv"><div class="st-ph"><img src="img/app/cityhub-4.webp" alt="CityHUB: баллы" loading="lazy"></div><span class="n">03 · Сеть</span><h3>Гость переходит к соседу</h3><p>Баллы Loop одного бизнеса тратятся у другого. Агенты клиентов бронируют сами — этот слой мы строим.</p></div>
+    </div>
+  </section>
+
+  <!-- 8. Живые приложения: бегущая лента -->
+  <section class="apps" id="apps">
+    <div class="apps-head"><span class="eyebrow rv">Не концепт</span><h2 class="rv">27 приложений. <b>Откройте любое.</b></h2></div>
+    <div class="marquee rv"><div class="mq-track">
+      <a class="mq" href="https://epoch-client-lovat.vercel.app"><img src="img/app/epoch-2.webp" alt="" loading="lazy"><b>EPOCH</b><span>ресторан</span></a>
+      <a class="mq" href="https://hotelito-r4w8.vercel.app"><img src="img/app/hotelito-1.webp" alt="" loading="lazy"><b>Hotelito</b><span>гостевой дом</span></a>
+      <a class="mq" href="https://batumi-neon-kappa.vercel.app"><img src="img/app/batumi-neon-1.webp" alt="" loading="lazy"><b>Batumi Neon</b><span>прокат авто</span></a>
+      <a class="mq" href="https://butyfly-v9k3.vercel.app"><img src="img/app/butyfly-1.webp" alt="" loading="lazy"><b>Butyfly</b><span>клиника</span></a>
+      <a class="mq" href="https://king-fit.vercel.app"><img src="img/app/king-fit-1.webp" alt="" loading="lazy"><b>KING FIT</b><span>фитнес</span></a>
+      <a class="mq" href="https://masteroch.github.io/cityhub/"><img src="img/app/cityhub-1.webp" alt="" loading="lazy"><b>CityHUB</b><span>город</span></a>
+      <a class="mq" href="https://furniturum-m5t1.vercel.app"><img src="img/app/furniturum-1.webp" alt="" loading="lazy"><b>Furniturum</b><span>мебель</span></a>
+      <a class="mq" href="https://babyland-c3x7.vercel.app"><img src="img/app/babyland-1.webp" alt="" loading="lazy"><b>BabyLand</b><span>праздники</span></a>
+      <a class="mq" href="https://t.me/Linkos_AppHub_bot"><img src="img/app/linkos-1.webp" alt="" loading="lazy"><b>LinkOS</b><span>визитки</span></a>
+      <a class="mq" href="https://t.me/nardum_game_bot"><img src="img/app/nardum-1.webp" alt="" loading="lazy"><b>NARDUM</b><span>игра · TON</span></a>
+      <a class="mq" href="https://t.me/expobatumibot"><img src="img/app/ebit-1.webp" alt="" loading="lazy"><b>EBIT Expo</b><span>выставка</span></a>
+      <a class="mq" href="https://drhilling-q2n6.vercel.app"><img src="img/app/drhilling-1.webp" alt="" loading="lazy"><b>Dr. Hilling</b><span>медицина</span></a>
+    </div></div>
+    <div class="nums">
+      <div class="num rv"><b data-n="27">0</b><span>приложений в работе</span></div>
+      <div class="num rv"><b data-n="20">0</b><span>ниш в конструкторе</span></div>
+      <div class="num rv"><b data-n="4">0</b><span>сделки по внедрению, ещё 2 в переговорах</span></div>
+      <div class="num rv"><b data-n="59">0</b><span>узлов на карте экосистемы</span></div>
+    </div>
+  </section>
+
+  <!-- 8½. AppHUB Map: вся экосистема на одной карте; живая карта открывается поверх страницы -->
+  <section class="mapsec" id="map">
+    <div class="map-head">
+      <span class="eyebrow rv">AppHUB Map</span>
+      <h2 class="rv">Вся экосистема. <b>На одной карте.</b></h2>
+      <p class="map-sub rv">Студия, агрегаторы, приложения бизнесов и петля Loop — живая карта со всеми связями.</p>
+    </div>
+    <div class="map-frame rv">
+      <div class="map-pan" id="mapPan"><img src="img/map-eco.webp" alt="Карта экосистемы AppHUB: L1 → L2 → L3 и петля Loop" width="2000" height="821" loading="lazy" draggable="false"></div>
+      <div class="map-chips"><span>L1 · люди и агенты</span><span>L2 · агрегаторы</span><span>L3 · бизнесы</span><span>Loop</span></div>
+      <a class="map-open" id="mapOpen" href="https://apphub-map.com/v2/?client" target="_blank" rel="noopener">Исследовать карту</a>
+    </div>
+  </section>
+  <div class="map-modal" id="mapModal" hidden><iframe title="AppHUB Map" allow="fullscreen"></iframe><button class="map-close" id="mapClose" type="button">Закрыть</button></div>
+
+  <!-- 9. Модель, команда, контакт — одним блоком -->
+  <section class="close" id="team">
+    <div class="money rv">
+      <span class="eyebrow">Как зарабатываем</span>
+      <div class="m3">
+        <div><b>Студия</b><span>внедрение от $1&nbsp;500 + % маржи клиента</span></div>
+        <div><b>Подписка</b><span>$0 · $49 · $99 · $149 в месяц</span></div>
+        <div><b>Loop</b><span>комиссия с оборота баллов сети</span></div>
+      </div>
+    </div>
+    <div class="team3 rv">
+      <span class="eyebrow">Команда</span>
+      <div class="ppl">
+        <div><img src="img/ph-roman.jpg" alt=""><b>Роман Чернявский</b><span>CPO · видение продукта и дизайн</span></div>
+        <div><img src="img/ph-dmitry.jpg" alt=""><b>Дмитрий Невмер</b><span>CEO · связи и стратегия</span></div>
+        <div><img src="img/ph-denis.jpg" alt=""><b>Денис Сокуренко</b><span>CTO · продукт и архитектура</span></div>
+      </div>
+    </div>
+    <div class="ask2 rv">
+      <h2>Ищем партнёра на pre-seed. <b>Нужны двери в бизнесы и новые рынки — не только деньги.</b></h2>
+      <div class="hero-cta"><a class="btn pri" href="mailto:hello@apphub.studio">hello@apphub.studio</a><a class="btn" href="https://t.me/Portfolio_AppHub_Bot">Портфолио в Telegram</a></div>
+    </div>
+  </section>
+
+  <footer class="foot"><img src="img/mark-flat.svg" alt=""><img class="wm" src="img/wordmark-flat.png" alt="AppHUB .STUDIO"><span>AppHub Studio · Тбилиси · октябрь 2026</span></footer>
 </main>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>

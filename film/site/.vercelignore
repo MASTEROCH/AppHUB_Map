@@ -2,3 +2,4 @@ build.py
 index.src.html
 tools/
 .vercel
+i18n/

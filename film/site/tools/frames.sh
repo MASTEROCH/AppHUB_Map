@@ -21,8 +21,8 @@ jobs = []
 for c in sorted(os.listdir(tmp)):
     for f in os.listdir(os.path.join(tmp, c)):
         n = f[:-4]; p = os.path.join(tmp, c, f)
-        jobs.append(['cwebp', '-quiet', '-q', '66', p, '-o', f'{out}/hi/{c}/{n}.webp'])
-        jobs.append(['cwebp', '-quiet', '-q', '60', '-resize', '540', '960', p, '-o', f'{out}/lo/{c}/{n}.webp'])
+        jobs.append(['cwebp', '-quiet', '-m', '6', '-q', '54', p, '-o', f'{out}/hi/{c}/{n}.webp'])
+        jobs.append(['cwebp', '-quiet', '-m', '6', '-q', '56', '-resize', '540', '960', p, '-o', f'{out}/lo/{c}/{n}.webp'])
 with ThreadPoolExecutor(8) as ex:
     list(ex.map(lambda j: subprocess.run(j, check=True), jobs))
 print(len(jobs), 'файлов')
