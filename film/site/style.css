@@ -1492,3 +1492,14 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 @media (max-width:600px),(orientation:portrait){
   .film .stage .panel::after{height:64%;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.62) 30%,rgba(0,0,0,.24) 64%,rgba(0,0,0,0) 100%)}
 }
+
+/* ════════ чек поездки: шапка ParaTravel — тур собран в клубе путешествий ════════ */
+.tr-head{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 0 9px}
+.tr-para{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(145deg,#FF9A3C,#FF5E3A);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 12px rgba(255,110,60,.35)}
+.tr-para svg{width:20px;height:20px}
+.tr-head span{display:block;min-width:0;font-size:15px;font-weight:600;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-head small{display:block;font-size:12px;font-weight:400;color:rgba(235,235,245,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-cash{font-style:normal;font-size:12px;font-weight:600;color:#FFB547;padding:4px 8px;border-radius:999px;background:rgba(255,154,60,.14);white-space:nowrap}
+@container phone (max-height:640px){.tr-head{grid-template-columns:28px minmax(0,1fr) auto;padding:7px 0 6px;gap:8px}.tr-para{width:28px;height:28px;border-radius:8px}.tr-para svg{width:16px;height:16px}.tr-head span{font-size:14px}.tr-head small{font-size:11px}.tr-cash{font-size:11px;padding:3px 7px}}
+/* узкий макет: плашка кэшбэка не отнимает место у названия тура */
+@container phone (max-width:379px){.tr-cash{display:none}.tr-head{grid-template-columns:32px minmax(0,1fr)}}

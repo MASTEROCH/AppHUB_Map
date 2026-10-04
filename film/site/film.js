@@ -623,17 +623,35 @@
     for (var j = stops.length - 1; j >= 0; j--) if (stops[j] < y - 6) return stops[j];
     return null;
   }
+  // темп отрезков: мс на кадр. Сцена «выдох» — почти живая скорость, переход к глазу — разгон, погружение в зрачок — быстрее
+  var PACE = { c04: 85, t45: 24, c05: 32 }, PACE_DEF = 26;
+  function paceAt(y) {
+    for (var i = 0; i < Engine.tracks.length; i++) {
+      var t = Engine.tracks[i], top = t.el.getBoundingClientRect().top + scrollY, span = t.el.offsetHeight - t.stage.clientHeight;
+      if (span > 0 && y >= top && y <= top + span) { var g = (y - top) / span * (t.N - 1); return { ms: PACE[t.segs[t.segAt(Math.round(g))].id] || PACE_DEF, pxf: span / (t.N - 1) }; }
+    }
+    return { ms: PACE_DEF, pxf: PX_PER_FRAME };
+  }
+  // расписание перехода: время копится по кадрам с темпом отрезка — медленные сцены играют медленно, быстрые пролетают
+  function schedule(y0, y1) {
+    var n = 160, ys = [y0], ts = [0], T = 0;
+    for (var i = 1; i <= n; i++) { var ya = y0 + (y1 - y0) * (i - 1) / n, yb = y0 + (y1 - y0) * i / n, pc = paceAt((ya + yb) / 2); T += Math.abs(yb - ya) / pc.pxf * pc.ms; ys.push(yb); ts.push(T); }
+    return { ys: ys, ts: ts, T: T };
+  }
   function pageTo(y, done) {
     var y0 = scrollY, dist = Math.abs(y - y0), chained = pg.on;
-    var dur = REDUCED ? 0 : clamp(dist / PX_PER_FRAME * 26, 900, 2400);       // ~26 мс на кадр: переход в 2–3× быстрее жизни, глаз успевает
+    var sch = schedule(y0, y), slow = sch.T > dist / PX_PER_FRAME * 30;          // в пути есть медленная сцена — живой темп, без сжатия
+    var dur = REDUCED ? 0 : slow ? clamp(sch.T, 900, 9000) : clamp(dist / PX_PER_FRAME * 26, 900, 2400);   // ~26 мс на кадр: переход в 2–3× быстрее жизни, глаз успевает
     var id = ++snapId, t0 = performance.now(); snapping = true; pg.on = true; pg.to = y;
     root.style.scrollBehavior = 'auto';
     Engine.tracks.forEach(function (t) { t.ahead = y; });
     (function f(now) {
       if (id !== snapId) return;
       var k = dur ? Math.min(1, (now - t0) / dur) : 1;
-      scrollTo(0, y0 + (y - y0) * (chained ? easeOut(k) : easePage(k)));
-      push(dur > 1000 ? Math.sin(Math.PI * k) : 0);                              // наезд камеры на длинном переходе
+      var e = chained ? easeOut(k) : easePage(k);
+      if (slow) { var tt = e * sch.T, j = 1; while (j < sch.ts.length - 1 && sch.ts[j] < tt) j++; var fj = sch.ts[j] > sch.ts[j - 1] ? (tt - sch.ts[j - 1]) / (sch.ts[j] - sch.ts[j - 1]) : 1; scrollTo(0, sch.ys[j - 1] + (sch.ys[j] - sch.ys[j - 1]) * fj); }   // не f: f — имя самой функции кадра
+      else scrollTo(0, y0 + (y - y0) * e);
+      push(dur > 1000 && !slow ? Math.sin(Math.PI * k) : 0);                    // наезд камеры на длинном переходе (живую сцену не трогаем)
       if (k < 1) { requestAnimationFrame(f); return; }
       push(0);
       pg.on = false; snapping = false; root.style.scrollBehavior = ''; haptic();
