@@ -87,6 +87,15 @@
     });
     this.settle = 0;
     this.layer = el.querySelector('.ph-layer'); this.ui = el.querySelector('.ph-ui');
+    var panel = el.querySelector('.panel'), PORT = matchMedia('(max-width:600px),(orientation:portrait)');
+    this.scrimAt = function (y) {                                                   // альфа слоя затемнения в точке экрана y (повторяет градиент в CSS)
+      if (!PORT.matches || !panel) return 0;
+      var pr = panel.getBoundingClientRect(), u = (pr.bottom - y) / (pr.height * 0.64);
+      if (u <= 0) return 0.85; if (u >= 1) return 0;
+      var st = [[0, .85], [.30, .62], [.64, .24], [1, 0]];
+      for (var j = 1; j < st.length; j++) if (u <= st[j][0]) { var f = (u - st[j - 1][0]) / (st[j][0] - st[j - 1][0]); return st[j - 1][1] + (st[j][1] - st[j - 1][1]) * f; }
+      return 0;
+    };
     this.cn = el.querySelector('.cn'); this.cnLoop = el.querySelector('.cn-loop');
     this.cnTags = [].map.call(el.querySelectorAll('.cn-tag'), function (n) { return { n: n, f: +n.getAttribute('data-f'), a: +n.getAttribute('data-a') * Math.PI / 180, r: +n.getAttribute('data-r'), on: false }; });
     this.size();
@@ -236,8 +245,15 @@
     var capOn = !!(chap && chap.full); if (capOn !== this.capOn) { this.capOn = capOn; this.stage.classList.toggle('cap-on', capOn); }   // затемнение низа — только пока внизу карточка
     if (this.bar) this.bar.style.transform = 'scaleX(' + (this.N > 1 ? this.view / (this.N - 1) : 0).toFixed(4) + ')';
   };
-  /* стекло карточки: кусок кадра под ней → уменьшение (это и есть блюр) → линза по краю (искажение) */
-  var GT = document.createElement('canvas'), gtx = GT.getContext('2d'), GR = document.createElement('canvas'), grx = GR.getContext('2d');
+  /* стекло карточки: кусок кадра под ней → гауссов блюр пирамидой → затемнение под текст → линза по краю (плавная, без колец) */
+  var PYR = [0, 1, 2, 3, 4].map(function () { return document.createElement('canvas'); }), RIM = document.createElement('canvas'), rimx = RIM.getContext('2d');
+  // гауссов блюр без filter (его нет в старом Safari): кусок кадра ужимаем по половинке N раз и растягиваем обратно — результат в PYR[0]
+  function pyrBlur(src, q, W, H, n) {
+    var w = Math.max(4, Math.round(W / 2)), h = Math.max(4, Math.round(H / 2));
+    fit(PYR[0], w, h); var c0 = PYR[0].getContext('2d'); c0.imageSmoothingQuality = 'high'; c0.drawImage(src, q[0], q[1], q[2], q[3], 0, 0, w, h);
+    for (var l = 1; l <= n; l++) { var pw = Math.max(2, w >> l), ph = Math.max(2, h >> l); fit(PYR[l], pw, ph); var c = PYR[l].getContext('2d'); c.imageSmoothingQuality = 'high'; c.clearRect(0, 0, pw, ph); c.drawImage(PYR[l - 1], 0, 0, PYR[l - 1].width, PYR[l - 1].height, 0, 0, pw, ph); }
+    for (l = n - 1; l >= 0; l--) { var cu = PYR[l].getContext('2d'); cu.imageSmoothingQuality = 'high'; cu.clearRect(0, 0, PYR[l].width, PYR[l].height); cu.drawImage(PYR[l + 1], 0, 0, PYR[l + 1].width, PYR[l + 1].height, 0, 0, PYR[l].width, PYR[l].height); }
+  }
   function rr(c, x, y, w, h, r) { if (c.roundRect) c.roundRect(x, y, w, h, r); else c.rect(x, y, w, h); }
   function fit(c, w, h) { if (c.width !== w || c.height !== h) { c.width = w; c.height = h; } }
   Track.prototype.glassDraw = function () {
@@ -263,23 +279,24 @@
         map = function (z) { var w = cr.width / z, h = cr.height / z; return [(cx - w / 2 - ar.left) / ar.width * 24, (cy - h / 2 - ar.top) / ar.height * 42, w / ar.width * 24, h / ar.height * 42]; };
       } else continue;
       function clampSrc(q) { q[2] = Math.min(q[2], iw); q[3] = Math.min(q[3], ih); q[0] = clamp(q[0], 0, iw - q[2]); q[1] = clamp(q[1], 0, ih - q[3]); return q; }
-      var W = Math.max(8, Math.round(cw / 2)), H = Math.max(8, Math.round(chh / 2)), k = W / cw;
+      var W = Math.max(8, Math.round(cw / 2)), H = Math.max(8, Math.round(chh / 2)), k = W / cw, rad = g.rad * k;
       fit(g.cv, W, H); var x = g.ctx;
-      // тело: сильный блюр — кусок ужат до 1/16 и растянут обратно
-      var tw = Math.max(6, Math.round(cw / 16)), th = Math.max(4, Math.round(chh / 16)), q = clampSrc(map(1.12));
-      fit(GT, tw, th); gtx.imageSmoothingQuality = 'high'; gtx.drawImage(src, q[0], q[1], q[2], q[3], 0, 0, tw, th);
-      x.globalCompositeOperation = 'source-over'; x.imageSmoothingQuality = 'high'; x.drawImage(GT, 0, 0, tw, th, 0, 0, W, H);
-      // кромка: тот же кадр сильнее увеличен и чётче — по краю стекло «ломает» картинку
-      var rw = Math.max(8, Math.round(cw / 6)), rh = Math.max(6, Math.round(chh / 6)), q2 = clampSrc(map(1.5)), rad = g.rad * k;
-      fit(GR, rw, rh); grx.imageSmoothingQuality = 'high'; grx.drawImage(src, q2[0], q2[1], q2[2], q2[3], 0, 0, rw, rh);
-      // кромка тонкая и с затуханием внутрь: три кольца по 2 px, без резкой внутренней границы
+      // тело: как было (кусок кадра под карточкой чуть увеличен), но блюр пирамидой — без мозаики от растяжки 1/16
+      var q = clampSrc(map(1.12));
+      pyrBlur(src, q, W, H, 3); x.globalCompositeOperation = 'source-over'; x.globalAlpha = 1; x.imageSmoothingQuality = 'high'; x.drawImage(PYR[0], 0, 0, PYR[0].width, PYR[0].height, 0, 0, W, H);
+      // фон под стеклом затемнён (слой между видео и карточкой) — стекло показывает уже затемнённый фон
+      var sc = this.scrimAt;
+      if (sc && this.capOn) { var sg = x.createLinearGradient(0, 0, 0, H); for (var t = 0; t <= 4; t++) sg.addColorStop(t / 4, 'rgba(0,0,0,' + sc(cr.top + cr.height * t / 4).toFixed(3) + ')'); x.fillStyle = sg; x.fillRect(0, 0, W, H); }
+      // кромка: тот же кадр сильнее увеличен и чётче — по краю стекло «ломает» картинку (три кольца по 2 px)
+      var rw = Math.max(8, Math.round(cw / 6)), rh = Math.max(6, Math.round(chh / 6)), q2 = clampSrc(map(1.5));
+      fit(RIM, rw, rh); rimx.imageSmoothingQuality = 'high'; rimx.drawImage(src, q2[0], q2[1], q2[2], q2[3], 0, 0, rw, rh);
       for (var ri = 0; ri < 3; ri++) {
         var a0 = ri * 2 * k, a1 = (ri + 1) * 2 * k;
         x.save(); x.beginPath(); rr(x, a0, a0, W - a0 * 2, H - a0 * 2, Math.max(0, rad - a0)); rr(x, a1, a1, W - a1 * 2, H - a1 * 2, Math.max(0, rad - a1)); x.clip('evenodd');
-        x.globalAlpha = [0.7, 0.4, 0.15][ri]; x.drawImage(GR, 0, 0, rw, rh, 0, 0, W, H); x.restore();
+        x.globalAlpha = [0.7, 0.4, 0.15][ri]; x.drawImage(RIM, 0, 0, rw, rh, 0, 0, W, H); x.restore();
       }
       x.globalAlpha = 1;
-      x.fillStyle = 'rgba(6,6,10,.36)'; x.fillRect(0, 0, W, H);                       // плотность под белый текст
+      x.fillStyle = 'rgba(6,6,10,.36)'; x.fillRect(0, 0, W, H);                       // плотность стекла — как было
     }
   };
   var IDLE_MAX = 40, IDLE_HALF = 3.6;   // 40 кадров за 3,6 с в каждую сторону: в середине ≈ 16 к/с, обратный ход такой же бодрый

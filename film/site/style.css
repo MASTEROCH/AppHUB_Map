@@ -1488,3 +1488,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .cards2,.coins2:not(.cards2){animation:pmIn .35s cubic-bezier(.2,.9,.3,1)}
 @keyframes pmIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 .cards2 .pm-gpay.sel,.cards2 .pm-visa.sel,.cards2 .pm-mc.sel{background:#fff}.cards2 .pm-apple.sel{background:#000;color:#fff}.cards2 .pm-gpay.sel{color:#3C4043}
+/* затемнение низа под карточкой — плотнее */
+@media (max-width:600px),(orientation:portrait){
+  .film .stage .panel::after{height:64%;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.62) 30%,rgba(0,0,0,.24) 64%,rgba(0,0,0,0) 100%)}
+}
