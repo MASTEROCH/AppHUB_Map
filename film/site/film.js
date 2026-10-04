@@ -233,6 +233,7 @@
       });
       if (any !== chap.full) { chap.full = any; chap.el.classList.toggle('full', any); this.settle = performance.now() + 1000; }   // пустую плашку не показываем; стекло догоняет въезд карточки
     }
+    var capOn = !!(chap && chap.full); if (capOn !== this.capOn) { this.capOn = capOn; this.stage.classList.toggle('cap-on', capOn); }   // затемнение низа — только пока внизу карточка
     if (this.bar) this.bar.style.transform = 'scaleX(' + (this.N > 1 ? this.view / (this.N - 1) : 0).toFixed(4) + ')';
   };
   /* стекло карточки: кусок кадра под ней → уменьшение (это и есть блюр) → линза по краю (искажение) */

@@ -1441,3 +1441,10 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .swipe-hint.on{animation:shNudge 3.2s 1s ease-in-out infinite}
 @keyframes shNudge{0%,100%{translate:0 0}50%{translate:0 -4px}}
 @media (prefers-reduced-motion:reduce){.sh-ic i,.swipe-hint.on{animation:none}.is-touch .sh-ic i{top:4px}}
+
+/* ════════ затемнение низа экрана под карточкой: только в портрете и только пока карточка видна ════════ */
+@media (max-width:600px),(orientation:portrait){
+  .film .stage .panel::after{content:"";position:absolute;left:0;right:0;bottom:0;height:58%;z-index:1;pointer-events:none;opacity:0;transition:opacity .7s cubic-bezier(.2,.9,.3,1);
+    background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.5) 28%,rgba(0,0,0,.18) 62%,rgba(0,0,0,0) 100%)}
+  .film .stage.cap-on .panel::after{opacity:1}
+}
