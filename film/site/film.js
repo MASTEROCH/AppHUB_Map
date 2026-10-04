@@ -33,7 +33,7 @@
 
   var TINT = {
     c01: 'rgba(255,181,71,.16)', c02: 'rgba(90,140,255,.14)', c03: 'rgba(0,224,199,.16)', c04: 'rgba(0,224,199,.12)',
-    c05: 'rgba(0,224,199,.10)', c06: 'rgba(124,58,255,.20)', c07: 'rgba(0,224,199,.14)', c08: 'rgba(124,58,255,.18)', c09: 'rgba(0,224,199,.16)'
+    c05: 'rgba(0,224,199,.10)', c06: 'rgba(124,58,255,.20)', c06h: 'rgba(255,181,71,.16)', c06j: 'rgba(0,224,199,.14)', c07k: 'rgba(0,224,199,.14)', c07: 'rgba(0,224,199,.14)', c08: 'rgba(124,58,255,.18)', c09: 'rgba(0,224,199,.16)'
   };
 
   function clamp(x, a, b) { return x < a ? a : x > b ? b : x; }
@@ -397,6 +397,19 @@
   };
 
   /* ── телефон по скроллу: подсказки → запрос → ответы бизнесов → их приложения → оплата → Loop ── */
+  /* мокап телефона: интерфейс в родных точках iPhone (393 pt), масштабируется под размер телефона на странице — пропорции как на устройстве */
+  function fitPhoneUI() {
+    document.querySelectorAll('#agent .dv-screen').forEach(function (scr) {
+      var ui = scr.querySelector(':scope > .dv-ui');
+      if (!ui) { ui = document.createElement('div'); ui.className = 'dv-ui'; while (scr.firstChild) ui.appendChild(scr.firstChild); scr.appendChild(ui); }
+      var w = scr.clientWidth, h = scr.clientHeight; if (!w || !h) return;
+      var W = Math.round(clamp(w * 1.25, 270, 393)), H = Math.round(W * h / w);   // маленький макет — меньше точек, иначе текст ужимается до нечитаемого
+      ui.style.width = W + 'px'; ui.style.height = H + 'px'; ui.style.transform = 'scale(' + (w / W).toFixed(5) + ')';
+    });
+  }
+  fitPhoneUI(); addEventListener('resize', fitPhoneUI);
+  if (window.ResizeObserver) { var dvs = document.querySelector('#agent .dv-screen'); if (dvs) new ResizeObserver(fitPhoneUI).observe(dvs); }
+
   function AgentScene(el) {
     var q = function (sel) { return el.querySelector(sel); }, self = this;
     this.el = el; this.stage = q('.stage'); this.p = -1;
@@ -436,6 +449,7 @@
     this.send.classList.toggle('ready', n > 12); this.send.classList.toggle('sent', p >= 0.285 && p < 0.32);
     // агент понимает: смыслы в её сообщении подсвечиваются и становятся задачами
     this.hl.forEach(function (h) { var on = p >= h.t; if (on !== h.on) { h.on = on; h.n.classList.toggle('hl', on); } });
+    if (this.req) this.req.classList.toggle('scan', p >= 0.318 && p < 0.408);                // нейрозрение: луч читает её сообщение
     // и делает сам: «в работе» → галочка; маршрут на карте прорисовывается, точки всплывают
     this.done.forEach(function (d) { var on = p >= d.t; if (on !== d.on) { d.on = on; d.n.classList.toggle('done', on); } });
     if (this.route) this.route.style.strokeDashoffset = (100 - 100 * clamp((p - 0.53) / 0.028, 0, 1)).toFixed(1);
@@ -472,7 +486,7 @@
   /* ── подача AppOS: карточка первого кадра, главы, «Авто» ── */
   var heroCard = document.getElementById('heroCard'), hud = document.getElementById('chapHud'), chName = document.getElementById('chName'), chDash = document.getElementById('chDash');
   var CHAPS = [['film', ['c01', 't12', 'c02'], 'Ночь'], ['film', ['t23a', 'x1', 'a21', 'a22', 'x2', 't34b'], 'Пробуждение'], ['agent', null, 'Шесть секунд'], ['film2', ['c04', 't45', 'c05'], 'Шесть секунд'],
-    ['film2', ['t56', 'c06', 't67'], 'Дорожка'], ['film2', ['c07', 'c08'], 'Сеть'], ['dots', null, 'Точки'], ['finale', null, 'Финал'], ['deck', null, 'Что строим']];
+    ['film2', ['t56h', 'c06h', 'c06j', 't67h'], 'Загородный дом'], ['film2', ['c07k', 'c08'], 'Сеть'], ['dots', null, 'Точки'], ['finale', null, 'Финал'], ['deck', null, 'Что строим']];
   CHAPS.forEach(function (c) { c[2] = L(c[2]); });
   if (chDash) CHAPS.forEach(function () { chDash.appendChild(document.createElement('i')); });
   var curChap = -1;
@@ -648,6 +662,27 @@
     stops.forEach(function (s) { var dd = Math.abs(s - y); if (dd < bd) { bd = dd; best = s; } });
     if (best !== null && bd > 4 && bd < innerHeight * 0.34) snapTo(best);
   }, 60);
+
+  /* ── подсказка «листайте»: если зритель 3 с ничего не делает на первом экране (или 12 с в фильме) ── */
+  (function () {
+    var el = document.getElementById('swipeHint'); if (!el) return;
+    var touch = matchMedia('(hover:none),(pointer:coarse)').matches; el.classList.add(touch ? 'is-touch' : 'is-mouse');
+    var last = performance.now(), shown = false, used = false;
+    function hide() { last = performance.now(); if (shown) { shown = false; el.classList.remove('on'); } }
+    ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach(function (ev) { addEventListener(ev, function () { used = true; hide(); }, { passive: true }); });
+    addEventListener('scroll', function () { if (!snapping && !pg.on && !auto) hide(); }, { passive: true });
+    setInterval(function () {
+      if (document.getElementById('boot') || auto || pg.on || snapping) { last = performance.now(); return; }
+      var inFilm = zoneEnd && scrollY < zoneEnd - innerHeight * 0.5, top = scrollY < innerHeight * 0.3;
+      var wait = top && !used ? 3000 : 12000;
+      if (!shown && inFilm && performance.now() - last > wait) {
+        var hc = document.getElementById('heroCard'), b = 26;
+        if (top && hc && !hc.hasAttribute('data-off')) { var r = hc.getBoundingClientRect(); if (r.bottom > innerHeight - 140) b = innerHeight - r.top + 14; }   // над карточкой первого экрана
+        el.style.bottom = 'calc(' + Math.round(b) + 'px + env(safe-area-inset-bottom,0px))';
+        shown = true; el.classList.add('on');
+      }
+    }, 250);
+  })();
 
   /* ── «Авто»: листает сам, с паузой на чтение карточки ── */
   var auto = false, autoTm = 0, autoBtn = document.getElementById('autoBtn');

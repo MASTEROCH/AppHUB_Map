@@ -1263,3 +1263,181 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .sl-ph .car.shots .dots i.on{width:24px;background:#fff}
 @media (max-width:600px),(orientation:portrait){.sl-ph .car.shots{border-radius:29px}}
 @media (prefers-reduced-motion:reduce){.sl-ph .car.shots img{transition:none;transform:none}}
+
+/* ════════ мокап телефона: безопасная зона iOS, настоящие детали, финальный экран ════════ */
+.dv-screen{--safe:12.5%;--home:5%}
+/* статус-бар и остров над всем; экраны начинаются под ними */
+.dv-status{height:var(--safe);align-items:center;padding:0 10% 0 11%;font-size:clamp(11px,1.25vh,14px);letter-spacing:-.01em}
+.sb-icons{display:flex;align-items:center;gap:5px}
+.sb-icons svg{height:.82em;width:auto;fill:#fff}
+.sb-bat{position:relative;width:1.9em;height:.92em;border-radius:.28em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);display:block}
+.sb-bat:after{content:"";position:absolute;right:-.2em;top:.3em;width:.12em;height:.32em;border-radius:0 .1em .1em 0;background:rgba(255,255,255,.5)}
+.sb-bat>i{position:absolute;inset:.14em .5em .14em .14em;border-radius:.15em;background:#fff}
+.dv-island{top:3%;height:3.6%;width:31%}
+.dv-island:after{content:"";position:absolute;right:13%;top:50%;width:.55em;height:.55em;margin-top:-.275em;border-radius:50%;background:radial-gradient(circle at 35% 35%,#2a3550,#0a0d16 70%);box-shadow:0 0 0 1px rgba(255,255,255,.04)}
+.dv-screen:after{content:"";position:absolute;left:50%;bottom:1.6%;width:34%;height:.5%;min-height:4px;margin-left:-17%;border-radius:99px;background:rgba(255,255,255,.55);z-index:6;pointer-events:none}
+/* безопасная зона для центрованных экранов и скриншотов приложений */
+.gs.intro,.gs.done2{box-sizing:border-box;padding-top:var(--safe);padding-bottom:var(--home)}
+.intro{inset:var(--safe) 0 var(--home)}
+.appview img{top:var(--safe)!important;height:calc(100% - var(--safe))!important}
+.appview{background:#000}
+.chat2{padding-top:calc(var(--safe) + 2%)}
+/* финальный экран: галочка рисуется, кольцо дышит */
+.done2{gap:14px;padding-left:9%;padding-right:9%}
+.okbig{width:30%;height:auto;aspect-ratio:1;display:grid;place-items:center;background:var(--green);box-shadow:0 0 0 0 rgba(48,209,88,.4),0 10px 34px rgba(48,209,88,.35)}
+.okbig:after{content:none}
+.okbig svg{width:58%;height:58%;fill:none;stroke:#fff;stroke-width:5.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+.gs.done2.on .okbig{animation:okin .55s cubic-bezier(.2,1.5,.4,1) both,okring 2.4s .6s ease-out infinite}
+.gs.done2.on .okbig svg{animation:okdraw .45s .3s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes okin{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+@keyframes okring{0%{box-shadow:0 0 0 0 rgba(48,209,88,.45),0 10px 34px rgba(48,209,88,.35)}70%,100%{box-shadow:0 0 0 18px rgba(48,209,88,0),0 10px 34px rgba(48,209,88,.35)}}
+@keyframes okdraw{to{stroke-dashoffset:0}}
+.done2>b{font-size:clamp(19px,2.6vh,24px);letter-spacing:-.02em}
+.done2 .vs{font-size:13px;line-height:1.4;color:rgba(235,235,245,.6)}
+.wallet{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:11px 13px;border-radius:16px;background:#1C1C1E;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.1)}
+.w-ic{width:28px;height:28px;border-radius:9px;background:linear-gradient(145deg,#30D158,#1a9e44);position:relative;display:block}
+.w-ic:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2.5px solid rgba(255,255,255,.95);border-right-color:transparent;transform:rotate(-30deg)}
+.wallet span{display:flex;flex-direction:column;gap:1px;font-size:13px;color:#fff;text-align:left}
+.wallet small{font-size:11px;color:rgba(235,235,245,.5)}
+.wallet b{font-size:19px;font-variant-numeric:tabular-nums}
+.spendbtn{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:14px;padding:12px 16px;box-shadow:0 8px 22px rgba(10,132,255,.35)}
+@media (prefers-reduced-motion:reduce){.gs.done2.on .okbig,.gs.done2.on .okbig svg{animation:none}.okbig svg{stroke-dashoffset:0}}
+
+/* ════════ мокап в точках iPhone: шкала 1:1 с устройством, безопасная зона 56/34 pt ════════ */
+.dv-ui{position:absolute;top:0;left:0;transform-origin:0 0;font-family:var(--f);-webkit-font-smoothing:antialiased}
+.dv-ui .gs{inset:0}
+.dv-ui .dv-status{height:56px;padding:4px 32px 0 40px;font:600 16px var(--f);letter-spacing:-.02em}
+.dv-ui .sb-icons{gap:6px}.dv-ui .sb-icons svg{height:12px}
+.dv-ui .sb-bat{width:26px;height:12.5px;border-radius:4px}
+.dv-ui .sb-bat:after{right:-3px;top:4px;width:1.5px;height:4.5px}
+.dv-ui .sb-bat>i{inset:2px 6px 2px 2px;border-radius:2px}
+.dv-screen:after{bottom:8px;height:5px;width:36%;margin-left:-18%}
+/* безопасная зона */
+.dv-ui .intro,.dv-ui .done2{inset:56px 0 34px!important;padding:0 28px!important}
+.dv-ui .chat2{inset:56px 0 0!important;padding:4px 16px 34px!important}
+.dv-ui .appview img{top:56px!important;height:calc(100% - 56px)!important}
+.dv-ui .sheet{padding:14px 20px 40px!important;gap:14px}
+/* типографика iOS */
+.dv-ui .intro{gap:14px}
+.dv-ui .intro img{width:76px;height:76px}
+.dv-ui .intro b{font-size:30px;line-height:1.1;letter-spacing:-.02em}
+.dv-ui .intro span{font-size:17px;line-height:1.35;color:rgba(235,235,245,.6)}
+.dv-ui .intro .intro-cta{margin-top:14px;padding:16px;font-size:17px;border-radius:999px}
+.dv-ui .chat-head{gap:10px;padding:2px 0 12px}
+.dv-ui .chat-head img{width:38px;height:38px;padding:8px}
+.dv-ui .chat-head b{font-size:17px}.dv-ui .chat-head span{font-size:13px}
+.dv-ui .msgs{gap:8px;padding-top:12px}
+.dv-ui .msg{font-size:16px;line-height:1.32;padding:9px 13px;border-radius:19px;max-width:80%}
+.dv-ui .msg.me{border-bottom-right-radius:6px}.dv-ui .msg.bot{border-bottom-left-radius:6px}
+.dv-ui .msg.ai{max-width:90%}
+.dv-ui .tasks span{font-size:13px;padding:5px 10px}
+.dv-ui .chat2 .res{grid-template-columns:44px 1fr 24px;gap:11px;padding:9px 11px;border-radius:16px}
+.dv-ui .chat2 .res img{width:44px;height:44px;border-radius:11px}
+.dv-ui .res b{font-size:15px}.dv-ui .res span{font-size:13px;line-height:1.3}
+.dv-ui .chat2 .res .ok,.dv-ui .tix .ok,.dv-ui .mapc .ok{width:22px;height:22px}
+.dv-ui .tix{padding:13px 16px 12px;border-radius:18px}
+.dv-ui .tx-top{font-size:12px}.dv-ui .tx-route b{font-size:24px}.dv-ui .tx-route span{font-size:13px}.dv-ui .tx-foot{font-size:12px}
+.dv-ui .mapc{padding:10px;border-radius:18px}
+.dv-ui .mc-head{grid-template-columns:40px 1fr 22px}
+.dv-ui .mc-head img{width:40px;height:40px}
+.dv-ui .mc-head b{font-size:15px}.dv-ui .mc-head span{font-size:13px}
+.dv-ui .compose{min-height:46px;padding:6px 6px 6px 16px;border-radius:24px;font-size:16px}
+.dv-ui .compose .send{width:36px;height:36px;font-size:19px}
+.dv-ui .app-tag{font-size:13px;padding:8px 14px}
+.dv-ui .pay-row{font-size:15px}.dv-ui .pay-row b{font-size:30px}
+.dv-ui .seg span,.dv-ui .seg button{font-size:15px}
+.dv-ui .coins2 span{font-size:14px}
+.dv-ui .cashback{font-size:14px}
+.dv-ui .letsgo{padding:17px;font-size:17px;letter-spacing:.04em}
+/* финальный экран */
+.dv-ui .done2{gap:14px;justify-content:center}
+.dv-ui .okbig{width:96px}
+.dv-ui .done2>b{font-size:30px}
+.dv-ui .done2 .vs{font-size:16px;line-height:1.35}
+.dv-ui .wallet{padding:13px 15px;border-radius:18px;gap:12px}
+.dv-ui .w-ic{width:34px;height:34px;border-radius:10px}.dv-ui .w-ic:after{inset:9px;border-width:3px}
+.dv-ui .wallet span{font-size:16px}.dv-ui .wallet small{font-size:12px}.dv-ui .wallet b{font-size:24px}
+.dv-ui .spendbtn{font-size:17px;padding:15px 18px}
+.dv-ui .spent b{font-size:17px}.dv-ui .spent span{font-size:14px;line-height:1.35}
+.dv-ui .pay-row{gap:10px;align-items:center}
+.dv-ui .pay-row span{font-size:14px;line-height:1.25;min-width:0}
+.dv-ui .pay-row b{white-space:nowrap;flex:none}
+.dv-ui .wallet span{white-space:nowrap;min-width:0}
+.dv-ui .done2{gap:12px}
+.dv-ui .wallet span{font-size:15px;overflow:hidden;text-overflow:ellipsis}
+.dv-ui .wallet b{font-size:22px}
+/* экран оплаты: чек поездки над листом */
+.trip{position:absolute;left:16px;right:16px;top:64px;display:flex;flex-direction:column;gap:2px;padding:6px 14px;border-radius:18px;background:#1C1C1E;box-shadow:inset 0 0 0 .5px rgba(255,255,255,.08)}
+.tr-h{font-size:13px;color:rgba(235,235,245,.6);font-weight:600;padding:8px 0 6px}
+.tr-row{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;padding:8px 0;border-top:.5px solid rgba(255,255,255,.1)}
+.tr-row img,.tr-train{width:32px;height:32px;border-radius:8px;object-fit:cover;object-position:top;display:block}
+.tr-train{background:#0A84FF;position:relative}
+.tr-train:after{content:"";position:absolute;inset:8px 9px 9px;border-radius:4px 4px 2px 2px;border:2px solid #fff;border-bottom-width:5px}
+.tr-row span{display:flex;flex-direction:column;font-size:15px;font-weight:600;color:#fff;min-width:0}
+.tr-row small{font-size:12px;font-weight:400;color:rgba(235,235,245,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-row em{font-style:normal;font-size:15px;font-weight:600;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gs.pay2.on .tr-row{animation:pop .45s cubic-bezier(.2,1.2,.4,1) both}
+.gs.pay2.on .tr-row:nth-of-type(2){animation-delay:.06s}.gs.pay2.on .tr-row:nth-of-type(3){animation-delay:.12s}.gs.pay2.on .tr-row:nth-of-type(4){animation-delay:.18s}.gs.pay2.on .tr-row:nth-of-type(5){animation-delay:.24s}
+
+/* ════════ нейрозрение: луч читает её сообщение, смыслы подчёркиваются светом, а не заливкой ════════ */
+.msg.me#gReq{position:relative;overflow:hidden;isolation:isolate}
+.msg.me#gReq::after{content:"";position:absolute;inset:-20% auto -20% 0;width:38%;z-index:-1;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08) 30%,rgba(190,235,255,.42) 50%,rgba(255,255,255,.08) 70%,transparent);
+  transform:translateX(-110%) skewX(-12deg)}
+.msg.me#gReq.scan::after{opacity:1;animation:neuroscan 1.15s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes neuroscan{from{transform:translateX(-110%) skewX(-12deg)}to{transform:translateX(330%) skewX(-12deg)}}
+.msg.me mark,.msg.me mark.hl{background:none!important;box-shadow:none!important;animation:none!important;border-radius:0;padding:0;color:inherit;
+  background-image:linear-gradient(90deg,#9BE6FF,#fff)!important;background-repeat:no-repeat!important;background-position:0 100%!important;background-size:0% 2px!important;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;transition:background-size .55s cubic-bezier(.65,0,.35,1),text-shadow .4s}
+.msg.me mark.hl{background-size:100% 2px!important;text-shadow:0 0 10px rgba(190,235,255,.85)}
+.dv-ui .msg.me mark.hl{background-size:100% 2.5px!important}
+@media (prefers-reduced-motion:reduce){.msg.me#gReq.scan::after{animation:none;opacity:0}.msg.me mark{transition:none}}
+/* компактный режим маленького макета — по реальному размеру интерфейса телефона */
+.dv-ui{container-type:size;container-name:phone}
+@container phone (max-height:640px){
+  .trip{top:60px;padding:2px 12px}
+  .tr-h{padding:6px 0 4px;font-size:12px}
+  .tr-row{grid-template-columns:24px minmax(0,1fr) auto;gap:8px;padding:5px 0}
+  .tr-row img,.tr-train{width:24px;height:24px;border-radius:6px}
+  .tr-train:after{inset:5px 6px 6px;border-width:1.5px;border-bottom-width:4px}
+  .tr-row small{display:none}
+  .tr-row span,.tr-row em{font-size:14px}
+  .dv-ui .sheet{padding:10px 16px 34px!important;gap:10px}
+  .dv-ui .pay-row b{font-size:26px}
+  .dv-ui .letsgo{padding:14px}
+}
+@container phone (max-width:300px){
+  .w-ic{display:none}
+  .dv-ui .wallet{grid-template-columns:1fr auto}
+}
+/* в карточках сцены главное — что сделано; название бизнеса — мелкой подписью */
+.dv-ui .res b,.dv-ui .mc-head b{font-size:15px;line-height:1.25}
+.dv-ui .res span,.dv-ui .mc-head span{font-size:13px;color:rgba(235,235,245,.5)}
+@container phone (max-height:640px){.tr-row small{display:block;font-size:11px}.tr-row{padding:4px 0}}
+/* строки чека и подписи бизнеса — в одну строку */
+.tr-row span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr-row small{display:block}
+.dv-ui .res span,.dv-ui .mc-head span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dv-ui .res>div,.dv-ui .mc-head>div{min-width:0}
+@container phone (max-height:640px){.tr-row span,.tr-row em{font-size:13px}.tr-row{grid-template-columns:22px minmax(0,1fr) auto}}
+
+/* ════════ подсказка «листайте вниз»: стеклянная капсула, палец ведёт вверх / колесо мыши ════════ */
+.swipe-hint{position:fixed;left:50%;bottom:26px;z-index:30;display:flex;align-items:center;gap:10px;padding:10px 18px 10px 12px;border-radius:999px;pointer-events:none;
+  background:rgba(28,28,32,.72);-webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2),inset 0 0 0 .5px rgba(255,255,255,.14),0 14px 40px rgba(0,0,0,.5);
+  opacity:0;transform:translate(-50%,16px) scale(.92);transition:opacity .45s cubic-bezier(.2,.9,.3,1),transform .6s cubic-bezier(.2,1.4,.4,1)}
+.swipe-hint.on{opacity:1;transform:translate(-50%,0) scale(1)}
+.swipe-hint b{font:600 15px var(--f);color:#fff;white-space:nowrap}
+.swipe-hint .sh-touch,.swipe-hint .sh-mouse{display:none}
+.swipe-hint.is-touch .sh-touch,.swipe-hint.is-mouse .sh-mouse{display:inline}
+.sh-ic{position:relative;width:22px;height:34px;border-radius:12px;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.7);flex:none}
+.sh-ic i{position:absolute;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:#0A84FF;box-shadow:0 0 10px #0A84FF}
+.is-touch .sh-ic{box-shadow:none;width:18px}
+.is-touch .sh-ic:before{content:"";position:absolute;left:50%;top:3px;bottom:3px;width:2px;margin-left:-1px;border-radius:2px;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,0))}
+.is-touch .sh-ic i{width:14px;height:14px;margin-left:-7px;background:rgba(255,255,255,.95);box-shadow:0 0 0 5px rgba(255,255,255,.18);animation:shSwipe 1.6s cubic-bezier(.45,0,.35,1) infinite}
+.is-mouse .sh-ic i{top:7px;width:4px;height:7px;margin-left:-2px;border-radius:2px;animation:shWheel 1.4s ease-in-out infinite}
+@keyframes shSwipe{0%{top:22px;opacity:0;transform:scale(.7)}15%{opacity:1;transform:scale(1)}70%{top:0;opacity:1}100%{top:-4px;opacity:0;transform:scale(.8)}}
+@keyframes shWheel{0%{transform:translateY(0);opacity:1}70%{transform:translateY(10px);opacity:0}100%{transform:translateY(0);opacity:0}}
+.swipe-hint.on{animation:shNudge 3.2s 1s ease-in-out infinite}
+@keyframes shNudge{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media (prefers-reduced-motion:reduce){.sh-ic i,.swipe-hint.on{animation:none}.is-touch .sh-ic i{top:4px}}
