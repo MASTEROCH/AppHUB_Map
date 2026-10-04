@@ -919,6 +919,23 @@
     mq.addEventListener('mouseleave', function () { rest = performance.now() + 500; });
   });
 
+  /* ── «Конструкторы»: переключатель «Для бизнеса / Для людей», сам листается каждые 6,4 с, пока зритель не нажмёт ── */
+  document.querySelectorAll('[data-duo]').forEach(function (sl) {
+    var btns = [].slice.call(sl.querySelectorAll('.duo-seg button')), panes = sl.querySelectorAll('.duo-pane'), cars = sl.querySelectorAll('.duo-ph .car'), cur = 'b', touched = false, tm = 0, vis = false;
+    function show(k) {
+      cur = k; sl.style.setProperty('--g', k === 'b' ? '#30D158' : '#BF5AF2'); sl.classList.toggle('duo-p', k === 'p');
+      btns.forEach(function (b) { var on = b.getAttribute('data-k') === k; b.classList.toggle('on', on); b.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      [].forEach.call(panes, function (p) { p.classList.toggle('on', p.getAttribute('data-k') === k); });
+      [].forEach.call(cars, function (c) { c.classList.toggle('on', c.getAttribute('data-k') === k); });
+    }
+    btns.forEach(function (b) { b.addEventListener('click', function () { touched = true; clearInterval(tm); tm = 0; haptic(); show(b.getAttribute('data-k')); }); });
+    new IntersectionObserver(function (es) {
+      vis = es[0].isIntersecting;
+      if (vis && !touched && !tm && !REDUCED) tm = setInterval(function () { show(cur === 'b' ? 'p' : 'b'); }, 6400);
+      if (!vis && tm) { clearInterval(tm); tm = 0; }
+    }, { threshold: 0.5 }).observe(sl);
+  });
+
   /* ── бегущая строка ниш: вторая копия для бесшовного круга, скорость — по длине ── */
   document.querySelectorAll('.cl-track').forEach(function (t) {
     [].slice.call(t.children).forEach(function (c) { var k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); t.appendChild(k); });

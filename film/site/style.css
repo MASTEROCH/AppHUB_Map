@@ -1503,3 +1503,21 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 @container phone (max-height:640px){.tr-head{grid-template-columns:28px minmax(0,1fr) auto;padding:7px 0 6px;gap:8px}.tr-para{width:28px;height:28px;border-radius:8px}.tr-para svg{width:16px;height:16px}.tr-head span{font-size:14px}.tr-head small{font-size:11px}.tr-cash{font-size:11px;padding:3px 7px}}
 /* узкий макет: плашка кэшбэка не отнимает место у названия тура */
 @container phone (max-width:379px){.tr-cash{display:none}.tr-head{grid-template-columns:32px minmax(0,1fr)}}
+
+/* ════════ «Конструкторы»: один слайд вместо двух, переключатель в стиле iOS ════════ */
+.sl.duo .sl-eye{transition:color .5s}
+.duo-seg{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;margin-top:14px;padding:3px;border-radius:999px;background:rgba(118,118,128,.24);isolation:isolate}
+.duo-seg button{appearance:none;border:0;background:none;cursor:pointer;padding:9px 18px;min-height:40px;border-radius:999px;font:600 15px var(--f);color:rgba(235,235,245,.6);transition:color .3s;white-space:nowrap}
+.duo-seg button.on{color:#000}
+.duo-thumb{position:absolute;z-index:-1;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:999px;background:#F5F5F7;box-shadow:0 3px 10px rgba(0,0,0,.3);transition:transform .45s cubic-bezier(.2,1.2,.4,1)}
+.sl.duo-p .duo-thumb{transform:translateX(100%)}
+.duo-panes{display:grid}
+.duo-pane{grid-area:1/1;min-width:0;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .45s cubic-bezier(.2,.9,.3,1),transform .6s cubic-bezier(.16,1,.3,1),visibility 0s .45s}
+.duo-pane.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.duo-pane .sl-h{margin-top:16px}
+.duo-ph{position:relative}
+.duo-ph .car.shots{position:absolute;inset:9px;width:auto;height:auto;opacity:0;transition:opacity .55s}
+.duo-ph .car.shots.on{opacity:1}
+@media (max-width:600px),(orientation:portrait){.duo-ph .car.shots{inset:7px}.duo-seg{margin-top:10px}.duo-seg button{padding:7px 14px;min-height:36px;font-size:14px}.duo-pane .sl-h{margin-top:12px}}
+@media (orientation:portrait) and (max-height:620px){.duo-pane .sl-h{margin-top:8px}}
+@media (min-width:601px) and (orientation:landscape){.sl.duo .sl-h{font-size:clamp(30px,3.4vw,50px)}}
