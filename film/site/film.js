@@ -485,7 +485,7 @@
 
   /* ── подача AppOS: карточка первого кадра, главы, «Авто» ── */
   var heroCard = document.getElementById('heroCard'), hud = document.getElementById('chapHud'), chName = document.getElementById('chName'), chDash = document.getElementById('chDash');
-  var CHAPS = [['film', ['c01', 't12', 'c02'], 'Ночь'], ['film', ['t23a', 'x1', 'a21', 'a22', 'x2', 't34b'], 'Пробуждение'], ['agent', null, 'Шесть секунд'], ['film2', ['c04', 't45', 'c05'], 'Шесть секунд'],
+  var CHAPS = [['film', ['c01', 't12', 'c02'], 'Ночь'], ['film', ['t23a', 'x1', 'a21', 'a22', 'a23', 'x2a', 'x2', 't34b'], 'Пробуждение'], ['agent', null, 'Шесть секунд'], ['film2', ['c04', 't45', 'c05'], 'Шесть секунд'],
     ['film2', ['t56h', 'c06h', 'c06j', 't67h'], 'Загородный дом'], ['film2', ['c07k', 'c08'], 'Сеть'], ['dots', null, 'Точки'], ['finale', null, 'Финал'], ['deck', null, 'Что строим']];
   CHAPS.forEach(function (c) { c[2] = L(c[2]); });
   if (chDash) CHAPS.forEach(function () { chDash.appendChild(document.createElement('i')); });
