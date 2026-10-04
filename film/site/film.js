@@ -424,9 +424,22 @@
     this.apps = [].map.call(el.querySelectorAll('.appview img[data-t]'), function (n) { return { n: n, t: +n.getAttribute('data-t') }; });
     this.goals = [].map.call(el.querySelectorAll('[data-g]'), function (n) { return { n: n, t: +n.getAttribute('data-g') }; });
     this.msgs = q('#gMsgs'); this.draft = q('#gDraft'); this.send = q('#gSend'); this.compose = q('.compose');
-    this.tag = q('#gAppTag'); this.seg = q('.seg'); this.coins = q('#gCoins'); this.go = q('#gGo'); this.spend = q('#gSpend'); this.spent = q('#gSpent');
+    this.tag = q('#gAppTag'); this.seg = q('.seg'); this.coins = q('#gCoins'); this.cards = q('#gCards'); this.go = q('#gGo'); this.spend = q('#gSpend'); this.spent = q('#gSpent');
     this.wallet = q('#gWallet'); this.time = q('#gTime'); this.biz = q('#gBiz'); this.pts = q('#gPts'); this.prog = q('#asProg'); this.hint = q('#gHint'); this.title = q('#gTitle');
     this.screen = ''; this.nMsg = -1; this.phase = '';
+    // кнопки в телефоне живые: выбор оплаты и монеты, LET'S GO, «Ужин за баллы», «Попросить агента», отправка
+    var me = this; this.user = { crypto: null, coin: 0, card: 0 };
+    function btn(n, fn) { if (!n) return; n.setAttribute('role', 'button'); n.tabIndex = 0; n.classList.add('tap');
+      n.addEventListener('click', function (e) { e.preventDefault(); haptic(); fn(e); });
+      n.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); fn(e); } }); }
+    btn(q('.sg-card'), function () { me.user.crypto = false; me.render(me.p); });
+    btn(q('.sg-crypto'), function () { me.user.crypto = true; me.render(me.p); });
+    [].forEach.call(el.querySelectorAll('#gCoins span'), function (c, i) { btn(c, function () { me.user.coin = i; me.render(me.p); }); });
+    [].forEach.call(el.querySelectorAll('#gCards span'), function (c, i) { btn(c, function () { me.user.card = i; me.render(me.p); }); });
+    btn(this.go, function () { me.go.classList.add('tapped'); setTimeout(function () { me.go.classList.remove('tapped'); }, 450); setTimeout(function () { go(1); }, 220); });
+    btn(this.spend, function () { go(1); });
+    btn(q('.intro-cta'), function () { go(1); });
+    btn(this.send, function () { go(1); });
   }
   var TAGS = ['Hotelito · приложение гостевого дома', 'EPOCH · приложение ресторана', 'Batumi Neon · приложение проката'].map(L);
   var HINTS = [[0, 'Одна просьба агенту вместо ночи с вкладками.'], [0.09, 'Она просто пишет, чего хочет.'], [0.31, 'Агент понимает просьбу и раскладывает её на задачи.'], [0.42, 'И сам договаривается с каждым бизнесом.'],
@@ -469,7 +482,10 @@
     if (cur >= 0) setTxt(this.tag, TAGS[cur]);
     this.tag.classList.toggle('on', screen === 'app' && cur >= 0);                     // подпись под мокапом — только пока на экране приложение
     // оплата
-    var crypto = p >= 0.8; this.seg.classList.toggle('crypto', crypto); this.coins.classList.toggle('off', !crypto);
+    if (p < 0.745) { this.user.crypto = null; this.user.coin = 0; this.user.card = 0; }                          // вернулись назад — сцена снова сама
+    var crypto = this.user.crypto !== null ? this.user.crypto : p >= 0.8; this.seg.classList.toggle('crypto', crypto); this.coins.classList.toggle('hide', !crypto); this.cards.classList.toggle('hide', crypto);
+    var ucard = this.user.card; [].forEach.call(this.cards.children, function (c, i) { c.classList.toggle('sel', i === ucard); });
+    var uc = this.user.coin; [].forEach.call(this.coins.children, function (c, i) { c.classList.toggle('sel', i === uc); });
     this.go.classList.toggle('pressed', p >= 0.845 && p < 0.88);
     // Loop: баллы отеля уходят на ужин
     var spentNow = p >= 0.945;
@@ -676,10 +692,16 @@
     setInterval(function () {
       if (document.getElementById('boot') || auto || pg.on || snapping) { last = performance.now(); return; }
       var inFilm = zoneEnd && scrollY < zoneEnd - innerHeight * 0.5, top = scrollY < innerHeight * 0.3;
-      var wait = top && !used ? 3000 : 12000;
-      if (!shown && inFilm && performance.now() - last > wait) {
-        var hc = document.getElementById('heroCard'), b = 26;
-        if (top && hc && !hc.hasAttribute('data-off')) { var r = hc.getBoundingClientRect(); if (r.bottom > innerHeight - 140) b = innerHeight - r.top + 14; }   // над карточкой первого экрана
+      var wait = top && !used ? 3000 : 12000, sec = sectionAtCenter();
+      if (sec === 'agent' || sec === 'deck') { if (shown) hide(); return; }               // в сцене с телефоном и на слайдах подсказка мешает — не показываем
+      // подсказка встаёт над самой высокой из нижних карточек, а не поверх неё
+      var b = 26;
+      document.querySelectorAll('#heroCard:not([data-off]), .ch.on.full, .dots-cap .line.on, .dots-cap .count').forEach(function (c) {
+        var r = c.getBoundingClientRect(); if (!r.width || r.bottom < 0 || r.top > innerHeight || r.bottom < innerHeight - 260) return;
+        b = Math.max(b, innerHeight - r.top + 14);
+      });
+      if (shown) { el.style.bottom = 'calc(' + Math.round(b) + 'px + env(safe-area-inset-bottom,0px))'; return; }
+      if (inFilm && performance.now() - last > wait) {
         el.style.bottom = 'calc(' + Math.round(b) + 'px + env(safe-area-inset-bottom,0px))';
         shown = true; el.classList.add('on');
       }
