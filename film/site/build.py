@@ -55,6 +55,17 @@ def _shot(m):
     if os.path.exists(f): en_shots += 1; return 'img/app-en/' + m.group(1)
     return m.group(0)
 en = re.sub(r'img/app/([a-z0-9-]+\.webp)', _shot, en)
+# слайдшоу на EN: кадры без английской версии выкидываем (русский интерфейс на английской странице — нельзя); точки пересчитываем
+def _shots(m):
+    block = m.group(0)
+    imgs = re.findall(r'<img[^>]*>', block)
+    keep = [i for i in imgs if 'img/app-en/' in i]
+    if not keep: return block
+    keep[0] = re.sub(r'<img(?! class="on")', '<img class="on"', keep[0], 1) if 'class="on"' not in keep[0] else keep[0]
+    keep = [keep[0]] + [k.replace(' class="on"', '') for k in keep[1:]]
+    dots = '' if len(keep) < 2 else '<div class="dots">' + ''.join('<i class="on"></i>' if k == 0 else '<i></i>' for k in range(len(keep))) + '</div>'
+    return re.sub(r'(<div class="car shots"[^>]*>)[\s\S]*?(</div></div>)$', lambda q: q.group(1) + ''.join(keep) + dots + q.group(2), block)
+en = re.sub(r'<div class="car shots"[^>]*>[\s\S]*?</div></div>', _shots, en)
 en = en.replace('<script src="film.js"></script>', '<script>window.I18N=' + json.dumps(T, ensure_ascii=False) + '</script>\n<script src="film.js"></script>')
 body = re.sub(r'<script[\s\S]*?</script>', '', en)
 left = sorted(set(t.strip() for t in re.findall(r'>([^<>]*[А-Яа-яЁё][^<>]*)<', body))) + re.findall(r'(?:alt|aria-label|title|content)="([^"]*[А-Яа-яЁё][^"]*)"', body)

@@ -779,7 +779,7 @@
   document.querySelectorAll('[data-car]').forEach(function (car) {
     var imgs = car.querySelectorAll('img'), dots = car.querySelectorAll('.dots i'), k = 0, vis = false, tm = 0;
     if (imgs.length < 2) return;
-    var vo = new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis && !tm) tm = setInterval(next, 2600); if (!vis && tm) { clearInterval(tm); tm = 0; } });
+    var vo = new IntersectionObserver(function (es) { vis = es[0].isIntersecting; if (vis && !tm) tm = setInterval(next, +car.getAttribute('data-ms') || 2600); if (!vis && tm) { clearInterval(tm); tm = 0; } });
     vo.observe(car);
     function next() { imgs[k].classList.remove('on'); if (dots[k]) dots[k].classList.remove('on'); k = (k + 1) % imgs.length; imgs[k].classList.add('on'); if (dots[k]) dots[k].classList.add('on'); }
   });
@@ -818,6 +818,12 @@
     mq.addEventListener('wheel', function (e) { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { e.preventDefault(); x += e.deltaX; v = 0; rest = performance.now() + 2600; } }, { passive: false });
     mq.addEventListener('mouseenter', function () { rest = Infinity; });
     mq.addEventListener('mouseleave', function () { rest = performance.now() + 500; });
+  });
+
+  /* ── бегущая строка ниш: вторая копия для бесшовного круга, скорость — по длине ── */
+  document.querySelectorAll('.cl-track').forEach(function (t) {
+    [].slice.call(t.children).forEach(function (c) { var k = c.cloneNode(true); k.setAttribute('aria-hidden', 'true'); t.appendChild(k); });
+    t.style.setProperty('--cl-dur', Math.max(18, Math.round(t.children.length / 2 * 2.6)) + 's');
   });
 
   /* ── карта: превью на телефоне листается вбок, «Исследовать» открывает живую карту поверх страницы ── */
