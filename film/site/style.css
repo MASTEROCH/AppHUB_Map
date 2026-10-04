@@ -1299,7 +1299,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .w-ic:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2.5px solid rgba(255,255,255,.95);border-right-color:transparent;transform:rotate(-30deg)}
 .wallet span{display:flex;flex-direction:column;gap:1px;font-size:13px;color:#fff;text-align:left}
 .wallet small{font-size:11px;color:rgba(235,235,245,.5)}
-.wallet b{font-size:19px;font-variant-numeric:tabular-nums}
+.wallet b{font-size:20px;font-variant-numeric:tabular-nums}
 .spendbtn{white-space:nowrap;overflow:visible;text-overflow:clip;font-size:14px;padding:12px 16px;box-shadow:0 8px 22px rgba(10,132,255,.35)}
 @media (prefers-reduced-motion:reduce){.gs.done2.on .okbig,.gs.done2.on .okbig svg{animation:none}.okbig svg{stroke-dashoffset:0}}
 
@@ -1342,7 +1342,7 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 .dv-ui .mc-head img{width:40px;height:40px}
 .dv-ui .mc-head b{font-size:15px}.dv-ui .mc-head span{font-size:13px}
 .dv-ui .compose{min-height:46px;padding:6px 6px 6px 16px;border-radius:24px;font-size:16px}
-.dv-ui .compose .send{width:36px;height:36px;font-size:19px}
+.dv-ui .compose .send{width:36px;height:36px;font-size:20px}
 .dv-ui .app-tag{font-size:13px;padding:8px 14px}
 .dv-ui .pay-row{font-size:15px}.dv-ui .pay-row b{font-size:30px}
 .dv-ui .seg span,.dv-ui .seg button{font-size:15px}
@@ -1448,3 +1448,14 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
     background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.5) 28%,rgba(0,0,0,.18) 62%,rgba(0,0,0,0) 100%)}
   .film .stage.cap-on .panel::after{opacity:1}
 }
+
+/* ════════ экран приложения в мокапе: скриншот целиком карточкой в безопасной зоне, подпись — под телефоном ════════ */
+.dv-ui .appview{background:radial-gradient(80% 50% at 50% 45%,#16161a,#000 75%)}
+.dv-ui .appview img{inset:auto!important;top:58px!important;left:50%!important;height:calc(100% - 86px)!important;width:auto!important;aspect-ratio:540/1171;
+  object-fit:cover;border-radius:22px;box-shadow:0 0 0 .5px rgba(255,255,255,.14),0 18px 40px rgba(0,0,0,.6);transform:translateX(-36%) scale(.96)}
+.dv-ui .appview img.on{transform:translateX(-50%)}
+.dev-col{display:flex;flex-direction:column;align-items:center;gap:12px}
+.dev-cap{margin:0;min-height:1.3em;font:600 14px var(--f);color:rgba(235,235,245,.72);text-align:center;opacity:0;transform:translateY(6px);transition:opacity .4s,transform .5s cubic-bezier(.16,1,.3,1)}
+.dev-cap.on{opacity:1;transform:none}
+@media (max-width:600px),(orientation:portrait){.dev-col{gap:8px}.dev-cap{font-size:13px}.device.lg.game-dev{height:min(calc(100svh - 246px),680px)}}
+@media (orientation:landscape) and (max-height:560px){.dev-cap{display:none}}

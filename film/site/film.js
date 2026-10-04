@@ -467,6 +467,7 @@
     var cur = -1; this.apps.forEach(function (a, i) { if (p >= a.t) cur = i; });
     this.apps.forEach(function (a, i) { a.n.classList.toggle('on', i === cur); });
     if (cur >= 0) setTxt(this.tag, TAGS[cur]);
+    this.tag.classList.toggle('on', screen === 'app' && cur >= 0);                     // подпись под мокапом — только пока на экране приложение
     // оплата
     var crypto = p >= 0.8; this.seg.classList.toggle('crypto', crypto); this.coins.classList.toggle('off', !crypto);
     this.go.classList.toggle('pressed', p >= 0.845 && p < 0.88);
