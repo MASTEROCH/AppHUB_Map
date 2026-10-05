@@ -1521,3 +1521,41 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:2px solid 
 @media (max-width:600px),(orientation:portrait){.duo-ph .car.shots{inset:7px}.duo-seg{margin-top:10px}.duo-seg button{padding:7px 14px;min-height:36px;font-size:14px}.duo-pane .sl-h{margin-top:12px}}
 @media (orientation:portrait) and (max-height:620px){.duo-pane .sl-h{margin-top:8px}}
 @media (min-width:601px) and (orientation:landscape){.sl.duo .sl-h{font-size:clamp(30px,3.4vw,50px)}}
+
+/* ════════ заставка: размытое синее свечение за круглым логотипом, пульс и мягкие волны ════════ */
+.boot-orb::before{content:none}
+.orb-bloom{position:absolute;inset:-96px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(41,151,255,.85) 0%,rgba(10,132,255,.45) 34%,rgba(10,90,255,.12) 58%,rgba(10,90,255,0) 72%);
+  filter:blur(34px);animation:orbPulse 2.4s ease-in-out infinite}
+.orb-glow{position:absolute;width:148px;height:148px;border-radius:50%;overflow:hidden;pointer-events:none;
+  filter:blur(26px) saturate(1.9) brightness(1.35);opacity:.95;animation:orbPulse 2.4s ease-in-out infinite}
+.orb-glow img{width:100%;height:100%;object-fit:cover;transform:scale(1.5)}
+@keyframes orbPulse{0%,100%{transform:scale(.9);opacity:.7}50%{transform:scale(1.14);opacity:1}}
+.orb-wave{position:absolute;width:148px;height:148px;border-radius:50%;pointer-events:none;box-shadow:0 0 0 1.5px rgba(100,180,255,.55),0 0 24px rgba(41,151,255,.45);
+  opacity:0;animation:orbWave 2.4s cubic-bezier(.2,.6,.3,1) infinite}
+.orb-wave.w2{animation-delay:1.2s}
+@keyframes orbWave{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.9);opacity:0}}
+.orb-in{z-index:1;box-shadow:0 0 0 1px rgba(170,215,255,.4),inset 0 0 18px rgba(0,0,0,.45),0 0 calc(30px + var(--e) * 30px) rgba(41,151,255,calc(.6 + var(--e) * .3)),0 0 90px rgba(41,151,255,.35)}
+.boot-ring{z-index:2}
+@media (prefers-reduced-motion:reduce){.orb-bloom,.orb-glow,.orb-wave{animation:none}.orb-wave{display:none}}
+/* HUD: всегда «AppHUB», без названия сцены */
+.top .ch-name{display:none}
+@media (max-width:900px){.brand span{display:inline}}
+/* свечение только радиальными градиентами до прозрачного края (closest-side) и без filter:blur —
+   Safari обрезает размытие квадратом по рамке слоя, отсюда был квадратный ореол */
+.orb-bloom{inset:-110px;filter:none;
+  background:radial-gradient(closest-side,rgba(41,151,255,.62) 0%,rgba(20,120,255,.42) 22%,rgba(10,100,255,.22) 44%,rgba(10,90,255,.08) 68%,rgba(10,90,255,0) 100%)}
+.orb-bloom.b2{inset:-36px;animation-delay:-.6s;
+  background:radial-gradient(closest-side,rgba(140,215,255,.75) 0%,rgba(41,151,255,.5) 45%,rgba(41,151,255,.18) 75%,rgba(41,151,255,0) 100%)}
+.orb-glow{display:none}
+
+/* ════════ экран «Отпуск в Батуми»: кнопка явно главная (живая, пульсирует), под ней — «или листайте вниз» ════════ */
+.dv-ui .intro .intro-cta{position:relative;color:#fff;font-weight:600;box-shadow:0 10px 30px rgba(10,132,255,.45);animation:ctaPulse 2.2s ease-in-out infinite}
+.dv-ui .intro .intro-cta::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:0 0 0 0 rgba(10,132,255,.55);animation:ctaRing 2.2s ease-out infinite}
+@keyframes ctaPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+@keyframes ctaRing{0%{box-shadow:0 0 0 0 rgba(10,132,255,.55)}80%,100%{box-shadow:0 0 0 14px rgba(10,132,255,0)}}
+.dv-ui .intro .intro-or{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px;font-size:14px;color:rgba(235,235,245,.5)}
+.intro-or i{width:10px;height:10px;border-right:2px solid rgba(235,235,245,.55);border-bottom:2px solid rgba(235,235,245,.55);transform:rotate(45deg);animation:orNudge 1.4s ease-in-out infinite}
+@keyframes orNudge{0%,100%{translate:0 -2px;opacity:.5}50%{translate:0 4px;opacity:1}}
+@media (prefers-reduced-motion:reduce){.dv-ui .intro .intro-cta,.dv-ui .intro .intro-cta::after,.intro-or i{animation:none}}
+.ch .line .soft{color:rgba(235,235,245,.5)}

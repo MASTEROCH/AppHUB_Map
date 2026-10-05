@@ -329,7 +329,6 @@
 "Сеть машиночитаема: агент видит меню, свободные столы и цены всех сразу.": "The network is machine-readable: the agent sees every menu, free table and price at once.",
 "Соберите её отпуск одной фразой ↓": "Plan her trip in one sentence ↓",
 "Акт III · Сеть работает": "Act III · The network at work",
-"Она только подтвердила оплату. Остальное сделала сеть.": "She only approved the payment. The network did the rest.",
 "С каждой покупки возвращается 1–5%. Гость отеля приходит в&nbsp;ресторан.": "Every purchase earns 1–5% back. The hotel’s guest walks into the&nbsp;restaurant.",
 "Сеть приложений малого бизнеса и&nbsp;один агент над&nbsp;ней.": "A network of small-business apps and one agent on&nbsp;top of&nbsp;it.",
 "Приложение за несколько часов — и&nbsp;сеть, которая приводит клиентов.": "An app in a few hours — and a&nbsp;network that brings customers.",
@@ -338,7 +337,11 @@
 "онлайн-покупок в США пройдёт через ИИ-агентов к 2030 году — до $385 млрд": "of US online purchases will go through AI agents by 2030 — up to $385B",
 "Morgan Stanley, декабрь 2025": "Morgan Stanley, December 2025",
 "Своё приложение за несколько часов": "Its own app in a few hours",
-"В конструкторе BuildOS — за несколько часов из 20+ шаблонов ниш, под кастомную задачу в студии — за несколько дней. Бренд подтягивается с сайта или Instagram.": "In the BuildOS builder — in a few hours from 20+ niche templates; a custom build in the studio — in a few days. Branding is pulled from the website or Instagram."
+"В конструкторе BuildOS — за несколько часов из 20+ шаблонов ниш, под кастомную задачу в студии — за несколько дней. Бренд подтягивается с сайта или Instagram.": "In the BuildOS builder — in a few hours from 20+ niche templates; a custom build in the studio — in a few days. Branding is pulled from the website or Instagram.",
+"или листайте вниз": "or keep scrolling",
+"Нажмите «Попросить агента» в телефоне — или листайте вниз.": "Tap “Ask the agent” on the phone — or keep scrolling.",
+"Она только подтвердила оплату.": "She only approved the payment.",
+"Остальное сделала сеть.": "The network did the rest."
 },
 "ctx": [
 [
