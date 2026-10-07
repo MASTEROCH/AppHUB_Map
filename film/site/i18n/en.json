@@ -45,7 +45,7 @@
 "Ужин на двоих": "Dinner for two",
 "Машина на день": "Car for a day",
 "Маршрут по городу": "City route",
-"Оплата": "Payment",
+"Оплата": "Payments",
 "Время": "Time",
 "Бизнесов": "Businesses",
 "Баллы Loop": "Loop points",
@@ -341,7 +341,19 @@
 "или листайте вниз": "or keep scrolling",
 "Нажмите «Попросить агента» в телефоне — или листайте вниз.": "Tap “Ask the agent” on the phone — or keep scrolling.",
 "Она только подтвердила оплату.": "She only approved the payment.",
-"Остальное сделала сеть.": "The network did the rest."
+"Остальное сделала сеть.": "The network did the rest.",
+"Для владельца бизнеса": "For business owners",
+"Вас смогут найти. И всё нужное уже есть.": "You can be found. And everything you need is already there.",
+"Приложение готово к поиску и ИИ-ассистентам, а бронь, каталог, запись и оплата работают из коробки.": "The app is built for search and AI assistants, and booking, catalog, appointments and payments work out of the box.",
+"Читают поиск и ИИ-ассистенты": "Read by search and AI assistants",
+"меню, цены, свободное время и адрес — в машиночитаемом виде": "menu, prices, free slots and address — in a machine-readable form",
+"Бронь и запись": "Booking and appointments",
+"столики, номера, мастера, услуги": "tables, rooms, specialists, services",
+"Меню и каталог": "Menu and catalog",
+"позиции, фото, цены, ассортимент": "items, photos, prices, range",
+"любые платежи, включая крипту": "any payments, including crypto",
+"Админка с ИИ-сводкой": "Admin with an AI summary",
+"заявки, календарь, аналитика": "requests, calendar, analytics"
 },
 "ctx": [
 [
